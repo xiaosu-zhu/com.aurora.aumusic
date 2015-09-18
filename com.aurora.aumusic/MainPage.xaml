@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="com.aurora.aumusic.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:com.aurora.aumusic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel  x:Name="Titlepanel" Orientation="Horizontal" Background="Transparent" Grid.Row="0">
+            <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Tan" Click="Menubtn_Click" FontSize="21.333" />
+        </StackPanel>
+
+
+        <SplitView Grid.Row="1" x:Name="Menudrawer" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="40" DisplayMode="CompactInline" PaneBackground="Tan" FontSize="18.667" >
+
+            <SplitView.Pane>
+
+                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged">
+                    <ListViewItem x:Name="Mymusic">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Bookmarks" />
+                            <TextBlock Text="My music"
+                                       Margin="24,0,0,0"
+                                           VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="Nowplaying">
+                        <StackPanel Orientation="Horizontal" >
+                            <SymbolIcon Symbol="Play" />
+                            <TextBlock Text="Now"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="Playlist">
+                        <StackPanel Orientation="Horizontal" >
+                            <SymbolIcon Symbol="MusicInfo" />
+                            <TextBlock Text="List"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem  x:Name="Settings">
+                        <StackPanel Orientation="Horizontal" >
+                            <SymbolIcon Symbol="Setting" />
+                            <TextBlock Text="Settings"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+
+            </SplitView.Pane>
+            <RelativePanel>
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+
+                </Frame>
+            </RelativePanel>
+        </SplitView>
+
+    </Grid>
+</Page>
