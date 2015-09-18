@@ -9,16 +9,20 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <!-- 设置Grid 为两行  首行自动高度 第二行占据剩余高度 -->
             <RowDefinition Height="auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!-- 首行为汉堡按钮 设置Style 按钮宽40 高32
+        Style定义在App.xaml -->
         <StackPanel  x:Name="Titlepanel" Orientation="Horizontal" Background="Transparent" Grid.Row="0">
             <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Tan" Click="Menubtn_Click" FontSize="21.333" />
         </StackPanel>
 
+        <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 40 打开宽度256 -->
+        <SplitView Grid.Row="1" x:Name="Menudrawer" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="40" DisplayMode="CompactOverlay" PaneBackground="Tan" FontSize="18.667" >
 
-        <SplitView Grid.Row="1" x:Name="Menudrawer" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="40" DisplayMode="CompactInline" PaneBackground="Tan" FontSize="18.667" >
-
+            <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
 
                 <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged">
@@ -57,6 +61,7 @@
                 </ListView>
 
             </SplitView.Pane>
+            <!-- 主视图Frame -->
             <RelativePanel>
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
 

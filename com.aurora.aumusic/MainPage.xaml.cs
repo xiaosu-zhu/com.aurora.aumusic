@@ -13,20 +13,25 @@ namespace com.aurora.aumusic
         public MainPage()
         {
             this.InitializeComponent();
+            //设置汉堡按钮控制
             Window.Current.SetTitleBar(Titlepanel);
+            //默认打开MymusicPage
             MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage));
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
         {
+            //菜单按钮点击定义
             Menudrawer.IsPaneOpen = !Menudrawer.IsPaneOpen;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //菜单项目点击定义
             int x = MenuList.SelectedIndex;
             switch(x)
             {
+                //页面跳转
                 case 0: MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage)); break;
                 case 1: MainFrame.Navigate(typeof(NowPage)); break;
                 case 2: MainFrame.Navigate(typeof(ListPage)); break;
