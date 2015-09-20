@@ -72,7 +72,13 @@
                 <Setter Property="Background" Value="Transparent" />
             </Style>
 
-            
+            <Style x:Key="MusicListStyle" TargetType="ComboBox">
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

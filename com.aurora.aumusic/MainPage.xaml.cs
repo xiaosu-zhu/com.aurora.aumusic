@@ -10,6 +10,7 @@ namespace com.aurora.aumusic
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private int ListViewCount = 0;
         public MainPage()
         {
             this.InitializeComponent();
@@ -27,17 +28,23 @@ namespace com.aurora.aumusic
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             //菜单项目点击定义
             int x = MenuList.SelectedIndex;
-            switch(x)
+            if (!(x == ListViewCount))
             {
-                //页面跳转
-                case 0: MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage)); break;
-                case 1: MainFrame.Navigate(typeof(NowPage)); break;
-                case 2: MainFrame.Navigate(typeof(ListPage)); break;
-                case 3: MainFrame.Navigate(typeof(SettingsPage)); break;
+                switch (x)
+                {
+                    //页面跳转
+                    case 0: MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage)); break;
+                    case 1: MainFrame.Navigate(typeof(NowPage)); break;
+                    case 2: MainFrame.Navigate(typeof(ListPage)); break;
+                    case 3: MainFrame.Navigate(typeof(SettingsPage)); break;
 
+                }
+                ListViewCount = x;
             }
+
         }
     }
 }

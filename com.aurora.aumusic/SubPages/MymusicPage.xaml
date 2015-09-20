@@ -7,6 +7,19 @@
     mc:Ignorable="d">
 
     <RelativePanel>
+        <RelativePanel  Width="auto"  RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,0,0" >
+
+            <TextBlock x:Name="MusicTextBlock" Text="选择排列方式：" />
+            <ComboBox RelativePanel.RightOf="MusicTextBlock" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" Style="{StaticResource MusicListStyle}"  FontSize="13.333" >
+                <x:String>按专辑</x:String>
+                <x:String>按表演者</x:String>
+                <x:String>按名称</x:String>
+                <x:String>按歌曲类型</x:String>
+            </ComboBox>
+            
+            <Button x:Name="ChangePathButton" Content="更改查找位置" FontSize="13.333" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+
+        </RelativePanel>
         
     </RelativePanel>
 </Page>
