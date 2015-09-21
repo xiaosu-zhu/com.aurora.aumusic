@@ -14,7 +14,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="WideStates">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="961" />
+                        <AdaptiveTrigger MinWindowWidth="1281" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Menudrawer.DisplayMode" Value="CompactInline" />

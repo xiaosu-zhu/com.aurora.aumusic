@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <RelativePanel>
-        <RelativePanel  Width="auto"  RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,0,0" >
+        <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,20,0" >
 
             <TextBlock x:Name="MusicTextBlock" Text="选择排列方式：" />
             <ComboBox RelativePanel.RightOf="MusicTextBlock" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" Style="{StaticResource MusicListStyle}"  FontSize="13.333" >
@@ -20,6 +20,14 @@
             <Button x:Name="ChangePathButton" Content="更改查找位置" FontSize="13.333" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
 
         </RelativePanel>
+
+        <Grid x:Name="MymusicSubGrid" Width="280" Height="auto" RelativePanel.Below="MymusicSubPanel" Margin="20,20,0,0" RelativePanel.AlignLeftWithPanel="True" >
+            <Rectangle Fill="Beige" Width="auto" Height="280" />
+        </Grid>
+
+        <Grid Width="auto" Height="auto" RelativePanel.RightOf="MymusicSubGrid" RelativePanel.Below="MymusicSubPanel" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,0,20">
+            <Rectangle Fill="AliceBlue" Width="auto" Height="auto" />
+        </Grid>
         
     </RelativePanel>
 </Page>
