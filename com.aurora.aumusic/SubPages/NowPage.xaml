@@ -8,6 +8,8 @@
     mc:Ignorable="d">
 
     <RelativePanel>
-        <Rectangle Fill="Green" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+        <MediaElement AutoPlay="False" AreTransportControlsEnabled="True" Width="auto" Height="auto">
+            
+        </MediaElement>
     </RelativePanel>
 </Page>
