@@ -9,7 +9,7 @@
 
 
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="WideStates">
@@ -45,28 +45,24 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
-            <!-- 设置Grid 为两行  首行自动高度 第二行占据剩余高度 -->
+        <!--Grid.RowDefinitions>
+            < 设置Grid 为两行  首行自动高度 第二行占据剩余高度 >
             <RowDefinition Height="auto" />
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        -->
         <!-- 首行为汉堡按钮 设置Style 按钮宽40 高32
-        Style定义在App.xaml -->
-        <RelativePanel  x:Name="Titlepanel"  Background="Transparent" Grid.Row="0">
-            <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Tan" Click="Menubtn_Click" FontSize="21.333" />
-            <AutoSuggestBox x:Name="SearchBox" Style="{StaticResource SearchBoxStyle}" PlaceholderText="Searh my musics" QueryIcon="Find" Width="240" Margin="0,0,136,0" RelativePanel.AlignRightWithPanel="True"/>
-            <Button x:Name="SearchButton" Margin="0,4,160,4" Style="{StaticResource SearchButtonStyle}" Background="Transparent" RelativePanel.AlignRightWithPanel="True"/>
-        </RelativePanel>
+                   Style定义在App.xaml -->
+        
 
         <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 48 打开宽度256 -->
         <SplitView Grid.Row="1" x:Name="Menudrawer" 
-                   RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
+                   RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True"
                    IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="Tan" FontSize="18.667" >
 
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
 
-                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged">
+                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0">
                     <ListViewItem x:Name="Mymusic">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Bookmarks" />
@@ -102,13 +98,19 @@
                 </ListView>
 
             </SplitView.Pane>
+ 
             <!-- 主视图Frame -->
-            <RelativePanel>
+            <RelativePanel Margin="0,32,0,0">
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
 
                 </Frame>
             </RelativePanel>
         </SplitView>
 
-    </Grid>
+        <RelativePanel  x:Name="Titlepanel"  Background="Transparent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+            <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" FontSize="21.333" />
+            <AutoSuggestBox x:Name="SearchBox"  PlaceholderText="Searh my musics" QueryIcon="Find" Width="240" Margin="0,0,136,0" RelativePanel.AlignRightWithPanel="True" Template="{StaticResource AutoSuggestBoxControlTemplate}"/>
+            <Button x:Name="SearchButton" Margin="0,4,160,4" Style="{StaticResource SearchButtonStyle}" Background="Transparent" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+    </RelativePanel>
 </Page>

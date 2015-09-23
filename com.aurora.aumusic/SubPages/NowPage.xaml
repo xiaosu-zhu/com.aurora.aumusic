@@ -8,8 +8,11 @@
     mc:Ignorable="d">
 
     <RelativePanel>
-        <MediaElement AutoPlay="False" AreTransportControlsEnabled="True" Width="auto" Height="auto">
+        <MediaElement x:Name="NowMediaElement" AutoPlay="False" AreTransportControlsEnabled="True" Width="auto" Height="auto" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="40">
             
         </MediaElement>
+        <MediaTransportControls RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+            
+        </MediaTransportControls>
     </RelativePanel>
 </Page>
