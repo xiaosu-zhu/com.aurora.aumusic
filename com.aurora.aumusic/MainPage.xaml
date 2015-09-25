@@ -107,7 +107,7 @@
             </RelativePanel>
         </SplitView>
 
-        <RelativePanel  x:Name="Titlepanel"  Background="Transparent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+        <RelativePanel x:Name="Titlepanel"  Background="Transparent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
             <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" FontSize="21.333" />
             <AutoSuggestBox x:Name="SearchBox"  PlaceholderText="Searh my musics" QueryIcon="Find" Width="240" Margin="0,0,136,0" RelativePanel.AlignRightWithPanel="True" Template="{StaticResource AutoSuggestBoxControlTemplate}"/>
             <Button x:Name="SearchButton" Margin="0,4,160,4" Style="{StaticResource SearchButtonStyle}" Background="Transparent" RelativePanel.AlignRightWithPanel="True"/>
