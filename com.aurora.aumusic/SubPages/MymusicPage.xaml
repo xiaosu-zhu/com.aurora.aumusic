@@ -24,7 +24,7 @@
 
         </RelativePanel>
 
-        <Grid x:Name="MymusicSubGrid" Width="280" Height="auto" RelativePanel.Below="MymusicSubPanel" Margin="20,20,0,0" RelativePanel.AlignLeftWithPanel="True" >
+        <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.Below="MymusicSubPanel" Margin="20,20,0,0" RelativePanel.AlignLeftWithPanel="True" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
@@ -37,33 +37,9 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="AlbumFlowGrid" Width="auto" Height="auto" RelativePanel.RightOf="MymusicSubGrid" RelativePanel.Below="MymusicSubPanel" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,0,20">
-            <ListView x:Name="AlbumsFlowControls"  >
-                
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:AlbumFlowPanel />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate >
-                        <Border Margin="10"
-                                Height="{Binding Height}"
-                                BorderBrush="Teal"
-                                BorderThickness="5">
-                            <TextBlock Text="{Binding Text}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+        <Frame x:Name="MymusicFrame" Width="auto" Height="auto" RelativePanel.RightOf="MymusicSubGrid" RelativePanel.Below="MymusicSubPanel" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,0,20">
+           
+        </Frame>
 
     </RelativePanel>
 </Page>

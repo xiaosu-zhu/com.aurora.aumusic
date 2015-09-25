@@ -15,8 +15,8 @@ namespace com.aurora.aumusic
         public MymusicPage()
         {
             this.InitializeComponent();
-
-            AlbumsFlowControls.ItemsSource = Enumerable.Range(0, 30).Select(i => new AlbumItem { Text = i.ToString() });
+            MymusicFrame.Navigate(typeof(AlbumFlowView));
+            
         }
     }
 
