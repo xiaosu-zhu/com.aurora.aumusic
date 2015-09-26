@@ -43,6 +43,7 @@ namespace com.aurora.aumusic
 
                 }
                 ListViewCount = x;
+                Menudrawer.IsPaneOpen = false;
             }
 
         }

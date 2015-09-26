@@ -7,7 +7,49 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <RelativePanel>
-        <Rectangle Fill="Gray" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" MinWidth="320"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <RelativePanel Grid.Column="0" x:Name="MainSettingsPanel" Margin="40,12,40,12">
+                <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource HeaderTextBlockStyle}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
+                <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" RelativePanel.Below="SettingsTitle" RelativePanel.AlignLeftWith="SettingsTitle" Margin="12">
+                    <TextBlock Text="通用" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="12"/>
+                    <StackPanel Orientation="Horizontal" Margin="16" >
+                        <TextBlock Text="语言" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <TextBlock Text="主题" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="80,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" RelativePanel.Below="GeneralSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" Margin="12">
+                    <TextBlock Text="歌曲信息" Style="{ThemeResource SubheaderTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <TextBlock Text="当前搜索位置" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <ListView x:Name="MusicSettingsSearchingList" Margin="80,0,0,0" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse x:Name="Ellipse" Grid.Column="0"
+                                                         Width ="32" Height="32"
+                                                         Margin="6" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                         Fill="Blue"/>
+                                        <TextBlock Text="{Binding Text}" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="16" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </StackPanel>
+            </RelativePanel>
+            <Rectangle Grid.Column="1" Fill="Red" />
+        </Grid>
     </RelativePanel>
 </Page>

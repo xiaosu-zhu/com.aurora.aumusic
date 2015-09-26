@@ -52,23 +52,22 @@
         -->
         <!-- 首行为汉堡按钮 设置Style 按钮宽40 高32
                    Style定义在App.xaml -->
-        
 
-        <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 48 打开宽度256 -->
+
+        <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 44 打开宽度256 -->
         <SplitView Grid.Row="1" x:Name="Menudrawer" 
                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="Tan" FontSize="18.667" >
+                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="Tan" >
 
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
-
-                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0">
+                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0" >
                     <ListViewItem x:Name="Mymusic">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Bookmarks" />
                             <TextBlock Text="My music"
                                        Margin="24,0,0,0"
-                                           VerticalAlignment="Center" />
+                                           VerticalAlignment="Center" FontSize="18.667" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="Nowplaying">
@@ -76,7 +75,7 @@
                             <SymbolIcon Symbol="Play" />
                             <TextBlock Text="Now"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" />
+                                           VerticalAlignment="Center" FontSize="18.667" />
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="Playlist">
@@ -84,21 +83,20 @@
                             <SymbolIcon Symbol="MusicInfo" />
                             <TextBlock Text="List"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" />
+                                           VerticalAlignment="Center" FontSize="18.667" />
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem  x:Name="Settings">
+                    <ListViewItem  x:Name="Settings" >
                         <StackPanel Orientation="Horizontal" >
                             <SymbolIcon Symbol="Setting" />
                             <TextBlock Text="Settings"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" />
+                                           VerticalAlignment="Center" FontSize="18.667" />
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
-
             </SplitView.Pane>
- 
+
             <!-- 主视图Frame -->
             <RelativePanel Margin="0,0,0,0">
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
