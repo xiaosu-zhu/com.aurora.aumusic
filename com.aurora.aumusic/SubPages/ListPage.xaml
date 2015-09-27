@@ -7,6 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Rectangle Fill="#FF2E2EE4" HorizontalAlignment="Left" Height="835" Margin="65,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="1755"/>
 

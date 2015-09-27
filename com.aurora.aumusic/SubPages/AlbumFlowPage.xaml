@@ -8,6 +8,11 @@
     xmlns:local="using:com.aurora.aumusic">
     <!--必须定义local 才能在下面引用自定义布局-->
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <EntranceThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
     <RelativePanel Background="Aqua" >
         <Rectangle x:Name="BlankRectangle" Fill="Transparent" Height="32" Width="1" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
         <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.Below="BlankRectangle" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,20,0" >

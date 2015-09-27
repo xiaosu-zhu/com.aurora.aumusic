@@ -33,6 +33,7 @@ namespace com.aurora.aumusic
             int x = MenuList.SelectedIndex;
             if (x != ListViewCount)
             {
+                SettingsButton.IsEnabled = true;
                 switch (x)
                 {
                     //页面跳转
@@ -53,6 +54,7 @@ namespace com.aurora.aumusic
         {
             {
                 MainFrame.Navigate(typeof(SettingsPage));
+                SettingsButton.IsEnabled = false;
             }
         }
     }
