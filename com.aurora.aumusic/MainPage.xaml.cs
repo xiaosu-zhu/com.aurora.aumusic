@@ -28,10 +28,10 @@ namespace com.aurora.aumusic
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             //菜单项目点击定义
             int x = MenuList.SelectedIndex;
-            if (!(x == ListViewCount))
+            if (x != ListViewCount)
             {
                 switch (x)
                 {
@@ -51,8 +51,9 @@ namespace com.aurora.aumusic
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            MainFrame.Navigate(typeof(SettingsPage));
+            {
+                MainFrame.Navigate(typeof(SettingsPage));
+            }
         }
     }
 }
