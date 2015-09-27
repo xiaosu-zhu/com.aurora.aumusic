@@ -13,22 +13,22 @@
                 <ColumnDefinition Width="2*" MinWidth="320"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <RelativePanel Grid.Column="0" x:Name="MainSettingsPanel" Margin="40,12,40,12">
-                <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource HeaderTextBlockStyle}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
-                <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" RelativePanel.Below="SettingsTitle" RelativePanel.AlignLeftWith="SettingsTitle" Margin="12">
-                    <TextBlock Text="通用" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="12"/>
+            <RelativePanel Grid.Column="0" x:Name="MainSettingsPanel" Margin="12,44,12,12">
+                <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource SubheaderTextBlockStyle}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
+                <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" RelativePanel.Below="SettingsTitle" RelativePanel.AlignLeftWith="SettingsTitle" Margin="0,12,12,12">
+                    <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16" >
-                        <TextBlock Text="语言" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="语言" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <TextBlock Text="主题" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="主题" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                         <ToggleSwitch Margin="80,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" RelativePanel.Below="GeneralSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" Margin="12">
-                    <TextBlock Text="歌曲信息" Style="{ThemeResource SubheaderTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" RelativePanel.Below="GeneralSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" Margin="0,12,12,12">
+                    <TextBlock Text="歌曲信息" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <TextBlock Text="当前搜索位置" Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="当前搜索位置" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                         <ListView x:Name="MusicSettingsSearchingList" Margin="80,0,0,0" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -46,6 +46,11 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        <Button Content="更改查找位置" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
+                        <TextBlock Text="自动获取专辑信息" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="80,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
             </RelativePanel>
