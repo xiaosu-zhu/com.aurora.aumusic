@@ -9,10 +9,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
 {
-    public sealed partial class MymusicPage : Page
+    public sealed partial class AlbumFlowPage : Page
     {
 
-        public MymusicPage()
+        public AlbumFlowPage()
         {
             this.InitializeComponent();
             MymusicFrame.Navigate(typeof(AlbumFlowView));

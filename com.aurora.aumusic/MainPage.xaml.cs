@@ -17,7 +17,7 @@ namespace com.aurora.aumusic
             //设置汉堡按钮控制
             Window.Current.SetTitleBar(Titlepanel);
             //默认打开MymusicPage
-            MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage));
+            MainFrame.Navigate(typeof(com.aurora.aumusic.AlbumFlowPage));
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -36,16 +36,23 @@ namespace com.aurora.aumusic
                 switch (x)
                 {
                     //页面跳转
-                    case 0: MainFrame.Navigate(typeof(com.aurora.aumusic.MymusicPage)); break;
+                    case 0: MainFrame.Navigate(typeof(AlbumFlowPage)); break;
                     case 1: MainFrame.Navigate(typeof(NowPage)); break;
-                    case 2: MainFrame.Navigate(typeof(ListPage)); break;
-                    case 3: MainFrame.Navigate(typeof(SettingsPage)); break;
+                    case 2: MainFrame.Navigate(typeof(ArtistPage)); break;
+                    case 3: MainFrame.Navigate(typeof(SongsPage)); break;
+                    case 4: MainFrame.Navigate(typeof(ListPage)); break;
 
                 }
                 ListViewCount = x;
                 Menudrawer.IsPaneOpen = false;
             }
 
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            MainFrame.Navigate(typeof(SettingsPage));
         }
     }
 }

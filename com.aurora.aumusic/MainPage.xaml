@@ -61,40 +61,58 @@
 
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
-                <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0" >
-                    <ListViewItem x:Name="Mymusic">
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="Bookmarks" />
-                            <TextBlock Text="My music"
+                <Grid>
+                    <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0" >
+                        <ListViewItem x:Name="AlbumFlow">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Bookmarks" />
+                                <TextBlock Text="AlbumFlow"
                                        Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="Nowplaying">
-                        <StackPanel Orientation="Horizontal" >
-                            <SymbolIcon Symbol="Play" />
-                            <TextBlock Text="Now"
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="Nowplaying">
+                            <StackPanel Orientation="Horizontal" >
+                                <SymbolIcon Symbol="Play" />
+                                <TextBlock Text="Now"
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="Playlist">
-                        <StackPanel Orientation="Horizontal" >
-                            <SymbolIcon Symbol="MusicInfo" />
-                            <TextBlock Text="List"
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="Artist">
+                            <StackPanel Orientation="Horizontal" >
+                                <SymbolIcon Symbol="Contact" />
+                                <TextBlock Text="Artists"
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667" />
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem  x:Name="Settings" >
-                        <StackPanel Orientation="Horizontal" >
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="Songs">
+                            <StackPanel Orientation="Horizontal" >
+                                <SymbolIcon Symbol="Rotate" />
+                                <TextBlock Text="All Songs"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center" FontSize="18.667" />
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem  x:Name="MusicList" >
+                            <StackPanel Orientation="Horizontal" >
+                                <SymbolIcon Symbol="OutlineStar" />
+                                <TextBlock Text="My List"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Center" FontSize="18.667" />
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                    <Button x:Name="SettingsButton" Height="44" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="-116,0,0,0" VerticalAlignment="Center">
                             <SymbolIcon Symbol="Setting" />
                             <TextBlock Text="Settings"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" />
+                                           VerticalAlignment="Center" FontSize="18.667"/>
                         </StackPanel>
-                    </ListViewItem>
-                </ListView>
+                    </Button>
+                </Grid>
             </SplitView.Pane>
 
             <!-- 主视图Frame -->

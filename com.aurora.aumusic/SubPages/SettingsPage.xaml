@@ -15,20 +15,27 @@
             </Grid.ColumnDefinitions>
             <RelativePanel Grid.Column="0" x:Name="MainSettingsPanel" Margin="12,44,12,12">
                 <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource SubheaderTextBlockStyle}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
-                <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" RelativePanel.Below="SettingsTitle" RelativePanel.AlignLeftWith="SettingsTitle" Margin="0,12,12,12">
+                <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" RelativePanel.Below="SettingsTitle" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="0,12,12,12">
                     <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16" >
-                        <TextBlock Text="语言" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="语言" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
+                            <x:String>跟随系统</x:String>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <TextBlock Text="主题" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="80,0,0,0"/>
+                        <TextBlock Text="主题" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
+                            <x:String>自动</x:String>
+                            <x:String>亮</x:String>
+                            <x:String>暗</x:String>
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" RelativePanel.Below="GeneralSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" Margin="0,12,12,12">
+                <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" RelativePanel.Below="GeneralSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="0,12,12,12">
                     <TextBlock Text="歌曲信息" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <TextBlock Text="当前搜索位置" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock Text="当前搜索位置" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                         <ListView x:Name="MusicSettingsSearchingList" Margin="80,0,0,0" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -49,9 +56,13 @@
                         <Button Content="更改查找位置" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
-                        <TextBlock Text="自动获取专辑信息" Margin="12,0,0,0"  VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="80,0,0,0"/>
+                        <TextBlock Text="自动获取专辑信息" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="88,0,0,0" OnContent="启用" OffContent="禁用"/>
                     </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="PlaybackSettingsPanel" Background="LightGray" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="0,12,12,12">
+                    <TextBlock Text="播放设置" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                    
                 </StackPanel>
             </RelativePanel>
             <Rectangle Grid.Column="1" Fill="Red" />
