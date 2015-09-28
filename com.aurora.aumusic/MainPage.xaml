@@ -8,8 +8,8 @@
     mc:Ignorable="d">
 
 
-
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+<RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="WideStates">
