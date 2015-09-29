@@ -23,7 +23,8 @@
                         <AdaptiveTrigger MinWindowWidth="1281" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-
+                        <!--TODO:
+                        响应式布局-->
                     </VisualState.Setters>
                 </VisualState>
 
@@ -38,14 +39,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource SubheaderTextBlockStyle}" Grid.ColumnSpan="2" />
-                <StackPanel Grid.Row="1" Orientation="Horizontal" >
+                <StackPanel Grid.Row="1" >
                     <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" Margin="12">
                         <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
                         <StackPanel Orientation="Horizontal" Margin="16" >
                             <TextBlock Text="语言" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                            <!--TODO: Localization-->
                             <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
                                 <x:String>跟随系统</x:String>
                             </ComboBox>
@@ -53,6 +54,7 @@
                         <StackPanel Orientation="Horizontal" Margin="16">
                             <TextBlock Text="主题" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                             <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
+                                <!--TODO: Get System time and set theme-->
                                 <x:String>自动</x:String>
                                 <x:String>亮</x:String>
                                 <x:String>暗</x:String>
@@ -65,6 +67,7 @@
                         <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
                             <TextBlock Text="自动获取专辑信息" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
                             <ToggleSwitch Margin="88,0,0,0" OnContent="启用" OffContent="禁用"/>
+                            <!--TODO: Search and pull lyrics-->
 
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch">
@@ -81,11 +84,12 @@
                                                          Width ="32" Height="32"
                                                          Margin="6" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                          Fill="Blue"/>
-                                            <TextBlock Text="{Binding Text}" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="16" />
+                                            <TextBlock Text="{Binding FolderPath}" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="16" />
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
+                            <!--TODO: Generate Folder list-->
                             <Button Content="更改查找位置" HorizontalAlignment="Right" Click="Button_Click"/>
                         </StackPanel>
                     </StackPanel>
