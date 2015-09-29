@@ -86,7 +86,7 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                            <Button Content="更改查找位置" HorizontalAlignment="Right"/>
+                            <Button Content="更改查找位置" HorizontalAlignment="Right" Click="Button_Click"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel x:Name="PlaybackSettingsPanel" Background="LightGray" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
