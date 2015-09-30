@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,11 @@ namespace com.aurora.aumusic
             FolderPath = folder.Path;
         }
 
-
+        public static ObservableCollection<FolderItem> GetFolders()
+        {
+            ObservableCollection<FolderItem> Folders = new ObservableCollection<FolderItem>();
+            //TODO: generate folder list
+            return Folders;
+        }
     }
 }

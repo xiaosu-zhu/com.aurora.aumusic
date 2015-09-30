@@ -13,6 +13,23 @@
         </TransitionCollection>
     </Page.Transitions>
 
+    <Page.Resources>
+        <CollectionViewSource x:Name="MusicFolderPathReosurces" IsSourceGrouped="True" />
+
+        <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="local:FolderItem" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Ellipse x:Name="Ellipse" Grid.Column="0"
+                                                         Width ="32" Height="32"
+                                                         Margin="6" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                         Fill="Blue"/>
+                <TextBlock Text="{Binding FolderPath}" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="16" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
@@ -72,22 +89,10 @@
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch">
                             <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                            <ListView x:Name="MusicSettingsSearchingList" Margin="80,0,0,0" >
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid >
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Ellipse x:Name="Ellipse" Grid.Column="0"
-                                                         Width ="32" Height="32"
-                                                         Margin="6" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                                         Fill="Blue"/>
-                                            <TextBlock Text="{Binding FolderPath}" Grid.Column="1" FontFamily="Segoe UI Light" FontSize="16" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                            <ListView x:Name="MusicSettingsSearchingList" Margin="80,0,0,0" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
+                  ItemTemplate="{StaticResource MusicFolderListTemplate}"
+                  SelectionMode="Single"
+                  ShowsScrollingPlaceholders="True">
                             </ListView>
                             <!--TODO: Generate Folder list-->
                             <Button Content="更改查找位置" HorizontalAlignment="Right" Click="Button_Click"/>

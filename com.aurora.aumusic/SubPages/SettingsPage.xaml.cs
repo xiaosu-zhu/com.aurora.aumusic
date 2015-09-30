@@ -32,7 +32,7 @@ namespace com.aurora.aumusic
                 Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("MusicFolderToken", folder);
                 folderItem.generateSelectedFolderPath(folder);
                 //TODO: 更改绑定方式(参考ListView Template)
-                MusicSettingsSearchingList.ItemsSource = folderItem;
+                
             }
             else
             {
