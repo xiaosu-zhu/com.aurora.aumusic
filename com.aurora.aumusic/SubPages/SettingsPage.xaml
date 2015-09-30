@@ -14,7 +14,7 @@
     </Page.Transitions>
 
     <Page.Resources>
-        <CollectionViewSource x:Name="MusicFolderPathReosurces" IsSourceGrouped="True" />
+        <CollectionViewSource x:Name="MusicFolderPathReosurces" />
 
         <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="local:FolderItem" >
             <Grid>

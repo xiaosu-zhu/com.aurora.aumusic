@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="FolderItem.cs" />
+    <Compile Include="FolderPathObservation.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>

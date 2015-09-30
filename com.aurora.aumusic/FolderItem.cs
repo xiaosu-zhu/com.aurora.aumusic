@@ -10,35 +10,50 @@ namespace com.aurora.aumusic
 {
     class FolderItem
     {
+        public String FolderPath;
+        private int i = 0;
+        public FolderItem(StorageFolder folder)
+        {
+            // FolderIndexToken.Add("SelectedFolder" + i);
+            FolderPath = folder.Path;
+
+        }
+
         public FolderItem()
         {
-            FolderPath = " ";
+            // FolderIndexToken.Add("SelectedFolder" + i);
         }
 
-        private String folderPath;
-        public String FolderPath
-        {
-            get
-            {
-                return folderPath;
-            }
-            
-            set
-            {
-                folderPath = value;
-            }
-        }
-
-        public void generateSelectedFolderPath(StorageFolder folder)
+        public void AddPath(StorageFolder folder)
         {
             FolderPath = folder.Path;
         }
 
-        public static ObservableCollection<FolderItem> GetFolders()
+        public String generateSelectedFolderPath(StorageFolder folder)
         {
-            ObservableCollection<FolderItem> Folders = new ObservableCollection<FolderItem>();
-            //TODO: generate folder list
-            return Folders;
+            return folder.Path;
         }
+
+
+
+
+        //public void SaveFoldertoStorage(StorageFolder folder)
+        //{
+        //    for (;;)
+        //    {
+        //        if (Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.ContainsItem(FolderIndexToken[i]))
+        //        {
+        //            i++;
+        //        }
+        //        else
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    i++;
+        //    FolderIndexToken.Add("SelectedFolder" + i);
+        //    Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Add(folder, FolderIndexToken[i]);
+        //}
+
     }
 }

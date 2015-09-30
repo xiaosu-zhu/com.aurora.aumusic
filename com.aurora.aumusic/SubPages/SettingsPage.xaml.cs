@@ -10,9 +10,10 @@ namespace com.aurora.aumusic
 {
     public sealed partial class SettingsPage : Page
     {
-        FolderItem folderItem = new FolderItem();
+        FolderPathObservation folderPaths = new FolderPathObservation();
         public SettingsPage()
         {
+
             this.InitializeComponent();
         }
 
@@ -27,12 +28,10 @@ namespace com.aurora.aumusic
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
-                // Application now has read/write access to all contents in the picked folder
-                // (including other sub-folder contents)
-                Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("MusicFolderToken", folder);
-                folderItem.generateSelectedFolderPath(folder);
+                folderPaths.SaveFoldertoStorage(folder);
+                folderPaths.GetFolders();
                 //TODO: 更改绑定方式(参考ListView Template)
-                
+
             }
             else
             {
