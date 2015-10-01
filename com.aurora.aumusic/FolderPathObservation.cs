@@ -10,13 +10,14 @@ namespace com.aurora.aumusic
 {
     class FolderPathObservation
     {
+        ObservableCollection<FolderItem> Folders = new ObservableCollection<FolderItem>();
         public List<FolderItem> FolderList = new List<FolderItem>();
         public int i = 0;
 
 
         public ObservableCollection<FolderItem> GetFolders()
         {
-            ObservableCollection<FolderItem> Folders = new ObservableCollection<FolderItem>();
+            Folders.Clear();
             for (i = 0; i<FolderList.Count; i++)
             {
                 Folders.Add(FolderList[i]);

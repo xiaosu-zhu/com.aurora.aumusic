@@ -15,6 +15,7 @@ namespace com.aurora.aumusic
         {
 
             this.InitializeComponent();
+            MusicFolderPathReosurces.Source = folderPaths.GetFolders();
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
