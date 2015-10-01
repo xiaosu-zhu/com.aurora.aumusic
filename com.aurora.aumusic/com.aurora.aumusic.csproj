@@ -136,6 +136,17 @@
     <None Include="com.aurora.aumusic_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\C.png" />
+    <Content Include="Assets\D.png" />
+    <Content Include="Assets\E.png" />
+    <Content Include="Assets\F.png" />
+    <Content Include="Assets\G.png" />
+    <Content Include="Assets\H.png" />
+    <Content Include="Assets\I.png" />
+    <Content Include="Assets\J.png" />
+    <Content Include="Assets\K.png" />
+    <Content Include="Assets\L.png" />
+    <Content Include="Assets\unknown.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

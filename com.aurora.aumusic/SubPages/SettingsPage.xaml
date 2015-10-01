@@ -24,8 +24,11 @@
                 </Grid.ColumnDefinitions>
                 <Ellipse x:Name="Ellipse" Grid.Column="0"
                                                          Width ="40" Height="40"
-                                                         Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                                         Fill="Blue"/>
+                                                         Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{x:Bind FolderImg}" />
+                    </Ellipse.Fill>
+                </Ellipse>
                 <TextBlock x:Name="Musictext" Text="{x:Bind FolderPath}" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
             </Grid>
         </DataTemplate>

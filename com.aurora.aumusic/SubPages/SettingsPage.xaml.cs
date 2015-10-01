@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
@@ -31,6 +32,7 @@ namespace com.aurora.aumusic
             {
                 folderPaths.SaveFoldertoStorage(folder);
                 folderPaths.GetFolders();
+                
                 //TODO: 更改绑定方式(参考ListView Template)
 
             }
