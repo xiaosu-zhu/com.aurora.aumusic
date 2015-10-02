@@ -103,6 +103,8 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="FolderItem.cs" />
     <Compile Include="FolderPathObservation.cs" />
+    <Compile Include="Song.cs" />
+    <Compile Include="SongsEnum.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>
@@ -184,11 +186,6 @@
     <Page Include="SubPages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StyleDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="SubPages\SongsPage.xaml">
       <SubType>Designer</SubType>

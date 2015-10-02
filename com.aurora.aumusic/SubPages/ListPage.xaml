@@ -14,6 +14,5 @@
     </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Rectangle Fill="#FF2E2EE4" HorizontalAlignment="Left" Height="835" Margin="65,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="1755"/>
-
     </Grid>
 </Page>

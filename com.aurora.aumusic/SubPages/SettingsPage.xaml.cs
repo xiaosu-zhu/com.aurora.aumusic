@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
@@ -17,6 +12,7 @@ namespace com.aurora.aumusic
 
             this.InitializeComponent();
             MusicFolderPathReosurces.Source = folderPaths.GetFolders();
+            folderPaths.RestorePathsfromSettings();
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -32,8 +28,7 @@ namespace com.aurora.aumusic
             {
                 folderPaths.SaveFoldertoStorage(folder);
                 folderPaths.GetFolders();
-                
-                //TODO: 更改绑定方式(参考ListView Template)
+                folderPaths.SaveFoldertoSettings();
 
             }
             else
