@@ -12,7 +12,7 @@
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
-    <Grid >
+    <Grid>
         <ProgressRing Visibility="Visible" Loaded="Progress_Loaded" IsActive="True"/>
 
     </Grid>
