@@ -12,7 +12,7 @@ namespace com.aurora.aumusic
 
             this.InitializeComponent();
             MusicFolderPathReosurces.Source = folderPaths.GetFolders();
-            folderPaths.RestorePathsfromSettings();
+            //folderPaths.RestorePathsfromSettings();
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -26,9 +26,12 @@ namespace com.aurora.aumusic
             StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             if (folder != null)
             {
-                folderPaths.SaveFoldertoStorage(folder);
-                folderPaths.GetFolders();
-                folderPaths.SaveFoldertoSettings();
+                if (folderPaths.SaveFoldertoStorage(folder))
+                {
+                    folderPaths.GetFolders();
+                    folderPaths.SaveFoldertoSettings();
+                }
+
 
             }
             else

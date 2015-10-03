@@ -12,8 +12,8 @@
             <EntranceThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle Fill="#FFB5E42E" HorizontalAlignment="Left" Height="860" Margin="55,100,0,0" Stroke="Black" VerticalAlignment="Top" Width="1735"/>
+    <Grid >
+        <ProgressRing Visibility="Visible" Loaded="Progress_Loaded" IsActive="True"/>
 
     </Grid>
 </Page>

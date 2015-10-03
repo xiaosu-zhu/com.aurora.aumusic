@@ -5,56 +5,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 
 namespace com.aurora.aumusic
 {
     class FolderPathObservation
     {
-        Windows.Storage.ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ObservableCollection<FolderItem> Folders = new ObservableCollection<FolderItem>();
+        public List<String> PathTokens = new List<string>();
 
         public async void RestorePathsfromSettings()
         {
-            String TempPath;
-            int count = (int)localSettings.Values["FolderCount"];
-            Folders.Clear();
-            for (int i = 0; i < count; i++)
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+            if (composite != null)
             {
-                TempPath = (String)localSettings.Values["FolderSettings" + i];
-                StorageFolder TempFolder = await StorageFolder.GetFolderFromPathAsync(TempPath);
-                Folders.Add(GetNewFolder(TempFolder));
+                String TempPath;
+                int count = (int)composite["FolderCount"];
+                Folders.Clear();
+                PathTokens.Clear();
+                for (int i = 0; i < count; i++)
+                {
+                    TempPath = (String)composite["FolderSettings" + i];
+                    StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(TempPath);
+                    if (TempFolder != null)
+                    {
+                        Folders.Add(GetNewFolder(TempFolder));
+                        PathTokens.Add(TempPath);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
             }
 
         }
 
-        public List<FolderItem> FolderList = new List<FolderItem>();
         public int i = 0;
 
 
         public ObservableCollection<FolderItem> GetFolders()
         {
-            Folders.Clear();
-            for (i = 0; i < FolderList.Count; i++)
-            {
-                Folders.Add(FolderList[i]);
-            }
             return Folders;
         }
 
-        public void SaveFoldertoStorage(StorageFolder folder)
+        public Boolean SaveFoldertoStorage(StorageFolder Folder)
         {
-            FolderList.Add(GetNewFolder(folder));
+            FolderItem folder = GetNewFolder(Folder);
+            foreach (var item in Folders)
+            {
+                if (item.FolderPath == folder.FolderPath)
+                {
+                    return false;
+                }
+            }
+            PathTokens.Add(StorageApplicationPermissions.FutureAccessList.Add(Folder, Folder.Name));
+            Folders.Add(folder);
+            return true;
+
         }
 
         public void SaveFoldertoSettings()
         {
+            ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
             i = 0;
-            foreach (var item in Folders)
+            foreach (var item in PathTokens)
             {
-                localSettings.Values["FolderSettings" + i] = item.FolderPath;
+                composite["FolderSettings" + i] = item;
                 i++;
             }
-            localSettings.Values["FolderCount"] = i;
+            composite["FolderCount"] = i;
+            localSettings.Values["FolderSettings"] = composite;
         }
 
         private FolderItem GetNewFolder(StorageFolder folder)

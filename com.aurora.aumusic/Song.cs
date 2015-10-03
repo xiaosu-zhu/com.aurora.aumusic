@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
+using Windows.Storage.AccessCache;
 
 namespace com.aurora.aumusic
 {
@@ -53,7 +54,7 @@ namespace com.aurora.aumusic
         {
             List<Song> SongList = new List<Song>();
             List<String> TempTypeStrings = new List<string> { ".mp3", ".aac", ".m4a", ".flac" };
-            StorageFolder TempFolder = await StorageFolder.GetFolderFromPathAsync(tempPath);
+            StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> tempList = await TempFolder.GetFilesAsync();
             foreach (StorageFile tempFile in tempList)
             {

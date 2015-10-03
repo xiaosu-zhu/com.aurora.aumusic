@@ -9,9 +9,15 @@ namespace com.aurora.aumusic
 {
     public sealed partial class SongsPage : Page
     {
+        SongsEnum Songs = new SongsEnum();
         public SongsPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await Songs.GetSongsEnum();
         }
     }
 }

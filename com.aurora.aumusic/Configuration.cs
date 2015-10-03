@@ -10,6 +10,5 @@ namespace com.aurora.aumusic
 {
     public partial class MainPage:Page
     {
-
     }
 }
