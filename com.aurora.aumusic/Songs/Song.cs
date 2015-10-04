@@ -7,7 +7,6 @@ using System;
 using Windows.Storage.AccessCache;
 using TagLib;
 using System.IO;
-using Windows.Storage.Streams;
 
 namespace com.aurora.aumusic
 {

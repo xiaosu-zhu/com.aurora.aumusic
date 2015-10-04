@@ -1,7 +1,5 @@
 ﻿using System;
 using Windows.Storage;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace com.aurora.aumusic
