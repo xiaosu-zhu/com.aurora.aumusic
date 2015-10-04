@@ -17,9 +17,9 @@ namespace com.aurora.aumusic
             this.InitializeComponent();
         }
 
-        private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private  void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Songs.GetSongsEnum();
+            //await Songs.GetSongsEnum(0);
         }
 
         

@@ -13,21 +13,21 @@ namespace com.aurora.aumusic
 {
     public class Song
     {
-        public string Title;
-        public string Album;
-        public string[] Artists;
-        public string[] AlbumArtists;
-        public BitmapImage Artwork;
-        public int Rating;
-        public Tag Tags;
-        public int MainKey;
-        public StorageFile AudioFile;
-        public int Disc;
-        public int DiscCount;
-        public String[] Genres;
-        public int Track;
-        public int TrackCount;
-        public int Year;
+        public string Title = null;
+        public string Album = null;
+        public string[] Artists = null;
+        public string[] AlbumArtists = null;
+        public BitmapImage Artwork = null;
+        public int Rating = 0;
+        public Tag Tags = null;
+        public int MainKey = 0;
+        public StorageFile AudioFile = null;
+        public int Disc = 0;
+        public int DiscCount = 0;
+        public String[] Genres = null;
+        public int Track = 0;
+        public int TrackCount = 0;
+        public int Year = 0;
 
         public Song()
         {
@@ -41,19 +41,18 @@ namespace com.aurora.aumusic
         public void SetTags()
         {
             AttachTags();
-            //this.Title = Tags.Title;
-            //this.Album = Tags.Album;
-            //this.AlbumArtists = Tags.AlbumArtists;
-            //this.Artists = Tags.Performers;
-            //String s = Title + Album + Artist + AlbumArtist;
-            //this.MainKey = s.GetHashCode();
+            this.Title = Tags.Title;
+            this.Album = Tags.Album;
+            this.AlbumArtists = Tags.AlbumArtists;
+            this.Artists = Tags.Performers;
+            String s = AudioFile.Name;
+            this.MainKey = s.GetHashCode();
         }
 
         private void AttachTags()
         {
             if (null != this.AudioFile)
             {
-                //await id3.GetMusicPropertiesAsync(AudioFile);
                 switch (AudioFile.FileType)
                 {
                     case ".mp3": SetTagMP3(); break;
@@ -66,9 +65,13 @@ namespace com.aurora.aumusic
             }
         }
 
-        private void SetTagFLAC()
+        private async void SetTagFLAC()
         {
-            throw new NotImplementedException();
+            var fileStream = await AudioFile.OpenStreamForReadAsync();
+            var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
+                             fileStream, fileStream));
+            var tags = tagFile.GetTag(TagTypes.FlacMetadata);
+            Tags = tags;
         }
 
         private async void SetTagM4A()
@@ -78,7 +81,6 @@ namespace com.aurora.aumusic
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Apple);
             Tags = tags;
-            await GetArtWorks();
         }
 
         private async Task GetArtWorks()
@@ -89,15 +91,20 @@ namespace com.aurora.aumusic
             await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
         }
 
-        private void SetTagMP3()
+        private async void SetTagMP3()
         {
-            throw new NotImplementedException();
+            var fileStream = await AudioFile.OpenStreamForReadAsync();
+            var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
+                             fileStream, fileStream));
+            var tags = tagFile.GetTag(TagTypes.Id3v2);
+            Tags = tags;
         }
+
 
         public static async Task<List<Song>> GetSongListfromPath(string tempPath)
         {
             List<Song> SongList = new List<Song>();
-            List<String> TempTypeStrings = new List<string> { ".mp3", ".aac", ".m4a", ".flac" };
+            List<String> TempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
             StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> tempList = await TempFolder.GetFilesAsync();
             foreach (StorageFile tempFile in tempList)

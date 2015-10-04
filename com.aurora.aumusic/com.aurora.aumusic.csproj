@@ -96,15 +96,16 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlbumItem.cs" />
+    <Compile Include="Albums\AlbumItem.cs" />
+    <Compile Include="Albums\AlbumList.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configuration.cs" />
-    <Compile Include="FolderItem.cs" />
-    <Compile Include="FolderPathObservation.cs" />
-    <Compile Include="Song.cs" />
-    <Compile Include="SongsEnum.cs" />
+    <Compile Include="FolderSettings\FolderItem.cs" />
+    <Compile Include="FolderSettings\FolderPathObservation.cs" />
+    <Compile Include="Songs\Song.cs" />
+    <Compile Include="Songs\SongsEnum.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>

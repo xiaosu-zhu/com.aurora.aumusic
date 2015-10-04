@@ -8,6 +8,8 @@ namespace com.aurora.aumusic
 {
     public class AlbumItem
     {
+        public List<Song> Songs;
+        public String AlbumName;
         private double _height = double.NaN;
         public double Height
         {
