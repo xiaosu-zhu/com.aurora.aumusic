@@ -12,11 +12,11 @@ namespace com.aurora.aumusic
     class SongsEnum
     {
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-        private ObservableCollection<Song> Songs = new ObservableCollection<Song>();
+        public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
         List<Song> SongList = new List<Song>();
         private async Task<List<Song>> CreateSongListAsync()
         {
-            List<Song> SongList = new List<Song>();
+            List<Song> tempList = new List<Song>();
             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
             if (composite != null)
             {
@@ -25,36 +25,34 @@ namespace com.aurora.aumusic
                 for (int i = 0; i < count; i++)
                 {
                     String TempPath = (String)composite["FolderSettings" + i];
-                    SongList.Concat(await Song.GetSongListfromPath(TempPath));
+                    tempList.AddRange(await Song.GetSongListfromPath(TempPath));
                 }
-                SongList.Sort((first, second) =>
-                {
-                    if (first.Album == null)
-                    {
-                        return (second == null) ? 0 : -1;
-                    }
-                    if (first.Album == null)
-                    {
-                        return 1;
-                    }
-                    return first.Album.CompareTo(second.Album);
-                });
-                return SongList;
+                tempList.Sort((first, second) =>
+                    first.Album.CompareTo(second.Album));
+                return tempList;
             }
             return null;
 
         }
 
-        //public async Task<ObservableCollection<Song>> GetSongsEnum(int sortType)
-        //{
-        //    ////TODO
-        //    //if (SongList == null)
-        //    //{
-        //    //    await CreateSongListAsync();
-        //    //}
-        //    //return Songs;
+        public ObservableCollection<Song> GetSongs(List<Song> songList)
+        {
+            Songs.Clear();
+            if (songList != null)
+            {
+                foreach (var item in songList)
+                {
+                    Songs.Add(item);
+                }
+            }
+            return Songs;
+        }
 
-        //}
+        public async Task<List<Song>> RefreshList()
+        {
+            return await CreateSongListAsync();
+        }
+
 
         public async Task<List<AlbumItem>> CreateAlbum()
         {

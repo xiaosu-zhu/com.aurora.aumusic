@@ -13,21 +13,46 @@ namespace com.aurora.aumusic
 {
     public class Song
     {
-        public string Title = null;
-        public string Album = null;
+        private string _title;
+        private string _album;
         public string[] Artists = null;
         public string[] AlbumArtists = null;
         public BitmapImage Artwork = null;
-        public int Rating = 0;
-        public Tag Tags = null;
+        public uint Rating = 0;
         public int MainKey = 0;
         public StorageFile AudioFile = null;
-        public int Disc = 0;
-        public int DiscCount = 0;
+        public uint Disc = 0;
+        public uint DiscCount = 0;
         public String[] Genres = null;
-        public int Track = 0;
-        public int TrackCount = 0;
-        public int Year = 0;
+        public uint Track = 0;
+        public uint TrackCount = 0;
+        public uint Year = 0;
+
+
+        public string Album
+        {
+            get
+            {
+                return _album;
+            }
+            set
+            {
+                _album = (value == null) ? "Unknown Album" : value;
+
+            }
+        }
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = (value == null) ? AudioFile.DisplayName : value;
+            }
+        }
+
 
         public Song()
         {
@@ -38,66 +63,93 @@ namespace com.aurora.aumusic
             this.AudioFile = File;
         }
 
-        public void SetTags()
+        public async Task<Tag> SetTags()
         {
-            AttachTags();
-            this.Title = Tags.Title;
-            this.Album = Tags.Album;
-            this.AlbumArtists = Tags.AlbumArtists;
-            this.Artists = Tags.Performers;
-            String s = AudioFile.Name;
-            this.MainKey = s.GetHashCode();
+            this.MainKey = AudioFile.Name.GetHashCode();
+            return await AttachTags();
         }
 
-        private void AttachTags()
+        private async Task<Tag> AttachTags()
         {
             if (null != this.AudioFile)
             {
                 switch (AudioFile.FileType)
                 {
-                    case ".mp3": SetTagMP3(); break;
-                    case ".m4a": SetTagM4A(); break;
-                    case ".flac": SetTagFLAC(); break;
+                    case ".mp3": var tags1 = await SetTagMP3(); return tags1;
+                    case ".m4a": var tags2 = await SetTagM4A(); return tags2;
+                    case ".flac": var tags3 = await SetTagFLAC(); return tags3;
                     default:
-                        break;
+                        return null;
                 }
-
             }
+            return null;
         }
 
-        private async void SetTagFLAC()
+        private async Task<Tag> SetTagFLAC()
         {
             var fileStream = await AudioFile.OpenStreamForReadAsync();
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.FlacMetadata);
-            Tags = tags;
+            this.Title = tags.Title;
+            this.Album = tags.Album;
+            this.AlbumArtists = tags.AlbumArtists;
+            this.Artists = tags.Performers;
+            this.Year = tags.Year;
+            this.Genres = tags.Genres;
+            return tags;
         }
 
-        private async void SetTagM4A()
+        private async Task<Tag> SetTagM4A()
         {
             var fileStream = await AudioFile.OpenStreamForReadAsync();
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Apple);
-            Tags = tags;
+            this.Title = tags.Title;
+            this.Album = tags.Album;
+            this.AlbumArtists = tags.AlbumArtists;
+            this.Artists = tags.Performers;
+            this.Year = tags.Year;
+            this.Genres = tags.Genres;
+            return tags;
         }
 
-        private async Task GetArtWorks()
+        private async Task GetArtWorks(Tag tags)
         {
-            IPicture[] p = Tags.Pictures;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
-            StorageFile cacheImg = await cacheFolder.CreateFileAsync(Tags.Album+".png", CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
+            IPicture[] p = tags.Pictures;
+            if (p.Length > 0)
+            {
+                StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
+                if (p[0].MimeType.Contains("png"))
+                {
+                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(tags.Album + ".png", CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
+                    Artwork = new BitmapImage(new Uri("ms-appdata:///local/" + tags.Album + ".png"));
+                }
+                if (p[0].MimeType.Contains("jpeg"))
+                {
+                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(tags.Album + ".jpg", CreationCollisionOption.ReplaceExisting);
+                    await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
+                    Artwork = new BitmapImage(new Uri("ms-appdata:///local/" + tags.Album + ".jpg"));
+                }
+            }
+
         }
 
-        private async void SetTagMP3()
+        private async Task<Tag> SetTagMP3()
         {
             var fileStream = await AudioFile.OpenStreamForReadAsync();
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            Tags = tags;
+            this.Title = tags.Title;
+            this.Album = tags.Album;
+            this.AlbumArtists = tags.AlbumArtists;
+            this.Artists = tags.Performers;
+            this.Year = tags.Year;
+            this.Genres = tags.Genres;
+            return tags;
         }
 
 
@@ -112,7 +164,8 @@ namespace com.aurora.aumusic
                 if (TempTypeStrings.Contains(tempFile.FileType))
                 {
                     Song song = new Song(tempFile);
-                    song.SetTags();
+                    var tags = await song.SetTags();
+                    await song.GetArtWorks(tags);
                     SongList.Add(song);
                 }
             }

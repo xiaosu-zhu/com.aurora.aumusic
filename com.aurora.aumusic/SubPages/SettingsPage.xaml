@@ -97,7 +97,6 @@
                   SelectionMode="Single"
                   ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch" Height="160">
                             </ListView>
-                            <!--TODO: Generate Folder list-->
                             <Button Content="更改查找位置" HorizontalAlignment="Right" Click="Button_Click"/>
                         </StackPanel>
                     </StackPanel>

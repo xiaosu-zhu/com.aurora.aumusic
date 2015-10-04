@@ -28,7 +28,7 @@ namespace com.aurora.aumusic
             {
                 if (folderPaths.SaveFoldertoStorage(folder))
                 {
-                    folderPaths.GetFolders();
+                    //folderPaths.GetFolders();
                     folderPaths.SaveFoldertoSettings();
                 }
 

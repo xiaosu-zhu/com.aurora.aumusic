@@ -15,13 +15,18 @@ namespace com.aurora.aumusic
         public SongsPage()
         {
             this.InitializeComponent();
+            SongListReosurces.Source = Songs.Songs;
         }
 
-        private  void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //await Songs.GetSongsEnum(0);
+            Songs.Songs = Songs.GetSongs(await Songs.RefreshList());
+
         }
 
-        
+        private void SongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var Item = SongList.SelectedItem;
+        }
     }
 }

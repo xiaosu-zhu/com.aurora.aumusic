@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Albums\AlbumItem.cs" />
-    <Compile Include="Albums\AlbumList.cs" />
+    <Compile Include="Albums\AlbumSongsList.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

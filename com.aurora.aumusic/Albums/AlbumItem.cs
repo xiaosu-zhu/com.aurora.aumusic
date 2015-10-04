@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace com.aurora.aumusic
 {
@@ -10,15 +12,16 @@ namespace com.aurora.aumusic
     {
         public List<Song> Songs;
         public String AlbumName;
+        public BitmapImage AlbumArtwork;
         private double _height = double.NaN;
+        StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
         public double Height
         {
             get
             {
-                if (double.IsNaN(_height))
+                if (AlbumArtwork != null)
                 {
-                    Random r = new Random();
-                    _height = 150 + (r.NextDouble() - 0.5) * 150;
+                    _height = AlbumArtwork.PixelHeight;
                 }
                 return _height;
             }
@@ -27,6 +30,13 @@ namespace com.aurora.aumusic
         public string Text
         {
             get; set;
+        }
+
+        public void getArtwork()
+        {
+            Uri a = new Uri("ms-appdata:///local/" + AlbumName + ".png");
+            AlbumArtwork = new BitmapImage(a);
+            
         }
     }
 }
