@@ -31,7 +31,7 @@
                                                          Width ="64" Height="64"
                                                          Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="{x:Bind Artwork}" />
+                        <ImageBrush ImageSource="{x:Bind ArtWork}" />
                     </Rectangle.Fill>
                 </Rectangle>
                 <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Grid.Column="1" Grid.Row="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
@@ -40,8 +40,8 @@
         </DataTemplate>
     </Page.Resources>
     <RelativePanel>
-        <ProgressRing x:Name="WaitingRing" Loaded="Progress_Loaded" IsActive="True"/>
-        <ListView x:Name="SongList" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="12,40,0,0"
+        <ProgressRing x:Name="WaitingRing" Loaded="Progress_Loaded" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+        <ListView x:Name="SongList" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="12,40,0,0"
                   ItemsSource="{x:Bind SongListReosurces.View}"
                   ItemTemplate="{StaticResource SongListTemplate}"
                   SelectionMode="Single"

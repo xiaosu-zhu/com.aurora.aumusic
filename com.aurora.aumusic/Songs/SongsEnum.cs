@@ -33,7 +33,7 @@ namespace com.aurora.aumusic
 
         }
 
-        public ObservableCollection<Song> GetSongs(List<Song> songList)
+        public void GetSongs(List<Song> songList)
         {
             Songs.Clear();
             if (songList != null)
@@ -43,7 +43,6 @@ namespace com.aurora.aumusic
                     Songs.Add(item);
                 }
             }
-            return Songs;
         }
 
         public async Task<List<Song>> RefreshList()

@@ -13,6 +13,23 @@
         </TransitionCollection>
     </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Rectangle Fill="#FF2E2EE4" HorizontalAlignment="Left" Height="835" Margin="65,120,0,0" Stroke="Black" VerticalAlignment="Top" Width="1755"/>
+        <StackPanel x:Name="LayoutRoot" >
+            <Border BorderThickness="5" BorderBrush="Black">
+                <StackPanel Background="LightGray">
+                    <TextBlock HorizontalAlignment="Center" Margin="10" 
+        Text="Value-Based Progress Bar" />
+                    <ProgressBar x:Name="pg1" Value="100"  Margin="10" Maximum="200" 
+        Height="15" IsIndeterminate="False" />
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="5" BorderBrush="Black">
+                <StackPanel Background="LightGray">
+                    <TextBlock HorizontalAlignment="Center" 
+        Margin="10" Text="Indeterminate Progress Bar" />
+                    <ProgressBar x:Name="pg2" Margin="10" Height="15" 
+        IsIndeterminate="True"   />
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </Page>

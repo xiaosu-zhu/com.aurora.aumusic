@@ -1,22 +1,51 @@
 ﻿
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections;
+using System.Text;
+using System.Linq;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 using System;
 using Windows.Storage.AccessCache;
 using TagLib;
 using System.IO;
+using System.Diagnostics;
 
 namespace com.aurora.aumusic
 {
     public class Song
     {
+        private static readonly char[] InvalidFileNameChars = new[] { '"', '<', '>', '|', '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\a', '\b', '\t', '\n', '\v', '\f', '\r', '\u000e', '\u000f', '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016', '\u0017', '\u0018', '\u0019', '\u001a', '\u001b', '\u001c', '\u001d', '\u001e', '\u001f', ':', '*', '?', '\\', '/' };
         private string _title;
         private string _album;
         public string[] Artists = null;
         public string[] AlbumArtists = null;
-        public BitmapImage Artwork = null;
+        private string _artWork;
+        private string _artWorkName;
+        public string ArtWorkName
+        {
+            get
+            {
+                return _artWorkName;
+            }
+            set
+            {
+                value += "";
+                value = InvalidFileNameChars.Aggregate(value, (current, c) => current.Replace(c + "", "_"));
+                _artWorkName = value;
+            }
+        }
+        public string ArtWork
+        {
+            get
+            {
+                return _artWork;
+            }
+            set
+            {
+                _artWork = (value == null) ? "ms-appx:///Assets/unknown.png" : value;
+            }
+        }
         public uint Rating = 0;
         public int MainKey = 0;
         public StorageFile AudioFile = null;
@@ -77,11 +106,19 @@ namespace com.aurora.aumusic
                     case ".mp3": var tags1 = await SetTagMP3(); return tags1;
                     case ".m4a": var tags2 = await SetTagM4A(); return tags2;
                     case ".flac": var tags3 = await SetTagFLAC(); return tags3;
+                    case ".wav": SetTagWav(); return null;
                     default:
                         return null;
                 }
             }
             return null;
+        }
+
+        private void SetTagWav()
+        {
+            Album = null;
+            Title = null;
+            ArtWork = null;
         }
 
         private async Task<Tag> SetTagFLAC()
@@ -116,24 +153,28 @@ namespace com.aurora.aumusic
 
         private async Task GetArtWorks(Tag tags)
         {
+            ArtWorkName = tags.Album;
             IPicture[] p = tags.Pictures;
             if (p.Length > 0)
             {
                 StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
                 if (p[0].MimeType.Contains("png"))
                 {
-                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(tags.Album + ".png", CreationCollisionOption.ReplaceExisting);
+                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".png", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
-                    Artwork = new BitmapImage(new Uri("ms-appdata:///local/" + tags.Album + ".png"));
+                    ArtWork = "ms-appdata:///local/" + ArtWorkName + ".png";
                 }
-                if (p[0].MimeType.Contains("jpeg"))
+                if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
                 {
-                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(tags.Album + ".jpg", CreationCollisionOption.ReplaceExisting);
+                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".jpg", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
-                    Artwork = new BitmapImage(new Uri("ms-appdata:///local/" + tags.Album + ".jpg"));
+                    ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
                 }
             }
-
+            else
+            {
+                ArtWork = null;
+            }
         }
 
         private async Task<Tag> SetTagMP3()
@@ -162,10 +203,22 @@ namespace com.aurora.aumusic
             {
                 if (TempTypeStrings.Contains(tempFile.FileType))
                 {
-                    Song song = new Song(tempFile);
-                    var tags = await song.SetTags();
-                    await song.GetArtWorks(tags);
-                    SongList.Add(song);
+                    try
+                    {
+                        Song song = new Song(tempFile);
+                        var tags = await song.SetTags();
+                        if (tags != null)
+                        {
+                            await song.GetArtWorks(tags);
+                        }
+                        SongList.Add(song);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message + tempFile.Name);
+                        throw;
+                    }
+
                 }
             }
 
