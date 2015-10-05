@@ -16,6 +16,7 @@ namespace com.aurora.aumusic
     public class Song
     {
         private static readonly char[] InvalidFileNameChars = new[] { '"', '<', '>', '|', '\0', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\a', '\b', '\t', '\n', '\v', '\f', '\r', '\u000e', '\u000f', '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016', '\u0017', '\u0018', '\u0019', '\u001a', '\u001b', '\u001c', '\u001d', '\u001e', '\u001f', ':', '*', '?', '\\', '/' };
+        private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
         private string _title;
         private string _album;
         public string[] Artists = null;
@@ -155,9 +156,11 @@ namespace com.aurora.aumusic
         {
             ArtWorkName = tags.Album;
             IPicture[] p = tags.Pictures;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
+
             if (p.Length > 0)
             {
-                StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
+
                 if (p[0].MimeType.Contains("png"))
                 {
                     StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".png", CreationCollisionOption.ReplaceExisting);
@@ -173,7 +176,15 @@ namespace com.aurora.aumusic
             }
             else
             {
-                ArtWork = null;
+                try
+                {
+                    StorageFile item = await cacheFolder.GetFileAsync(ArtWorkName);
+                }
+                catch (Exception)
+                {
+                    ArtWork = null;
+                    
+                }
             }
         }
 
@@ -196,7 +207,7 @@ namespace com.aurora.aumusic
         public static async Task<List<Song>> GetSongListfromPath(string tempPath)
         {
             List<Song> SongList = new List<Song>();
-            List<String> TempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
+            List<string> TempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
             StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> tempList = await TempFolder.GetFilesAsync();
             foreach (StorageFile tempFile in tempList)
@@ -216,13 +227,66 @@ namespace com.aurora.aumusic
                     catch (Exception e)
                     {
                         Debug.WriteLine(e.Message + tempFile.Name);
-                        throw;
+
                     }
 
                 }
             }
 
             return SongList;
+        }
+
+        public static async Task GetSongListWithProgress(SongsEnum Songs, string tempPath)
+        {
+            List<Song> SongList = new List<Song>();
+            List<string> tempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
+            StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+            IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
+            uint count = (uint)AllList.Count;
+            uint progress = 0;
+            uint step = 0;
+            foreach (StorageFile tempFile in AllList)
+            {
+                if (tempTypeStrings.Contains(tempFile.FileType))
+                {
+                    Song song = new Song(tempFile);
+                    var tags = await song.SetTags();
+                    if (tags != null)
+                    {
+                        await song.GetArtWorks(tags);
+                    }
+                    Songs.SongList.Add(song);
+                    progress++;
+                    if (((double)(progress - step)) / ((double)count) > 0.01)
+                    {
+                        Songs.RefreshSongs(Songs.SongList);
+                        step = progress;
+                        Songs.Percent = (int)(((double)step / count) * 100);
+                    }
+                }
+            }
+        }
+
+        private static async Task<IReadOnlyList<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
+        {
+
+            IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
+            List<IStorageFile> finalList = new List<IStorageFile>();
+            foreach (var item in tempList)
+            {
+                if (item is StorageFolder)
+                {
+                    finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
+                }
+                if (item is StorageFile)
+                {
+                    if (tempTypeStrings.Contains(((StorageFile)item).FileType))
+                    {
+                        finalList.Add((StorageFile)item);
+                    }
+                }
+            }
+            return finalList;
         }
     }
 }

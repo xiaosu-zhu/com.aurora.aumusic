@@ -13,9 +13,9 @@ namespace com.aurora.aumusic
 
         private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Songs.GetSongs(await Songs.RefreshList());
-            WaitingRing.IsActive = false;
-            WaitingRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            await Songs.GetSongsWithProgress();
+
+            WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void SongList_SelectionChanged(object sender, SelectionChangedEventArgs e)

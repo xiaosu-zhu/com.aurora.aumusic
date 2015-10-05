@@ -1,17 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace com.aurora.aumusic
 {
-    class SongsEnum
+    public class SongsEnum : INotifyPropertyChanged
     {
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
-        List<Song> SongList = new List<Song>();
+        public HashSet<Song> SongList = new HashSet<Song>();
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public int Percent
+        {
+            get
+            {
+                return _percent;
+            }
+            set
+            {
+                this._percent = value;
+                this.OnPropertyChanged();
+            }
+        }
+        private int _percent;
+        public SongsEnum()
+        {
+            Percent = 0;
+        }
         private async Task<List<Song>> CreateSongListAsync()
         {
             List<Song> tempList = new List<Song>();
@@ -33,14 +53,16 @@ namespace com.aurora.aumusic
 
         }
 
-        public void GetSongs(List<Song> songList)
+        public void RefreshSongs(HashSet<Song> songList)
         {
-            Songs.Clear();
             if (songList != null)
             {
                 foreach (var item in songList)
                 {
-                    Songs.Add(item);
+                    if (!Songs.Contains(item))
+                    {
+                        Songs.Add(item);
+                    }
                 }
             }
         }
@@ -50,6 +72,22 @@ namespace com.aurora.aumusic
             return await CreateSongListAsync();
         }
 
+        public async Task GetSongsWithProgress()
+        {
+            Songs.Clear();
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+            if (composite != null)
+            {
+
+                int count = (int)composite["FolderCount"];
+                for (int i = 0; i < count; i++)
+                {
+                    String tempPath = (String)composite["FolderSettings" + i];
+                    await Song.GetSongListWithProgress(this, tempPath);
+                }
+            }
+            else throw new Exception();
+        }
 
         public async Task<List<AlbumItem>> CreateAlbum()
         {
@@ -74,6 +112,11 @@ namespace com.aurora.aumusic
                 tempAlbumList.Add(tempAlbum);
             }
             return tempAlbumList;
+        }
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            // Raise the PropertyChanged event, passing the name of the property whose value has changed.
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace com.aurora.aumusic
     public class AlbumItem
     {
         public List<Song> Songs;
-        public String AlbumName;
+        public string AlbumName;
         public BitmapImage AlbumArtwork;
         private double _height = double.NaN;
         StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
