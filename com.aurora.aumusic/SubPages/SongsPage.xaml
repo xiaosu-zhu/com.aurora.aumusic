@@ -58,6 +58,7 @@
                 </GroupStyle>
             </ListView.GroupStyle>-->
         </ListView>
-
+        <Button x:Name="hehButton" Click="hehButton_Click" Content="cun" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="-40,0,0,0"/>
+        <Button x:Name="hahButton" Click="hahButton_Click" Content="qu" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="40,0,0,0" />
     </RelativePanel>
 </Page>

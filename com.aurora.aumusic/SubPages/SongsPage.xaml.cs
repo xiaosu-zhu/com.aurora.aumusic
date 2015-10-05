@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System.Diagnostics;
+using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
 {
@@ -13,7 +14,16 @@ namespace com.aurora.aumusic
 
         private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Songs.GetSongsWithProgress();
+            try
+            {
+                await Songs.GetSongsWithProgress();
+            }
+            catch (System.Exception)
+            {
+                Debug.WriteLine(Songs.Songs[Songs.Songs.Count - 1].AudioFile.Name);
+                throw;
+            }
+
 
             WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
@@ -21,6 +31,17 @@ namespace com.aurora.aumusic
         private void SongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var Item = SongList.SelectedItem;
+        }
+
+        private void hehButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Songs.SaveSongstoStorage();
+        }
+
+        private void hahButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            Songs.RestoreSongsfromStorage();
         }
     }
 }

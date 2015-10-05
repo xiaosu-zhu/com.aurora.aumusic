@@ -14,6 +14,7 @@ namespace com.aurora.aumusic
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
         public HashSet<Song> SongList = new HashSet<Song>();
+        public List<string> SongsToken = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public int Percent
         {
@@ -78,7 +79,6 @@ namespace com.aurora.aumusic
             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
             if (composite != null)
             {
-
                 int count = (int)composite["FolderCount"];
                 for (int i = 0; i < count; i++)
                 {
@@ -112,6 +112,28 @@ namespace com.aurora.aumusic
                 tempAlbumList.Add(tempAlbum);
             }
             return tempAlbumList;
+        }
+
+        public void SaveSongstoStorage()
+        {
+            foreach (var item in Songs)
+            {
+                SongsToken.Add(Song.SaveSongtoStorage(item));
+            }
+            localSettings.Containers["SongsCacheContainer"].Values["SongsCount"] = SongList.Count;
+
+        }
+
+        public void RestoreSongsfromStorage()
+        {
+            SongList.Clear();
+            Songs.Clear();
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Containers.ContainsKey("SongsCacheContainer"))
+            {
+                ApplicationDataContainer MainContainer = localSettings.Containers["SongsCacheContainer"];
+                Song.RestoreSongfromStorage(this);
+            }
         }
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -10,6 +10,8 @@ using Windows.Storage.AccessCache;
 using TagLib;
 using System.IO;
 using System.Diagnostics;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace com.aurora.aumusic
 {
@@ -19,10 +21,41 @@ namespace com.aurora.aumusic
         private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
         private string _title;
         private string _album;
-        public string[] Artists = null;
-        public string[] AlbumArtists = null;
+        private string[] _artists;
+        public string[] Artists
+        {
+            get
+            {
+                return _artists;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _artists = new[] { "" };
+                    _artists[0] = null;
+                }
+            }
+        }
+        private string[] _albumartists;
+        public string[] AlbumArtists
+        {
+            get
+            {
+                return _albumartists;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _albumartists = new[] { "" };
+                    _albumartists[0] = null;
+                }
+            }
+        }
         private string _artWork;
         private string _artWorkName;
+        public Size ArtWorkSize = new Size();
         public string ArtWorkName
         {
             get
@@ -45,14 +78,30 @@ namespace com.aurora.aumusic
             set
             {
                 _artWork = (value == null) ? "ms-appx:///Assets/unknown.png" : value;
+                ArtWorkSize = new Size(400, 400);
             }
         }
         public uint Rating = 0;
-        public int MainKey = 0;
+        public string MainKey = null;
         public StorageFile AudioFile = null;
         public uint Disc = 0;
         public uint DiscCount = 0;
-        public String[] Genres = null;
+        public string[] _genres;
+        public string[] Genres
+        {
+            get
+            {
+                return _genres;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _genres = new[] { "" };
+                    _genres[0] = null;
+                }
+            }
+        }
         public uint Track = 0;
         public uint TrackCount = 0;
         public uint Year = 0;
@@ -94,7 +143,7 @@ namespace com.aurora.aumusic
 
         public async Task<Tag> SetTags()
         {
-            this.MainKey = AudioFile.Name.GetHashCode();
+            this.MainKey = AudioFile.FolderRelativeId;
             return await AttachTags();
         }
 
@@ -134,7 +183,110 @@ namespace com.aurora.aumusic
             this.Artists = tags.Performers;
             this.Year = tags.Year;
             this.Genres = tags.Genres;
+            this.Disc = tags.Disc;
+            this.DiscCount = tags.DiscCount;
+            this.Track = tags.Track;
+            this.TrackCount = tags.TrackCount;
             return tags;
+        }
+
+        public static async void RestoreSongfromStorage(SongsEnum songsEnum)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer = localSettings.Containers["SongsCacheContainer"];
+            int count = (int)localSettings.Containers["SongsCacheContainer"].Values["SongsCount"];
+            uint progress = 0;
+            uint step = 0;
+            foreach (var item in songsEnum.SongsToken)
+            {
+                if (MainContainer.Containers.ContainsKey(item))
+                {
+                    Song tempSong = new Song(await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item));
+                    tempSong.Title = (string)MainContainer.Containers[item].Values["Title"];
+                    tempSong.ArtWork = (string)MainContainer.Containers[item].Values["ArtWork"];
+                    tempSong.Album = (string)MainContainer.Containers[item].Values["Album"];
+                    tempSong.Year = (uint)MainContainer.Containers[item].Values["Year"];
+                    tempSong.Disc = (uint)MainContainer.Containers[item].Values["Disc"];
+                    tempSong.DiscCount = (uint)MainContainer.Containers[item].Values["DiscCount"];
+                    tempSong.Track = (uint)MainContainer.Containers[item].Values["Track"];
+                    tempSong.TrackCount = (uint)MainContainer.Containers[item].Values["TrackCount"];
+                    tempSong.ArtWorkSize.Width = (double)MainContainer.Containers[item].Values["Width"];
+                    tempSong.ArtWorkSize.Height = (double)MainContainer.Containers[item].Values["Height"];
+                    tempSong.AlbumArtists = ((string)MainContainer.Containers[item].Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' });
+                    tempSong.Artists = ((string)MainContainer.Containers[item].Values["Artists"]).Split(new char[3] { '|', ':', '|' });
+                    tempSong.Genres = ((string)MainContainer.Containers[item].Values["Genres"]).Split(new char[3] { '|', ':', '|' });
+                    songsEnum.SongList.Add(tempSong);
+                    progress++;
+                    if (((double)(progress - step)) / ((double)count) > 0.01)
+                    {
+                        songsEnum.RefreshSongs(songsEnum.SongList);
+                        step = progress;
+                        songsEnum.Percent = (int)(((double)step / count) * 100);
+                    }
+
+                }
+            }
+        }
+
+        public static string SaveSongtoStorage(Song item)
+        {
+            string s = item.MainKey;
+            string token = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer("SongsCacheContainer", ApplicationDataCreateDisposition.Always);
+
+            if (localSettings.Containers.ContainsKey("SongsCacheContainer"))
+            {
+                ApplicationDataContainer SubContainer = MainContainer.CreateContainer(token, ApplicationDataCreateDisposition.Always);
+                {
+                    if (MainContainer.Containers.ContainsKey(token))
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        MainContainer.Containers[token].Values["Title"] = item.Title;
+                        MainContainer.Containers[token].Values["ArtWork"] = item.ArtWork;
+                        MainContainer.Containers[token].Values["Album"] = item.Album;
+                        MainContainer.Containers[token].Values["Year"] = item.Year;
+                        MainContainer.Containers[token].Values["Disc"] = item.Disc;
+                        MainContainer.Containers[token].Values["DiscCount"] = item.DiscCount;
+                        MainContainer.Containers[token].Values["Track"] = item.Track;
+                        MainContainer.Containers[token].Values["TrackCount"] = item.TrackCount;
+                        MainContainer.Containers[token].Values["Width"] = item.ArtWorkSize.Width;
+                        MainContainer.Containers[token].Values["Height"] = item.ArtWorkSize.Height;
+                        if (item.Artists != null)
+                        {
+                            for (int i = 0; item.Artists[i] != null; i++)
+                            {
+                                sb.Append(item.Artists[i] + "|:|");
+                            }
+                        }
+
+                        MainContainer.Containers[token].Values["Artists"] = sb.AppendLine().ToString();
+                        sb.Clear();
+                        if (item.AlbumArtists != null)
+                        {
+                            for (int i = 0; item.AlbumArtists[i] != null; i++)
+                            {
+                                sb.Append(item.AlbumArtists[i] + "|:|");
+                            }
+                        }
+
+                        MainContainer.Containers[token].Values["AlbumArtists"] = sb.AppendLine().ToString();
+                        sb.Clear();
+                        if (item.Genres != null)
+                        {
+                            for (int i = 0; item.Genres[i] != null; i++)
+                            {
+                                sb.Append(item.Genres[i] + "|:|");
+                            }
+                        }
+
+                        MainContainer.Containers[token].Values["Genres"] = sb.AppendLine().ToString();
+                        sb.Clear();
+                    }
+                }
+            }
+            return token;
         }
 
         private async Task<Tag> SetTagM4A()
@@ -149,6 +301,10 @@ namespace com.aurora.aumusic
             this.Artists = tags.Performers;
             this.Year = tags.Year;
             this.Genres = tags.Genres;
+            this.Disc = tags.Disc;
+            this.DiscCount = tags.DiscCount;
+            this.Track = tags.Track;
+            this.TrackCount = tags.TrackCount;
             return tags;
         }
 
@@ -166,12 +322,16 @@ namespace com.aurora.aumusic
                     StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".png", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
                     ArtWork = "ms-appdata:///local/" + ArtWorkName + ".png";
+                    BitmapImage m = new BitmapImage(new Uri(ArtWork));
+                    this.ArtWorkSize = new Size(m.PixelWidth, m.PixelHeight);
                 }
                 if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
                 {
                     StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".jpg", CreationCollisionOption.ReplaceExisting);
                     await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
                     ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
+                    BitmapImage m = new BitmapImage(new Uri(ArtWork));
+                    this.ArtWorkSize = new Size(m.PixelWidth, m.PixelHeight);
                 }
             }
             else
@@ -183,7 +343,6 @@ namespace com.aurora.aumusic
                 catch (Exception)
                 {
                     ArtWork = null;
-                    
                 }
             }
         }
@@ -200,6 +359,10 @@ namespace com.aurora.aumusic
             this.Artists = tags.Performers;
             this.Year = tags.Year;
             this.Genres = tags.Genres;
+            this.Disc = tags.Disc;
+            this.DiscCount = tags.DiscCount;
+            this.Track = tags.Track;
+            this.TrackCount = tags.TrackCount;
             return tags;
         }
 
