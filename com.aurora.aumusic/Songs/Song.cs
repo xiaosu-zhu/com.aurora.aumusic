@@ -228,23 +228,26 @@ namespace com.aurora.aumusic
             }
         }
 
-        public void SaveSongtoStorage(Song item, ApplicationDataContainer localSettings)
+        public void SaveSongtoStorage(Song item )
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(item.MainKey, ApplicationDataCreateDisposition.Always);
             string mainkey = item.MainKey;
             //string mainkey = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
-            if (localSettings.Containers.ContainsKey(mainkey))
+            //if (localSettings.Containers.ContainsKey(mainkey))
             {
                 StringBuilder sb = new StringBuilder();
-                localSettings.Containers[mainkey].Values["Title"] = item.Title;
-                localSettings.Containers[mainkey].Values["ArtWork"] = item.ArtWork;
-                localSettings.Containers[mainkey].Values["Album"] = item.Album;
-                localSettings.Containers[mainkey].Values["Year"] = item.Year;
-                localSettings.Containers[mainkey].Values["Disc"] = item.Disc;
-                localSettings.Containers[mainkey].Values["DiscCount"] = item.DiscCount;
-                localSettings.Containers[mainkey].Values["Track"] = item.Track;
-                localSettings.Containers[mainkey].Values["TrackCount"] = item.TrackCount;
-                localSettings.Containers[mainkey].Values["Width"] = item.ArtWorkSize.Width;
-                localSettings.Containers[mainkey].Values["Height"] = item.ArtWorkSize.Height;
+                MainContainer.Values["Title"] = item.Title;
+                MainContainer.Values["ArtWork"] = item.ArtWork;
+                MainContainer.Values["Album"] = item.Album;
+                MainContainer.Values["Year"] = item.Year;
+                MainContainer.Values["Disc"] = item.Disc;
+                MainContainer.Values["DiscCount"] = item.DiscCount;
+                MainContainer.Values["Track"] = item.Track;
+                MainContainer.Values["TrackCount"] = item.TrackCount;
+                MainContainer.Values["Width"] = item.ArtWorkSize.Width;
+                MainContainer.Values["Height"] = item.ArtWorkSize.Height;
                 if (item.Artists != null)
                 {
                     for (int i = 0; item.Artists[i] != null; i++)
@@ -253,7 +256,7 @@ namespace com.aurora.aumusic
                     }
                 }
 
-                localSettings.Containers[mainkey].Values["Artists"] = sb.AppendLine().ToString();
+                MainContainer.Values["Artists"] = sb.AppendLine().ToString();
                 sb.Clear();
                 if (item.AlbumArtists != null)
                 {
@@ -263,7 +266,7 @@ namespace com.aurora.aumusic
                     }
                 }
 
-                localSettings.Containers[mainkey].Values["AlbumArtists"] = sb.AppendLine().ToString();
+                MainContainer.Values["AlbumArtists"] = sb.AppendLine().ToString();
                 sb.Clear();
                 if (item.Genres != null)
                 {
@@ -273,7 +276,7 @@ namespace com.aurora.aumusic
                     }
                 }
 
-                localSettings.Containers[mainkey].Values["Genres"] = sb.AppendLine().ToString();
+                MainContainer.Values["Genres"] = sb.AppendLine().ToString();
                 sb.Clear();
             }
         }
@@ -416,6 +419,7 @@ namespace com.aurora.aumusic
 
                     }
                     Songs.SongList.Add(song);
+                    song.SaveSongtoStorage(song);
                     progress++;
                     if (((double)(progress - step)) / ((double)count) > 0.01)
                     {
