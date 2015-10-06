@@ -106,7 +106,6 @@ namespace com.aurora.aumusic
         public uint TrackCount = 0;
         public uint Year = 0;
 
-
         public string Album
         {
             get
@@ -131,6 +130,7 @@ namespace com.aurora.aumusic
             }
         }
 
+        public string FolderToken { get; private set; }
 
         public Song()
         {
@@ -190,54 +190,50 @@ namespace com.aurora.aumusic
             return tags;
         }
 
-        public static async void RestoreSongfromStorage(SongsEnum songsEnum)
+        public static Song RestoreSongfromStorage(int count)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            ApplicationDataContainer MainContainer = localSettings.Containers["SongsCacheContainer"];
-            int count = (int)localSettings.Containers["SongsCacheContainer"].Values["SongsCount"];
-            uint progress = 0;
-            uint step = 0;
-            foreach (var item in songsEnum.SongsToken)
+            ApplicationDataContainer MainContainer = localSettings.CreateContainer("song" + count, ApplicationDataCreateDisposition.Always);
+            Song tempSong = new Song();
+            try
             {
-                if (MainContainer.Containers.ContainsKey(item))
-                {
-                    Song tempSong = new Song(await StorageApplicationPermissions.FutureAccessList.GetFileAsync(item));
-                    tempSong.Title = (string)MainContainer.Containers[item].Values["Title"];
-                    tempSong.ArtWork = (string)MainContainer.Containers[item].Values["ArtWork"];
-                    tempSong.Album = (string)MainContainer.Containers[item].Values["Album"];
-                    tempSong.Year = (uint)MainContainer.Containers[item].Values["Year"];
-                    tempSong.Disc = (uint)MainContainer.Containers[item].Values["Disc"];
-                    tempSong.DiscCount = (uint)MainContainer.Containers[item].Values["DiscCount"];
-                    tempSong.Track = (uint)MainContainer.Containers[item].Values["Track"];
-                    tempSong.TrackCount = (uint)MainContainer.Containers[item].Values["TrackCount"];
-                    tempSong.ArtWorkSize.Width = (double)MainContainer.Containers[item].Values["Width"];
-                    tempSong.ArtWorkSize.Height = (double)MainContainer.Containers[item].Values["Height"];
-                    tempSong.AlbumArtists = ((string)MainContainer.Containers[item].Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' });
-                    tempSong.Artists = ((string)MainContainer.Containers[item].Values["Artists"]).Split(new char[3] { '|', ':', '|' });
-                    tempSong.Genres = ((string)MainContainer.Containers[item].Values["Genres"]).Split(new char[3] { '|', ':', '|' });
-                    songsEnum.SongList.Add(tempSong);
-                    progress++;
-                    if (((double)(progress - step)) / ((double)count) > 0.01)
-                    {
-                        songsEnum.RefreshSongs(songsEnum.SongList);
-                        step = progress;
-                        songsEnum.Percent = (int)(((double)step / count) * 100);
-                    }
-
-                }
+                string key = (string)MainContainer.Values["MainKey"];
+                string foldertoken = (string)MainContainer.Values["FolderToken"];
+                tempSong.MainKey = key;
+                tempSong.FolderToken = foldertoken;
             }
+            catch (Exception)
+            {
+                return null;
+            }
+            tempSong.Title = (string)MainContainer.Values["Title"];
+            tempSong.ArtWork = (string)MainContainer.Values["ArtWork"];
+            tempSong.Album = (string)MainContainer.Values["Album"];
+            tempSong.Year = (uint)MainContainer.Values["Year"];
+            tempSong.Disc = (uint)MainContainer.Values["Disc"];
+            tempSong.DiscCount = (uint)MainContainer.Values["DiscCount"];
+            tempSong.Track = (uint)MainContainer.Values["Track"];
+            tempSong.TrackCount = (uint)MainContainer.Values["TrackCount"];
+            tempSong.ArtWorkSize.Width = (double)MainContainer.Values["Width"];
+            tempSong.ArtWorkSize.Height = (double)MainContainer.Values["Height"];
+            tempSong.AlbumArtists = ((string)MainContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' });
+            tempSong.Artists = ((string)MainContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' });
+            tempSong.Genres = ((string)MainContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' });
+            return tempSong;
         }
 
-        public void SaveSongtoStorage(Song item )
+
+        public void SaveSongtoStorage(Song item, uint progress)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
-    localSettings.CreateContainer(item.MainKey, ApplicationDataCreateDisposition.Always);
-            string mainkey = item.MainKey;
+    localSettings.CreateContainer("song" + progress, ApplicationDataCreateDisposition.Always);
             //string mainkey = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
             //if (localSettings.Containers.ContainsKey(mainkey))
             {
                 StringBuilder sb = new StringBuilder();
+                MainContainer.Values["FolderToken"] = item.FolderToken;
+                MainContainer.Values["MainKey"] = item.MainKey;
                 MainContainer.Values["Title"] = item.Title;
                 MainContainer.Values["ArtWork"] = item.ArtWork;
                 MainContainer.Values["Album"] = item.Album;
@@ -405,6 +401,7 @@ namespace com.aurora.aumusic
                 if (tempTypeStrings.Contains(tempFile.FileType))
                 {
                     Song song = new Song(tempFile);
+                    song.FolderToken = tempPath;
                     var tags = await song.SetTags();
                     if (tags != null)
                     {
@@ -419,7 +416,7 @@ namespace com.aurora.aumusic
 
                     }
                     Songs.SongList.Add(song);
-                    song.SaveSongtoStorage(song);
+                    song.SaveSongtoStorage(song, progress);
                     progress++;
                     if (((double)(progress - step)) / ((double)count) > 0.01)
                     {
@@ -428,6 +425,8 @@ namespace com.aurora.aumusic
                         Songs.Percent = (int)(((double)step / count) * 100);
                     }
                 }
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                localSettings.Values["SongsCount"] = Songs.SongList.Count;
             }
         }
 

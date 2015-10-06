@@ -9,31 +9,21 @@ namespace com.aurora.aumusic
     {
         public List<Song> Songs;
         public string AlbumName;
-        public BitmapImage AlbumArtwork;
-        private double _height = double.NaN;
+        public BitmapImage AlbumArtWork;
+        public List<Song> AlbumSongs = new List<Song>();
         StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
-        public double Height
-        {
-            get
-            {
-                if (AlbumArtwork != null)
-                {
-                    _height = AlbumArtwork.PixelHeight;
-                }
-                return _height;
-            }
-        }
-
-        public string Text
-        {
-            get; set;
-        }
 
         public void getArtwork()
         {
-            Uri a = new Uri("ms-appdata:///local/" + AlbumName + ".png");
-            AlbumArtwork = new BitmapImage(a);
-            
+            if(AlbumSongs.Count!=0)
+            {
+                if (AlbumSongs[0].Album != "Unknown Album")
+                {
+                    string a = AlbumSongs[0].ArtWork;
+                    AlbumArtWork = new BitmapImage(new Uri(a));
+                }
+                else AlbumArtWork = new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
+            }
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Foundation;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace com.aurora.aumusic
 {
@@ -13,7 +16,44 @@ namespace com.aurora.aumusic
     {
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
-        public HashSet<Song> SongList = new HashSet<Song>();
+
+        public async Task RestoreSongsWithProgress()
+        {
+            if (localSettings.Values.ContainsKey("SongsCount"))
+            {
+                int SongsCount = (int)localSettings.Values["SongsCount"];
+                IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
+                   async (workItem) =>
+                   {
+
+                       int step = 0;
+
+                       for (int progress = 0; progress < SongsCount; progress++)
+                       {
+                           SongList.Add(Song.RestoreSongfromStorage(progress));
+                           if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
+                           {
+                               await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                                                   CoreDispatcherPriority.High,
+                                                   new DispatchedHandler(() =>
+                                                   {
+                                                       RefreshSongs(SongList);
+                                                       step = progress;
+                                                       Percent = (int)(((double)step / SongsCount) * 100);
+                                                   }));
+
+                           }
+                       }
+                   });
+            }
+
+            else
+            {
+                await GetSongsWithProgress();
+            }
+        }
+
+        public List<Song> SongList = new List<Song>();
         public List<string> SongsToken = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public int Percent
@@ -54,7 +94,7 @@ namespace com.aurora.aumusic
 
         }
 
-        public void RefreshSongs(HashSet<Song> songList)
+        public void RefreshSongs(List<Song> songList)
         {
             if (songList != null)
             {
@@ -76,17 +116,24 @@ namespace com.aurora.aumusic
         public async Task GetSongsWithProgress()
         {
             Songs.Clear();
-            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
-            if (composite != null)
+            if (localSettings.Values.ContainsKey("FolderSettings"))
             {
-                int count = (int)composite["FolderCount"];
-                for (int i = 0; i < count; i++)
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                if (composite != null)
                 {
-                    String tempPath = (String)composite["FolderSettings" + i];
-                    await Song.GetSongListWithProgress(this, tempPath);
+                    int count = (int)composite["FolderCount"];
+                    for (int i = 0; i < count; i++)
+                    {
+                        String tempPath = (String)composite["FolderSettings" + i];
+                        await Song.GetSongListWithProgress(this, tempPath);
+                    }
                 }
             }
-            else throw new Exception();
+
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public async Task<List<AlbumItem>> CreateAlbum()
@@ -116,27 +163,17 @@ namespace com.aurora.aumusic
 
         public void SaveSongstoStorage()
         {
-            
+            uint i = 0;
             foreach (var item in Songs)
             {
-                
-                item.SaveSongtoStorage(item);
+
+                item.SaveSongtoStorage(item, i);
+                i++;
             }
             localSettings.Values["SongsCount"] = SongList.Count;
 
         }
 
-        public void RestoreSongsfromStorage()
-        {
-            SongList.Clear();
-            Songs.Clear();
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Containers.ContainsKey("SongsCacheContainer"))
-            {
-                ApplicationDataContainer MainContainer = localSettings.Containers["SongsCacheContainer"];
-                Song.RestoreSongfromStorage(this);
-            }
-        }
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             // Raise the PropertyChanged event, passing the name of the property whose value has changed.

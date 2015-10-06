@@ -14,7 +14,7 @@ namespace com.aurora.aumusic
 
         private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await Songs.GetSongsWithProgress();
+            await Songs.RestoreSongsWithProgress();
             WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
@@ -31,7 +31,7 @@ namespace com.aurora.aumusic
         private void hahButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            Songs.RestoreSongsfromStorage();
+            ;
         }
     }
 }

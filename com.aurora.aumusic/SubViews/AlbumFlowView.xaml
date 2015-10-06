@@ -6,32 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <CollectionViewSource x:Name="AlbumFolwResources" />
+        <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
+            <RelativePanel >
+                <Image Source="{x:Bind AlbumItem.AlbumArtWork}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="12"/>
+                <TextBlock Text="{x:Bind AlbumItem.AlbumName}" />
+            </RelativePanel>
+        </DataTemplate>
+    </Page.Resources>
     <Grid Background="Transparent">
-        <ListView x:Name="AlbumsFlowControls"  >
-
+        <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFolwResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <local:AlbumFlowPanel />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate >
-                    <Border Margin="10"
-                                Height="{Binding Height}"
-                                BorderBrush="Teal"
-                                BorderThickness="5">
-                        <TextBlock Text="{Binding Text}"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
 
     </Grid>
