@@ -116,11 +116,15 @@ namespace com.aurora.aumusic
 
         public void SaveSongstoStorage()
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            
             foreach (var item in Songs)
             {
-                SongsToken.Add(Song.SaveSongtoStorage(item));
+                ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(item.MainKey, ApplicationDataCreateDisposition.Always);
+                item.SaveSongtoStorage(item, localSettings);
             }
-            localSettings.Containers["SongsCacheContainer"].Values["SongsCount"] = SongList.Count;
+            localSettings.Values["SongsCount"] = SongList.Count;
 
         }
 

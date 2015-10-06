@@ -228,65 +228,54 @@ namespace com.aurora.aumusic
             }
         }
 
-        public static string SaveSongtoStorage(Song item)
+        public void SaveSongtoStorage(Song item, ApplicationDataContainer localSettings)
         {
-            string s = item.MainKey;
-            string token = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            ApplicationDataContainer MainContainer =
-    localSettings.CreateContainer("SongsCacheContainer", ApplicationDataCreateDisposition.Always);
-
-            if (localSettings.Containers.ContainsKey("SongsCacheContainer"))
+            string mainkey = item.MainKey;
+            //string mainkey = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
+            if (localSettings.Containers.ContainsKey(mainkey))
             {
-                ApplicationDataContainer SubContainer = MainContainer.CreateContainer(token, ApplicationDataCreateDisposition.Always);
+                StringBuilder sb = new StringBuilder();
+                localSettings.Containers[mainkey].Values["Title"] = item.Title;
+                localSettings.Containers[mainkey].Values["ArtWork"] = item.ArtWork;
+                localSettings.Containers[mainkey].Values["Album"] = item.Album;
+                localSettings.Containers[mainkey].Values["Year"] = item.Year;
+                localSettings.Containers[mainkey].Values["Disc"] = item.Disc;
+                localSettings.Containers[mainkey].Values["DiscCount"] = item.DiscCount;
+                localSettings.Containers[mainkey].Values["Track"] = item.Track;
+                localSettings.Containers[mainkey].Values["TrackCount"] = item.TrackCount;
+                localSettings.Containers[mainkey].Values["Width"] = item.ArtWorkSize.Width;
+                localSettings.Containers[mainkey].Values["Height"] = item.ArtWorkSize.Height;
+                if (item.Artists != null)
                 {
-                    if (MainContainer.Containers.ContainsKey(token))
+                    for (int i = 0; item.Artists[i] != null; i++)
                     {
-                        StringBuilder sb = new StringBuilder();
-                        MainContainer.Containers[token].Values["Title"] = item.Title;
-                        MainContainer.Containers[token].Values["ArtWork"] = item.ArtWork;
-                        MainContainer.Containers[token].Values["Album"] = item.Album;
-                        MainContainer.Containers[token].Values["Year"] = item.Year;
-                        MainContainer.Containers[token].Values["Disc"] = item.Disc;
-                        MainContainer.Containers[token].Values["DiscCount"] = item.DiscCount;
-                        MainContainer.Containers[token].Values["Track"] = item.Track;
-                        MainContainer.Containers[token].Values["TrackCount"] = item.TrackCount;
-                        MainContainer.Containers[token].Values["Width"] = item.ArtWorkSize.Width;
-                        MainContainer.Containers[token].Values["Height"] = item.ArtWorkSize.Height;
-                        if (item.Artists != null)
-                        {
-                            for (int i = 0; item.Artists[i] != null; i++)
-                            {
-                                sb.Append(item.Artists[i] + "|:|");
-                            }
-                        }
-
-                        MainContainer.Containers[token].Values["Artists"] = sb.AppendLine().ToString();
-                        sb.Clear();
-                        if (item.AlbumArtists != null)
-                        {
-                            for (int i = 0; item.AlbumArtists[i] != null; i++)
-                            {
-                                sb.Append(item.AlbumArtists[i] + "|:|");
-                            }
-                        }
-
-                        MainContainer.Containers[token].Values["AlbumArtists"] = sb.AppendLine().ToString();
-                        sb.Clear();
-                        if (item.Genres != null)
-                        {
-                            for (int i = 0; item.Genres[i] != null; i++)
-                            {
-                                sb.Append(item.Genres[i] + "|:|");
-                            }
-                        }
-
-                        MainContainer.Containers[token].Values["Genres"] = sb.AppendLine().ToString();
-                        sb.Clear();
+                        sb.Append(item.Artists[i] + "|:|");
                     }
                 }
+
+                localSettings.Containers[mainkey].Values["Artists"] = sb.AppendLine().ToString();
+                sb.Clear();
+                if (item.AlbumArtists != null)
+                {
+                    for (int i = 0; item.AlbumArtists[i] != null; i++)
+                    {
+                        sb.Append(item.AlbumArtists[i] + "|:|");
+                    }
+                }
+
+                localSettings.Containers[mainkey].Values["AlbumArtists"] = sb.AppendLine().ToString();
+                sb.Clear();
+                if (item.Genres != null)
+                {
+                    for (int i = 0; item.Genres[i] != null; i++)
+                    {
+                        sb.Append(item.Genres[i] + "|:|");
+                    }
+                }
+
+                localSettings.Containers[mainkey].Values["Genres"] = sb.AppendLine().ToString();
+                sb.Clear();
             }
-            return token;
         }
 
         private async Task<Tag> SetTagM4A()
@@ -416,7 +405,15 @@ namespace com.aurora.aumusic
                     var tags = await song.SetTags();
                     if (tags != null)
                     {
-                        await song.GetArtWorks(tags);
+                        try
+                        {
+                            await song.GetArtWorks(tags);
+                        }
+                        catch (Exception)
+                        {
+                            song.ArtWork = (song.ArtWorkName == null ? song.ArtWork = null : song.ArtWork = "ms-appdata:///local/" + song.ArtWorkName);
+                        }
+
                     }
                     Songs.SongList.Add(song);
                     progress++;

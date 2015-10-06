@@ -14,17 +14,7 @@ namespace com.aurora.aumusic
 
         private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            try
-            {
-                await Songs.GetSongsWithProgress();
-            }
-            catch (System.Exception)
-            {
-                Debug.WriteLine(Songs.Songs[Songs.Songs.Count - 1].AudioFile.Name);
-                throw;
-            }
-
-
+            await Songs.GetSongsWithProgress();
             WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
