@@ -30,11 +30,7 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value == null)
-                {
-                    _artists = new[] { "" };
-                    _artists[0] = null;
-                }
+                _artists = value;
             }
         }
         private string[] _albumartists;
@@ -46,11 +42,7 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value == null)
-                {
-                    _albumartists = new[] { "" };
-                    _albumartists[0] = null;
-                }
+                _albumartists = value;
             }
         }
         private string _artWork;
@@ -95,11 +87,7 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value == null)
-                {
-                    _genres = new[] { "" };
-                    _genres[0] = null;
-                }
+                _genres = value;
             }
         }
         public uint Track = 0;
@@ -115,7 +103,6 @@ namespace com.aurora.aumusic
             set
             {
                 _album = (value == null) ? "Unknown Album" : value;
-
             }
         }
         public string Title
@@ -206,6 +193,7 @@ namespace com.aurora.aumusic
             {
                 return null;
             }
+            tempSong.Rating = (uint)MainContainer.Values["Rating"];
             tempSong.Title = (string)MainContainer.Values["Title"];
             tempSong.ArtWork = (string)MainContainer.Values["ArtWork"];
             tempSong.Album = (string)MainContainer.Values["Album"];
@@ -216,9 +204,9 @@ namespace com.aurora.aumusic
             tempSong.TrackCount = (uint)MainContainer.Values["TrackCount"];
             tempSong.ArtWorkSize.Width = (double)MainContainer.Values["Width"];
             tempSong.ArtWorkSize.Height = (double)MainContainer.Values["Height"];
-            tempSong.AlbumArtists = ((string)MainContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' });
-            tempSong.Artists = ((string)MainContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' });
-            tempSong.Genres = ((string)MainContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' });
+            tempSong.AlbumArtists = (((string)MainContainer.Values["AlbumArtists"]) != null ? ((string)MainContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
+            tempSong.Artists = (((string)MainContainer.Values["Artists"]) != null ? ((string)MainContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
+            tempSong.Genres = (((string)MainContainer.Values["Genres"]) != null ? ((string)MainContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
             return tempSong;
         }
 
@@ -231,7 +219,6 @@ namespace com.aurora.aumusic
             //string mainkey = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
             //if (localSettings.Containers.ContainsKey(mainkey))
             {
-                StringBuilder sb = new StringBuilder();
                 MainContainer.Values["FolderToken"] = item.FolderToken;
                 MainContainer.Values["MainKey"] = item.MainKey;
                 MainContainer.Values["Title"] = item.Title;
@@ -244,36 +231,13 @@ namespace com.aurora.aumusic
                 MainContainer.Values["TrackCount"] = item.TrackCount;
                 MainContainer.Values["Width"] = item.ArtWorkSize.Width;
                 MainContainer.Values["Height"] = item.ArtWorkSize.Height;
-                if (item.Artists != null)
-                {
-                    for (int i = 0; item.Artists[i] != null; i++)
-                    {
-                        sb.Append(item.Artists[i] + "|:|");
-                    }
-                }
-
-                MainContainer.Values["Artists"] = sb.AppendLine().ToString();
-                sb.Clear();
-                if (item.AlbumArtists != null)
-                {
-                    for (int i = 0; item.AlbumArtists[i] != null; i++)
-                    {
-                        sb.Append(item.AlbumArtists[i] + "|:|");
-                    }
-                }
-
-                MainContainer.Values["AlbumArtists"] = sb.AppendLine().ToString();
-                sb.Clear();
-                if (item.Genres != null)
-                {
-                    for (int i = 0; item.Genres[i] != null; i++)
-                    {
-                        sb.Append(item.Genres[i] + "|:|");
-                    }
-                }
-
-                MainContainer.Values["Genres"] = sb.AppendLine().ToString();
-                sb.Clear();
+                MainContainer.Values["Rating"] = item.Rating;
+                string sb = Artists != null ? string.Join("|:|", Artists) : null;
+                MainContainer.Values["Artists"] = sb;
+                sb = AlbumArtists != null ? string.Join("|:|", AlbumArtists) : null;
+                MainContainer.Values["AlbumArtists"] = sb;
+                sb = Genres != null ? string.Join("|:|", Genres) : null;
+                MainContainer.Values["Genres"] = sb;
             }
         }
 
@@ -425,8 +389,7 @@ namespace com.aurora.aumusic
                         Songs.Percent = (int)(((double)step / count) * 100);
                     }
                 }
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                localSettings.Values["SongsCount"] = Songs.SongList.Count;
+
             }
         }
 

@@ -9,6 +9,7 @@ using Windows.Storage;
 using Windows.Foundation;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using System.Diagnostics;
 
 namespace com.aurora.aumusic
 {
@@ -22,29 +23,24 @@ namespace com.aurora.aumusic
             if (localSettings.Values.ContainsKey("SongsCount"))
             {
                 int SongsCount = (int)localSettings.Values["SongsCount"];
-                IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
-                   async (workItem) =>
-                   {
+                await Task.Run(() =>
+                {
+                    int step = 0;
 
-                       int step = 0;
+                    for (int progress = 0; progress < SongsCount; progress++)
+                    {
+                        SongList.Add(Song.RestoreSongfromStorage(progress));
+                        if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
+                        {
 
-                       for (int progress = 0; progress < SongsCount; progress++)
-                       {
-                           SongList.Add(Song.RestoreSongfromStorage(progress));
-                           if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
-                           {
-                               await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                                                   CoreDispatcherPriority.High,
-                                                   new DispatchedHandler(() =>
-                                                   {
-                                                       RefreshSongs(SongList);
-                                                       step = progress;
-                                                       Percent = (int)(((double)step / SongsCount) * 100);
-                                                   }));
+                            RefreshSongs(SongList);
+                            step = progress;
+                            Percent = (int)(((double)step / SongsCount) * 100);
+                        }
 
-                           }
-                       }
-                   });
+                    }
+                }
+                );
             }
 
             else
@@ -128,6 +124,7 @@ namespace com.aurora.aumusic
                         await Song.GetSongListWithProgress(this, tempPath);
                     }
                 }
+                localSettings.Values["SongsCount"] = SongList.Count;
             }
 
             else
@@ -136,12 +133,12 @@ namespace com.aurora.aumusic
             }
         }
 
-        public async Task<List<AlbumItem>> CreateAlbum()
+        public async Task<List<AlbumItem>> CreateAlbums()
         {
             List<AlbumItem> tempAlbumList = new List<AlbumItem>();
-            if (SongList == null)
+            if (SongList.Count == 0)
             {
-                await CreateSongListAsync();
+                await RestoreSongsWithProgress();
             }
             var query = from item in SongList
                         group item by item.Album into g
@@ -156,6 +153,7 @@ namespace com.aurora.aumusic
                 {
                     tempAlbum.Songs.Add(item);
                 }
+                tempAlbum.Initial();
                 tempAlbumList.Add(tempAlbum);
             }
             return tempAlbumList;
