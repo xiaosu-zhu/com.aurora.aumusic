@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using System.Diagnostics;
+using Windows.Storage.AccessCache;
 
 namespace com.aurora.aumusic
 {
@@ -17,36 +18,72 @@ namespace com.aurora.aumusic
     {
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
+        private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
 
         public async Task RestoreSongsWithProgress()
         {
             if (localSettings.Values.ContainsKey("SongsCount"))
             {
-                int SongsCount = (int)localSettings.Values["SongsCount"];
-                await Task.Run(() =>
+                if (localSettings.Values.ContainsKey("FolderSettings"))
                 {
-                    int step = 0;
-
-                    for (int progress = 0; progress < SongsCount; progress++)
+                    ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                    if (composite != null)
                     {
-                        SongList.Add(Song.RestoreSongfromStorage(progress));
-                        if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
+                        int count = (int)composite["FolderCount"];
+                        int SongsCount = (int)localSettings.Values["SongsCount"];
+                        List<IStorageFile> AllList = new List<IStorageFile>();
+                        await Task.Run(async () =>
                         {
+                            int step = 0;
+                            for (int i = 0; i < count; i++)
+                            {
+                                String tempPath = (String)composite["FolderSettings" + i];
+                                StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+                                AllList.AddRange(await SearchAllinFolder(tempFolder));
+                            }
+                            for (int progress = 0; progress < SongsCount; progress++)
+                            {
+                                Song a = Song.RestoreSongfromStorage(progress, AllList);
+                                SongList.Add(a);
+                                AllList.Remove(a.AudioFile);
+                                if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
+                                {
+                                    RefreshSongs(SongList);
+                                    step = progress;
+                                    Percent = (int)(((double)step / SongsCount) * 100);
+                                }
+                            }
 
-                            RefreshSongs(SongList);
-                            step = progress;
-                            Percent = (int)(((double)step / SongsCount) * 100);
                         }
-
+                        );
                     }
                 }
-                );
-            }
 
-            else
-            {
-                await GetSongsWithProgress();
+                else
+                {
+                    await GetSongsWithProgress();
+                }
             }
+        }
+        private async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
+        {
+            IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
+            List<IStorageFile> finalList = new List<IStorageFile>();
+            foreach (var item in tempList)
+            {
+                if (item is StorageFolder)
+                {
+                    finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
+                }
+                if (item is StorageFile)
+                {
+                    if (tempTypeStrings.Contains(((StorageFile)item).FileType))
+                    {
+                        finalList.Add((StorageFile)item);
+                    }
+                }
+            }
+            return finalList;
         }
 
         public List<Song> SongList = new List<Song>();

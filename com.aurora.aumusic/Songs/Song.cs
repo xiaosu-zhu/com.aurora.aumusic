@@ -177,7 +177,7 @@ namespace com.aurora.aumusic
             return tags;
         }
 
-        public static Song RestoreSongfromStorage(int count)
+        public static Song RestoreSongfromStorage(int count, List<IStorageFile> AllList)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer = localSettings.CreateContainer("song" + count, ApplicationDataCreateDisposition.Always);
@@ -188,6 +188,14 @@ namespace com.aurora.aumusic
                 string foldertoken = (string)MainContainer.Values["FolderToken"];
                 tempSong.MainKey = key;
                 tempSong.FolderToken = foldertoken;
+                foreach (var item in AllList)
+                {
+                    if (tempSong.MainKey == ((StorageFile)item).FolderRelativeId)
+                    {
+                        tempSong.AudioFile = (StorageFile)item;
+                        break;
+                    }
+                }
             }
             catch (Exception)
             {
@@ -322,12 +330,11 @@ namespace com.aurora.aumusic
         public static async Task<List<Song>> GetSongListfromPath(string tempPath)
         {
             List<Song> SongList = new List<Song>();
-            List<string> TempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
             StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> tempList = await TempFolder.GetFilesAsync();
             foreach (StorageFile tempFile in tempList)
             {
-                if (TempTypeStrings.Contains(tempFile.FileType))
+                if (tempTypeStrings.Contains(tempFile.FileType))
                 {
                     try
                     {
@@ -354,7 +361,6 @@ namespace com.aurora.aumusic
         public static async Task GetSongListWithProgress(SongsEnum Songs, string tempPath)
         {
             List<Song> SongList = new List<Song>();
-            List<string> tempTypeStrings = new List<string> { ".mp3", ".m4a", ".flac", ".wav" };
             StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
             uint count = (uint)AllList.Count;
@@ -393,7 +399,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        private static async Task<IReadOnlyList<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
+        public static async Task<IReadOnlyList<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
         {
 
             IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
