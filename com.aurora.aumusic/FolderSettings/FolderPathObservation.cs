@@ -70,7 +70,7 @@ namespace com.aurora.aumusic
             i = 0;
             foreach (var item in PathTokens)
             {
-                composite["FolderSettings" + i] = item;
+                composite["FolderSettings" + i.ToString()] = item;
                 i++;
             }
             composite["FolderCount"] = i;

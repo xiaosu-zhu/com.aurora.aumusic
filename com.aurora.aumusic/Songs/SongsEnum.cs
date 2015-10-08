@@ -37,7 +37,7 @@ namespace com.aurora.aumusic
                             int step = 0;
                             for (int i = 0; i < count; i++)
                             {
-                                String tempPath = (String)composite["FolderSettings" + i];
+                                String tempPath = (String)composite["FolderSettings" + i.ToString()];
                                 StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
                                 AllList.AddRange(await SearchAllinFolder(tempFolder));
                             }
@@ -116,7 +116,7 @@ namespace com.aurora.aumusic
                 int count = (int)composite["FolderCount"];
                 for (int i = 0; i < count; i++)
                 {
-                    String TempPath = (String)composite["FolderSettings" + i];
+                    String TempPath = (String)composite["FolderSettings" + i.ToString()];
                     tempList.AddRange(await Song.GetSongListfromPath(TempPath));
                 }
                 tempList.Sort((first, second) =>
@@ -157,7 +157,7 @@ namespace com.aurora.aumusic
                     int count = (int)composite["FolderCount"];
                     for (int i = 0; i < count; i++)
                     {
-                        String tempPath = (String)composite["FolderSettings" + i];
+                        String tempPath = (String)composite["FolderSettings" + i.ToString()];
                         await Song.GetSongListWithProgress(this, tempPath);
                     }
                 }
@@ -173,9 +173,13 @@ namespace com.aurora.aumusic
         public async Task<List<AlbumItem>> CreateAlbums()
         {
             List<AlbumItem> tempAlbumList = new List<AlbumItem>();
-            if (SongList.Count == 0)
+            try
             {
-                await RestoreSongsWithProgress();
+                await GetSongsWithProgress();
+            }
+            catch (Exception)
+            {
+                throw;
             }
             var query = from item in SongList
                         group item by item.Album into g

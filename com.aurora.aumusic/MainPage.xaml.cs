@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
@@ -17,7 +18,7 @@ namespace com.aurora.aumusic
             //设置汉堡按钮控制
             Window.Current.SetTitleBar(Titlepanel);
             //默认打开MymusicPage
-            MainFrame.Navigate(typeof(com.aurora.aumusic.AlbumFlowPage));
+            MainFrame.Navigate(typeof(AlbumFlowPage));
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -28,6 +29,7 @@ namespace com.aurora.aumusic
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
             //菜单项目点击定义
             int x = MenuList.SelectedIndex;
@@ -37,7 +39,16 @@ namespace com.aurora.aumusic
                 switch (x)
                 {
                     //页面跳转
-                    case 0: MainFrame.Navigate(typeof(AlbumFlowPage)); break;
+                    case 0:
+                        if (localSettings.Values.ContainsKey("FolderSettings"))
+                        {
+                            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                            if (composite != null)
+                            {
+                                MainFrame.Navigate(typeof(AlbumFlowPage)); break;
+                            }
+                        }
+                        MainFrame.Navigate(typeof(SettingsPage)); break;
                     case 1: MainFrame.Navigate(typeof(NowPage)); break;
                     case 2: MainFrame.Navigate(typeof(ArtistPage)); break;
                     case 3: MainFrame.Navigate(typeof(SongsPage)); break;

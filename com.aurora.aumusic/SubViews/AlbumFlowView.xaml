@@ -9,9 +9,11 @@
     <Page.Resources>
         <CollectionViewSource x:Name="AlbumFlowResources" />
         <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
-            <RelativePanel >
-                <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="12"/>
-                <TextBlock Text="{x:Bind AlbumName}" RelativePanel.Below="AlbumArtWork" />
+            <RelativePanel PointerPressed="RelativePanel_PointerPressed" >
+                <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="12">
+                    <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" />
+                </Viewbox>
+                <TextBlock Text="{x:Bind AlbumName}" RelativePanel.Below="AlbumViewBox" />
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
@@ -26,4 +28,5 @@
         </ListView>
 
     </Grid>
+    
 </Page>

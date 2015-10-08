@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
@@ -15,8 +17,14 @@ namespace com.aurora.aumusic
         private async void WaitingBar_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await Albums.getAlbumList();
-            WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
+        }
+
+        private void RelativePanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            UIElement a = ((RelativePanel)sender).Children[0];
+            a.Visibility = Visibility.Collapsed;
         }
     }
 }
