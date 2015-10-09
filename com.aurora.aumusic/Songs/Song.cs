@@ -12,6 +12,7 @@ using System.IO;
 using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage.FileProperties;
 
 namespace com.aurora.aumusic
 {
@@ -153,10 +154,13 @@ namespace com.aurora.aumusic
             tempSong.AlbumArtists = (((string)SubContainer.Values["AlbumArtists"]) != null ? ((string)SubContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Artists = (((string)SubContainer.Values["Artists"]) != null ? ((string)SubContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Genres = (((string)SubContainer.Values["Genres"]) != null ? ((string)SubContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
+            string[] sa = (((string)SubContainer.Values["Duration"]) != null ? ((string)SubContainer.Values["Duration"]).Split(':') : null);
+            tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]),Int32.Parse(sa[1]),Int32.Parse(sa[2]));
             return tempSong;
         }
 
         public string FolderToken { get; private set; }
+        public TimeSpan Duration { get; private set; }
 
         public Song()
         {
@@ -170,6 +174,16 @@ namespace com.aurora.aumusic
         public async Task<Tag> SetTags()
         {
             this.MainKey = AudioFile.FolderRelativeId;
+            MusicProperties p = await AudioFile.Properties.GetMusicPropertiesAsync();
+            TimeSpan D = p.Duration;
+            if (D.Milliseconds > 500)
+            {
+                Duration = new TimeSpan(D.Hours, D.Minutes, D.Seconds + 1);
+            }
+            else
+            {
+                Duration = new TimeSpan(D.Hours, D.Minutes, D.Seconds);
+            }
             return await AttachTags();
         }
 
@@ -285,6 +299,7 @@ namespace com.aurora.aumusic
                 MainContainer.Values["AlbumArtists"] = sb;
                 sb = Genres != null ? string.Join("|:|", Genres) : null;
                 MainContainer.Values["Genres"] = sb;
+                MainContainer.Values["Duration"] = Duration.ToString();
             }
         }
 

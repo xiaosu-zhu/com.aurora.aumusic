@@ -62,7 +62,8 @@
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
                 <Grid>
-                    <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,40,0,0" >
+                    <Button x:Name="Menubtn" Margin="0,24,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
+                    <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,60,0,0" >
                         <ListViewItem x:Name="AlbumFlow">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Bookmarks" />
@@ -97,7 +98,7 @@
                         </ListViewItem>
                         <ListViewItem  x:Name="MusicList" >
                             <StackPanel Orientation="Horizontal" >
-                                <SymbolIcon Symbol="OutlineStar" />
+                                <SymbolIcon Symbol="Bookmarks" />
                                 <TextBlock Text="My List"
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667" />
@@ -122,11 +123,5 @@
                 </Frame>
             </RelativePanel>
         </SplitView>
-
-        <RelativePanel x:Name="Titlepanel"  Background="Transparent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
-            <Button x:Name="Menubtn" Margin="0,0,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" FontSize="21.333" />
-            <AutoSuggestBox x:Name="SearchBox"  PlaceholderText="Searh my musics" QueryIcon="Find" Width="240" Margin="0,0,136,0" RelativePanel.AlignRightWithPanel="True" Template="{StaticResource AutoSuggestBoxControlTemplate}"/>
-            <Button x:Name="SearchButton" Margin="0,4,160,4" Style="{StaticResource SearchButtonStyle}" Background="Transparent" RelativePanel.AlignRightWithPanel="True"/>
-        </RelativePanel>
     </RelativePanel>
 </Page>

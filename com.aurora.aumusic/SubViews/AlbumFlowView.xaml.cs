@@ -21,10 +21,15 @@ namespace com.aurora.aumusic
             WaitingBar.IsIndeterminate = false;
         }
 
-        private void RelativePanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
         {
-            UIElement a = ((RelativePanel)sender).Children[0];
-            a.Visibility = Visibility.Collapsed;
+            Debug.WriteLine("HEIHEI");
         }
+
+        private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+        }
+
+        
     }
 }

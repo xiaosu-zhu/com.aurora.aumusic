@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
+using Windows.UI.Xaml;
 
 namespace com.aurora.aumusic
 {
@@ -41,9 +44,9 @@ namespace com.aurora.aumusic
             else
             {
                 await Task.Run(async () =>
-                                                 {
-                                                     AlbumList = await AllSongs.CreateAlbums();
-                                                 });
+                               {
+                                   AlbumList = await AllSongs.CreateAlbums();
+                               });
                 foreach (var item in AlbumList)
                 {
                     Albums.Add(item);
@@ -127,6 +130,7 @@ namespace com.aurora.aumusic
                 SubContainer.Values["AlbumArtists"] = sb;
                 sb = item.Genres != null ? string.Join("|:|", item.Genres) : null;
                 SubContainer.Values["Genres"] = sb;
+                SubContainer.Values["Duration"] = item.Duration.ToString();
                 i++;
             }
             MainContainer.Values["SongsCount"] = Album.Songs.Count;
@@ -151,5 +155,6 @@ namespace com.aurora.aumusic
             }
             return finalList;
         }
+
     }
 }

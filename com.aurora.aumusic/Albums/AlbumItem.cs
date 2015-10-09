@@ -11,6 +11,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml;
 
 namespace com.aurora.aumusic
 {
@@ -190,5 +191,6 @@ namespace com.aurora.aumusic
             }
 
         }
+   
     }
 }

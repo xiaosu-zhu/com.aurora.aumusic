@@ -16,9 +16,8 @@ namespace com.aurora.aumusic
         {
             this.InitializeComponent();
             //设置汉堡按钮控制
-            Window.Current.SetTitleBar(Titlepanel);
             //默认打开MymusicPage
-            MainFrame.Navigate(typeof(AlbumFlowPage));
+            MainFrame.Navigate(typeof(SettingsPage));
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)

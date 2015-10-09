@@ -7,19 +7,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Page.Resources>
+        
         <CollectionViewSource x:Name="AlbumFlowResources" />
         <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
-            <RelativePanel PointerPressed="RelativePanel_PointerPressed" >
-                <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="12">
-                    <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" />
+            <RelativePanel PointerEntered="RelativePanel_PointerEntered" >
+                <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
+                    <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="12"/>
                 </Viewbox>
                 <TextBlock Text="{x:Bind AlbumName}" RelativePanel.Below="AlbumViewBox" />
             </RelativePanel>
         </DataTemplate>
     </Page.Resources>
+    
     <Grid Background="Transparent">
         <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-        <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}">
+        <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <local:AlbumFlowPanel />
@@ -28,5 +30,5 @@
         </ListView>
 
     </Grid>
-    
+
 </Page>
