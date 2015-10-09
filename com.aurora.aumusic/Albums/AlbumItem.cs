@@ -149,6 +149,22 @@ namespace com.aurora.aumusic
                 this.getGenres();
                 this.getArtwork();
                 this.getYear();
+                this.Sort();
+            }
+        }
+
+        private void Sort()
+        {
+            if(Songs.Count != 0)
+            {
+                Songs.Sort((first, second) =>
+                {
+                    return first.Disc.CompareTo(second.Disc);
+                });
+                Songs.Sort((first, second) =>
+                {
+                    return first.Track.CompareTo(second.Track);
+                });
             }
         }
 
