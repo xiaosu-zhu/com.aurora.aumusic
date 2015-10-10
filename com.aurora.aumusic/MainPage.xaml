@@ -8,8 +8,8 @@
     mc:Ignorable="d">
 
 
-<RelativePanel >
-    
+    <RelativePanel >
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="WideStates">
@@ -118,10 +118,13 @@
 
             <!-- 主视图Frame -->
             <RelativePanel Margin="0,0,0,0">
-                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
-
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,80" >
                 </Frame>
+                <RelativePanel Height="80" Background="WhiteSmoke" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                    <Image RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Source="Assets/unknown.png" Margin="8" />
+                </RelativePanel>
             </RelativePanel>
         </SplitView>
     </RelativePanel>
+
 </Page>

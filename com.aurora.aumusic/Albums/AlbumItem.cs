@@ -74,7 +74,7 @@ namespace com.aurora.aumusic
                             if (item.AlbumArtists.Length > i)
                             {
                                 i = item.AlbumArtists.Length;
-                                k = j;
+                                k = j+1;
                             }
                         }
                     }
@@ -85,7 +85,7 @@ namespace com.aurora.aumusic
                             if (item.Artists.Length > m)
                             {
                                 m = item.Artists.Length;
-                                o = j;
+                                o = j+1;
                             }
                         }
                     }
@@ -95,10 +95,10 @@ namespace com.aurora.aumusic
                 }
                 if (k != 0)
                 {
-                    if (Songs[k].AlbumArtists[0] != null)
+                    if (Songs[k-1].AlbumArtists[0] != null)
                     {
                         List<string> l = new List<string>();
-                        foreach (var item in Songs[k].AlbumArtists)
+                        foreach (var item in Songs[k-1].AlbumArtists)
                         {
                             l.Add(item);
                         }
@@ -108,10 +108,10 @@ namespace com.aurora.aumusic
 
                 if (o != 0)
                 {
-                    if (Songs[o].Artists[0] != null)
+                    if (Songs[o-1].Artists[0] != null)
                     {
                         List<string> l = new List<string>();
-                        foreach (var item in Songs[o].Artists)
+                        foreach (var item in Songs[o-1].Artists)
                         {
                             l.Add(item);
                         }
