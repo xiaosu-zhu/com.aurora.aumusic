@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="FolderSettings\FolderItem.cs" />
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
+    <Compile Include="PlayBack.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongsEnum.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
@@ -127,9 +128,6 @@
     </Compile>
     <Compile Include="SubPages\SongsPage.xaml.cs">
       <DependentUpon>SongsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SubViews\AlbumFlowView.xaml.cs">
-      <DependentUpon>AlbumFlowView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -189,10 +187,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SubPages\SongsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SubViews\AlbumFlowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

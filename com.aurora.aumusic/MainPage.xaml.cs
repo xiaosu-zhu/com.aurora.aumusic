@@ -1,6 +1,8 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -12,6 +14,7 @@ namespace com.aurora.aumusic
     public sealed partial class MainPage : Page
     {
         private int ListViewCount = 0;
+        private static int MEDIA_ENDED_FLAG = 0;
         public MainPage()
         {
             this.InitializeComponent();
@@ -44,7 +47,7 @@ namespace com.aurora.aumusic
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                             if (composite != null)
                             {
-                                MainFrame.Navigate(typeof(AlbumFlowPage)); break;
+                                MainFrame.Navigate(typeof(AlbumFlowPage), PlaybackControl); break;
                             }
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); break;
@@ -67,5 +70,23 @@ namespace com.aurora.aumusic
                 SettingsButton.IsEnabled = false;
             }
         }
+
+
+
+        private async void HorizontalThumb_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (MEDIA_ENDED_FLAG == 1)
+            {
+                AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
+                await a.playbackctrl.PlayNext(this.PlaybackControl);
+                MEDIA_ENDED_FLAG = 0;
+            }
+        }
+
+        private void SetMediaEnd(object sender, RoutedEventArgs e)
+        {
+            MEDIA_ENDED_FLAG = 1;
+        }
+
     }
 }

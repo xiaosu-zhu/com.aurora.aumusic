@@ -1,22 +1,71 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Linq;
-using Windows.Foundation;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
+using System.Threading;
+using System;
+using Windows.Foundation;
+using System.Collections.Generic;
 
 namespace com.aurora.aumusic
 {
     public sealed partial class AlbumFlowPage : Page
     {
-
+        MediaElement _pageParameters;
+        AlbumEnum Albums = new AlbumEnum();
+        public PlayBack playbackctrl;
         public AlbumFlowPage()
         {
             this.InitializeComponent();
-            MymusicFrame.Navigate(typeof(AlbumFlowView));
-            
+            AlbumFlowResources.Source = Albums.Albums;
+
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //We are going to cast the property Parameter of NavigationEventArgs object
+            //into PageWithParametersConfiguration.
+            //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
+            _pageParameters = e.Parameter as MediaElement;
+        }
+
+        private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Albums.getAlbumList();
+            WaitingBar.Visibility = Visibility.Collapsed;
+            WaitingBar.IsIndeterminate = false;
+        }
+
+        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Debug.WriteLine("HEIHEI");
+        }
+
+        private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
+            sv.ChangeView(0, 24, 1);
+        }
+
+        private void RelativePanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
+            sv.ChangeView(0, -24, 1);
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AlbumItem album = ((Button)sender).DataContext as AlbumItem;
+            playbackctrl = new PlayBack(album);
+            await playbackctrl.Play(_pageParameters);
         }
     }
 
+
+    
     public sealed class AlbumFlowPanel : Panel
     {
 
@@ -27,7 +76,7 @@ namespace com.aurora.aumusic
 
             //三组流长度记录
             KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[3];
-            foreach(int index in Enumerable.Range(0,3))
+            foreach (int index in Enumerable.Range(0, 3))
             {
                 flowLength[index] = new KeyValuePair<double, int>(0.0, index);
             }
@@ -39,7 +88,7 @@ namespace com.aurora.aumusic
             Size childMeasureSize = new Size(flowWidth, double.PositiveInfinity);
 
             //子控件遍历计算长度
-            foreach(UIElement childElement in Children)
+            foreach (UIElement childElement in Children)
             {
                 childElement.Measure(childMeasureSize);
                 Size childSize = childElement.DesiredSize;
