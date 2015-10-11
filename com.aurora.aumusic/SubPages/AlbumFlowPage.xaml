@@ -14,45 +14,48 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
+                <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" >
+                    <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
+                        <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="0" />
+                    </Viewbox>
+                    <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              VerticalAlignment="Bottom" Margin="0,-20,0,0" Height="64" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                            <Grid Height="40" Margin="0,24,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Button Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource TextBlockButtonStyle}" Content="{x:Bind AlbumName}" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind Artists[0]}" FontSize="16" Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count}" VerticalAlignment="Center" Margin="4,0,0,0" />
+                                <Button Grid.Row="1" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,4,0" Click="Button_Click" />
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </RelativePanel>
+            </DataTemplate>
+            <CollectionViewSource x:Name="AlbumFlowResources" />
+        </ResourceDictionary>
 
-        <CollectionViewSource x:Name="AlbumFlowResources" />
-        <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
-            <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" >
-                <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
-                    <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="0" />
-                </Viewbox>
-                <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              VerticalAlignment="Bottom" Margin="0,-20,0,0" Height="44" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                        <Rectangle Height="20" />
-                        <Grid Background="#64646464" Height="40" Margin="0,4,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" x:Name="AlbumName" Text="{x:Bind AlbumName}" FontSize="16" Margin="4,0,0,0" VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="0" x:Name="AlbumArtists" Text="{x:Bind Artists[0]}" FontSize="16" Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                            <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count}" VerticalAlignment="Center" Margin="4,0,0,0" />
-                            <Button Grid.Row="1" BorderThickness="0" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,4,0" Click="Button_Click"/>
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
-            </RelativePanel>
-        </DataTemplate>
     </Page.Resources>
-    <RelativePanel Background="Aqua" >
-        <Rectangle x:Name="BlankRectangle" Fill="Transparent" Height="32" Width="1" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" />
-        <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.Below="BlankRectangle" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,20,20,0" >
-
-            <TextBlock x:Name="MusicTextBlock" Text="选择排列方式：" />
-            <ComboBox RelativePanel.RightOf="MusicTextBlock" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" Style="{StaticResource MusicListStyle}"  FontSize="13.333" >
+    <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}" >
+        
+        <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,44,20,0" >
+            <TextBlock x:Name="MusicTextBlock" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
+            <ComboBox RelativePanel.RightOf="MusicTextBlock" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" FontSize="13.333" >
                 <x:String>按专辑</x:String>
                 <x:String>按表演者</x:String>
                 <x:String>按名称</x:String>
                 <x:String>按歌曲类型</x:String>
             </ComboBox>
-
-            <Button x:Name="ChangePathButton" Content="更改查找位置" FontSize="13.333" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+            <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
         </RelativePanel>
 
@@ -61,7 +64,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0" Fill="Beige" Width="auto" Height="280" />
+            <Rectangle Grid.Row="0" Fill="Beige" Width="auto" Height="240" />
             <StackPanel Grid.Row="1" Orientation="Vertical" Width="auto" Height="auto">
                 <Button x:Name="QuickPlayButton" Content="快速播放" />
                 <ListView x:Name="QuickMusicList" >
@@ -69,11 +72,12 @@
             </StackPanel>
         </Grid>
 
-        <Grid Background="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" RelativePanel.RightOf="MymusicSubGrid" Margin="20">
+        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" RelativePanel.RightOf="MymusicSubGrid" Margin="20">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" Style="{StaticResource ListViewStyle1}" >
+            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
                         <Setter Property="Margin" Value="12,4,12,0" />
                         <Setter Property="Padding" Value="0" />
                     </Style>

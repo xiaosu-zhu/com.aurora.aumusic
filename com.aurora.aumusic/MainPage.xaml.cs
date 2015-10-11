@@ -51,10 +51,9 @@ namespace com.aurora.aumusic
                             }
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); break;
-                    case 1: MainFrame.Navigate(typeof(NowPage)); break;
-                    case 2: MainFrame.Navigate(typeof(ArtistPage)); break;
-                    case 3: MainFrame.Navigate(typeof(SongsPage)); break;
-                    case 4: MainFrame.Navigate(typeof(ListPage)); break;
+                    case 1: MainFrame.Navigate(typeof(ArtistPage)); break;
+                    case 2: MainFrame.Navigate(typeof(SongsPage)); break;
+                    case 3: MainFrame.Navigate(typeof(ListPage)); break;
 
                 }
                 ListViewCount = x;

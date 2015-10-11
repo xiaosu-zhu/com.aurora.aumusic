@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:com.aurora.aumusic">
+
+    <SolidColorBrush x:Key="SystemBackgroundAltHighBrush" Color="#CCF0F0F0"/>
+    <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="SystemControlForegroundAltHighBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="#FF171717" />
+    <SolidColorBrush x:Key="SystemControlAltMediumBrush" Color="#FFCCCCCC" />
+    <SolidColorBrush x:Key="SystemThemeMainBrush" Color="{ThemeResource SystemAccentColor}" />
+</ResourceDictionary>
