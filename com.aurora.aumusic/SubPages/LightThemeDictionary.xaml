@@ -9,4 +9,5 @@
     <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="#FF171717" />
     <SolidColorBrush x:Key="SystemControlAltMediumBrush" Color="#FFCCCCCC" />
     <SolidColorBrush x:Key="SystemThemeMainBrush" Color="{ThemeResource SystemAccentColor}" />
+    <SolidColorBrush x:Key="SystemTransparentBrush" Color="Transparent" />
 </ResourceDictionary>

@@ -27,9 +27,9 @@
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               VerticalAlignment="Bottom" Margin="0,-20,0,0" Height="64" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                            <Grid Height="40" Margin="0,24,0,0">
+                            <Grid Height="80" Margin="0,24,0,0">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Button Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource TextBlockButtonStyle}" Content="{x:Bind AlbumName}" Margin="4,0,0,0" VerticalAlignment="Center"/>
@@ -46,10 +46,10 @@
 
     </Page.Resources>
     <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}" >
-        
+
         <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,44,20,0" >
-            <TextBlock x:Name="MusicTextBlock" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
-            <ComboBox RelativePanel.RightOf="MusicTextBlock" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" FontSize="13.333" >
+            <TextBlock x:Name="MusicTextBlock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
+            <ComboBox RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
                 <x:String>按专辑</x:String>
                 <x:String>按表演者</x:String>
                 <x:String>按名称</x:String>
@@ -74,7 +74,7 @@
 
         <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" RelativePanel.RightOf="MymusicSubGrid" Margin="20">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" >
+            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />

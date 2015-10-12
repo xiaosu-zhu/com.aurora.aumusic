@@ -39,11 +39,6 @@ namespace com.aurora.aumusic
             WaitingBar.IsIndeterminate = false;
         }
 
-        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            Debug.WriteLine("HEIHEI");
-        }
-
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
