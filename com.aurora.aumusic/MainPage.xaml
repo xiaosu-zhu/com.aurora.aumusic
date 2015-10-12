@@ -454,11 +454,6 @@
                                                         <SymbolIcon x:Name="VolumeMuteSymbol" Symbol="Volume"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="FullWindowButton" MediaTransportControlsHelper.DropoutOrder="8" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
-                                                    <AppBarButton.Icon>
-                                                        <SymbolIcon x:Name="FullWindowSymbol" Symbol="FullScreen"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
                                                 <AppBarButton x:Name="FastForwardButton" MediaTransportControlsHelper.DropoutOrder="3" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
                                                     <AppBarButton.Icon>
                                                         <FontIcon Glyph="&#xEB9D;"/>

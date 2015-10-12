@@ -129,7 +129,7 @@ namespace com.aurora.aumusic
                 tempSong.FolderToken = foldertoken;
                 foreach (var item in allList)
                 {
-                    if (tempSong.MainKey == ((StorageFile)item).FolderRelativeId)
+                    if (tempSong.MainKey == ((StorageFile)item).Path + ((StorageFile)item).Name)
                     {
                         tempSong.AudioFile = (StorageFile)item;
                         break;
@@ -155,7 +155,7 @@ namespace com.aurora.aumusic
             tempSong.Artists = (((string)SubContainer.Values["Artists"]) != null ? ((string)SubContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Genres = (((string)SubContainer.Values["Genres"]) != null ? ((string)SubContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
             string[] sa = (((string)SubContainer.Values["Duration"]) != null ? ((string)SubContainer.Values["Duration"]).Split(':') : null);
-            tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]),Int32.Parse(sa[1]),Int32.Parse(sa[2]));
+            tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]), Int32.Parse(sa[1]), Int32.Parse(sa[2]));
             return tempSong;
         }
 
@@ -173,7 +173,7 @@ namespace com.aurora.aumusic
 
         public async Task<Tag> SetTags()
         {
-            this.MainKey = AudioFile.FolderRelativeId;
+            this.MainKey = AudioFile.Path + AudioFile.Name;
             MusicProperties p = await AudioFile.Properties.GetMusicPropertiesAsync();
             TimeSpan D = p.Duration;
             if (D.Milliseconds > 500)
@@ -243,7 +243,7 @@ namespace com.aurora.aumusic
                 tempSong.FolderToken = foldertoken;
                 foreach (var item in AllList)
                 {
-                    if (tempSong.MainKey == ((StorageFile)item).FolderRelativeId)
+                    if (tempSong.MainKey == ((StorageFile)item).Path + ((StorageFile)item).Name)
                     {
                         tempSong.AudioFile = (StorageFile)item;
                         break;
@@ -359,14 +359,15 @@ namespace com.aurora.aumusic
 
         private async Task<Tag> SetTagMP3()
         {
+            MusicProperties p = await AudioFile.Properties.GetMusicPropertiesAsync();
             var fileStream = await AudioFile.OpenStreamForReadAsync();
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            this.Title = tags.Title;
-            this.Album = tags.Album;
-            this.AlbumArtists = tags.AlbumArtists;
-            this.Artists = tags.Performers;
+            this.Title = p.Title;
+            this.Album = p.Album;
+            this.AlbumArtists = new[] { p.AlbumArtist };
+            this.Artists = new[] { p.Artist };
             this.Year = tags.Year;
             this.Genres = tags.Genres;
             this.Disc = tags.Disc;
