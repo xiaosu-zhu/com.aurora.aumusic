@@ -102,8 +102,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BitmapHelper.cs" />
+    <Compile Include="Palette\ColorComparer.cs" />
+    <Compile Include="Palette\ColorComparerByBlue.cs" />
+    <Compile Include="Palette\ColorComparerByGreen.cs" />
+    <Compile Include="Palette\ColorCutQuantizer.cs" />
+    <Compile Include="Palette\ColorHistogram.cs" />
+    <Compile Include="Palette\ColorUtils.cs" />
     <Compile Include="FolderSettings\FolderItem.cs" />
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
+    <Compile Include="Palette\Palette.cs" />
     <Compile Include="PlayBack.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongsEnum.cs" />
@@ -129,6 +137,7 @@
     <Compile Include="SubPages\SongsPage.xaml.cs">
       <DependentUpon>SongsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Palette\Swatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

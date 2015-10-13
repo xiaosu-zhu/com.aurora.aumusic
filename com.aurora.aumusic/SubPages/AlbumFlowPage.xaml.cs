@@ -10,6 +10,7 @@ using System.Threading;
 using System;
 using Windows.Foundation;
 using System.Collections.Generic;
+using Windows.UI;
 
 namespace com.aurora.aumusic
 {
@@ -35,8 +36,17 @@ namespace com.aurora.aumusic
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
         {
             await Albums.getAlbumList();
+            if (Albums.AlbumList != null)
+            {
+                foreach (var item in Albums.AlbumList)
+                {
+                    Albums.Albums.Add(item);
+                    await item.GetPalette();
+                }
+            }
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
+            BitmapHelper p = new BitmapHelper();
         }
 
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -60,7 +70,7 @@ namespace com.aurora.aumusic
     }
 
 
-    
+
     public sealed class AlbumFlowPanel : Panel
     {
 

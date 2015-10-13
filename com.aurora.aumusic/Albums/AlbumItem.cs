@@ -12,6 +12,7 @@ using Windows.UI.Core;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml;
+using Windows.UI;
 
 namespace com.aurora.aumusic
 {
@@ -20,6 +21,7 @@ namespace com.aurora.aumusic
         public string AlbumName;
         public string AlbumArtWork;
         private uint _year = 0;
+        Color[] Palette = new Color[2];
         public uint Year
         {
             get
@@ -74,7 +76,7 @@ namespace com.aurora.aumusic
                             if (item.AlbumArtists.Length > i)
                             {
                                 i = item.AlbumArtists.Length;
-                                k = j+1;
+                                k = j + 1;
                             }
                         }
                     }
@@ -85,7 +87,7 @@ namespace com.aurora.aumusic
                             if (item.Artists.Length > m)
                             {
                                 m = item.Artists.Length;
-                                o = j+1;
+                                o = j + 1;
                             }
                         }
                     }
@@ -95,10 +97,10 @@ namespace com.aurora.aumusic
                 }
                 if (k != 0)
                 {
-                    if (Songs[k-1].AlbumArtists[0] != null)
+                    if (Songs[k - 1].AlbumArtists[0] != null)
                     {
                         List<string> l = new List<string>();
-                        foreach (var item in Songs[k-1].AlbumArtists)
+                        foreach (var item in Songs[k - 1].AlbumArtists)
                         {
                             l.Add(item);
                         }
@@ -108,10 +110,10 @@ namespace com.aurora.aumusic
 
                 if (o != 0)
                 {
-                    if (Songs[o-1].Artists[0] != null)
+                    if (Songs[o - 1].Artists[0] != null)
                     {
                         List<string> l = new List<string>();
-                        foreach (var item in Songs[o-1].Artists)
+                        foreach (var item in Songs[o - 1].Artists)
                         {
                             l.Add(item);
                         }
@@ -141,7 +143,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        public void Initial()
+        public async Task Initial()
         {
             if (Songs.Count != 0)
             {
@@ -150,12 +152,20 @@ namespace com.aurora.aumusic
                 this.getArtwork();
                 this.getYear();
                 this.Sort();
+                //await this.GetPalette();
             }
+        }
+
+        public async Task GetPalette()
+        {
+            Uri urisource = new Uri(AlbumArtWork);
+            BitmapHelper p = new BitmapHelper();
+            Palette = await p.New(urisource);
         }
 
         private void Sort()
         {
-            if(Songs.Count != 0)
+            if (Songs.Count != 0)
             {
                 Songs.Sort((first, second) =>
                 {
@@ -207,6 +217,6 @@ namespace com.aurora.aumusic
             }
 
         }
-   
+
     }
 }

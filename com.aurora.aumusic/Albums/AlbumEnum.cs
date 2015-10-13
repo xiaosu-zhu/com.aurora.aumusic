@@ -31,14 +31,7 @@ namespace com.aurora.aumusic
                                     {
                                         AlbumList = await RestoreAllfromStorage();
                                     });
-                    if (AlbumList != null)
-                    {
-                        foreach (var item in AlbumList)
-                        {
-                            Albums.Add(item);
-                            progress++;
-                        }
-                    }
+                    
                 }
             }
             else
@@ -47,6 +40,13 @@ namespace com.aurora.aumusic
                                {
                                    AlbumList = await AllSongs.CreateAlbums();
                                });
+                //await Task.Run(async () =>
+                //{
+                //    foreach (var item in AlbumList)
+                //    {
+                //        await item.GetPalette();
+                //    }
+                //});
                 foreach (var item in AlbumList)
                 {
                     Albums.Add(item);
@@ -92,7 +92,7 @@ namespace com.aurora.aumusic
                             AllList.Remove(a.AudioFile);
                         }
                         AlbumItem b = new AlbumItem(tempSongs);
-                        b.Initial();
+                        await b.Initial();
                         tempAlbums.Add(b);
                     }
                     return tempAlbums;
