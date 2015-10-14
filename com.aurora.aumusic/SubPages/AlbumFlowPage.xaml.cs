@@ -35,15 +35,19 @@ namespace com.aurora.aumusic
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
         {
-            await Albums.getAlbumList();
-            if (Albums.AlbumList != null)
+            if (!(await Albums.getAlbumList()))
             {
+                int progress = 0;
+                await Albums.FirstCreate(progress);
                 foreach (var item in Albums.AlbumList)
                 {
-                    Albums.Albums.Add(item);
                     await item.GetPalette();
+                    Albums.Albums.Add(item);
+                    Albums.SaveAlltoStorage(item, progress);
+                    progress++;
                 }
             }
+            
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
             BitmapHelper p = new BitmapHelper();

@@ -22,20 +22,25 @@
                 <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
+            
             <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
+                
                 <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" >
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
                         <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="{StaticResource Thickless}" />
                     </Viewbox>
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               VerticalAlignment="Bottom" Margin="0,-48,0,0" Height="96" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                        <StackPanel Margin="0,52,0,0" Background="{ThemeResource SystemControlTranslucentHighBrush}" Orientation="Vertical" HorizontalAlignment="Stretch">
+                        <StackPanel Margin="0,48,0,0" Orientation="Vertical" HorizontalAlignment="Stretch">
+                            <StackPanel.Background>
+                                <SolidColorBrush Color="{x:Bind Palette}" />
+                            </StackPanel.Background>
                             <Grid Height="88">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="44" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Button Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource TextBlockButtonStyle}" Content="{x:Bind AlbumName}" Margin="4,4,0,0" VerticalAlignment="Top"/>
+                                <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName}" Margin="4,4,0,0" VerticalAlignment="Top"/>
                                 <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind Artists[0]}" Style="{ThemeResource BaseTextBlockStyle}" MaxWidth="24" MaxLines="1" FontSize="16" Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                 <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count}" VerticalAlignment="Center" Margin="4,0,0,0" HorizontalAlignment="Center" />
                                 <Button Grid.Row="1" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Click="Button_Click" />

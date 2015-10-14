@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
+using Windows.UI;
 using Windows.UI.Xaml;
 
 namespace com.aurora.aumusic
@@ -20,9 +21,8 @@ namespace com.aurora.aumusic
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
 
-        public async Task getAlbumList()
+        public async Task<bool> getAlbumList()
         {
-            int progress = 0;
             if (localSettings.Values.ContainsKey("AlbumsCount"))
             {
                 if (((int)localSettings.Values["AlbumsCount"]) != 0)
@@ -31,33 +31,32 @@ namespace com.aurora.aumusic
                                     {
                                         AlbumList = await RestoreAllfromStorage();
                                     });
-                    
+                    foreach (var item in AlbumList)
+                    {
+                        Albums.Add(item);
+                    }
+                    return true;
                 }
             }
-            else
+            return false;
+        }
+
+        public async Task<int> FirstCreate(int progress)
+        {
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
-                               {
-                                   AlbumList = await AllSongs.CreateAlbums();
-                               });
-                //await Task.Run(async () =>
-                //{
-                //    foreach (var item in AlbumList)
-                //    {
-                //        await item.GetPalette();
-                //    }
-                //});
-                foreach (var item in AlbumList)
-                {
-                    Albums.Add(item);
-                    SaveAlltoStorage(item, progress);
-                    progress++;
-                }
-                localSettings.Values["AlbumsCount"] = AlbumList.Count;
-            }
+                AlbumList = await AllSongs.CreateAlbums();
+            });
+            //await Task.Run(async () =>
+            //{
+            //    foreach (var item in AlbumList)
+            //    {
+            //        await item.GetPalette();
+            //    }
+            //});
 
-
-
+            localSettings.Values["AlbumsCount"] = AlbumList.Count;
+            return progress;
         }
 
         private async Task<List<AlbumItem>> RestoreAllfromStorage()
@@ -87,13 +86,17 @@ namespace com.aurora.aumusic
                         {
                             ApplicationDataContainer SubContainer =
             MainContainer.CreateContainer("Songs" + j, ApplicationDataCreateDisposition.Always);
-                            Song a = Song.RestoreSongfromStorage(SongsCount, AllList, SubContainer);
-                            tempSongs.Add(a);
-                            AllList.Remove(a.AudioFile);
+                            Song tempSong = Song.RestoreSongfromStorage(SongsCount, AllList, SubContainer);
+                            tempSongs.Add(tempSong);
+                            AllList.Remove(tempSong.AudioFile);
                         }
-                        AlbumItem b = new AlbumItem(tempSongs);
-                        await b.Initial();
-                        tempAlbums.Add(b);
+                        AlbumItem tempAlbum = new AlbumItem(tempSongs);
+                        await tempAlbum.Initial();
+                        string[] tempColor = ((string)MainContainer.Values["MainColor"]).Split(',');
+                        byte a = Byte.Parse(tempColor[0]), r = Byte.Parse(tempColor[1]), g = Byte.Parse(tempColor[2]), b = Byte.Parse(tempColor[3]);
+                        tempAlbum.Palette = Color.FromArgb(a, r, g, b);
+                        tempAlbum.Rating = (uint)MainContainer.Values["Rating"];
+                        tempAlbums.Add(tempAlbum);
                     }
                     return tempAlbums;
                 }
@@ -102,7 +105,7 @@ namespace com.aurora.aumusic
 
         }
 
-        private void SaveAlltoStorage(AlbumItem Album, int progress)
+        public void SaveAlltoStorage(AlbumItem Album, int progress)
         {
 
             ApplicationDataContainer MainContainer =
@@ -134,6 +137,8 @@ namespace com.aurora.aumusic
                 i++;
             }
             MainContainer.Values["SongsCount"] = Album.Songs.Count;
+            MainContainer.Values["MainColor"] = Album.Palette.A + "," + Album.Palette.R + "," + Album.Palette.G + "," + Album.Palette.B;
+            MainContainer.Values["Rating"] = Album.Rating;
         }
         private async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
         {

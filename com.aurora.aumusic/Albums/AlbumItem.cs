@@ -16,12 +16,25 @@ using Windows.UI;
 
 namespace com.aurora.aumusic
 {
-    public class AlbumItem
+    public class AlbumItem : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string AlbumName;
         public string AlbumArtWork;
         private uint _year = 0;
-        Color[] Palette = new Color[2];
+        private Color _palette = new Color();
+        public Color Palette
+        {
+            get
+            {
+                return _palette;
+            }
+            set
+            {
+                this._palette = value;
+                this.OnPropertyChanged();
+            }
+        }
         public uint Year
         {
             get
@@ -216,6 +229,11 @@ namespace com.aurora.aumusic
                 }
             }
 
+        }
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            // Raise the PropertyChanged event, passing the name of the property whose value has changed.
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }
