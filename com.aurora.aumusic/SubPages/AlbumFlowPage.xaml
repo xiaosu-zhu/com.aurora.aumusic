@@ -25,7 +25,7 @@
             
             <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
                 
-                <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" >
+                <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" PointerReleased="RelativePanel_PointerReleased_1" >
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
                         <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="{StaticResource Thickless}" />
                     </Viewbox>
@@ -53,7 +53,7 @@
         </ResourceDictionary>
 
     </Page.Resources>
-    <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}" >
+    <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}"  >
         <TextBlock Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" Margin="{StaticResource HeaderMargin}" />
         <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,44,20,0" >
             <TextBlock x:Name="MusicTextBlock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
@@ -82,7 +82,7 @@
 
         <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" RelativePanel.RightOf="MymusicSubGrid" Margin="20">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" >
+            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />

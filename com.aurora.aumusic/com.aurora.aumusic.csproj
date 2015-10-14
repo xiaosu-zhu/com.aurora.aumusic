@@ -108,6 +108,9 @@
     <Compile Include="PlayBack.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongsEnum.cs" />
+    <Compile Include="SubPages\AlbumDetails.xaml.cs">
+      <DependentUpon>AlbumDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="SubPages\AlbumDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubPages\DarkThemeDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -19,11 +19,11 @@ namespace com.aurora.aumusic
         MediaElement _pageParameters;
         AlbumEnum Albums = new AlbumEnum();
         public PlayBack playbackctrl;
+        AlbumItem SelectedAlbum;
         public AlbumFlowPage()
         {
             this.InitializeComponent();
             AlbumFlowResources.Source = Albums.Albums;
-
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -70,6 +70,16 @@ namespace com.aurora.aumusic
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
             playbackctrl = new PlayBack(album);
             await playbackctrl.Play(_pageParameters);
+        }
+
+        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            ((Frame)((AlbumFlowPage)((RelativePanel)((Grid)((ListView)sender).Parent).Parent).Parent).Parent).Navigate(typeof(AlbumDetails), SelectedAlbum);
+        }
+
+        private void RelativePanel_PointerReleased_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            SelectedAlbum = ((RelativePanel)sender).DataContext as AlbumItem;
         }
     }
 
