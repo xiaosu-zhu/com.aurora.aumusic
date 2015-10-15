@@ -16,7 +16,9 @@
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
                 <Grid>
-                    <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" >
+
+                    </TextBlock>
                 </Grid>
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
@@ -29,20 +31,16 @@
         </ResourceDictionary>
     </Page.Resources>
     <RelativePanel >
-        <Grid x:Name="AlbumDetailsHeader" Height="360" Width="auto" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="320" Stretch="Uniform">
-                <Image x:Name="AlbumArtWork" />
-            </Viewbox>
-        </Grid>
+        
         <ListView x:Name="AlbumDetailsScroller" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View}" ItemTemplate="{StaticResource AlbumSongsTemplate}"
-                  IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" SelectedIndex="-1" Padding="12,360,0,0">
+                  IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" SelectedIndex="-1">
             <ListView.Resources>
                 <Style x:Key="ListViewStyle1" TargetType="ListView">
                     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
                     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
                     <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
                     <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
-                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+                    <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
                     <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
                     <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
                     <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
@@ -68,7 +66,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListView">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
-                                    <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" ViewChanging="ScrollViewer_ViewChanging" ViewChanged="ScrollViewer_ViewChanged">
+                                    <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" PointerWheelChanged="ScrollViewer_PointerWheelChanged">
                                         <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
                                     </ScrollViewer>
                                 </Border>
@@ -80,7 +78,13 @@
             <ListView.Style>
                 <StaticResource ResourceKey="ListViewStyle1"/>
             </ListView.Style>
-            
+            <ListView.Header>
+                <Grid x:Name="AlbumDetailsHeader" Height="360" Width="auto" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="320" Stretch="Uniform">
+                        <Image x:Name="AlbumArtWork" />
+                    </Viewbox>
+                </Grid>
+            </ListView.Header>
         </ListView>
     </RelativePanel>
 </Page>

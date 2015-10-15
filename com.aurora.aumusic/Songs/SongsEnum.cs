@@ -19,73 +19,6 @@ namespace com.aurora.aumusic
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ObservableCollection<Song> Songs = new ObservableCollection<Song>();
         private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
-
-        public async Task RestoreSongsWithProgress()
-        {
-            if (localSettings.Values.ContainsKey("SongsCount"))
-            {
-                if (localSettings.Values.ContainsKey("FolderSettings"))
-                {
-                    ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
-                    if (composite != null)
-                    {
-                        int count = (int)composite["FolderCount"];
-                        int SongsCount = (int)localSettings.Values["SongsCount"];
-                        List<IStorageFile> AllList = new List<IStorageFile>();
-                        await Task.Run(async () =>
-                        {
-                            int step = 0;
-                            for (int i = 0; i < count; i++)
-                            {
-                                String tempPath = (String)composite["FolderSettings" + i.ToString()];
-                                StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-                                AllList.AddRange(await SearchAllinFolder(tempFolder));
-                            }
-                            for (int progress = 0; progress < SongsCount; progress++)
-                            {
-                                Song a = Song.RestoreSongfromStorage(progress, AllList);
-                                SongList.Add(a);
-                                AllList.Remove(a.AudioFile);
-                                if (((double)(progress - step)) / ((double)SongsCount) > 0.01)
-                                {
-                                    RefreshSongs(SongList);
-                                    step = progress;
-                                    Percent = (int)(((double)step / SongsCount) * 100);
-                                }
-                            }
-
-                        }
-                        );
-                    }
-                }
-
-                else
-                {
-                    await GetSongsWithProgress();
-                }
-            }
-        }
-        private async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
-        {
-            IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
-            List<IStorageFile> finalList = new List<IStorageFile>();
-            foreach (var item in tempList)
-            {
-                if (item is StorageFolder)
-                {
-                    finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
-                }
-                if (item is StorageFile)
-                {
-                    if (tempTypeStrings.Contains(((StorageFile)item).FileType))
-                    {
-                        finalList.Add((StorageFile)item);
-                    }
-                }
-            }
-            return finalList;
-        }
-
         public List<Song> SongList = new List<Song>();
         public List<string> SongsToken = new List<string>();
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -106,26 +39,6 @@ namespace com.aurora.aumusic
         {
             Percent = 0;
         }
-        private async Task<List<Song>> CreateSongListAsync()
-        {
-            List<Song> tempList = new List<Song>();
-            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
-            if (composite != null)
-            {
-
-                int count = (int)composite["FolderCount"];
-                for (int i = 0; i < count; i++)
-                {
-                    String TempPath = (String)composite["FolderSettings" + i.ToString()];
-                    tempList.AddRange(await Song.GetSongListfromPath(TempPath));
-                }
-                tempList.Sort((first, second) =>
-                    first.Album.CompareTo(second.Album));
-                return tempList;
-            }
-            return null;
-
-        }
 
         public void RefreshSongs(List<Song> songList)
         {
@@ -141,10 +54,6 @@ namespace com.aurora.aumusic
             }
         }
 
-        public async Task<List<Song>> RefreshList()
-        {
-            return await CreateSongListAsync();
-        }
 
         public async Task GetSongsWithProgress()
         {

@@ -62,7 +62,7 @@ namespace com.aurora.aumusic
         private void RelativePanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
-            sv.ChangeView(0, -48, 1);
+            sv.ChangeView(0, 0, 1);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
