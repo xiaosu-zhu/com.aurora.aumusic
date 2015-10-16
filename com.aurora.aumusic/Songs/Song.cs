@@ -322,7 +322,7 @@ namespace com.aurora.aumusic
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            if (!(p.Title.Contains("?")||p.Title == null||p.Album.Contains("?")))
+            if (!(p.Title.Contains("?")||p.Title == null||p.Album.Contains("?")||p.Album == ""||p.AlbumArtist==""||p.Artist==""))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;

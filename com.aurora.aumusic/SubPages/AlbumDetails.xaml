@@ -13,11 +13,11 @@
     </Page.Transitions>
     <Page.Resources>
         <ResourceDictionary>
+            <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
                 <Grid>
                     <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" >
-
                     </TextBlock>
                 </Grid>
             </DataTemplate>
@@ -31,8 +31,8 @@
         </ResourceDictionary>
     </Page.Resources>
     <RelativePanel >
-        
-        <ListView x:Name="AlbumDetailsScroller" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View}" ItemTemplate="{StaticResource AlbumSongsTemplate}"
+
+        <ListView x:Name="AlbumDetailsScroller" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
                   IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" SelectedIndex="-1">
             <ListView.Resources>
                 <Style x:Key="ListViewStyle1" TargetType="ListView">
@@ -66,7 +66,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListView">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
-                                    <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" PointerWheelChanged="ScrollViewer_PointerWheelChanged">
+                                    <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" PointerWheelChanged="ScrollViewer_PointerWheelChanged" Loaded="ScrollViewer_Loaded">
                                         <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
                                     </ScrollViewer>
                                 </Border>

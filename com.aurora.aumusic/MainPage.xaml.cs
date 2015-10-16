@@ -3,6 +3,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -15,6 +16,7 @@ namespace com.aurora.aumusic
     {
         private int ListViewCount = 0;
         private static int MEDIA_ENDED_FLAG = 0;
+        private static int MEDIA_PRESSED_FLAG = 0;
         public MainPage()
         {
             this.InitializeComponent();
@@ -80,12 +82,34 @@ namespace com.aurora.aumusic
                 await a.playbackctrl.PlayNext(this.PlaybackControl);
                 MEDIA_ENDED_FLAG = 0;
             }
+            MEDIA_PRESSED_FLAG = 0;
         }
 
-        private void SetMediaEnd(object sender, RoutedEventArgs e)
+        private async void SetMediaEnd(object sender, RoutedEventArgs e)
         {
-            MEDIA_ENDED_FLAG = 1;
+            if (MEDIA_PRESSED_FLAG == 0)
+            {
+                AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
+                await a.playbackctrl.PlayNext(this.PlaybackControl);
+            }
+            else
+            {
+                MEDIA_ENDED_FLAG = 1;
+            }
+
         }
 
+        private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            MEDIA_PRESSED_FLAG = 1;
+        }
+
+        private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
+            Song s = a.playbackctrl.NowPlaying();
+            BitmapImage b = new BitmapImage(new Uri(s.ArtWork));
+            PlayBackImage.Source = b;
+        }
     }
 }

@@ -123,6 +123,7 @@
     <Compile Include="SubPages\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\ListViewItemStyleSelector.cs" />
     <Compile Include="SubPages\NowPage.xaml.cs">
       <DependentUpon>NowPage.xaml</DependentUpon>
     </Compile>
@@ -212,6 +213,11 @@
     <Page Include="SubPages\SongsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SubPages\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

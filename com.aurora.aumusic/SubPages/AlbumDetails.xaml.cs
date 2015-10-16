@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -15,10 +16,11 @@ namespace com.aurora.aumusic
     {
         AlbumItem _pageParameters;
         private static double _verticalPosition = 0.0;
-        private static double _delta = 80;
+        private static double _delta;
         private static double HeaderHeight;
 
         public int MouseWheelCount { get; private set; }
+        public double MaxScrollHeight { get; private set; }
 
         public AlbumDetails()
         {
@@ -41,7 +43,7 @@ namespace com.aurora.aumusic
         private void ScrollViewer_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ScrollViewer s = sender as ScrollViewer;
-            if (s.ScrollableHeight > 0)
+            if (MaxScrollHeight > 0)
             {
                 PointerPoint p = e.GetCurrentPoint(s);
                 ItemsPresenter t = s.Content as ItemsPresenter;
@@ -50,15 +52,19 @@ namespace com.aurora.aumusic
                 {
                     _verticalPosition = 0;
                 }
-                if (_verticalPosition > s.ScrollableHeight)
+                if (_verticalPosition > MaxScrollHeight)
                 {
-                    _verticalPosition = s.ScrollableHeight;
+                    _verticalPosition = MaxScrollHeight;
                 }
-                AlbumDetailsHeader.Height = HeaderHeight - _verticalPosition >= 0 ? HeaderHeight - _verticalPosition : 0;
+                AlbumDetailsHeader.Height = HeaderHeight - 2*_verticalPosition >= 0 ? HeaderHeight - 2*_verticalPosition : 0;
                 s.ChangeView(0, _verticalPosition, 1);
             }
         }
 
-
+        private void ScrollViewer_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            MaxScrollHeight = ((ScrollViewer)sender).ScrollableHeight;
+            _delta = MaxScrollHeight / _pageParameters.Songs.Count;
+        }
     }
 }

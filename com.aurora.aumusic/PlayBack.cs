@@ -156,5 +156,10 @@ namespace com.aurora.aumusic
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
         }
 
+        public Song NowPlaying()
+        {
+            return Songs[NowIndex];
+        }
+
     }
 }
