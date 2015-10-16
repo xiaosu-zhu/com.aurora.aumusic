@@ -322,7 +322,7 @@ namespace com.aurora.aumusic
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            if (!(p.Title.Contains("?")||p.Title == null||p.Album.Contains("?")||p.Album == ""||p.AlbumArtist==""||p.Artist==""))
+            if (!(p.Title.Contains("?") || p.Title == null || p.Album.Contains("?") || p.Album == "" || p.AlbumArtist == "" || p.Artist == ""))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;
@@ -335,13 +335,13 @@ namespace com.aurora.aumusic
                 this.Album = tags.Album;
                 this.AlbumArtists = tags.AlbumArtists;
                 this.Artists = tags.Performers;
-                this.Year = tags.Year;
-                this.Genres = tags.Genres;
-                this.Disc = tags.Disc;
-                this.DiscCount = tags.DiscCount;
-                this.Track = tags.Track;
-                this.TrackCount = tags.TrackCount;
             }
+            this.Year = tags.Year;
+            this.Genres = tags.Genres;
+            this.Disc = tags.Disc;
+            this.DiscCount = tags.DiscCount;
+            this.Track = tags.Track;
+            this.TrackCount = tags.TrackCount;
             return tags;
         }
 
