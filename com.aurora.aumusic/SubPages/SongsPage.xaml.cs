@@ -12,7 +12,7 @@ namespace com.aurora.aumusic
             SongListReosurces.Source = Songs.Songs;
         }
 
-        private async void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             //await Songs.RestoreSongsWithProgress();
             WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;

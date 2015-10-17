@@ -91,7 +91,7 @@ namespace com.aurora.aumusic
                             AllList.Remove(tempSong.AudioFile);
                         }
                         AlbumItem tempAlbum = new AlbumItem(tempSongs);
-                        await tempAlbum.Initial();
+                        tempAlbum.Initial();
                         string[] tempColor = ((string)MainContainer.Values["MainColor"]).Split(',');
                         byte a = Byte.Parse(tempColor[0]), r = Byte.Parse(tempColor[1]), g = Byte.Parse(tempColor[2]), b = Byte.Parse(tempColor[3]);
                         tempAlbum.Palette = Color.FromArgb(a, r, g, b);

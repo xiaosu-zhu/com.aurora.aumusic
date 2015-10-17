@@ -8,8 +8,13 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <ResourceDictionary>
 
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <CollectionViewSource x:Name="SplitViewSources" />
             <Style x:Key="MediaTransportControlsStyle1" TargetType="MediaTransportControls">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -80,7 +85,7 @@
                                                             <VisualStateGroup x:Name="CommonStates">
                                                                 <VisualState x:Name="Normal">
                                                                     <Storyboard>
-                                                                        
+
                                                                         <DoubleAnimation Duration="0:0:0.2" To="24" Storyboard.TargetProperty="Width" EnableDependentAnimation="True" Storyboard.TargetName="HorizontalThumb">
                                                                             <DoubleAnimation.EasingFunction>
                                                                                 <CircleEase />
@@ -123,10 +128,10 @@
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
                                                                         </ObjectAnimationUsingKeyFrames>
 
-                                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="HorizontalThumb">
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="HorizontalThumb">
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
                                                                         </ObjectAnimationUsingKeyFrames>
-                                                                        
+
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="TopTickBar">
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                                                         </ObjectAnimationUsingKeyFrames>
@@ -148,14 +153,14 @@
                                                                                 <CircleEase />
                                                                             </ColorAnimation.EasingFunction>
                                                                         </ColorAnimation>
-                                                                        
+
                                                                         <ColorAnimation To="{ThemeResource SystemAccentColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Thumb.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
                                                                             <ColorAnimation.EasingFunction>
                                                                                 <CircleEase />
                                                                             </ColorAnimation.EasingFunction>
                                                                         </ColorAnimation>
 
-                                                                        
+
                                                                         <DoubleAnimation Duration="0:0:0.2" From="24" To="28" Storyboard.TargetProperty="Width" EnableDependentAnimation="True" Storyboard.TargetName="HorizontalThumb">
                                                                             <DoubleAnimation.EasingFunction>
                                                                                 <CircleEase />
@@ -205,7 +210,7 @@
                                                                 <TickBar x:Name="LeftTickBar" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
                                                                 <TickBar x:Name="VerticalInlineTickBar" Grid.Column="1" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderTrackThemeHeight}"/>
                                                                 <TickBar x:Name="RightTickBar" Grid.Column="2" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.RowSpan="3" Visibility="Collapsed" Width="{ThemeResource SliderOutsideTickBarThemeHeight}"/>
-                                                                
+
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
@@ -565,7 +570,126 @@
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="Template" Value="{StaticResource SplitViewTogglePaneButtonTemplate}" />
             </Style>
+            <DataTemplate x:Key="SplitListDataTemplate" x:DataType="local:Splitlist" >
+                <RelativePanel VerticalAlignment="Stretch">
+                    <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Stretch" Height="{ThemeResource ListViewItemMinHeight}" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <SymbolIcon x:Name="ListItemIcon" Symbol="{x:Bind IconSymbol}" Margin="12,0,0,0" VerticalAlignment="Center" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <TextBlock Text="{x:Bind Title}" RelativePanel.RightOf="ListItemIcon" RelativePanel.AlignVerticalCenterWithPanel="True"
+                                       Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18.667" />
+                </RelativePanel>
+            </DataTemplate>
+            <Style x:Key="ListViewStyle1" TargetType="ListView">
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="TabNavigation" Value="Once"/>
+                <Setter Property="IsSwipeEnabled" Value="True"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <ContentThemeTransition/>
+                            <ReorderThemeTransition/>
+                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListView">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                    <ItemsPresenter x:Name="ListItems" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ButtonStyle1" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="ButtonRec">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemTransparentBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemThemeMainBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="ButtonRec">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="ButtonRec" VerticalAlignment="Stretch" HorizontalAlignment="Left" Fill="{ThemeResource SystemThemeMainBrush}" Width="4" Visibility="Collapsed" />
+                                <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
+
     </Page.Resources>
 
     <RelativePanel >
@@ -579,8 +703,6 @@
                     <VisualState.Setters>
                         <Setter Target="Menudrawer.DisplayMode" Value="CompactInline" />
                         <Setter Target="Menudrawer.IsPaneOpen" Value="True" />
-                        <!--Setter Target="SearchBox.Visibility" Value="Visible" />
-                        <etter Target="SearchButton.Visibility" Value="Collapsed" /-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NormalStates">
@@ -588,8 +710,6 @@
                         <AdaptiveTrigger MinWindowWidth="721" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!--Setter Target="SearchBox.Visibility" Value="Visible" />
-                        <Setter Target="SearchButton.Visibility" Value="Collapsed" /-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NarrowStates">
@@ -599,8 +719,6 @@
                     <VisualState.Setters>
                         <Setter Target="Menudrawer.DisplayMode" Value="Overlay" />
                         <Setter Target="Menudrawer.OpenPaneLength" Value="256" />
-                        <!--Setter Target="SearchBox.Visibility" Value="Collapsed" />
-                        <Setter Target="SearchButton.Visibility" Value="Visible" /-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -617,52 +735,43 @@
         <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 44 打开宽度256 -->
         <SplitView Grid.Row="1" x:Name="Menudrawer" 
                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="{ThemeResource SystemControlBackgroundAccentBrush}" >
+                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumBrush}" >
 
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
                 <Grid>
-                    <Button x:Name="Menubtn" Margin="0,24,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
-                    <ListView  x:Name="MenuList" SelectionChanged="ListView_SelectionChanged" Margin="0,60,0,0" >
-                        <ListViewItem x:Name="AlbumFlow">
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="Bookmarks" />
-                                <TextBlock Text="AlbumFlow"
-                                       Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" />
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="Artist">
-                            <StackPanel Orientation="Horizontal" >
-                                <SymbolIcon Symbol="Contact" />
-                                <TextBlock Text="Artists"
-                                           Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" />
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem x:Name="Songs">
-                            <StackPanel Orientation="Horizontal" >
-                                <SymbolIcon Symbol="Rotate" />
-                                <TextBlock Text="All Songs"
-                                           Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" />
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem  x:Name="MusicList" >
-                            <StackPanel Orientation="Horizontal" >
-                                <SymbolIcon Symbol="Bookmarks" />
-                                <TextBlock Text="My List"
-                                           Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" />
-                            </StackPanel>
-                        </ListViewItem>
+                    <Button x:Name="Menubtn" Margin="0,32,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
+                    <ListView  x:Name="MenuList" Margin="0,68,0,0" ItemsSource="{x:Bind SplitViewSources.View}"
+                  ItemTemplate="{StaticResource SplitListDataTemplate}" Style="{StaticResource ListViewStyle1}" SelectionChanged="MenuList_SelectionChanged" >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                                <Setter Property="TabNavigation" Value="Local"/>
+                                <Setter Property="IsHoldingEnabled" Value="True"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+                                <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ListViewItemPresenter CheckBrush="Transparent" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPressedBackground="Transparent" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemThemeMainBrush}" SelectedPointerOverBackground="Transparent" SelectedBackground="Transparent" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button x:Name="SettingsButton" Height="44" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Margin="-116,0,0,0" VerticalAlignment="Center">
-                            <SymbolIcon Symbol="Setting" />
+                    <Button x:Name="SettingsButton" Height="44" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource ButtonStyle1}">
+                        <StackPanel Orientation="Horizontal" Margin="-116,0,0,0" VerticalAlignment="Center" d:IsHidden="True">
+                            <SymbolIcon Symbol="Setting" d:IsHidden="True" />
                             <TextBlock Text="Settings"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667"/>
+                                           VerticalAlignment="Center" FontSize="18.667" d:IsHidden="True"/>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -670,13 +779,12 @@
 
             <!-- 主视图Frame -->
             <RelativePanel Margin="0,0,0,0">
-                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,64" >
-                </Frame>
-                <RelativePanel Height="64" Background="WhiteSmoke" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8">
-                        <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,64" />
+                <RelativePanel Height="64" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" d:IsHidden="True">
+                        <Image x:Name="PlayBackImage" Source="Assets/unknown.png" d:IsHidden="True" />
                     </Viewbox>
-                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened">
+                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" d:IsHidden="True">
                         <MediaElement.TransportControls>
                             <MediaTransportControls x:Name="TransportSontrol" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
                         </MediaElement.TransportControls>

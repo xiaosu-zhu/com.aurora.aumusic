@@ -108,6 +108,7 @@
     <Compile Include="PlayBack.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongsEnum.cs" />
+    <Compile Include="SplitListView.cs" />
     <Compile Include="SubPages\AlbumDetails.xaml.cs">
       <DependentUpon>AlbumDetails.xaml</DependentUpon>
     </Compile>

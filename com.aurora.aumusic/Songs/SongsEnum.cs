@@ -103,7 +103,7 @@ namespace com.aurora.aumusic
                 {
                     tempAlbum.Songs.Add(item);
                 }
-                await tempAlbum.Initial();
+                tempAlbum.Initial();
                 tempAlbumList.Add(tempAlbum);
             }
             return tempAlbumList;

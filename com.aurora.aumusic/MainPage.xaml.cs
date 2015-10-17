@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Shapes;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -14,15 +15,20 @@ namespace com.aurora.aumusic
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private int ListViewCount = 0;
         private static int MEDIA_ENDED_FLAG = 0;
         private static int MEDIA_PRESSED_FLAG = 0;
+        SplitListView splitlistview;
+
+        private static int BUTTON_CLICKED = 0;
+
         public MainPage()
         {
             this.InitializeComponent();
             //设置汉堡按钮控制
             //默认打开MymusicPage
-            MainFrame.Navigate(typeof(SettingsPage));
+            splitlistview = new SplitListView();
+            SplitViewSources.Source = splitlistview;
+            //MainFrame.Navigate(typeof(SettingsPage));
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -31,44 +37,14 @@ namespace com.aurora.aumusic
             Menudrawer.IsPaneOpen = !Menudrawer.IsPaneOpen;
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
-            //菜单项目点击定义
-            int x = MenuList.SelectedIndex;
-            if (x != ListViewCount)
-            {
-                SettingsButton.IsEnabled = true;
-                switch (x)
-                {
-                    //页面跳转
-                    case 0:
-                        if (localSettings.Values.ContainsKey("FolderSettings"))
-                        {
-                            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
-                            if (composite != null)
-                            {
-                                MainFrame.Navigate(typeof(AlbumFlowPage), PlaybackControl); break;
-                            }
-                        }
-                        MainFrame.Navigate(typeof(SettingsPage)); break;
-                    case 1: MainFrame.Navigate(typeof(ArtistPage)); break;
-                    case 2: MainFrame.Navigate(typeof(SongsPage)); break;
-                    case 3: MainFrame.Navigate(typeof(ListPage)); break;
-
-                }
-                ListViewCount = x;
-                Menudrawer.IsPaneOpen = false;
-            }
-
-        }
-
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (BUTTON_CLICKED == 0)
             {
-                MainFrame.Navigate(typeof(SettingsPage));
+                BUTTON_CLICKED = 1;
+                this.MainFrame.Navigate(typeof(SettingsPage));
                 SettingsButton.IsEnabled = false;
+                MenuList.SelectedItem = null;
             }
         }
 
@@ -110,6 +86,39 @@ namespace com.aurora.aumusic
             Song s = a.playbackctrl.NowPlaying();
             BitmapImage b = new BitmapImage(new Uri(s.ArtWork));
             PlayBackImage.Source = b;
+        }
+
+        private void MenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView l = sender as ListView;
+            foreach (var item in splitlistview)
+            {
+                item.visibility = Visibility.Collapsed;
+            }
+            if (l.SelectedIndex != -1)
+            {
+                BUTTON_CLICKED = 0;
+                SettingsButton.IsEnabled = true;
+                Splitlist s = l.SelectedItem as Splitlist;
+                s.visibility = Visibility.Visible;
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                switch (s.Title)
+                {
+                    case "AlbumFlow":
+                        if (localSettings.Values.ContainsKey("FolderSettings"))
+                        {
+                            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                            if (composite != null)
+                            {
+                                MainFrame.Navigate(typeof(AlbumFlowPage), PlaybackControl); break;
+                            }
+                        }
+                        MainFrame.Navigate(typeof(SettingsPage)); break;
+                    case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
+                    case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
+                    case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
+                }
+            }
         }
     }
 }

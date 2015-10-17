@@ -16,6 +16,7 @@ namespace com.aurora.aumusic
     {
         AlbumItem _pageParameters;
         private static double _verticalPosition = 0.0;
+        private static int _verticalstep = 0;
         private static double _delta;
         private static double HeaderHeight;
 
@@ -34,6 +35,7 @@ namespace com.aurora.aumusic
             _pageParameters = e.Parameter as AlbumItem;
             SolidColorBrush AlbumBrush = new SolidColorBrush(_pageParameters.Palette);
             AlbumDetailsHeader.Background = AlbumBrush;
+            TitleBarRec.Fill = AlbumBrush;
             BitmapImage bmp = new BitmapImage(new Uri(_pageParameters.AlbumArtWork));
             AlbumArtWork.Source = bmp;
             AlbumSongsResources.Source = _pageParameters.Songs;
@@ -47,17 +49,31 @@ namespace com.aurora.aumusic
             {
                 PointerPoint p = e.GetCurrentPoint(s);
                 ItemsPresenter t = s.Content as ItemsPresenter;
-                _verticalPosition -= (p.Properties.MouseWheelDelta / 120) * _delta;
-                if (_verticalPosition < 0)
+                _verticalstep -= p.Properties.MouseWheelDelta;
+                if (_verticalstep / 120 > 1.5)
                 {
-                    _verticalPosition = 0;
+                    _verticalstep -= 180;
+                    _verticalPosition += 1.5 * _delta;
+                    if (_verticalPosition > MaxScrollHeight)
+                    {
+                        _verticalPosition = MaxScrollHeight;
+                        _verticalstep = 0;
+                    }
+                    AlbumDetailsHeader.Height = HeaderHeight - 2 * _verticalPosition >= 0 ? HeaderHeight - 2 * _verticalPosition : 0;
+                    s.ChangeView(0, _verticalPosition, 1);
                 }
-                if (_verticalPosition > MaxScrollHeight)
+                if (_verticalstep / 120 < -1.5)
                 {
-                    _verticalPosition = MaxScrollHeight;
+                    _verticalstep += 180;
+                    _verticalPosition -= 1.5 * _delta;
+                    if (_verticalPosition < 0)
+                    {
+                        _verticalPosition = 0;
+                        _verticalstep = 0;
+                    }
+                    AlbumDetailsHeader.Height = HeaderHeight - 2 * _verticalPosition >= 0 ? HeaderHeight - 2 * _verticalPosition : 0;
+                    s.ChangeView(0, _verticalPosition, 1);
                 }
-                AlbumDetailsHeader.Height = HeaderHeight - 2*_verticalPosition >= 0 ? HeaderHeight - 2*_verticalPosition : 0;
-                s.ChangeView(0, _verticalPosition, 1);
             }
         }
 

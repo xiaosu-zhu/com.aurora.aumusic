@@ -31,8 +31,8 @@
         </ResourceDictionary>
     </Page.Resources>
     <RelativePanel >
-
-        <ListView x:Name="AlbumDetailsScroller" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+        <Rectangle x:Name="TitleBarRec" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="32" />
+        <ListView x:Name="AlbumDetailsScroller" RelativePanel.Below="TitleBarRec" ItemsSource="{x:Bind AlbumSongsResources.View}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
                   IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" SelectedIndex="-1">
             <ListView.Resources>
                 <Style x:Key="ListViewStyle1" TargetType="ListView">

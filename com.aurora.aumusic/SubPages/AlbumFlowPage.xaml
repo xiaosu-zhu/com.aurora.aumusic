@@ -54,8 +54,9 @@
 
     </Page.Resources>
     <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}"  >
-        <TextBlock Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" Margin="{StaticResource HeaderMargin}" />
-        <RelativePanel x:Name="MymusicSubPanel" Width="auto"  RelativePanel.AlignTopWithPanel="True"  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="20,44,20,0" >
+        <Rectangle x:Name="TitleRec" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="32" Fill="{ThemeResource SystemBackgroundAltHighBrush}" />
+        <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" Margin="{StaticResource HeaderMargin}" RelativePanel.Below="TitleRec" />
+        <RelativePanel x:Name="MymusicSubPanel" Width="auto" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="TitleBlock" Margin="8,4,8,0" >
             <TextBlock x:Name="MusicTextBlock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
             <ComboBox RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
                 <x:String>按专辑</x:String>

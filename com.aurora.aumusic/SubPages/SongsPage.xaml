@@ -16,7 +16,6 @@
 
     <Page.Resources>
         <CollectionViewSource x:Name="SongListReosurces" />
-
         <DataTemplate x:Name="SongListTemplate" x:DataType="local:Song" >
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -46,17 +45,6 @@
                   ItemTemplate="{StaticResource SongListTemplate}"
                   SelectionMode="Single"
                   ShowsScrollingPlaceholders="True" SelectionChanged="SongList_SelectionChanged">
-            <!--
-            <ListView.GroupStyle>
-                <GroupStyle >
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="local:AlbumItem">
-                            <TextBlock Text="{x:Bind AlbumName}" 
-                                       Style="{ThemeResource TitleTextBlockStyle}"/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>-->
         </ListView>
         <Button x:Name="hehButton" Click="hehButton_Click" Content="cun" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="-40,0,0,0"/>
         <Button x:Name="hahButton" Click="hahButton_Click" Content="qu" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="40,0,0,0" />

@@ -156,7 +156,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        public async Task Initial()
+        public void Initial()
         {
             if (Songs.Count != 0)
             {
