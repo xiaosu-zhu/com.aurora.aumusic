@@ -40,20 +40,19 @@ namespace com.aurora.aumusic
             ApplicationViewTitleBar titleBar = view.TitleBar;
             if (titleBar != null)
             {
-                titleBar.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
-                titleBar.ForegroundColor = Colors.White;
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
+               titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
                 titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
-                titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 0, 0, 0);
+                titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(255, 255, 255, 255);
+                titleBar.InactiveBackgroundColor = Color.FromArgb(255, 255, 255, 255);
             }
-            Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+           // Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
 
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                this.DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
 

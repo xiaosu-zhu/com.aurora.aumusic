@@ -740,8 +740,8 @@
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
                 <Grid>
-                    <Button x:Name="Menubtn" Margin="0,32,0,0" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
-                    <ListView  x:Name="MenuList" Margin="0,68,0,0" ItemsSource="{x:Bind SplitViewSources.View}"
+                    <Button x:Name="Menubtn" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
+                    <ListView  x:Name="MenuList" Margin="0,36,0,0" ItemsSource="{x:Bind SplitViewSources.View}"
                   ItemTemplate="{StaticResource SplitListDataTemplate}" Style="{StaticResource ListViewStyle1}" SelectionChanged="MenuList_SelectionChanged" >
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -771,20 +771,20 @@
                             <SymbolIcon Symbol="Setting" d:IsHidden="True" />
                             <TextBlock Text="Settings"
                                            Margin="24,0,0,0"
-                                           VerticalAlignment="Center" FontSize="18.667" d:IsHidden="True"/>
+                                           VerticalAlignment="Center" FontSize="18.667"/>
                         </StackPanel>
                     </Button>
                 </Grid>
             </SplitView.Pane>
 
             <!-- 主视图Frame -->
-            <RelativePanel Margin="0,0,0,0">
+            <RelativePanel>
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,64" />
                 <RelativePanel Height="64" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" d:IsHidden="True">
-                        <Image x:Name="PlayBackImage" Source="Assets/unknown.png" d:IsHidden="True" />
+                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8">
+                        <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                     </Viewbox>
-                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" d:IsHidden="True">
+                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened">
                         <MediaElement.TransportControls>
                             <MediaTransportControls x:Name="TransportSontrol" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
                         </MediaElement.TransportControls>

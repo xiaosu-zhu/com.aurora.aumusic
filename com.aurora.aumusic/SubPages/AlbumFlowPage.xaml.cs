@@ -11,6 +11,7 @@ using System;
 using Windows.Foundation;
 using System.Collections.Generic;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 
 namespace com.aurora.aumusic
 {
@@ -24,6 +25,14 @@ namespace com.aurora.aumusic
         {
             this.InitializeComponent();
             AlbumFlowResources.Source = Albums.Albums;
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            if (titleBar != null)
+            {
+                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+               
+            }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -47,7 +56,7 @@ namespace com.aurora.aumusic
                     progress++;
                 }
             }
-            
+
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
             BitmapHelper p = new BitmapHelper();

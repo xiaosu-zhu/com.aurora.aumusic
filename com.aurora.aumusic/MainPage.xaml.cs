@@ -18,7 +18,6 @@ namespace com.aurora.aumusic
         private static int MEDIA_ENDED_FLAG = 0;
         private static int MEDIA_PRESSED_FLAG = 0;
         SplitListView splitlistview;
-
         private static int BUTTON_CLICKED = 0;
 
         public MainPage()
