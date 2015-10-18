@@ -95,6 +95,7 @@ namespace com.aurora.aumusic
                         string[] tempColor = ((string)MainContainer.Values["MainColor"]).Split(',');
                         byte a = Byte.Parse(tempColor[0]), r = Byte.Parse(tempColor[1]), g = Byte.Parse(tempColor[2]), b = Byte.Parse(tempColor[3]);
                         tempAlbum.Palette = Color.FromArgb(a, r, g, b);
+                        tempAlbum.GenerateTextColor();
                         tempAlbum.Rating = (uint)MainContainer.Values["Rating"];
                         tempAlbums.Add(tempAlbum);
                     }

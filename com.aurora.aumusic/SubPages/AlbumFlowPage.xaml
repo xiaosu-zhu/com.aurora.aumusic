@@ -22,9 +22,9 @@
                 <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
-            
+
             <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
-                
+
                 <RelativePanel PointerEntered="RelativePanel_PointerEntered" RequestedTheme="Light" PointerExited="RelativePanel_PointerExited" PointerReleased="RelativePanel_PointerReleased_1" >
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
                         <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="{StaticResource Thickless}" />
@@ -40,9 +40,21 @@
                                     <RowDefinition Height="44" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName}" Margin="4,4,0,0" VerticalAlignment="Top"/>
-                                <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind Artists[0]}" Style="{ThemeResource BaseTextBlockStyle}" MaxWidth="24" MaxLines="1" FontSize="16" Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                                <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count}" VerticalAlignment="Center" Margin="4,0,0,0" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName}" MaxLines="2" Margin="4,4,0,0" VerticalAlignment="Top">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{x:Bind TextMainColor}" />
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind Artists[0]}" Style="{ThemeResource BaseTextBlockStyle}" MaxWidth="24" MaxLines="1" FontSize="16" Margin="0,0,24,0" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{x:Bind TextSubColor}" />
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count}" VerticalAlignment="Center" Margin="4,0,0,0" HorizontalAlignment="Center" >
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{x:Bind TextSubColor}" />
+                                    </TextBlock.Foreground>
+                                </TextBlock>
                                 <Button Grid.Row="1" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Click="Button_Click" />
                             </Grid>
                         </StackPanel>
@@ -50,20 +62,62 @@
                 </RelativePanel>
             </DataTemplate>
             <CollectionViewSource x:Name="AlbumFlowResources" />
+            <Style x:Key="ListViewStyle1" TargetType="ListView">
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="TabNavigation" Value="Once"/>
+                <Setter Property="IsSwipeEnabled" Value="True"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+                <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+                <Setter Property="ItemContainerTransitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <AddDeleteThemeTransition/>
+                            <ContentThemeTransition/>
+                            <ReorderThemeTransition/>
+                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListView">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                        <ItemsPresenter Margin="0,40,0,0" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
 
     </Page.Resources>
     <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}"  >
-        <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" Margin="{StaticResource HeaderMargin}" RelativePanel.AlignTopWithPanel="True" />
-        <RelativePanel x:Name="MymusicSubPanel" Width="auto" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="TitleBlock" Margin="8,4,8,0" >
-            <TextBlock x:Name="MusicTextBlock" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Text="选择排列方式：" RelativePanel.AlignVerticalCenterWithPanel="True" />
-            <ComboBox RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignVerticalCenterWithPanel="True" x:Name="MusicArrangeList" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
+        <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
+            <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
+            <TextBlock x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" Text="排序方式：" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
+            <ComboBox x:Name="MusicArrangeList" RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignBottomWithPanel="True" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
                 <x:String>按专辑</x:String>
                 <x:String>按表演者</x:String>
                 <x:String>按名称</x:String>
                 <x:String>按歌曲类型</x:String>
             </ComboBox>
-            <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.RightOf="MusicArrangeList" RelativePanel.AlignBottomWithPanel="True"/>
 
         </RelativePanel>
 
@@ -80,13 +134,13 @@
             </StackPanel>
         </Grid>
 
-        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" RelativePanel.RightOf="MymusicSubGrid" Margin="20">
+        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" >
+            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" Style="{StaticResource ListViewStyle1}" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
-                        <Setter Property="Margin" Value="12,4,12,4" />
+                        <Setter Property="Margin" Value="8,4,8,4" />
                         <Setter Property="Padding" Value="0" />
                     </Style>
                 </ListView.ItemContainerStyle>

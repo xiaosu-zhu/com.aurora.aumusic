@@ -12,6 +12,7 @@ using Windows.Foundation;
 using System.Collections.Generic;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.Core;
 
 namespace com.aurora.aumusic
 {
@@ -40,6 +41,7 @@ namespace com.aurora.aumusic
             //into PageWithParametersConfiguration.
             //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
             _pageParameters = e.Parameter as MediaElement;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
@@ -96,8 +98,6 @@ namespace com.aurora.aumusic
 
     public sealed class AlbumFlowPanel : Panel
     {
-
-
         protected override Size MeasureOverride(Size availableSize)
         {
             //横向瀑布流

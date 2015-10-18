@@ -564,7 +564,7 @@
                 <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
                 <Setter Property="Content" Value="&#xE700;" />
                 <Setter Property="Height" Value="36" />
-                <Setter Property="Width" Value="44" />
+                <Setter Property="Width" Value="48" />
 
                 <Setter Property="FontWeight" Value="Normal" />
                 <Setter Property="FontSize" Value="20" />
@@ -572,8 +572,10 @@
             </Style>
             <DataTemplate x:Key="SplitListDataTemplate" x:DataType="local:Splitlist" >
                 <RelativePanel VerticalAlignment="Stretch">
-                    <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Stretch" Height="{ThemeResource ListViewItemMinHeight}" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                    <SymbolIcon x:Name="ListItemIcon" Symbol="{x:Bind IconSymbol}" Margin="12,0,0,0" VerticalAlignment="Center" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" Height="48" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <Grid x:Name="ListItemIcon" Width="48" Height="48" RelativePanel.AlignLeftWithPanel="True">
+                        <SymbolIcon Symbol="{x:Bind IconSymbol}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
                     <TextBlock Text="{x:Bind Title}" RelativePanel.RightOf="ListItemIcon" RelativePanel.AlignVerticalCenterWithPanel="True"
                                        Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18.667" />
                 </RelativePanel>
@@ -735,7 +737,7 @@
         <!-- 第二行为SplitView 默认显示方式为compactoverlay 关闭宽度 44 打开宽度256 -->
         <SplitView Grid.Row="1" x:Name="Menudrawer" 
                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="44" DisplayMode="CompactOverlay" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumBrush}" >
+                   IsPaneOpen="False" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="CompactOverlay" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumBrush}" >
 
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
@@ -766,9 +768,11 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button x:Name="SettingsButton" Height="44" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource ButtonStyle1}">
-                        <StackPanel Orientation="Horizontal" Margin="-116,0,0,0" VerticalAlignment="Center" d:IsHidden="True">
-                            <SymbolIcon Symbol="Setting" d:IsHidden="True" />
+                    <Button x:Name="SettingsButton" Height="48" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Style="{StaticResource ButtonStyle1}">
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="48" Height="48">
+                                <SymbolIcon Symbol="Setting" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
                             <TextBlock Text="Settings"
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667"/>

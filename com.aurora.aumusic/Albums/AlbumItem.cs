@@ -35,6 +35,32 @@ namespace com.aurora.aumusic
                 this.OnPropertyChanged();
             }
         }
+        private Color _textmaincolor = Color.FromArgb(255, 0, 0, 0);
+        public Color TextMainColor
+        {
+            get
+            {
+                return _textmaincolor;
+            }
+            set
+            {
+                _textmaincolor = value;
+                this.OnPropertyChanged();
+            }
+        }
+        private Color _textsubcolor = Color.FromArgb(255, 63, 63, 63);
+        public Color TextSubColor
+        {
+            get
+            {
+                return _textsubcolor;
+            }
+            set
+            {
+                _textsubcolor = value;
+                this.OnPropertyChanged();
+            }
+        }
         public uint Year
         {
             get
@@ -145,6 +171,15 @@ namespace com.aurora.aumusic
             }
         }
 
+        public void GenerateTextColor()
+        {
+            if ((Palette.B + Palette.B + Palette.R) < 381)
+            {
+                TextMainColor = Color.FromArgb(255, 255, 255, 255);
+                TextSubColor = Color.FromArgb(255, 190, 190, 190);
+            }
+        }
+
         public void getYear()
         {
             if (Songs.Count != 0)
@@ -174,6 +209,11 @@ namespace com.aurora.aumusic
             Uri urisource = new Uri(AlbumArtWork);
             BitmapHelper p = new BitmapHelper();
             Palette = await p.New(urisource);
+            if ((Palette.B + Palette.B + Palette.R) < 381)
+            {
+                TextMainColor = Color.FromArgb(255, 255, 255, 255);
+                TextSubColor = Color.FromArgb(255, 190, 190, 190);
+            }
         }
 
         private void Sort()
