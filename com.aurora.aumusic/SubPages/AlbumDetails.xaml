@@ -16,10 +16,25 @@
             <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
-                <Grid>
-                    <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" >
-                    </TextBlock>
-                </Grid>
+                <RelativePanel HorizontalAlignment="Stretch">
+                    <Grid Height="36" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="36" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SongTrack" Grid.Column="0" Text="{x:Bind Track}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock x:Name="SongTitle" Grid.Column="1" Text="{x:Bind Title}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </Grid>
+                    <Grid Width="256" x:Name="SubGrid" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="36">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="96" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="Artists" Grid.Column="0" Text="{x:Bind Artists[0]}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                        <TextBlock x:Name="Duration" Grid.Column="1" Text="{x:Bind Duration}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                    <Button RelativePanel.LeftOf="SubGrid" Height="36" Width="36" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" Margin="0,0,12,0" Click="Button_Click" />
+                </RelativePanel>
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="KeyDictionary.xaml"/>

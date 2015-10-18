@@ -173,7 +173,7 @@ namespace com.aurora.aumusic
 
         public void GenerateTextColor()
         {
-            if ((Palette.B + Palette.B + Palette.R) < 381)
+            if ((Palette.R * 0.299 + Palette.G * 0.587 + Palette.B * 0.114) < 85)
             {
                 TextMainColor = Color.FromArgb(255, 255, 255, 255);
                 TextSubColor = Color.FromArgb(255, 190, 190, 190);
@@ -209,11 +209,7 @@ namespace com.aurora.aumusic
             Uri urisource = new Uri(AlbumArtWork);
             BitmapHelper p = new BitmapHelper();
             Palette = await p.New(urisource);
-            if ((Palette.B + Palette.B + Palette.R) < 381)
-            {
-                TextMainColor = Color.FromArgb(255, 255, 255, 255);
-                TextSubColor = Color.FromArgb(255, 190, 190, 190);
-            }
+            this.GenerateTextColor();
         }
 
         private void Sort()

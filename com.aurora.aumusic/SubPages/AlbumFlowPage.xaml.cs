@@ -18,9 +18,8 @@ namespace com.aurora.aumusic
 {
     public sealed partial class AlbumFlowPage : Page
     {
-        MediaElement _pageParameters;
+        PlaybackPack _pageParameters;
         AlbumEnum Albums = new AlbumEnum();
-        public PlayBack playbackctrl;
         AlbumItem SelectedAlbum;
         public AlbumFlowPage()
         {
@@ -40,7 +39,7 @@ namespace com.aurora.aumusic
             //We are going to cast the property Parameter of NavigationEventArgs object
             //into PageWithParametersConfiguration.
             //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
-            _pageParameters = e.Parameter as MediaElement;
+            _pageParameters = e.Parameter as PlaybackPack;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
@@ -79,13 +78,18 @@ namespace com.aurora.aumusic
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
-            playbackctrl = new PlayBack(album);
-            await playbackctrl.Play(_pageParameters);
+            this._pageParameters.PlaybackControl = new PlayBack(album);
+            await this._pageParameters.PlaybackControl.Play(_pageParameters.Media);
         }
 
         private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ((Frame)((AlbumFlowPage)((RelativePanel)((Grid)((ListView)sender).Parent).Parent).Parent).Parent).Navigate(typeof(AlbumDetails), SelectedAlbum);
+            PlaybackPack p = new PlaybackPack();
+            p.Album = SelectedAlbum;
+            p.Media = this._pageParameters.Media;
+            p.PlaybackControl = this._pageParameters.PlaybackControl;
+            p.States = PLAYBACK_STATES.SingleAlbum;
+            ((Frame)((AlbumFlowPage)((RelativePanel)((Grid)((ListView)sender).Parent).Parent).Parent).Parent).Navigate(typeof(AlbumDetails), p);
         }
 
         private void RelativePanel_PointerReleased_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

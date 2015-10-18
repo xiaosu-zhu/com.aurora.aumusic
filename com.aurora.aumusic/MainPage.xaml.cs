@@ -19,6 +19,8 @@ namespace com.aurora.aumusic
         private static int MEDIA_PRESSED_FLAG = 0;
         SplitListView splitlistview;
         private static int BUTTON_CLICKED = 0;
+        PlaybackPack playbackPack = new PlaybackPack();
+        PlayBack playBack = new PlayBack();
 
         public MainPage()
         {
@@ -54,7 +56,7 @@ namespace com.aurora.aumusic
             if (MEDIA_ENDED_FLAG == 1)
             {
                 AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-                await a.playbackctrl.PlayNext(this.PlaybackControl);
+                await playBack.PlayNext(this.PlaybackControl);
                 MEDIA_ENDED_FLAG = 0;
             }
             MEDIA_PRESSED_FLAG = 0;
@@ -65,7 +67,7 @@ namespace com.aurora.aumusic
             if (MEDIA_PRESSED_FLAG == 0)
             {
                 AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-                await a.playbackctrl.PlayNext(this.PlaybackControl);
+                await playBack.PlayNext(this.PlaybackControl);
             }
             else
             {
@@ -81,9 +83,8 @@ namespace com.aurora.aumusic
 
         private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
         {
-            AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-            Song s = a.playbackctrl.NowPlaying();
-            BitmapImage b = new BitmapImage(new Uri(s.ArtWork));
+            Song s = playBack.NowPlaying();
+            BitmapImage b = s != null ? new BitmapImage(new Uri(s.ArtWork)) : new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
             PlayBackImage.Source = b;
         }
 
@@ -109,7 +110,10 @@ namespace com.aurora.aumusic
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                             if (composite != null)
                             {
-                                MainFrame.Navigate(typeof(AlbumFlowPage), PlaybackControl); break;
+                                playbackPack.Media = PlaybackControl;
+                                playbackPack.PlaybackControl = playBack;
+                                playbackPack.States = PLAYBACK_STATES.Null;
+                                MainFrame.Navigate(typeof(AlbumFlowPage), playbackPack); break;
                             }
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); break;

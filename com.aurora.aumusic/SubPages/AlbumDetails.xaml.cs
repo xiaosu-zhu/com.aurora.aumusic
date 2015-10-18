@@ -17,7 +17,7 @@ namespace com.aurora.aumusic
 {
     public sealed partial class AlbumDetails : Page
     {
-        AlbumItem _pageParameters;
+        PlaybackPack _pageParameters;
         private static double _verticalPosition = 0.0;
         private static double _delta;
         private static double HeaderHeight;
@@ -53,16 +53,16 @@ namespace com.aurora.aumusic
             //We are going to cast the property Parameter of NavigationEventArgs object
             //into PageWithParametersConfiguration.
             //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
-            _pageParameters = e.Parameter as AlbumItem;
-            SolidColorBrush AlbumBrush = new SolidColorBrush(_pageParameters.Palette);
+            _pageParameters = e.Parameter as PlaybackPack;
+            SolidColorBrush AlbumBrush = new SolidColorBrush(_pageParameters.Album.Palette);
             AlbumDetailsHeader.Background = AlbumBrush;
             var view = ApplicationView.GetForCurrentView();
             ApplicationViewTitleBar titleBar = view.TitleBar;
-            titleBar.BackgroundColor = _pageParameters.Palette;
-            titleBar.ButtonBackgroundColor = _pageParameters.Palette;
-            BitmapImage bmp = new BitmapImage(new Uri(_pageParameters.AlbumArtWork));
+            titleBar.BackgroundColor = _pageParameters.Album.Palette;
+            titleBar.ButtonBackgroundColor = _pageParameters.Album.Palette;
+            BitmapImage bmp = new BitmapImage(new Uri(_pageParameters.Album.AlbumArtWork));
             AlbumArtWork.Source = bmp;
-            AlbumSongsResources.Source = _pageParameters.Songs;
+            AlbumSongsResources.Source = _pageParameters.Album.Songs;
             HeaderHeight = AlbumDetailsHeader.Height;
 
         }
@@ -87,11 +87,20 @@ namespace com.aurora.aumusic
         {
             s = sender as ScrollViewer;
             MaxScrollHeight = s.ScrollableHeight;
-            _delta = MaxScrollHeight / (_pageParameters.Songs.Count * 120);
+            _delta = MaxScrollHeight / (_pageParameters.Album.Songs.Count * 120);
             if (MaxScrollHeight == 0)
             {
                 s.PointerWheelChanged -= ScrollViewer_PointerWheelChanged;
             }
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Song s = ((Button)sender).DataContext as Song;
+            List<Song> tempSongList = new List<Song>();
+            int index = _pageParameters.Album.Songs.IndexOf(s);
+            tempSongList = _pageParameters.Album.Songs.GetRange(index, _pageParameters.Album.Songs.Count - index);
+            await _pageParameters.PlaybackControl.Play(tempSongList, _pageParameters.Media);
         }
     }
 }

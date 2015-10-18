@@ -32,6 +32,14 @@ namespace com.aurora.aumusic
                 backGroundSetter.Value = Color.FromArgb(255, 255, 255, 255);
             }
             st.Setters.Add(backGroundSetter);
+            Setter paddingSetter = new Setter();
+            paddingSetter.Property = ListViewItem.PaddingProperty;
+            paddingSetter.Value = 0;
+            st.Setters.Add(paddingSetter);
+            Setter alignSetter = new Setter();
+            alignSetter.Property = ListViewItem.HorizontalContentAlignmentProperty;
+            alignSetter.Value = "Stretch";
+            st.Setters.Add(alignSetter);
             return st;
         }
     }

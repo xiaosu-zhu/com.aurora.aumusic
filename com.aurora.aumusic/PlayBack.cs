@@ -28,6 +28,10 @@ namespace com.aurora.aumusic
                 Songs.AddRange(item.Songs);
             }
         }
+
+        public PlayBack()
+        {
+        }
         #endregion
         #region
         /// <summary>
@@ -87,17 +91,21 @@ namespace com.aurora.aumusic
         {
             if (Songs != null && Songs.Count != 0)
             {
-                if (!Songs.Contains(a))
+                if (Songs.Contains(a))
+                {
+                    NowIndex = Songs.IndexOf(a);
+                }
+                else
                 {
                     Songs.Add(a);
-                    NowIndex = 0;
+                    NowIndex = Songs.IndexOf(a);
                 }
             }
             else
             {
                 Songs = new List<Song>();
                 Songs.Add(a);
-                NowIndex = Songs.IndexOf(a);
+                NowIndex = 0;
             }
             var stream = await a.AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, a.AudioFile.ContentType);
@@ -127,6 +135,13 @@ namespace com.aurora.aumusic
             {
                 throw new ArgumentNullException();
             }
+        }
+        public async Task Play(List<Song> Songs, MediaElement m)
+        {
+            this.Songs = Songs;
+            NowIndex = 0;
+            var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
         }
         #endregion
         public async Task PlayNext(MediaElement m)
@@ -158,7 +173,14 @@ namespace com.aurora.aumusic
 
         public Song NowPlaying()
         {
-            return Songs[NowIndex];
+            if (Songs != null && Songs.Count != 0)
+            {
+                return Songs[NowIndex];
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

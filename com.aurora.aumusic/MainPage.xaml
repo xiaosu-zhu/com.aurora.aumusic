@@ -434,33 +434,21 @@
                                         </Border>
                                         <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2">
                                             <CommandBar x:Name="MediaControlsCommandBar" Margin="0,0,0,24" Style="{StaticResource CommandBarStyle}">
-                                                <AppBarButton x:Name="StopButton" MediaTransportControlsHelper.DropoutOrder="1" Icon="Stop" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed"/>
+                                                <AppBarButton x:Name="StopButton" MediaTransportControlsHelper.DropoutOrder="1" Icon="Stop" Style="{StaticResource AppBarButtonStyle}" Visibility="Visible"/>
                                                 <AppBarButton x:Name="RewindButton" MediaTransportControlsHelper.DropoutOrder="2" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
                                                     <AppBarButton.Icon>
                                                         <FontIcon Glyph="&#xEB9E;"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="CastButton" MediaTransportControlsHelper.DropoutOrder="7" Style="{StaticResource AppBarButtonStyle}">
-                                                    <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xEC15;"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
-                                                <AppBarButton x:Name="ZoomButton" MediaTransportControlsHelper.DropoutOrder="6" Style="{StaticResource AppBarButtonStyle}">
-                                                    <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xE799;"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
+                                                
+                                                
                                                 <AppBarButton x:Name="AudioTracksSelectionButton" MediaTransportControlsHelper.DropoutOrder="5" Icon="Character" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed"/>
                                                 <AppBarButton x:Name="PlayPauseButton" MediaTransportControlsHelper.DropoutOrder="11" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="PlayPauseSymbol" Symbol="Play"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="CCSelectionButton" MediaTransportControlsHelper.DropoutOrder="9" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
-                                                    <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xE7F0;"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
+                                                
                                                 <AppBarButton x:Name="VolumeMuteButton" MediaTransportControlsHelper.DropoutOrder="10" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Flyout>
                                                         <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
@@ -479,14 +467,9 @@
                                                         <SymbolIcon x:Name="VolumeMuteSymbol" Symbol="Volume"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="FastForwardButton" MediaTransportControlsHelper.DropoutOrder="3" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
+                                                <AppBarButton x:Name="FastForwardButton" MediaTransportControlsHelper.DropoutOrder="3" Style="{StaticResource AppBarButtonStyle}" Visibility="Visible">
                                                     <AppBarButton.Icon>
                                                         <FontIcon Glyph="&#xEB9D;"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
-                                                <AppBarButton x:Name="PlaybackRateButton" MediaTransportControlsHelper.DropoutOrder="4" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
-                                                    <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xEC57;"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
                                                 <AppBarButton x:Name="DetailsButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyle}">

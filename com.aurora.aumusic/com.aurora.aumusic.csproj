@@ -106,6 +106,7 @@
     <Compile Include="FolderSettings\FolderItem.cs" />
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
     <Compile Include="PlayBack.cs" />
+    <Compile Include="PlaybackPack.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongsEnum.cs" />
     <Compile Include="SplitListView.cs" />
