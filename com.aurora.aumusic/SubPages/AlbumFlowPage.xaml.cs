@@ -31,7 +31,7 @@ namespace com.aurora.aumusic
             {
                 titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
-               
+
             }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -78,8 +78,7 @@ namespace com.aurora.aumusic
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
-            this._pageParameters.PlaybackControl = new PlayBack(album);
-            await this._pageParameters.PlaybackControl.Play(_pageParameters.Media);
+            await this._pageParameters.PlaybackControl.Play(album.Songs, _pageParameters.Media);
         }
 
         private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)

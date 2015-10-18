@@ -64,7 +64,9 @@ namespace com.aurora.aumusic
             AlbumArtWork.Source = bmp;
             AlbumSongsResources.Source = _pageParameters.Album.Songs;
             HeaderHeight = AlbumDetailsHeader.Height;
-
+            AlbumTitle.Text = _pageParameters.Album.AlbumName;
+            SolidColorBrush TextBrush = new SolidColorBrush(_pageParameters.Album.TextMainColor);
+            AlbumTitle.Foreground = TextBrush;
         }
 
         private void ScrollViewer_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -97,10 +99,30 @@ namespace com.aurora.aumusic
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             Song s = ((Button)sender).DataContext as Song;
-            List<Song> tempSongList = new List<Song>();
             int index = _pageParameters.Album.Songs.IndexOf(s);
-            tempSongList = _pageParameters.Album.Songs.GetRange(index, _pageParameters.Album.Songs.Count - index);
-            await _pageParameters.PlaybackControl.Play(tempSongList, _pageParameters.Media);
+            _pageParameters.PlaybackControl.Clear();
+            _pageParameters.PlaybackControl.addNew(_pageParameters.Album);
+            await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
+        }
+
+        private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[3]);
+            b.Visibility = Visibility.Visible;
+        }
+
+        private void RelativePanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[3]);
+            b.Visibility = Visibility.Collapsed;
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _pageParameters.PlaybackControl.addNew(_pageParameters.Album);
+            await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
         }
     }
 }

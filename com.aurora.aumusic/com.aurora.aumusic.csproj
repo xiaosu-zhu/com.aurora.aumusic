@@ -136,6 +136,7 @@
     <Compile Include="SubPages\SongsPage.xaml.cs">
       <DependentUpon>SongsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

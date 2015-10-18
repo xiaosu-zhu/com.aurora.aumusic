@@ -9,7 +9,7 @@ namespace com.aurora.aumusic
 {
     public class PlayBack
     {
-        private List<Song> Songs = null;
+        private List<Song> Songs = new List<Song>();
         private int NowIndex = -1;
         #region
         public PlayBack(List<Song> Songs)
@@ -40,42 +40,17 @@ namespace com.aurora.aumusic
         /// <param name="S"></param>
         public void addNew(List<Song> S)
         {
-            if (this.Songs != null)
-            {
-                this.Songs.AddRange(S);
-            }
-            else
-            {
-                this.Songs = S;
-            }
+            this.Songs.AddRange(S);
         }
         public void addNew(AlbumItem Album)
         {
-            if (this.Songs != null)
-            {
-                this.Songs.AddRange(Album.Songs);
-            }
-            else
-            {
-                this.Songs = Album.Songs;
-            }
+            this.Songs.AddRange(Album.Songs);
         }
         public void addNew(AlbumEnum Albums)
         {
-            if (this.Songs != null)
+            foreach (var item in Albums.AlbumList)
             {
-                foreach (var item in Albums.AlbumList)
-                {
-                    Songs.AddRange(item.Songs);
-                }
-            }
-            else
-            {
-                Songs = new List<Song>();
-                foreach (var item in Albums.AlbumList)
-                {
-                    Songs.AddRange(item.Songs);
-                }
+                Songs.AddRange(item.Songs);
             }
         }
         #endregion
@@ -89,7 +64,7 @@ namespace com.aurora.aumusic
         #region
         public async Task Play(Song a, MediaElement m)
         {
-            if (Songs != null && Songs.Count != 0)
+            if (Songs.Count != 0)
             {
                 if (Songs.Contains(a))
                 {
@@ -103,7 +78,6 @@ namespace com.aurora.aumusic
             }
             else
             {
-                Songs = new List<Song>();
                 Songs.Add(a);
                 NowIndex = 0;
             }
@@ -112,7 +86,7 @@ namespace com.aurora.aumusic
         }
         public async Task Play(int index, MediaElement m)
         {
-            if (Songs != null && Songs.Count >= index)
+            if (Songs.Count >= index)
             {
                 NowIndex = index;
                 var stream = await Songs[index].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
@@ -125,7 +99,7 @@ namespace com.aurora.aumusic
         }
         public async Task Play(MediaElement m)
         {
-            if (Songs != null && Songs.Count != 0)
+            if (Songs.Count != 0)
             {
                 NowIndex = 0;
                 var stream = await Songs[0].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
@@ -138,7 +112,8 @@ namespace com.aurora.aumusic
         }
         public async Task Play(List<Song> Songs, MediaElement m)
         {
-            this.Songs = Songs;
+            this.Songs.Clear();
+            this.Songs.AddRange(Songs);
             NowIndex = 0;
             var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
@@ -173,7 +148,7 @@ namespace com.aurora.aumusic
 
         public Song NowPlaying()
         {
-            if (Songs != null && Songs.Count != 0)
+            if (Songs.Count != 0)
             {
                 return Songs[NowIndex];
             }

@@ -442,7 +442,6 @@
                                                 </AppBarButton>
                                                 
                                                 
-                                                <AppBarButton x:Name="AudioTracksSelectionButton" MediaTransportControlsHelper.DropoutOrder="5" Icon="Character" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed"/>
                                                 <AppBarButton x:Name="PlayPauseButton" MediaTransportControlsHelper.DropoutOrder="11" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="PlayPauseSymbol" Symbol="Play"/>
@@ -467,9 +466,9 @@
                                                         <SymbolIcon x:Name="VolumeMuteSymbol" Symbol="Volume"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="FastForwardButton" MediaTransportControlsHelper.DropoutOrder="3" Style="{StaticResource AppBarButtonStyle}" Visibility="Visible">
+                                                <AppBarButton x:Name="NextButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xEB9D;"/>
+                                                        <SymbolIcon x:Name="NextSymbol" Symbol="Next" />
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
                                                 <AppBarButton x:Name="DetailsButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyle}">
