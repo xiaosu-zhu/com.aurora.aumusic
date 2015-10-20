@@ -22,6 +22,7 @@ namespace com.aurora.aumusic
         private static double _delta;
         private static double HeaderHeight;
         ScrollViewer s;
+        AlbumItem DetailedAlbum;
 
         public int MouseWheelCount { get; private set; }
         public double MaxScrollHeight { get; private set; }
@@ -54,19 +55,13 @@ namespace com.aurora.aumusic
             //into PageWithParametersConfiguration.
             //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
             _pageParameters = e.Parameter as PlaybackPack;
-            SolidColorBrush AlbumBrush = new SolidColorBrush(_pageParameters.Album.Palette);
-            AlbumDetailsHeader.Background = AlbumBrush;
+            DetailedAlbum = _pageParameters.Album;
             var view = ApplicationView.GetForCurrentView();
             ApplicationViewTitleBar titleBar = view.TitleBar;
             titleBar.BackgroundColor = _pageParameters.Album.Palette;
             titleBar.ButtonBackgroundColor = _pageParameters.Album.Palette;
-            BitmapImage bmp = new BitmapImage(new Uri(_pageParameters.Album.AlbumArtWork));
-            AlbumArtWork.Source = bmp;
             AlbumSongsResources.Source = _pageParameters.Album.Songs;
             HeaderHeight = AlbumDetailsHeader.Height;
-            AlbumTitle.Text = _pageParameters.Album.AlbumName;
-            SolidColorBrush TextBrush = new SolidColorBrush(_pageParameters.Album.TextMainColor);
-            AlbumTitle.Foreground = TextBrush;
         }
 
         private void ScrollViewer_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

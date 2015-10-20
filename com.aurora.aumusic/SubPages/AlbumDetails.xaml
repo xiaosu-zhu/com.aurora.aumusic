@@ -14,6 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
+            <local:AlbumDetailsConverter x:Key="AlbumConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered" PointerExited="RelativePanel_PointerExited">
@@ -118,7 +119,7 @@
                                             <VisualState x:Name="PointerOver">
                                                 <Storyboard>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
-                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                                     </ObjectAnimationUsingKeyFrames>
                                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
                                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
@@ -162,10 +163,30 @@
             </ListView.Style>
             <ListView.Header>
                 <Grid x:Name="AlbumDetailsHeader" Height="360" Width="auto">
-                    <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="320" Stretch="Uniform">
-                        <Image x:Name="AlbumArtWork" />
+                    <Grid.Background>
+                        <SolidColorBrush Color="{x:Bind DetailedAlbum.Palette}" />
+                    </Grid.Background>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="320" Stretch="Uniform">
+                        <Image x:Name="AlbumArtWork" Source="{x:Bind DetailedAlbum.AlbumArtWork}" />
                     </Viewbox>
-                    <TextBlock x:Name="AlbumTitle" Style="{ThemeResource SubheaderTextBlockStyle}"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" />
+                    <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Viewbox Stretch="Uniform" MaxHeight="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                            <TextBlock x:Name="AlbumTitle" Style="{ThemeResource SubheaderTextBlockStyle}" MaxWidth="640" MaxLines="3" TextWrapping="WrapWholeWords" Text="{x:Bind DetailedAlbum.AlbumName}" >
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{x:Bind DetailedAlbum.TextMainColor}" />
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Viewbox>
+                        <TextBlock x:Name="AlbumDetailsBlock" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind DetailedAlbum, Converter={StaticResource AlbumConverter}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{x:Bind DetailedAlbum.TextSubColor}" />
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                    </StackPanel>
                     <Button Style="{StaticResource ButtonStyle1}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
                 </Grid>
             </ListView.Header>

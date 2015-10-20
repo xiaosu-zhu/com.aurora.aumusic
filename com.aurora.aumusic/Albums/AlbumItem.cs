@@ -110,7 +110,7 @@ namespace com.aurora.aumusic
                 {
                     if (item.AlbumArtists != null)
                     {
-                        if ((item.AlbumArtists.Length) != 0)
+                        if ((item.AlbumArtists.Length != 0))
                         {
                             if (item.AlbumArtists.Length > i)
                             {

@@ -17,8 +17,6 @@ namespace com.aurora.aumusic
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private static int MEDIA_ENDED_FLAG = 0;
-        private static int MEDIA_PRESSED_FLAG = 0;
         SplitListView splitlistview;
         private static int BUTTON_CLICKED = 0;
         PlaybackPack playbackPack = new PlaybackPack();
@@ -108,31 +106,28 @@ async (source) =>
 
         private async void HorizontalThumb_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (MEDIA_ENDED_FLAG == 1)
+            if (playBack.NowPlaying() != null)
             {
-                AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-                await playBack.PlayNext(this.PlaybackControl);
-                MEDIA_ENDED_FLAG = 0;
+                if (PlaybackControl.Position >= playBack.NowPlaying().Duration)
+                {
+                    await playBack.PlayNext(PlaybackControl);
+                }
+                else
+                {
+                    PlaybackControl.Play();
+                }
             }
-            MEDIA_PRESSED_FLAG = 0;
+            PlaybackControl.MediaEnded += SetMediaEnd;
         }
         private async void SetMediaEnd(object sender, RoutedEventArgs e)
         {
-            if (MEDIA_PRESSED_FLAG == 0)
-            {
                 AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
                 await playBack.PlayNext(this.PlaybackControl);
-            }
-            else
-            {
-                MEDIA_ENDED_FLAG = 1;
-            }
-
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            MEDIA_PRESSED_FLAG = 1;
+            PlaybackControl.MediaEnded -= SetMediaEnd;
         }
 
         private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
