@@ -1,5 +1,7 @@
 ﻿using System;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -21,6 +23,8 @@ namespace com.aurora.aumusic
         private static int BUTTON_CLICKED = 0;
         PlaybackPack playbackPack = new PlaybackPack();
         PlayBack playBack = new PlayBack();
+        TextBlock TimeElapsedBlock;
+        TextBlock TimeTotalBlock;
 
         public MainPage()
         {
@@ -30,6 +34,57 @@ namespace com.aurora.aumusic
             splitlistview = new SplitListView();
             SplitViewSources.Source = splitlistview;
             //MainFrame.Navigate(typeof(SettingsPage));
+        }
+
+        private bool TimeTask(TimeSpan delay, bool completed)
+        {
+            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+async (source) =>
+{
+    await
+
+            Dispatcher.RunAsync(
+                                CoreDispatcherPriority.High,
+                                () =>
+                                {
+                                    TimeSpan ts = PlaybackControl.Position;
+                                    if (ts.Seconds >= 10)
+                                    {
+                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":" + ts.Seconds;
+                                        TimeElapsedBlock.Text = s;
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":0" + ts.Seconds;
+                                        TimeElapsedBlock.Text = s;
+                                        return;
+                                    }
+                                });
+
+    completed = true;
+},
+                delay,
+async (source) =>
+{
+    await
+
+            Dispatcher.RunAsync(
+                            CoreDispatcherPriority.High,
+                            () =>
+                            {
+
+                                if (completed)
+                                {
+                                    completed = TimeTask(delay, completed);
+                                }
+                                else
+                                {
+                                }
+
+                            });
+});
+            return completed;
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -61,7 +116,6 @@ namespace com.aurora.aumusic
             }
             MEDIA_PRESSED_FLAG = 0;
         }
-
         private async void SetMediaEnd(object sender, RoutedEventArgs e)
         {
             if (MEDIA_PRESSED_FLAG == 0)
@@ -84,8 +138,22 @@ namespace com.aurora.aumusic
         private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
         {
             Song s = playBack.NowPlaying();
+            TimeSpan ts = s.Duration;
+            if (ts.Seconds >= 10)
+            {
+                string p = ts.Hours * 60 + ts.Minutes + ":" + ts.Seconds;
+                TimeTotalBlock.Text = p;
+            }
+            else
+            {
+                string p = ts.Hours * 60 + ts.Minutes + ":0" + ts.Seconds;
+                TimeTotalBlock.Text = p;
+            }
             BitmapImage b = s != null ? new BitmapImage(new Uri(s.ArtWork)) : new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
             PlayBackImage.Source = b;
+            bool completed = false;
+            TimeSpan delay = TimeSpan.FromMilliseconds(100);
+            completed = TimeTask(delay, completed);
         }
 
         private void MenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -122,6 +190,16 @@ namespace com.aurora.aumusic
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
             }
+        }
+
+        private void TimeElapsedBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            TimeElapsedBlock = sender as TextBlock;
+        }
+
+        private void TimeRemainingBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            TimeTotalBlock = sender as TextBlock;
         }
     }
 }

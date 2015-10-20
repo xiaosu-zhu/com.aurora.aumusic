@@ -31,6 +31,7 @@ namespace com.aurora.aumusic
             return null;
         }
     }
+
     public class TextColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
