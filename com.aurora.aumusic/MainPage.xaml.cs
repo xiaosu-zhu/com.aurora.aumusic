@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
+using System.Collections.Generic;
+
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -24,6 +26,7 @@ namespace com.aurora.aumusic
         TextBlock TimeElapsedBlock;
         TextBlock TimeTotalBlock;
         Slider ProgressSlider;
+        Slider VolumeSlider;
 
         public MainPage()
         {
@@ -182,7 +185,7 @@ async (source) =>
                                 MainFrame.Navigate(typeof(AlbumFlowPage), playbackPack); break;
                             }
                         }
-                        MainFrame.Navigate(typeof(SettingsPage)); break;
+                        MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
                     case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
                     case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
@@ -203,6 +206,48 @@ async (source) =>
         private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
         {
             ProgressSlider = sender as Slider;
+        }
+
+        private async void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (playBack.NowPlaying() != null)
+            {
+                if (PlaybackControl.Position <= TimeSpan.FromSeconds((playBack.NowPlaying().Duration.TotalSeconds / 99)))
+                {
+                    await playBack.PlayPrevious(PlaybackControl);
+                }
+                else
+                {
+                    PlaybackControl.Position = TimeSpan.FromSeconds(0);
+                    PlaybackControl.Play();
+                }
+            }
+        }
+
+        private async void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (playBack.NowPlaying() != null)
+            {
+                await playBack.PlayNext(PlaybackControl);
+            }
+        }
+
+
+
+        private void VolumeSlider_Loaded(object sender, RoutedEventArgs e)
+        {
+            VolumeSlider = sender as Slider;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("volume"))
+            {
+                VolumeSlider.Value = (double)localSettings.Values["Volume"];
+            }
+        }
+
+        private void VolumeFlyout_Closed(object sender, object e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["Volume"] = VolumeSlider.Value;
         }
     }
 }

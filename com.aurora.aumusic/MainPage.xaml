@@ -10,7 +10,9 @@
     <Page.Resources>
 
         <ResourceDictionary>
-            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SubPages/KeyDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
@@ -29,11 +31,11 @@
                             <Grid x:Name="RootGrid" Background="Transparent">
                                 <Grid.Resources>
                                     <Style x:Key="AppBarButtonStyle" TargetType="AppBarButton">
-                                        <Setter Property="Width" Value="{ThemeResource MTCMediaButtonWidth}"/>
-                                        <Setter Property="Height" Value="{ThemeResource MTCMediaButtonHeight}"/>
+                                        <Setter Property="Width" Value="{ThemeResource CMTCMediaButtonHeight}"/>
+                                        <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                     </Style>
                                     <Style x:Key="CommandBarStyle" TargetType="CommandBar">
-                                        <Setter Property="Height" Value="{ThemeResource MTCMediaButtonHeight}"/>
+                                        <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                         <Setter Property="Background" Value="Transparent"/>
                                     </Style>
                                     <Style x:Key="MediaTextBlockStyle" TargetType="TextBlock">
@@ -405,14 +407,14 @@
                                                 <Slider x:Name="ProgressSlider" Height="48" IsThumbToolTipEnabled="True" Margin="36,8,36,0" MinWidth="80" Style="{StaticResource MediaSliderStyle}" VerticalAlignment="Center" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                                                 <ProgressBar x:Name="BufferingProgressBar" Height="4" IsHitTestVisible="False" IsIndeterminate="True" Margin="0,2,0,0" Visibility="Collapsed" VerticalAlignment="Top"/>
                                                 <Grid x:Name="TimeTextGrid" Height="15" Margin="12,0" Grid.Row="1">
-                                                    <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Left" Margin="0,0,4,0" Style="{StaticResource MediaTextBlockStyle}" Loaded="TimeElapsedBlock_Loaded"/>
+                                                    <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Left" Margin="0,0,4,0" Style="{StaticResource MediaTextBlockStyle}" Text="0:00" Loaded="TimeElapsedBlock_Loaded"/>
                                                     <TextBlock x:Name="TimeRemainingBlock" HorizontalAlignment="Right" Style="{StaticResource MediaTextBlockStyle}" Text="0:00" Margin="4,0,0,0" Loaded="TimeRemainingBlock_Loaded"/>
                                                 </Grid>
                                             </Grid>
                                         </Border>
                                         <Border x:Name="LeftSidePlayBorder" Grid.Column="0" Grid.Row="1" Visibility="Collapsed">
                                             <StackPanel Margin="0" Orientation="Horizontal" VerticalAlignment="Stretch" >
-                                                <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center">
+                                                <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="PreviousSymbol" Symbol="Previous" />
                                                     </AppBarButton.Icon>
@@ -422,7 +424,7 @@
                                                         <SymbolIcon x:Name="PlayPauseSymbolLeft" Symbol="Play"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="NextButton" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center">
+                                                <AppBarButton x:Name="NextButton" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center" ToolTipService.ToolTip="Next" Click="NextButton_Click">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="NextSymbol" Symbol="Next" />
                                                     </AppBarButton.Icon>
@@ -431,12 +433,7 @@
                                         </Border>
                                         <Border x:Name="MediaTransportControls_Command_Border" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2">
                                             <CommandBar x:Name="MediaControlsCommandBar" Margin="0,0,0,24" Style="{StaticResource CommandBarStyle}">
-                                                <AppBarButton x:Name="StopButton" MediaTransportControlsHelper.DropoutOrder="1" Icon="Stop" Style="{StaticResource AppBarButtonStyle}" Visibility="Visible"/>
-                                                <AppBarButton x:Name="RewindButton" MediaTransportControlsHelper.DropoutOrder="2" Style="{StaticResource AppBarButtonStyle}" Visibility="Collapsed">
-                                                    <AppBarButton.Icon>
-                                                        <FontIcon Glyph="&#xEB9E;"/>
-                                                    </AppBarButton.Icon>
-                                                </AppBarButton>
+                                                <AppBarButton x:Name="StopButton" MediaTransportControlsHelper.DropoutOrder="1" Icon="Stop" Style="{StaticResource AppBarButtonStyle}"/>
                                                 <AppBarButton x:Name="PlayPauseButton" MediaTransportControlsHelper.DropoutOrder="11" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="PlayPauseSymbol" Symbol="Play"/>
@@ -444,14 +441,14 @@
                                                 </AppBarButton>
                                                 <AppBarButton x:Name="VolumeMuteButton" MediaTransportControlsHelper.DropoutOrder="10" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Flyout>
-                                                        <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}">
+                                                        <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                                             <StackPanel Orientation="Horizontal">
                                                                 <AppBarButton x:Name="AudioMuteButton" HorizontalAlignment="Center" Margin="12" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center">
                                                                     <AppBarButton.Icon>
                                                                         <SymbolIcon x:Name="AudioMuteSymbol" Symbol="Volume"/>
                                                                     </AppBarButton.Icon>
                                                                 </AppBarButton>
-                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" IsThumbToolTipEnabled="False" Margin="0" Value="50" VerticalAlignment="Center" Width="{ThemeResource MTCHorizontalVolumeSliderWidth}"/>
+                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="0" Value="50" VerticalAlignment="Center" Width="{ThemeResource MTCHorizontalVolumeSliderWidth}"/>
                                                                 <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                                             </StackPanel>
                                                         </Flyout>
@@ -460,7 +457,7 @@
                                                         <SymbolIcon x:Name="VolumeMuteSymbol" Symbol="Volume"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="DetailsButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyle}">
+                                                <AppBarButton x:Name="DetailsButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyle}" ToolTipService.ToolTip="Details">
                                                     <AppBarButton.Icon>
                                                         <SymbolIcon x:Name="DetailsSymbol" Symbol="FullScreen"/>
                                                     </AppBarButton.Icon>
