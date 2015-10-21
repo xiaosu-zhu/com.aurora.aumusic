@@ -10,11 +10,13 @@
     <Page.Resources>
 
         <ResourceDictionary>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource x:Name="SplitViewSources" />
+            <local:ThumbToolTipConveter x:Key="ThumbConverter" />
             <Style x:Key="MediaTransportControlsStyle1" TargetType="MediaTransportControls">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -400,7 +402,7 @@
                                         </Border>
                                         <Border x:Name="MediaTransportControls_Timeline_Border" Grid.Column="1" Grid.Row="1">
                                             <Grid x:Name="MediaTransportControls_Timeline_Grid">
-                                                <Slider x:Name="ProgressSlider" Height="48" IsThumbToolTipEnabled="True" Margin="36,8,36,0" MinWidth="80" Style="{StaticResource MediaSliderStyle}" VerticalAlignment="Center"/>
+                                                <Slider x:Name="ProgressSlider" Height="48" IsThumbToolTipEnabled="True" Margin="36,8,36,0" MinWidth="80" Style="{StaticResource MediaSliderStyle}" VerticalAlignment="Center" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                                                 <ProgressBar x:Name="BufferingProgressBar" Height="4" IsHitTestVisible="False" IsIndeterminate="True" Margin="0,2,0,0" Visibility="Collapsed" VerticalAlignment="Top"/>
                                                 <Grid x:Name="TimeTextGrid" Height="15" Margin="12,0" Grid.Row="1">
                                                     <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Left" Margin="0,0,4,0" Style="{StaticResource MediaTextBlockStyle}" Loaded="TimeElapsedBlock_Loaded"/>

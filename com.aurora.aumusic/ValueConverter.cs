@@ -140,4 +140,27 @@ namespace com.aurora.aumusic
         }
     }
 
+    public class ThumbToolTipConveter : IValueConverter
+    {
+        public double sParmeter = 0;
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double)
+            {
+                TimeSpan ts = TimeSpan.FromSeconds(((double)value / 100.0) * sParmeter);
+                if (ts.Seconds >= 10)
+                {
+                    return (((ts.Days) * 24 + ts.Hours) * 60 + ts.Minutes).ToString() + ":" + ts.Seconds;
+                }
+                return (((ts.Days) * 24 + ts.Hours) * 60 + ts.Minutes).ToString() + ":0" + ts.Seconds;
+            }
+            return "0:00";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

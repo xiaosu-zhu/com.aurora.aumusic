@@ -23,6 +23,7 @@ namespace com.aurora.aumusic
         PlayBack playBack = new PlayBack();
         TextBlock TimeElapsedBlock;
         TextBlock TimeTotalBlock;
+        Slider ProgressSlider;
 
         public MainPage()
         {
@@ -108,7 +109,7 @@ async (source) =>
         {
             if (playBack.NowPlaying() != null)
             {
-                if (PlaybackControl.Position >= playBack.NowPlaying().Duration)
+                if ((PlaybackControl.Position + TimeSpan.FromMilliseconds(500)) >= playBack.NowPlaying().Duration)
                 {
                     await playBack.PlayNext(PlaybackControl);
                 }
@@ -121,8 +122,8 @@ async (source) =>
         }
         private async void SetMediaEnd(object sender, RoutedEventArgs e)
         {
-                AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-                await playBack.PlayNext(this.PlaybackControl);
+            AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
+            await playBack.PlayNext(this.PlaybackControl);
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -149,6 +150,8 @@ async (source) =>
             bool completed = false;
             TimeSpan delay = TimeSpan.FromMilliseconds(100);
             completed = TimeTask(delay, completed);
+            ThumbToolTipConveter thumbConverter = (ThumbToolTipConveter)ProgressSlider.ThumbToolTipValueConverter;
+            thumbConverter.sParmeter = ts.TotalSeconds;
         }
 
         private void MenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -195,6 +198,11 @@ async (source) =>
         private void TimeRemainingBlock_Loaded(object sender, RoutedEventArgs e)
         {
             TimeTotalBlock = sender as TextBlock;
+        }
+
+        private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
+        {
+            ProgressSlider = sender as Slider;
         }
     }
 }
