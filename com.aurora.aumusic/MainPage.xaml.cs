@@ -27,6 +27,8 @@ namespace com.aurora.aumusic
         TextBlock TimeTotalBlock;
         Slider ProgressSlider;
         Slider VolumeSlider;
+        BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon();
+        AppBarButton volumrMuteButton;
 
         public MainPage()
         {
@@ -36,6 +38,9 @@ namespace com.aurora.aumusic
             splitlistview = new SplitListView();
             SplitViewSources.Source = splitlistview;
             //MainFrame.Navigate(typeof(SettingsPage));
+            vol_mid.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mid.png");
+            vol_low.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-low.png");
+            vol_mute.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mute.png");
         }
 
         private bool TimeTask(TimeSpan delay, bool completed)
@@ -237,17 +242,66 @@ async (source) =>
         private void VolumeSlider_Loaded(object sender, RoutedEventArgs e)
         {
             VolumeSlider = sender as Slider;
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values.ContainsKey("volume"))
-            {
-                VolumeSlider.Value = (double)localSettings.Values["Volume"];
-            }
+            VolumeSlider.ValueChanged += VolumeSlider_ValueChanged;
         }
 
         private void VolumeFlyout_Closed(object sender, object e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["Volume"] = VolumeSlider.Value;
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            if (((Slider)sender).Value == 0)
+            {
+                volumrMuteButton.Icon = new SymbolIcon(Symbol.Mute);
+            }
+            else if (((Slider)sender).Value < 20)
+            {
+                volumrMuteButton.Icon = vol_mute;
+            }
+            else if (((Slider)sender).Value < 50)
+            {
+                volumrMuteButton.Icon = vol_low;
+            }
+            else if (((Slider)sender).Value < 80)
+            {
+                volumrMuteButton.Icon = vol_mid;
+            }
+            else volumrMuteButton.Icon = new SymbolIcon(Symbol.Volume);
+        }
+
+        private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            volumrMuteButton = sender as AppBarButton;
+            if (PlaybackControl.Volume == 0)
+            {
+                volumrMuteButton.Icon = new SymbolIcon(Symbol.Mute);
+            }
+            else if (PlaybackControl.Volume < 0.2)
+            {
+                volumrMuteButton.Icon = vol_mute;
+            }
+            else if (PlaybackControl.Volume < 0.5)
+            {
+                volumrMuteButton.Icon = vol_low;
+            }
+            else if (PlaybackControl.Volume < 0.8)
+            {
+                volumrMuteButton.Icon = vol_mid;
+            }
+            else volumrMuteButton.Icon = new SymbolIcon(Symbol.Volume);
+
+        }
+
+        private void PlaybackControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("volume"))
+            {
+                PlaybackControl.Volume = (double)localSettings.Values["Volume"] / 100.0;
+            }
         }
     }
 }

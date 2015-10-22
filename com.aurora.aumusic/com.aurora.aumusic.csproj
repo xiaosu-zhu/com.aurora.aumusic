@@ -148,6 +148,21 @@
     <None Include="com.aurora.aumusic_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ButtonIcon\volume-low.scale-100.png" />
+    <Content Include="Assets\ButtonIcon\volume-low.scale-140.png" />
+    <Content Include="Assets\ButtonIcon\volume-low.scale-180.png" />
+    <Content Include="Assets\ButtonIcon\volume-low.scale-240.png" />
+    <Content Include="Assets\ButtonIcon\volume-low.scale-80.png" />
+    <Content Include="Assets\ButtonIcon\volume-mid.scale-100.png" />
+    <Content Include="Assets\ButtonIcon\volume-mid.scale-140.png" />
+    <Content Include="Assets\ButtonIcon\volume-mid.scale-180.png" />
+    <Content Include="Assets\ButtonIcon\volume-mid.scale-240.png" />
+    <Content Include="Assets\ButtonIcon\volume-mid.scale-80.png" />
+    <Content Include="Assets\ButtonIcon\volume-mute.scale-100.png" />
+    <Content Include="Assets\ButtonIcon\volume-mute.scale-140.png" />
+    <Content Include="Assets\ButtonIcon\volume-mute.scale-180.png" />
+    <Content Include="Assets\ButtonIcon\volume-mute.scale-240.png" />
+    <Content Include="Assets\ButtonIcon\volume-mute.scale-80.png" />
     <Content Include="Assets\C.png" />
     <Content Include="Assets\D.png" />
     <Content Include="Assets\E.png" />

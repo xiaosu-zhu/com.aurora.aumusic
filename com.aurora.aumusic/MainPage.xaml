@@ -33,6 +33,7 @@
                                     <Style x:Key="AppBarButtonStyle" TargetType="AppBarButton">
                                         <Setter Property="Width" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                         <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
+                                        <Setter Property="Background" Value="Transparent" />
                                     </Style>
                                     <Style x:Key="CommandBarStyle" TargetType="CommandBar">
                                         <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
@@ -53,7 +54,7 @@
                                         <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
                                     </Style>
                                     <Style x:Key="MediaSliderStyle" TargetType="Slider">
-                                        <Setter Property="Background" Value="{ThemeResource SystemControlForegroundBaseMediumLowBrush}"/>
+                                        <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
                                         <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightAccentBrush}"/>
                                         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -67,8 +68,8 @@
                                                         <Grid.Resources>
                                                             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                                                 <Setter Property="BorderThickness" Value="0"/>
-                                                                <Setter Property="Background" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
-                                                                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+                                                                <Setter Property="Background" Value="{ThemeResource SystemAccentColor}"/>
+                                                                <Setter Property="Foreground" Value="White"/>
                                                                 <Setter Property="Template">
                                                                     <Setter.Value>
                                                                         <ControlTemplate TargetType="Thumb">
@@ -385,7 +386,7 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <Border x:Name="ControlPanel_ControlPanelVisibilityStates_Border">
-                                    <Grid x:Name="ControlPanelGrid" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom">
+                                    <Grid x:Name="ControlPanelGrid" Background="Transparent" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
@@ -399,7 +400,7 @@
                                         <Grid.RenderTransform>
                                             <TranslateTransform/>
                                         </Grid.RenderTransform>
-                                        <Border x:Name="ErrorBorder" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Grid.ColumnSpan="3" HorizontalAlignment="Center" Height="96" Visibility="Collapsed" Width="320">
+                                        <Border x:Name="ErrorBorder" Background="Transparent" Grid.ColumnSpan="3" HorizontalAlignment="Center" Height="96" Visibility="Collapsed" Width="320">
                                             <TextBlock x:Name="ErrorTextBlock" Margin="12" Style="{StaticResource MediaTextBlockStyle}" TextWrapping="WrapWholeWords"/>
                                         </Border>
                                         <Border x:Name="MediaTransportControls_Timeline_Border" Grid.Column="1" Grid.Row="1">
@@ -439,16 +440,11 @@
                                                         <SymbolIcon x:Name="PlayPauseSymbol" Symbol="Play"/>
                                                     </AppBarButton.Icon>
                                                 </AppBarButton>
-                                                <AppBarButton x:Name="VolumeMuteButton" MediaTransportControlsHelper.DropoutOrder="10" Style="{StaticResource AppBarButtonStyle}">
+                                                <AppBarButton x:Name="VolumeMuteButton" Loaded="VolumeMuteButton_Loaded" MediaTransportControlsHelper.DropoutOrder="10" Style="{StaticResource AppBarButtonStyle}">
                                                     <AppBarButton.Flyout>
                                                         <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                                             <StackPanel Orientation="Horizontal">
-                                                                <AppBarButton x:Name="AudioMuteButton" HorizontalAlignment="Center" Margin="12" Style="{StaticResource AppBarButtonStyle}" VerticalAlignment="Center">
-                                                                    <AppBarButton.Icon>
-                                                                        <SymbolIcon x:Name="AudioMuteSymbol" Symbol="Volume"/>
-                                                                    </AppBarButton.Icon>
-                                                                </AppBarButton>
-                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="0" Value="50" VerticalAlignment="Center" Width="{ThemeResource MTCHorizontalVolumeSliderWidth}"/>
+                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="12,4,0,0" VerticalAlignment="Center" Width="256"/>
                                                                 <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                                             </StackPanel>
                                                         </Flyout>
@@ -751,14 +747,14 @@
 
             <!-- 主视图Frame -->
             <RelativePanel>
-                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,0,0,64" />
-                <RelativePanel Height="64" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+                <RelativePanel Height="64" Background="{ThemeResource SystemThemeMainBrush}" Opacity="0.9" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
                     <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8">
                         <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                     </Viewbox>
-                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened">
+                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
                         <MediaElement.TransportControls>
-                            <MediaTransportControls x:Name="TransportSontrol" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
+                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
                         </MediaElement.TransportControls>
                     </MediaElement>
                 </RelativePanel>
