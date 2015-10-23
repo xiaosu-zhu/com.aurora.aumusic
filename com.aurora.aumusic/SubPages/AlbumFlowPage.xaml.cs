@@ -33,12 +33,10 @@ namespace com.aurora.aumusic
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
 
             }
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //We are going to cast the property Parameter of NavigationEventArgs object
-            //into PageWithParametersConfiguration.
-            //PageWithParametersConfiguration contains a set of parameters to pass to the page 			
             _pageParameters = e.Parameter as PlaybackPack;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
@@ -47,15 +45,7 @@ namespace com.aurora.aumusic
         {
             if (!(await Albums.getAlbumList()))
             {
-                int progress = 0;
-                await Albums.FirstCreate(progress);
-                foreach (var item in Albums.AlbumList)
-                {
-                    await item.GetPalette();
-                    Albums.Albums.Add(item);
-                    Albums.SaveAlltoStorage(item, progress);
-                    progress++;
-                }
+                await Albums.FirstCreate();
             }
 
             WaitingBar.Visibility = Visibility.Collapsed;

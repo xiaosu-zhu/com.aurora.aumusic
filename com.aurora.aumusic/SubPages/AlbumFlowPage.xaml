@@ -108,12 +108,12 @@
                                     <SolidColorBrush Color="{x:Bind TextMainColor}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
+                            <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind TextSubColor}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count, Converter={StaticResource CountConverter}}" VerticalAlignment="Center" Margin="44,0,0,0"  >
+                            <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count, Converter={StaticResource CountConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="44,0,0,0"  >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind TextSubColor}" />
                                 </TextBlock.Foreground>

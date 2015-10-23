@@ -76,7 +76,7 @@ namespace com.aurora.aumusic
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             string[] s = (string[])value;
-            if (s[0] == "Unknown Artists")
+            if (s[0] == "Unknown AlbumArtists")
             {
                 return "未知创作人";
             }
@@ -98,7 +98,7 @@ namespace com.aurora.aumusic
         {
             AlbumItem album = (AlbumItem)value;
             StringBuilder sb = new StringBuilder("由");
-            if (album.AlbumArtists[0] == "Unknown Artists")
+            if (album.AlbumArtists[0] == "Unknown AlbumArtists")
             {
                 sb.Clear();
                 sb.Append("未知创作人");

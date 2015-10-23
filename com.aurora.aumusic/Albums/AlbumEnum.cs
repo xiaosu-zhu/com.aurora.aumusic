@@ -41,22 +41,65 @@ namespace com.aurora.aumusic
             return false;
         }
 
-        public async Task<int> FirstCreate(int progress)
+        public async Task FirstCreate()
         {
-            await Task.Run(async () =>
+            if (localSettings.Values.ContainsKey("FolderSettings"))
             {
-                AlbumList = await AllSongs.CreateAlbums();
-            });
-            //await Task.Run(async () =>
-            //{
-            //    foreach (var item in AlbumList)
-            //    {
-            //        await item.GetPalette();
-            //    }
-            //});
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                int Songscount = 0;
+                if (composite != null)
+                {
+                    int count = (int)composite["FolderCount"];
+                    for (int i = 0; i < count; i++)
+                    {
+                        String tempPath = (String)composite["FolderSettings" + i.ToString()];
+                        Songscount += await GetSongs(tempPath);
+                    }
+                    localSettings.Values["SongsCount"] = Songscount;
+                    localSettings.Values["AlbumsCount"] = Albums.Count;
+                }
 
-            localSettings.Values["AlbumsCount"] = AlbumList.Count;
-            return progress;
+            }
+        }
+
+        private async Task<int> GetSongs(string tempPath)
+        {
+            StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+            IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
+            int count = AllList.Count;
+            foreach (StorageFile tempFile in AllList)
+            {
+                if (tempTypeStrings.Contains(tempFile.FileType))
+                {
+                    Song song = new Song(tempFile, tempPath);
+                    await song.initial();
+                    await AddtoAlbum(song);
+                }
+            }
+            return count;
+        }
+
+
+        private async Task AddtoAlbum(Song song)
+        {
+            if (Albums.Count > 0)
+            {
+                foreach (var item in Albums)
+                {
+                    if (item.AlbumName == song.Album)
+                    {
+                        item.Songs.Add(song);
+                        item.OnPropertyChanged();
+                        return;
+                    }
+                }
+                await Albums.Last().Refresh();
+            }
+            AlbumItem album = new AlbumItem();
+            album.AlbumName = song.Album;
+            album.Songs.Add(song);
+            await album.Initial();
+            Albums.Add(album);
         }
 
         private async Task<List<AlbumItem>> RestoreAllfromStorage()
@@ -91,7 +134,7 @@ namespace com.aurora.aumusic
                             AllList.Remove(tempSong.AudioFile);
                         }
                         AlbumItem tempAlbum = new AlbumItem(tempSongs);
-                        tempAlbum.Initial();
+                        await tempAlbum.Initial();
                         string[] tempColor = ((string)MainContainer.Values["MainColor"]).Split(',');
                         byte a = Byte.Parse(tempColor[0]), r = Byte.Parse(tempColor[1]), g = Byte.Parse(tempColor[2]), b = Byte.Parse(tempColor[3]);
                         tempAlbum.Palette = Color.FromArgb(a, r, g, b);

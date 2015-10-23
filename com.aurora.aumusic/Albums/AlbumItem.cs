@@ -91,17 +91,10 @@ namespace com.aurora.aumusic
 
         public void getArtwork()
         {
-            if (Songs.Count != 0)
-            {
-                if (Songs[0].Album != "Unknown Album")
-                {
-                    AlbumArtWork = Songs[0].ArtWork;
-                }
-                else AlbumArtWork = "ms-appx:///Assets/unknown.png";
-            }
+            AlbumArtWork = Songs[0].ArtWork;
         }
 
-        public void getArtists()
+        public void refreshArtists()
         {
             if (Songs.Count != 0)
             {
@@ -171,6 +164,21 @@ namespace com.aurora.aumusic
             }
         }
 
+        internal async Task Refresh()
+        {
+            if (Songs.Count != 0)
+            {
+                this.refreshArtists();
+                this.refreshGenres();
+                this.refreshYear();
+                if (this.refreshArtwork())
+                {
+                    await this.refreshPalette();
+                }
+                this.Sort();
+            }
+        }
+
         public void GenerateTextColor()
         {
             if ((Palette.R * 0.299 + Palette.G * 0.587 + Palette.B * 0.114) < 85)
@@ -191,16 +199,61 @@ namespace com.aurora.aumusic
             }
         }
 
-        public void Initial()
+
+        private async Task refreshPalette()
+        {
+            await this.GetPalette();
+        }
+
+        private void refreshYear()
+        {
+            foreach (var item in Songs)
+            {
+                if (item.Year > this.Year)
+                {
+                    this.Year = item.Year;
+                }
+
+            }
+
+        }
+
+        private bool refreshArtwork()
+        {
+            bool b = false;
+            foreach (var item in Songs)
+            {
+                if (this.AlbumArtWork != item.ArtWork && item.ArtWork != "ms-appx:///Assets/unknown.png")
+                {
+                    this.AlbumArtWork = item.ArtWork;
+                    b = true;
+                }
+            }
+            return b;
+        }
+
+        private void refreshGenres()
+        {
+            foreach (var item in Songs)
+            {
+                if (item.Genres.Length > this.Genres.Length)
+                {
+                    this.Genres = item.Genres;
+                }
+            }
+        }
+
+
+        public async Task Initial()
         {
             if (Songs.Count != 0)
             {
-                this.getArtists();
-                this.getGenres();
-                this.getArtwork();
-                this.getYear();
-                this.Sort();
-                //await this.GetPalette();
+                this.AlbumArtists = Songs[0].AlbumArtists;
+                this.Artists = Songs[0].Artists;
+                this.Genres = Songs[0].Genres;
+                this.AlbumArtWork = Songs[0].ArtWork;
+                this.Year = Songs[0].Year;
+                await this.GetPalette();
             }
         }
 
@@ -212,7 +265,7 @@ namespace com.aurora.aumusic
             this.GenerateTextColor();
         }
 
-        private void Sort()
+        public void Sort()
         {
             if (Songs.Count != 0)
             {

@@ -34,21 +34,23 @@
                                         <Setter Property="Width" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                         <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                         <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
                                     </Style>
                                     <Style x:Key="CommandBarStyle" TargetType="CommandBar">
                                         <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                                         <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
                                     </Style>
                                     <Style x:Key="MediaTextBlockStyle" TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                         <Setter Property="FontSize" Value="{ThemeResource MTCMediaFontSize}"/>
                                         <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                                         <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
                                     </Style>
                                     <Style x:Key="MediaTextBlockStyle1" TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"/>
+                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseHighBrush}"/>
                                         <Setter Property="FontSize" Value="{ThemeResource MTCMediaFontSize}"/>
                                         <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                                         <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
@@ -69,11 +71,12 @@
                                                             <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                                                 <Setter Property="BorderThickness" Value="0"/>
                                                                 <Setter Property="Background" Value="{ThemeResource SystemAccentColor}"/>
-                                                                <Setter Property="Foreground" Value="White"/>
+                                                                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                                                <Setter Property="Opacity" Value="1"/>
                                                                 <Setter Property="Template">
                                                                     <Setter.Value>
                                                                         <ControlTemplate TargetType="Thumb">
-                                                                            <Ellipse x:Name="ellipse" Fill="{TemplateBinding Foreground}" Stroke="{TemplateBinding Background}" StrokeThickness="2" PointerPressed="ellipse_PointerPressed" >
+                                                                            <Ellipse x:Name="ellipse" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" PointerPressed="ellipse_PointerPressed" >
                                                                             </Ellipse>
                                                                         </ControlTemplate>
                                                                     </Setter.Value>
@@ -83,7 +86,7 @@
                                                                 <Setter Property="Height" Value="{ThemeResource SliderTrackThemeHeight}"/>
                                                                 <Setter Property="Minimum" Value="0"/>
                                                                 <Setter Property="Maximum" Value="100"/>
-                                                                <Setter Property="Foreground" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}"/>
+                                                                <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                                                 <Setter Property="Background" Value="Transparent"/>
                                                                 <Setter Property="BorderBrush" Value="Transparent"/>
                                                                 <Setter Property="BorderThickness" Value="1"/>
@@ -97,7 +100,6 @@
                                                             <VisualStateGroup x:Name="CommonStates">
                                                                 <VisualState x:Name="Normal">
                                                                     <Storyboard>
-
                                                                         <DoubleAnimation Duration="0:0:0.2" To="24" Storyboard.TargetProperty="Width" EnableDependentAnimation="True" Storyboard.TargetName="HorizontalThumb">
                                                                             <DoubleAnimation.EasingFunction>
                                                                                 <CircleEase />
@@ -108,17 +110,22 @@
                                                                                 <CircleEase />
                                                                             </DoubleAnimation.EasingFunction>
                                                                         </DoubleAnimation>
+                                                                        <ColorAnimation To="#CCF0F0F0" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
+                                                                            <ColorAnimation.EasingFunction>
+                                                                                <CircleEase />
+                                                                            </ColorAnimation.EasingFunction>
+                                                                        </ColorAnimation>
                                                                     </Storyboard>
                                                                 </VisualState>
                                                                 <VisualState x:Name="Pressed">
                                                                     <Storyboard>
-                                                                        <ColorAnimation To="{ThemeResource SystemAccentColor}" Duration="0" Storyboard.TargetProperty="(Thumb.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
+                                                                        <ColorAnimation To="White" Duration="0" Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
                                                                         </ColorAnimation>
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="HorizontalDecreaseRect">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                                                         </ObjectAnimationUsingKeyFrames>
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="HorizontalTrackRect">
-                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                                                         </ObjectAnimationUsingKeyFrames>
                                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Storyboard.TargetName="HorizontalThumb">
                                                                             <DiscreteObjectKeyFrame KeyTime="0" Value="28"/>
@@ -160,13 +167,13 @@
                                                                 </VisualState>
                                                                 <VisualState x:Name="PointerOver">
                                                                     <Storyboard>
-                                                                        <ColorAnimation To="{ThemeResource SystemAccentColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
+                                                                        <ColorAnimation To="White" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
                                                                             <ColorAnimation.EasingFunction>
                                                                                 <CircleEase />
                                                                             </ColorAnimation.EasingFunction>
                                                                         </ColorAnimation>
 
-                                                                        <ColorAnimation To="{ThemeResource SystemAccentColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Thumb.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
+                                                                        <ColorAnimation To="White" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
                                                                             <ColorAnimation.EasingFunction>
                                                                                 <CircleEase />
                                                                             </ColorAnimation.EasingFunction>
@@ -200,14 +207,13 @@
                                                                     <RowDefinition Height="Auto"/>
                                                                     <RowDefinition Height="18"/>
                                                                 </Grid.RowDefinitions>
-                                                                <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{TemplateBinding Background}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
-                                                                <ProgressBar x:Name="DownloadProgressIndicator" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Grid.Row="1" Style="{StaticResource MediaSliderProgressBarStyle}" VerticalAlignment="Center"/>
-                                                                <Rectangle x:Name="HorizontalDecreaseRect" Fill="{TemplateBinding Foreground}" Grid.Row="1"/>
-                                                                <TickBar x:Name="TopTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,0,0,4" Visibility="Collapsed" VerticalAlignment="Bottom"/>
-                                                                <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1" Visibility="Collapsed"/>
-                                                                <TickBar x:Name="BottomTickBar" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,4,0,0" Grid.Row="2" Visibility="Collapsed" VerticalAlignment="Top"/>
-                                                                <Thumb x:Name="HorizontalThumb" AutomationProperties.AccessibilityView="Raw" Background="{ThemeResource SystemControlForegroundAccentBrush}" Grid.Column="1" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased" Canvas.ZIndex="1"/>
-
+                                                                <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlTranslucentHighBrush}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
+                                                                <ProgressBar x:Name="DownloadProgressIndicator" Foreground="Transparent" Background="Transparent" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Grid.Row="1" Style="{StaticResource MediaSliderProgressBarStyle}" VerticalAlignment="Center"/>
+                                                                <Rectangle x:Name="HorizontalDecreaseRect" Fill="White" Grid.Row="1"/>
+                                                                <TickBar x:Name="TopTickBar" Grid.ColumnSpan="3" Fill="Green" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,0,0,4" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                                                                <TickBar x:Name="HorizontalInlineTickBar" Grid.ColumnSpan="3" Fill="Yellow" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1" Visibility="Collapsed"/>
+                                                                <TickBar x:Name="BottomTickBar" Grid.ColumnSpan="3" Fill="Orange" Height="{ThemeResource SliderOutsideTickBarThemeHeight}" Margin="0,4,0,0" Grid.Row="2" Visibility="Collapsed" VerticalAlignment="Top"/>
+                                                                <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
@@ -445,7 +451,7 @@
                                                         <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                                             <StackPanel Orientation="Horizontal">
                                                                 <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="12,4,0,0" VerticalAlignment="Center" Width="256"/>
-                                                                <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
+                                                                <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle1}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                                             </StackPanel>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
@@ -748,13 +754,14 @@
             <!-- 主视图Frame -->
             <RelativePanel>
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
-                <RelativePanel Height="64" Background="{ThemeResource SystemThemeMainBrush}" Opacity="0.9" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8">
+                <RelativePanel Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                    <Rectangle Opacity="0.9" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}"/>
+                    <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
                         <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                     </Viewbox>
-                    <MediaElement Name="PlaybackControl" AutoPlay="True" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
+                    <MediaElement Name="PlaybackControl" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
                         <MediaElement.TransportControls>
-                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
+                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
                         </MediaElement.TransportControls>
                     </MediaElement>
                 </RelativePanel>

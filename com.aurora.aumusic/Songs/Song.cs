@@ -31,7 +31,14 @@ namespace com.aurora.aumusic
             }
             set
             {
-                _artists = value;
+                if (value==null || value.Length == 0)
+                {
+                    this._artists = new[] { "Unknown Artists" };
+                }
+                else
+                {
+                    this._artists = value;
+                }
             }
         }
         private string[] _albumartists;
@@ -43,8 +50,14 @@ namespace com.aurora.aumusic
             }
             set
             {
-
-                _albumartists = value;
+                if (value==null || value.Length == 0)
+                {
+                    this._albumartists = new[] { "Unknown AlbumArtists" };
+                }
+                else
+                {
+                    this._albumartists = value;
+                }
             }
         }
         private string _artWork;
@@ -75,6 +88,8 @@ namespace com.aurora.aumusic
                 ArtWorkSize = new Size(400, 400);
             }
         }
+
+
         public uint Rating = 0;
         public string MainKey = null;
         public StorageFile AudioFile = null;
@@ -89,7 +104,14 @@ namespace com.aurora.aumusic
             }
             set
             {
-                _genres = value;
+                if (value==null || value.Length == 0)
+                {
+                    this._genres = new[] { "Unknown Genres" };
+                }
+                else
+                {
+                    this._genres = value;
+                }
             }
         }
         public uint Track = 0;
@@ -163,13 +185,32 @@ namespace com.aurora.aumusic
         public string FolderToken { get; private set; }
         public TimeSpan Duration { get; private set; }
 
-        public Song()
-        {
-
-        }
-        public Song(StorageFile File)
+        public Song(StorageFile File, string tempPath)
         {
             this.AudioFile = File;
+            this.FolderToken = tempPath;
+        }
+
+
+        public static async Task GetSongListWithProgress(AlbumEnum albumEnum, string tempPath)
+        {
+            StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+            IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
+            uint count = (uint)AllList.Count;
+            uint progress = 0;
+            uint step = 0;
+            foreach (StorageFile tempFile in AllList)
+            {
+                if (tempTypeStrings.Contains(tempFile.FileType))
+                {
+                    Song song = new Song(tempFile, tempPath);
+                    await song.initial();
+                }
+            }
+        }
+
+        public Song()
+        {
         }
 
         public async Task<Tag> SetTags()
@@ -210,6 +251,9 @@ namespace com.aurora.aumusic
             Album = null;
             Title = null;
             ArtWork = null;
+            AlbumArtists = null;
+            Artists = null;
+            Genres = null;
         }
 
         private async Task<Tag> SetTagFLAC()
@@ -289,19 +333,36 @@ namespace com.aurora.aumusic
 
             if (p.Length > 0)
             {
+                try
+                {
+                    if (p[0].MimeType.Contains("png"))
+                    {
+                        await cacheFolder.GetFileAsync(ArtWorkName + ".png");
+                        ArtWork = "ms-appdata:///local/" + ArtWorkName + ".png";
+                    }
+                    if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
+                    {
+                        await cacheFolder.GetFileAsync(ArtWorkName + ".jpg");
+                        ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
+                    }
 
-                if (p[0].MimeType.Contains("png"))
-                {
-                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".png", CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
-                    ArtWork = "ms-appdata:///local/" + ArtWorkName + ".png";
                 }
-                if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
+                catch (Exception)
                 {
-                    StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".jpg", CreationCollisionOption.ReplaceExisting);
-                    await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
-                    ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
+                    if (p[0].MimeType.Contains("png"))
+                    {
+                        StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".png", CreationCollisionOption.ReplaceExisting);
+                        await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
+                        ArtWork = "ms-appdata:///local/" + ArtWorkName + ".png";
+                    }
+                    if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
+                    {
+                        StorageFile cacheImg = await cacheFolder.CreateFileAsync(ArtWorkName + ".jpg", CreationCollisionOption.ReplaceExisting);
+                        await FileIO.WriteBytesAsync(cacheImg, p[0].Data.Data);
+                        ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
+                    }
                 }
+
             }
             else
             {
@@ -323,18 +384,20 @@ namespace com.aurora.aumusic
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            this.Artists = tags.Performers;
-            if (!(p.Title.Contains("?") || p.Title == null || p.Album.Contains("?") || p.Album == "" || p.AlbumArtist == "" || p.Artist == ""))
+
+            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == "" || p.AlbumArtist == "" || p.Artist == ""))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;
                 this.AlbumArtists = new[] { p.AlbumArtist };
+                this.Artists = new[] { p.Artist };
             }
             else
             {
                 this.Title = tags.Title;
                 this.Album = tags.Album;
                 this.AlbumArtists = tags.AlbumArtists;
+                this.Artists = tags.Performers;
             }
             this.Year = tags.Year;
             this.Genres = tags.Genres;
@@ -358,21 +421,8 @@ namespace com.aurora.aumusic
             {
                 if (tempTypeStrings.Contains(tempFile.FileType))
                 {
-                    Song song = new Song(tempFile);
-                    song.FolderToken = tempPath;
-                    var tags = await song.SetTags();
-                    if (tags != null)
-                    {
-                        try
-                        {
-                            await song.GetArtWorks(tags);
-                        }
-                        catch (Exception)
-                        {
-                            song.ArtWork = (song.ArtWorkName == null ? song.ArtWork = null : song.ArtWork = "ms-appdata:///local/" + song.ArtWorkName);
-                        }
-
-                    }
+                    Song song = new Song(tempFile, tempPath);
+                    await song.initial();
                     Songs.SongList.Add(song);
                     song.SaveSongtoStorage(song, progress);
                     progress++;
@@ -385,6 +435,27 @@ namespace com.aurora.aumusic
                 }
 
             }
+        }
+
+        public async Task initial()
+        {
+            if (this.AudioFile != null && this.FolderToken != null)
+            {
+                var tags = await this.SetTags();
+                if (tags != null)
+                {
+                    try
+                    {
+                        await this.GetArtWorks(tags);
+                    }
+                    catch (Exception)
+                    {
+                        this.ArtWork = (this.ArtWorkName == null ? this.ArtWork = null : this.ArtWork = "ms-appdata:///local/" + this.ArtWorkName);
+                    }
+
+                }
+            }
+
         }
 
         public static async Task<IReadOnlyList<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
