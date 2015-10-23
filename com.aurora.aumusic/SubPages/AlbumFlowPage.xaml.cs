@@ -21,6 +21,7 @@ namespace com.aurora.aumusic
         PlaybackPack _pageParameters;
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem SelectedAlbum;
+        bool isInitialed = false;
         public AlbumFlowPage()
         {
             this.InitializeComponent();
@@ -37,20 +38,28 @@ namespace com.aurora.aumusic
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (isInitialed)
+            {
+                return;
+            }
             _pageParameters = e.Parameter as PlaybackPack;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
         {
+            if (isInitialed)
+            {
+                return;
+            }
             if (!(await Albums.getAlbumList()))
             {
                 await Albums.FirstCreate();
             }
-
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
             BitmapHelper p = new BitmapHelper();
+            isInitialed = true;
         }
 
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

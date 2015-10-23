@@ -218,6 +218,14 @@ namespace com.aurora.aumusic
 
         }
 
+        public void Restore()
+        {
+            this.getArtwork();
+            this.getYear();
+            this.getGenres();
+            this.refreshArtists();
+        }
+
         private bool refreshArtwork()
         {
             bool b = false;
@@ -269,6 +277,24 @@ namespace com.aurora.aumusic
         {
             if (Songs.Count != 0)
             {
+                uint track = 0;
+                foreach (var item in Songs)
+                {
+                    track += item.Track;
+                }
+                if(track == 0)
+                {
+                    Songs.Sort((first, second) =>
+                    {
+                        return first.Title.CompareTo(second.Title);
+                    });
+                    for(int i = 1; i<= Songs.Count; i++)
+                    {
+                        Songs[i - 1].Track = (uint)i;
+                        Songs[i - 1].TrackCount = (uint)Songs.Count;
+                    }
+                    return;
+                }
                 Songs.Sort((first, second) =>
                 {
                     return first.Disc.CompareTo(second.Disc);

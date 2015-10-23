@@ -116,6 +116,7 @@ namespace com.aurora.aumusic
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            _pageParameters.PlaybackControl.Clear();
             _pageParameters.PlaybackControl.addNew(_pageParameters.Album);
             await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
         }

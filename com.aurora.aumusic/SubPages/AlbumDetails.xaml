@@ -190,6 +190,9 @@
                     <Button Style="{StaticResource ButtonStyle1}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
                 </Grid>
             </ListView.Header>
+            <ListView.Footer>
+                <Grid Height="80" Width="auto" />
+            </ListView.Footer>
         </ListView>
     </RelativePanel>
 </Page>

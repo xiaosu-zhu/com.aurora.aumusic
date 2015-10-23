@@ -141,7 +141,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal static Song RestoreSongfromStorage(int songsCount, List<IStorageFile> allList, ApplicationDataContainer SubContainer)
+        internal static Song RestoreSongfromStorage(List<IStorageFile> allList, ApplicationDataContainer SubContainer)
         {
             Song tempSong = new Song();
             try

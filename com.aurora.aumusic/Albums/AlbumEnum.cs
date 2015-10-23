@@ -27,14 +27,7 @@ namespace com.aurora.aumusic
             {
                 if (((int)localSettings.Values["AlbumsCount"]) != 0)
                 {
-                    await Task.Run(async () =>
-                                    {
-                                        AlbumList = await RestoreAllfromStorage();
-                                    });
-                    foreach (var item in AlbumList)
-                    {
-                        Albums.Add(item);
-                    }
+                    await RestoreAllfromStorage();
                     return true;
                 }
             }
@@ -57,6 +50,12 @@ namespace com.aurora.aumusic
                     }
                     localSettings.Values["SongsCount"] = Songscount;
                     localSettings.Values["AlbumsCount"] = Albums.Count;
+                    int progress = 0;
+                    foreach (var item in Albums)
+                    {
+                        SaveAlltoStorage(item, progress);
+                        progress++;
+                    }
                 }
 
             }
@@ -76,6 +75,10 @@ namespace com.aurora.aumusic
                     await AddtoAlbum(song);
                 }
             }
+            foreach (var item in Albums)
+                {
+                    await item.Refresh();
+                }
             return count;
         }
 
@@ -93,7 +96,6 @@ namespace com.aurora.aumusic
                         return;
                     }
                 }
-                await Albums.Last().Refresh();
             }
             AlbumItem album = new AlbumItem();
             album.AlbumName = song.Album;
@@ -102,7 +104,7 @@ namespace com.aurora.aumusic
             Albums.Add(album);
         }
 
-        private async Task<List<AlbumItem>> RestoreAllfromStorage()
+        private async Task RestoreAllfromStorage()
         {
             if (localSettings.Values.ContainsKey("FolderSettings"))
             {
@@ -113,11 +115,10 @@ namespace com.aurora.aumusic
                     List<IStorageFile> AllList = new List<IStorageFile>();
                     for (int i = 0; i < count; i++)
                     {
-                        String tempPath = (String)composite["FolderSettings" + i.ToString()];
+                        string tempPath = (string)composite["FolderSettings" + i.ToString()];
                         StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
                         AllList.AddRange(await SearchAllinFolder(tempFolder));
                     }
-                    List<AlbumItem> tempAlbums = new List<AlbumItem>();
                     int AlbumsCount = (int)localSettings.Values["AlbumsCount"];
                     for (int i = 0; i < AlbumsCount; i++)
                     {
@@ -129,24 +130,21 @@ namespace com.aurora.aumusic
                         {
                             ApplicationDataContainer SubContainer =
             MainContainer.CreateContainer("Songs" + j, ApplicationDataCreateDisposition.Always);
-                            Song tempSong = Song.RestoreSongfromStorage(SongsCount, AllList, SubContainer);
+                            Song tempSong = Song.RestoreSongfromStorage(AllList, SubContainer);
                             tempSongs.Add(tempSong);
                             AllList.Remove(tempSong.AudioFile);
                         }
                         AlbumItem tempAlbum = new AlbumItem(tempSongs);
-                        await tempAlbum.Initial();
+                        tempAlbum.Restore();
                         string[] tempColor = ((string)MainContainer.Values["MainColor"]).Split(',');
                         byte a = Byte.Parse(tempColor[0]), r = Byte.Parse(tempColor[1]), g = Byte.Parse(tempColor[2]), b = Byte.Parse(tempColor[3]);
                         tempAlbum.Palette = Color.FromArgb(a, r, g, b);
                         tempAlbum.GenerateTextColor();
                         tempAlbum.Rating = (uint)MainContainer.Values["Rating"];
-                        tempAlbums.Add(tempAlbum);
+                        Albums.Add(tempAlbum);
                     }
-                    return tempAlbums;
                 }
             }
-            return null;
-
         }
 
         public void SaveAlltoStorage(AlbumItem Album, int progress)
