@@ -73,8 +73,41 @@ namespace com.aurora.aumusic
                     _year = value;
             }
         }
-        public string[] AlbumArtists = null;
-        public string[] Artists = null;
+        private string[] _albumartists = null;
+        public string[] AlbumArtists
+        {
+            get
+            {
+                return _albumartists;
+            }
+            set
+            {
+                if (value[0] == "Unknown Artists")
+                {
+                    return;
+                }
+                _albumartists = value;
+            }
+        }
+        private string[] _artists = null;
+        public string[] Artists
+        {
+            get
+            {
+                return _artists;
+            }
+            set
+            {
+                if (value[0] == "Unknown AlbumArtists")
+                {
+                    return;
+                }
+                _artists = value;
+            }
+        }
+
+        public int Position { get; internal set; }
+
         public string[] Genres = null;
         public uint Rating = 0;
         public List<Song> Songs = new List<Song>();
@@ -101,27 +134,19 @@ namespace com.aurora.aumusic
                 int i = 0, j = 0, k = 0, m = 0, o = 0;
                 foreach (var item in Songs)
                 {
-                    if (item.AlbumArtists != null)
+
+                    if (item.AlbumArtists.Length > i)
                     {
-                        if ((item.AlbumArtists.Length != 0))
-                        {
-                            if (item.AlbumArtists.Length > i)
-                            {
-                                i = item.AlbumArtists.Length;
-                                k = j + 1;
-                            }
-                        }
+                        i = item.AlbumArtists.Length;
+                        k = j + 1;
+
                     }
-                    if (item.Artists != null)
+
+                    if (item.Artists.Length > m)
                     {
-                        if (item.Artists.Length != 0)
-                        {
-                            if (item.Artists.Length > m)
-                            {
-                                m = item.Artists.Length;
-                                o = j + 1;
-                            }
-                        }
+                        m = item.Artists.Length;
+                        o = j + 1;
+
                     }
 
 
@@ -129,35 +154,19 @@ namespace com.aurora.aumusic
                 }
                 if (k != 0)
                 {
-                    if (Songs[k - 1].AlbumArtists[0] != null)
-                    {
-                        List<string> l = new List<string>();
-                        foreach (var item in Songs[k - 1].AlbumArtists)
-                        {
-                            l.Add(item);
-                        }
-                        AlbumArtists = l.ToArray();
-                    }
+                    AlbumArtists = Songs[k - 1].AlbumArtists;
                 }
 
                 if (o != 0)
                 {
-                    if (Songs[o - 1].Artists[0] != null)
-                    {
-                        List<string> l = new List<string>();
-                        foreach (var item in Songs[o - 1].Artists)
-                        {
-                            l.Add(item);
-                        }
-                        Artists = l.ToArray();
-                    }
+                    Artists = Songs[o - 1].Artists;
                 }
 
-                if (AlbumArtists == null)
+                if (AlbumArtists[0] == "Unknown AlbumArtists")
                 {
-                    AlbumArtists = Artists == null ? (new[] { "Unknown Artists" }) : Artists;
+                    AlbumArtists = Artists;
                 }
-                if (Artists == null)
+                if (Artists[0] == "Unknown Artists")
                 {
                     Artists = AlbumArtists;
                 }
@@ -224,6 +233,10 @@ namespace com.aurora.aumusic
             this.getYear();
             this.getGenres();
             this.refreshArtists();
+            foreach (var item in Songs)
+            {
+                item.Position = this.Position;
+            }
         }
 
         private bool refreshArtwork()
@@ -282,13 +295,13 @@ namespace com.aurora.aumusic
                 {
                     track += item.Track;
                 }
-                if(track == 0)
+                if (track == 0)
                 {
                     Songs.Sort((first, second) =>
                     {
                         return first.Title.CompareTo(second.Title);
                     });
-                    for(int i = 1; i<= Songs.Count; i++)
+                    for (int i = 1; i <= Songs.Count; i++)
                     {
                         Songs[i - 1].Track = (uint)i;
                         Songs[i - 1].TrackCount = (uint)Songs.Count;

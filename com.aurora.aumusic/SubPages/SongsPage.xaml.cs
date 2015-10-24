@@ -5,17 +5,14 @@ namespace com.aurora.aumusic
 {
     public sealed partial class SongsPage : Page
     {
-        SongsEnum Songs = new SongsEnum();
         public SongsPage()
         {
             this.InitializeComponent();
-            SongListReosurces.Source = Songs.Songs;
         }
 
         private void Progress_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             //await Songs.RestoreSongsWithProgress();
-            WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void SongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -25,13 +22,11 @@ namespace com.aurora.aumusic
 
         private void hehButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Songs.SaveSongstoStorage();
+           // Songs.SaveSongstoStorage();
         }
 
         private void hahButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            WaitingBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            ;
         }
     }
 }

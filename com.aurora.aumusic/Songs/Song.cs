@@ -31,14 +31,27 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value==null || value.Length == 0)
+                if (value == null || value.Length == 0)
                 {
                     this._artists = new[] { "Unknown Artists" };
+                    return;
+                }
+                List<string> l = new List<string>();
+                foreach (var item in value)
+                {
+                    if (item == "" || item == " " || item == "  ")
+                    {
+                        continue;
+                    }
+                    l.Add(item);
+                }
+                if (l.Count > 0)
+                {
+                    _artists = l.ToArray();
+                    return;
                 }
                 else
-                {
-                    this._artists = value;
-                }
+                    _artists = new[] { "Unknown Artists" };
             }
         }
         private string[] _albumartists;
@@ -50,19 +63,31 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value==null || value.Length == 0)
+                if (value == null || value.Length == 0)
                 {
                     this._albumartists = new[] { "Unknown AlbumArtists" };
+                    return;
+                }
+                List<string> l = new List<string>();
+                foreach (var item in value)
+                {
+                    if (item == "")
+                    {
+                        continue;
+                    }
+                    l.Add(item);
+                }
+                if (l.Count > 0)
+                {
+                    _albumartists = l.ToArray();
+                    return;
                 }
                 else
-                {
-                    this._albumartists = value;
-                }
+                    _albumartists = new[] { "Unknown AlbumArtists" };
             }
         }
         private string _artWork;
         private string _artWorkName;
-        public Size ArtWorkSize = new Size();
         public string ArtWorkName
         {
             get
@@ -85,7 +110,6 @@ namespace com.aurora.aumusic
             set
             {
                 _artWork = (value == null) ? "ms-appx:///Assets/unknown.png" : value;
-                ArtWorkSize = new Size(400, 400);
             }
         }
 
@@ -104,7 +128,7 @@ namespace com.aurora.aumusic
             }
             set
             {
-                if (value==null || value.Length == 0)
+                if (value == null || value.Length == 0)
                 {
                     this._genres = new[] { "Unknown Genres" };
                 }
@@ -144,6 +168,7 @@ namespace com.aurora.aumusic
         internal static Song RestoreSongfromStorage(List<IStorageFile> allList, ApplicationDataContainer SubContainer)
         {
             Song tempSong = new Song();
+            bool isExist = false;
             try
             {
                 string key = (string)SubContainer.Values["MainKey"];
@@ -155,14 +180,20 @@ namespace com.aurora.aumusic
                     if (tempSong.MainKey == ((StorageFile)item).Path + ((StorageFile)item).Name)
                     {
                         tempSong.AudioFile = (StorageFile)item;
+                        isExist = true;
                         break;
                     }
+                }
+                if (!isExist)
+                {
+                    return null;
                 }
             }
             catch (Exception)
             {
                 return null;
             }
+            tempSong.PlayTimes = (int)SubContainer.Values["PlayTimes"];
             tempSong.Rating = (uint)SubContainer.Values["Rating"];
             tempSong.Title = (string)SubContainer.Values["Title"];
             tempSong.ArtWork = (string)SubContainer.Values["ArtWork"];
@@ -172,8 +203,6 @@ namespace com.aurora.aumusic
             tempSong.DiscCount = (uint)SubContainer.Values["DiscCount"];
             tempSong.Track = (uint)SubContainer.Values["Track"];
             tempSong.TrackCount = (uint)SubContainer.Values["TrackCount"];
-            tempSong.ArtWorkSize.Width = (double)SubContainer.Values["Width"];
-            tempSong.ArtWorkSize.Height = (double)SubContainer.Values["Height"];
             tempSong.AlbumArtists = (((string)SubContainer.Values["AlbumArtists"]) != null ? ((string)SubContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Artists = (((string)SubContainer.Values["Artists"]) != null ? ((string)SubContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Genres = (((string)SubContainer.Values["Genres"]) != null ? ((string)SubContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
@@ -182,8 +211,23 @@ namespace com.aurora.aumusic
             return tempSong;
         }
 
-        public string FolderToken { get; private set; }
+        public string FolderToken { get; set; }
         public TimeSpan Duration { get; private set; }
+        private int _playtimes = 0;
+        public int PlayTimes
+        {
+            get
+            {
+                return _playtimes;
+            }
+            set
+            {
+                _playtimes = value < 0 ? 0 : value;
+            }
+        }
+
+        public int Position { get; internal set; }
+        public int SubPosition { get; internal set; }
 
         public Song(StorageFile File, string tempPath)
         {
@@ -192,25 +236,15 @@ namespace com.aurora.aumusic
         }
 
 
-        public static async Task GetSongListWithProgress(AlbumEnum albumEnum, string tempPath)
-        {
-            StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-            IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
-            uint count = (uint)AllList.Count;
-            uint progress = 0;
-            uint step = 0;
-            foreach (StorageFile tempFile in AllList)
-            {
-                if (tempTypeStrings.Contains(tempFile.FileType))
-                {
-                    Song song = new Song(tempFile, tempPath);
-                    await song.initial();
-                }
-            }
-        }
+
 
         public Song()
         {
+        }
+
+        public Song(StorageFile audioFile)
+        {
+            AudioFile = audioFile;
         }
 
         public async Task<Tag> SetTags()
@@ -280,9 +314,6 @@ namespace com.aurora.aumusic
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
     localSettings.CreateContainer("song" + progress, ApplicationDataCreateDisposition.Always);
-            //string mainkey = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile, s);
-            //if (localSettings.Containers.ContainsKey(mainkey))
-            {
                 MainContainer.Values["FolderToken"] = item.FolderToken;
                 MainContainer.Values["MainKey"] = item.MainKey;
                 MainContainer.Values["Title"] = item.Title;
@@ -293,8 +324,6 @@ namespace com.aurora.aumusic
                 MainContainer.Values["DiscCount"] = item.DiscCount;
                 MainContainer.Values["Track"] = item.Track;
                 MainContainer.Values["TrackCount"] = item.TrackCount;
-                MainContainer.Values["Width"] = item.ArtWorkSize.Width;
-                MainContainer.Values["Height"] = item.ArtWorkSize.Height;
                 MainContainer.Values["Rating"] = item.Rating;
                 string sb = Artists != null ? string.Join("|:|", Artists) : null;
                 MainContainer.Values["Artists"] = sb;
@@ -303,7 +332,7 @@ namespace com.aurora.aumusic
                 sb = Genres != null ? string.Join("|:|", Genres) : null;
                 MainContainer.Values["Genres"] = sb;
                 MainContainer.Values["Duration"] = Duration.ToString();
-            }
+                MainContainer.Values["PlayTimes"] = PlayTimes;
         }
 
         private async Task<Tag> SetTagM4A()
@@ -385,7 +414,7 @@ namespace com.aurora.aumusic
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
 
-            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == "" || p.AlbumArtist == "" || p.Artist == ""))
+            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == ""))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;
@@ -409,37 +438,16 @@ namespace com.aurora.aumusic
         }
 
 
-        public static async Task GetSongListWithProgress(SongsEnum Songs, string tempPath)
-        {
-            List<Song> SongList = new List<Song>();
-            StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-            IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
-            uint count = (uint)AllList.Count;
-            uint progress = 0;
-            uint step = 0;
-            foreach (StorageFile tempFile in AllList)
-            {
-                if (tempTypeStrings.Contains(tempFile.FileType))
-                {
-                    Song song = new Song(tempFile, tempPath);
-                    await song.initial();
-                    Songs.SongList.Add(song);
-                    song.SaveSongtoStorage(song, progress);
-                    progress++;
-                    if (((double)(progress - step)) / ((double)count) > 0.01)
-                    {
-                        Songs.RefreshSongs(Songs.SongList);
-                        step = progress;
-                        Songs.Percent = (int)(((double)step / count) * 100);
-                    }
-                }
 
-            }
+        public void PlayOnce()
+        {
+            this.PlayTimes++;
+            ShuffleList.Save(this);
         }
 
         public async Task initial()
         {
-            if (this.AudioFile != null && this.FolderToken != null)
+            if (this.AudioFile != null)
             {
                 var tags = await this.SetTags();
                 if (tags != null)
@@ -458,26 +466,5 @@ namespace com.aurora.aumusic
 
         }
 
-        public static async Task<IReadOnlyList<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
-        {
-
-            IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
-            List<IStorageFile> finalList = new List<IStorageFile>();
-            foreach (var item in tempList)
-            {
-                if (item is StorageFolder)
-                {
-                    finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
-                }
-                if (item is StorageFile)
-                {
-                    if (tempTypeStrings.Contains(((StorageFile)item).FileType))
-                    {
-                        finalList.Add((StorageFile)item);
-                    }
-                }
-            }
-            return finalList;
-        }
     }
 }

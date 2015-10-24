@@ -46,11 +46,11 @@ namespace com.aurora.aumusic
         private bool TimeTask(TimeSpan delay, bool completed)
         {
             ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
-async (source) =>
-{
-    await
+                               async (source) =>
+                                    {
+                                   await
 
-            Dispatcher.RunAsync(
+                           Dispatcher.RunAsync(
                                 CoreDispatcherPriority.High,
                                 () =>
                                 {
@@ -69,14 +69,14 @@ async (source) =>
                                     }
                                 });
 
-    completed = true;
-},
-                delay,
-async (source) =>
-{
-    await
+                         completed = true;
+                                   },
+                                    delay,
+                             async (source) =>
+                               {
+                                    await
 
-            Dispatcher.RunAsync(
+                                 Dispatcher.RunAsync(
                             CoreDispatcherPriority.High,
                             () =>
                             {

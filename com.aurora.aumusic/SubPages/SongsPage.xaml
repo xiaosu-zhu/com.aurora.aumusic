@@ -39,7 +39,6 @@
         </DataTemplate>
     </Page.Resources>
     <RelativePanel>
-        <ProgressBar x:Name="WaitingBar" Loaded="Progress_Loaded" IsIndeterminate="False" Value="{x:Bind Songs.Percent, Mode=OneWay}" Maximum="100" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
         <ListView x:Name="SongList" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="12,40,0,0"
                   ItemsSource="{x:Bind SongListReosurces.View}"
                   ItemTemplate="{StaticResource SongListTemplate}"

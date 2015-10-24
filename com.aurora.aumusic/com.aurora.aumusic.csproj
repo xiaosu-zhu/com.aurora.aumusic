@@ -98,7 +98,6 @@
   <ItemGroup>
     <Compile Include="Albums\AlbumEnum.cs" />
     <Compile Include="Albums\AlbumItem.cs" />
-    <Compile Include="Albums\AlbumSongsList.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -107,8 +106,8 @@
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
     <Compile Include="PlayBack.cs" />
     <Compile Include="PlaybackPack.cs" />
+    <Compile Include="Songs\ShuffleList.cs" />
     <Compile Include="Songs\Song.cs" />
-    <Compile Include="Songs\SongsEnum.cs" />
     <Compile Include="SplitListView.cs" />
     <Compile Include="SubPages\AlbumDetails.xaml.cs">
       <DependentUpon>AlbumDetails.xaml</DependentUpon>

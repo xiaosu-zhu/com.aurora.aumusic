@@ -111,6 +111,7 @@ namespace com.aurora.aumusic
                     i++;
                     if (i > 2)
                     {
+                        sb.Remove(sb.Length - 2, 2);
                         sb.Append("等");
                         break;
                     }
@@ -118,9 +119,7 @@ namespace com.aurora.aumusic
                     sb.Append(", ");
                 }
                 if (sb[sb.Length - 1] == ' ')
-                {
                     sb.Remove(sb.Length - 2, 2);
-                }
                 sb.Append("创作");
             }
             sb.Append("   ");

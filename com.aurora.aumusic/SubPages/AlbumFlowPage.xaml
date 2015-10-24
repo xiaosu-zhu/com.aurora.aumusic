@@ -88,8 +88,13 @@
             <local:ArtistsCountConverter x:Key="ArtistsConverter" />
 
             <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
-
                 <RelativePanel PointerEntered="RelativePanel_PointerEntered" PointerExited="RelativePanel_PointerExited" PointerReleased="RelativePanel_PointerReleased_1" >
+                    <RelativePanel.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition/>
+                            <RepositionThemeTransition/>
+                        </TransitionCollection>
+                    </RelativePanel.Transitions>
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
                         <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="{StaticResource Thickless}" />
                     </Viewbox>
@@ -124,6 +129,13 @@
                 </RelativePanel>
             </DataTemplate>
             <CollectionViewSource x:Name="AlbumFlowResources" />
+            <CollectionViewSource x:Name="ShuffleListResources" />
+            <DataTemplate x:DataType="local:Song" x:Key="ShuffleListTemplate">
+                <RelativePanel>
+                    <TextBlock Text="{x:Bind Title}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <Button FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource TextBlockButtonStyle}" Content="&#xE768;" />
+                </RelativePanel>
+            </DataTemplate>
             <Style x:Key="ListViewStyle1" TargetType="ListView">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="TabNavigation" Value="Once"/>
@@ -181,20 +193,20 @@
                 <x:String>按歌曲类型</x:String>
             </ComboBox>
             <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.RightOf="MusicArrangeList" RelativePanel.AlignBottomWithPanel="True"/>
-
         </RelativePanel>
 
         <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.Below="MymusicSubPanel" Margin="20,20,0,0" RelativePanel.AlignLeftWithPanel="True" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0" Fill="Beige" Width="auto" Height="240" />
-            <StackPanel Grid.Row="1" Orientation="Vertical" Width="auto" Height="auto">
-                <Button x:Name="QuickPlayButton" Content="快速播放" />
-                <ListView x:Name="QuickMusicList" >
-                </ListView>
-            </StackPanel>
+            <TextBlock Grid.Row="0" Text="手气不错" Margin="24,4,8,8"/>
+            <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Margin="8,8,8,8" />
+            <Rectangle Grid.Row="1" Fill="Beige" Width="auto" Height="240" />
+            <ListView ItemsSource="{x:Bind ShuffleListResources.View}" ItemTemplate="{StaticResource ShuffleListTemplate}" IsItemClickEnabled="True">
+                
+            </ListView>
         </Grid>
 
         <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">

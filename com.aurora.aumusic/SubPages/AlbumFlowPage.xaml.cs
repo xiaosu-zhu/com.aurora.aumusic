@@ -25,6 +25,7 @@ namespace com.aurora.aumusic
         public AlbumFlowPage()
         {
             this.InitializeComponent();
+
             AlbumFlowResources.Source = Albums.Albums;
             var view = ApplicationView.GetForCurrentView();
             ApplicationViewTitleBar titleBar = view.TitleBar;
@@ -40,6 +41,18 @@ namespace com.aurora.aumusic
         {
             if (isInitialed)
             {
+                var view = ApplicationView.GetForCurrentView();
+                ApplicationViewTitleBar titleBar = view.TitleBar;
+                if (titleBar != null)
+                {
+                    titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                    titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                }
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                if (Albums.AlbumList.Count >= 16)
+                {
+                    Albums.Albums.Clear();
+                }
                 return;
             }
             _pageParameters = e.Parameter as PlaybackPack;
@@ -50,15 +63,28 @@ namespace com.aurora.aumusic
         {
             if (isInitialed)
             {
+                if (Albums.AlbumList.Count >= 16)
+                {
+                    foreach (var item in Albums.AlbumList)
+                    {
+                        await Task.Delay(1);
+                        Albums.Albums.Add(item);
+                    }
+                    GC.Collect();
+                }
+                WaitingBar.Visibility = Visibility.Collapsed;
+                WaitingBar.IsIndeterminate = false;
                 return;
             }
-            if (!(await Albums.getAlbumList()))
+            switch (await Albums.getAlbumList())
             {
-                await Albums.FirstCreate();
+                case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
+                case RefreshState.NeedRefresh: await Albums.Refresh(); break;
+                case RefreshState.Normal: break;
             }
+            GC.Collect();
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
-            BitmapHelper p = new BitmapHelper();
             isInitialed = true;
         }
 
@@ -139,7 +165,6 @@ namespace com.aurora.aumusic
         {
             KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[3];
             double flowWidth = finalSize.Width / 3;
-
             double[] xWidth = new double[3];
             foreach (int index in Enumerable.Range(0, 3))
             {

@@ -81,6 +81,7 @@ namespace com.aurora.aumusic
                 Songs.Add(a);
                 NowIndex = 0;
             }
+            a.PlayOnce();
             var stream = await a.AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, a.AudioFile.ContentType);
         }
@@ -89,6 +90,7 @@ namespace com.aurora.aumusic
             if (Songs.Count >= index)
             {
                 NowIndex = index;
+                Songs[index].PlayOnce();
                 var stream = await Songs[index].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
                 m.SetSource(stream, Songs[index].AudioFile.ContentType);
             }
@@ -117,6 +119,10 @@ namespace com.aurora.aumusic
             NowIndex = 0;
             var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
+            foreach (var item in Songs)
+            {
+                item.PlayOnce();
+            }
         }
         #endregion
         public async Task PlayNext(MediaElement m)
