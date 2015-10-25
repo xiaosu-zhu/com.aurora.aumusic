@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Input;
 using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace com.aurora.aumusic
 {
@@ -163,8 +164,9 @@ namespace com.aurora.aumusic
             {
                 _verticalPosition = 0;
             }
-            AlbumDetailsHeader.Height = HeaderHeight - _verticalPosition >= 0 ? HeaderHeight - _verticalPosition : 0;
             DetailsScrollViewer.ChangeView(0, _verticalPosition, 1);
+            RepositionAnimation.To = HeaderHeight - _verticalPosition >= 0 ? HeaderHeight - _verticalPosition : 0;
+            RepositionStoryBoard.Begin();
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -228,8 +230,8 @@ namespace com.aurora.aumusic
         private void ZoomInInitial()
         {
             AlbumSongsResources.Source = DetailedAlbum.Songs;
-            HeaderHeight = AlbumDetailsHeader.Height;
-            AlbumDetailsHeader.Background = new SolidColorBrush(DetailedAlbum.Palette);
+            HeaderHeight = 424;
+            RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
             AlbumArtWork.Source = new BitmapImage(new Uri(DetailedAlbum.AlbumArtWork));
             AlbumTitle.Foreground = new SolidColorBrush(DetailedAlbum.TextMainColor);
             AlbumDetailsBlock.Foreground = new SolidColorBrush(DetailedAlbum.TextSubColor);

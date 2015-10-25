@@ -759,7 +759,7 @@
                     <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
                         <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                     </Viewbox>
-                    <MediaElement Name="PlaybackControl" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
+                    <MediaElement Name="PlaybackControl" CurrentStateChanged="PlaybackControl_CurrentStateChanged" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
                         <MediaElement.TransportControls>
                             <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
                         </MediaElement.TransportControls>

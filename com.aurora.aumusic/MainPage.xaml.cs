@@ -83,6 +83,8 @@ namespace com.aurora.aumusic
 
                                 if (completed)
                                 {
+                                    if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Closed || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Stopped || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Paused)
+                                        return;
                                     completed = TimeTask(delay, completed);
                                 }
                                 else
@@ -155,9 +157,6 @@ namespace com.aurora.aumusic
             }
             BitmapImage b = s != null ? new BitmapImage(new Uri(s.ArtWork)) : new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
             PlayBackImage.Source = b;
-            bool completed = false;
-            TimeSpan delay = TimeSpan.FromMilliseconds(100);
-            completed = TimeTask(delay, completed);
             ThumbToolTipConveter thumbConverter = (ThumbToolTipConveter)ProgressSlider.ThumbToolTipValueConverter;
             thumbConverter.sParmeter = ts.TotalSeconds;
         }
@@ -270,6 +269,16 @@ namespace com.aurora.aumusic
                 volumrMuteButton.Icon = vol_mid;
             }
             else volumrMuteButton.Icon = new SymbolIcon(Symbol.Volume);
+        }
+
+        private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
+        {
+            if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Playing)
+            {
+                bool completed = false;
+                TimeSpan delay = TimeSpan.FromMilliseconds(16);
+                completed = TimeTask(delay, completed);
+            }
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
