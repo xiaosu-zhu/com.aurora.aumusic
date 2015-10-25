@@ -86,6 +86,34 @@
             </Style>
             <local:SongsCountConverter x:Key="CountConverter"/>
             <local:ArtistsCountConverter x:Key="ArtistsConverter" />
+            <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
+            <local:AlbumDetailsConverter x:Key="AlbumConverter" />
+            <CollectionViewSource x:Name="AlbumSongsResources" />
+            <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
+                <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">
+                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
+                    <Grid Height="44" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SongTrack" Grid.Column="0" Text="{x:Bind Track, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock x:Name="SongTitle" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </Grid>
+                    <Grid Width="256" x:Name="SubGrid" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="36">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="96" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <local:DurationValueConverter x:Key="DurationConverter" />
+                        </Grid.Resources>
+                        <TextBlock x:Name="Artists" Grid.Column="0" Text="{x:Bind Artists[0] ,Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                        <TextBlock x:Name="Duration" Grid.Column="1" Text="{Binding Path=Duration, Converter={StaticResource DurationConverter},Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
+                    </Grid>
+                    <Button x:Name="PlayButton" Visibility="Collapsed" RelativePanel.LeftOf="SubGrid" Height="44" Width="44" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" Margin="0,0,12,0" Click="PlayButton_Click" FontSize="18.667" />
+                </RelativePanel>
+            </DataTemplate>
 
             <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
                 <RelativePanel PointerEntered="RelativePanel_PointerEntered" PointerExited="RelativePanel_PointerExited" PointerReleased="RelativePanel_PointerReleased_1" >
@@ -96,31 +124,32 @@
                         </TransitionCollection>
                     </RelativePanel.Transitions>
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
-                        <Image x:Name="AlbumArtWork" Source="{x:Bind AlbumArtWork}" Margin="{StaticResource Thickless}" />
+                        <Image x:Name="AlbumArtWork" x:Phase="2" Source="{x:Bind AlbumArtWork, Mode=OneWay}" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" />
                     </Viewbox>
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               VerticalAlignment="Bottom" Margin="0,-48,0,0" Height="96" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <Grid Height="88" Margin="0,48,0,0">
                             <Grid.Background>
-                                <SolidColorBrush Color="{x:Bind Palette}" />
+                                <SolidColorBrush Color="{x:Bind Palette, Mode=OneWay}" />
                             </Grid.Background>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="44" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
+                            <Rectangle Canvas.ZIndex="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="Transparent" PointerReleased="Rectangle_PointerReleased" />
                             <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4,4,0,0" VerticalAlignment="Top">
                                 <TextBlock.Foreground>
-                                    <SolidColorBrush Color="{x:Bind TextMainColor}" />
+                                    <SolidColorBrush Color="{x:Bind TextMainColor, Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
+                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
                                 <TextBlock.Foreground>
-                                    <SolidColorBrush Color="{x:Bind TextSubColor}" />
+                                    <SolidColorBrush Color="{x:Bind TextSubColor,Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count, Converter={StaticResource CountConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="44,0,0,0"  >
+                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count, Converter={StaticResource CountConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="44,0,0,0"  >
                                 <TextBlock.Foreground>
-                                    <SolidColorBrush Color="{x:Bind TextSubColor}" />
+                                    <SolidColorBrush Color="{x:Bind TextSubColor ,Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
                             <Button Grid.Row="1" Height="36" Width="36" BorderThickness="0" Style="{ThemeResource ButtonStyle1}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="18.667" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Click="Button_Click" />
@@ -132,7 +161,7 @@
             <CollectionViewSource x:Name="ShuffleListResources" />
             <DataTemplate x:DataType="local:Song" x:Key="ShuffleListTemplate">
                 <RelativePanel>
-                    <TextBlock Text="{x:Bind Title}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignVerticalCenterWithPanel="True" />
                     <Button FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource TextBlockButtonStyle}" Content="&#xE768;" />
                 </RelativePanel>
             </DataTemplate>
@@ -204,27 +233,182 @@
             <TextBlock Grid.Row="0" Text="手气不错" Margin="24,4,8,8"/>
             <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Margin="8,8,8,8" />
             <Rectangle Grid.Row="1" Fill="Beige" Width="auto" Height="240" />
-            <ListView ItemsSource="{x:Bind ShuffleListResources.View}" ItemTemplate="{StaticResource ShuffleListTemplate}" IsItemClickEnabled="True">
-                
+            <ListView ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" ItemTemplate="{StaticResource ShuffleListTemplate}" IsItemClickEnabled="True">
+
             </ListView>
         </Grid>
 
         <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
-            <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" Style="{StaticResource ListViewStyle1}" >
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
-                        <Setter Property="Margin" Value="8,4,8,4" />
-                        <Setter Property="Padding" Value="0" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:AlbumFlowPanel />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
+            <SemanticZoom x:Name="AlbumFlowZoom" ViewChangeCompleted="AlbumFlowZoom_ViewChangeCompleted">
+                <SemanticZoom.ZoomedOutView>
+                    <ListView x:Name="AlbumsFlowControls" ItemsSource="{x:Bind AlbumFlowResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" ItemClick="AlbumsFlowControls_ItemClick" Style="{StaticResource ListViewStyle1}" >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ListViewItemPresenter Background="{ThemeResource SystemControlBackgroundAltHighBrush}" Margin="8,4,8,4" Padding="0" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <local:AlbumFlowPanel />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </SemanticZoom.ZoomedOutView>
+                <SemanticZoom.ZoomedInView>
+                    <ListView Margin="0,48,0,0" x:Name="AlbumDetailsScroller" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+                  IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                        <ListView.Resources>
+                            <Style x:Key="ListViewStyle1" TargetType="ListView">
+                                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+                                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+                                <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+                                <Setter Property="ItemContainerTransitions">
+                                    <Setter.Value>
+                                        <TransitionCollection>
+                                            <AddDeleteThemeTransition/>
+                                            <ContentThemeTransition/>
+                                            <ReorderThemeTransition/>
+                                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                                        </TransitionCollection>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListView">
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded" PointerWheelChanged="ScrollViewer_PointerWheelChanged">
+                                                    <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                                                </ScrollViewer>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                            <Style x:Key="ButtonStyle1" TargetType="Button">
+                                <Setter Property="Background" Value="{ThemeResource SystemTransparentBrush}"/>
+                                <Setter Property="Foreground" Value="{ThemeResource SystemThemeMainBrush}"/>
+                                <Setter Property="BorderBrush" Value="{ThemeResource SystemTransparentBrush}"/>
+                                <Setter Property="BorderThickness" Value="{ThemeResource Thickless}"/>
+                                <Setter Property="Padding" Value="{ThemeResource Thickless}"/>
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
+                                <Setter Property="FontWeight" Value="ExtraLight"/>
+                                <Setter Property="FontSize" Value="{ThemeResource HubHeaderThemeFontSize}"/>
+                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualState x:Name="Normal">
+                                                            <Storyboard>
+                                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="PointerOver">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Pressed">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseLowBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Disabled">
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Ellipse Canvas.ZIndex="1" x:Name="ellipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Transparent" Stroke="{ThemeResource SystemThemeMainBrush}" StrokeThickness="1" />
+                                                <ContentPresenter x:Name="ContentPresenter" Margin="4,0,0,0" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.Style>
+                            <StaticResource ResourceKey="ListViewStyle1"/>
+                        </ListView.Style>
+                        <ListView.Header>
+                            <Grid x:Name="AlbumDetailsHeader" Height="424" Width="auto">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="{x:Bind DetailedAlbum.Palette, Mode=OneWay}" />
+                                </Grid.Background>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Viewbox HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="320" Stretch="Uniform">
+                                    <Image x:Name="AlbumArtWork" Source="{x:Bind DetailedAlbum.AlbumArtWork, Mode=OneWay}" />
+                                </Viewbox>
+                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                    <Viewbox Stretch="Uniform" MaxHeight="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                                        <TextBlock x:Name="AlbumTitle" Style="{ThemeResource SubheaderTextBlockStyle}" MaxWidth="640" MaxLines="3" TextWrapping="WrapWholeWords" Text="{Binding DetailedAlbum.AlbumName, Mode=OneWay}" >
+                                            <TextBlock.Foreground>
+                                                <SolidColorBrush Color="{x:Bind DetailedAlbum.TextMainColor, Mode=OneWay}" />
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                    </Viewbox>
+                                    <TextBlock x:Name="AlbumDetailsBlock" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind DetailedAlbum, Converter={StaticResource AlbumConverter}, Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{x:Bind DetailedAlbum.TextSubColor, Mode=OneWay}" />
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </StackPanel>
+                                <Button Style="{StaticResource ButtonStyle1}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
+                            </Grid>
+                        </ListView.Header>
+                        <ListView.Footer>
+                            <Grid Height="80" Width="auto" />
+                        </ListView.Footer>
+                    </ListView>
+
+                </SemanticZoom.ZoomedInView>
+            </SemanticZoom>
+
 
         </Grid>
 

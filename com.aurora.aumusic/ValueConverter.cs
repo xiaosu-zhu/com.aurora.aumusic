@@ -97,6 +97,8 @@ namespace com.aurora.aumusic
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             AlbumItem album = (AlbumItem)value;
+            if (album == null)
+                return null;
             StringBuilder sb = new StringBuilder("由");
             if (album.AlbumArtists[0] == "Unknown AlbumArtists")
             {

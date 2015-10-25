@@ -202,6 +202,8 @@ namespace com.aurora.aumusic
                     triContainer.Values["Genres"] = sb;
                     triContainer.Values["Duration"] = song.Duration.ToString();
                     triContainer.Values["PlayTimes"] = song.PlayTimes;
+                    triContainer.Values["Width"] = song.ArtWorkSize.Width;
+                    triContainer.Values["Height"] = song.ArtWorkSize.Height;
                     j++;
                 }
                 SubContainer.Values["SongsCount"] = item.Songs.Count;
@@ -267,7 +269,7 @@ namespace com.aurora.aumusic
                 tempAlbum.Palette = Color.FromArgb(a, r, g, b);
                 tempAlbum.GenerateTextColor();
                 tempAlbum.Rating = (uint)SubContainer.Values["Rating"];
-                await Task.Delay(4);
+                await Task.Delay(1);
                 Albums.Add(tempAlbum);
             }
             return AllList;

@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Input;
+using Windows.UI.Xaml.Shapes;
 
 namespace com.aurora.aumusic
 {
@@ -20,8 +24,15 @@ namespace com.aurora.aumusic
     {
         PlaybackPack _pageParameters;
         AlbumEnum Albums = new AlbumEnum();
-        AlbumItem SelectedAlbum;
+        AlbumItem DetailedAlbum;
         bool isInitialed = false;
+        private ScrollViewer DetailsScrollViewer;
+        private double _delta;
+        private double _verticalPosition = 0.0;
+
+        public double HeaderHeight { get; private set; }
+        public double MaxScrollHeight { get; private set; }
+
         public AlbumFlowPage()
         {
             this.InitializeComponent();
@@ -36,6 +47,7 @@ namespace com.aurora.aumusic
 
             }
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            AlbumFlowZoom.IsZoomedInViewActive = false;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -49,11 +61,11 @@ namespace com.aurora.aumusic
                     titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
                     titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
                 }
-                
-                if (Albums.AlbumList.Count >= 16)
-                {
-                    Albums.Albums.Clear();
-                }
+
+                //if (Albums.AlbumList.Count >= 64)
+                //{
+                //    Albums.Albums.Clear();
+                //}
                 return;
             }
             _pageParameters = e.Parameter as PlaybackPack;
@@ -63,15 +75,19 @@ namespace com.aurora.aumusic
         {
             if (isInitialed)
             {
-                if (Albums.AlbumList.Count >= 16)
-                {
-                    foreach (var item in Albums.AlbumList)
-                    {
-                        await Task.Delay(1);
-                        Albums.Albums.Add(item);
-                    }
-                    GC.Collect();
-                }
+                //if (Albums.AlbumList.Count >= 64)
+                //{
+                //    await Task.Delay(1);
+                //    int i = 0;
+                //    foreach (var item in Albums.AlbumList)
+                //    {
+                //        i++;
+                //        if (i % 64 == 0)
+                //            await Task.Delay(1);
+                //        Albums.Albums.Add(item);
+                //    }
+                //    GC.Collect();
+                //}
                 WaitingBar.Visibility = Visibility.Collapsed;
                 WaitingBar.IsIndeterminate = false;
                 return;
@@ -92,12 +108,16 @@ namespace com.aurora.aumusic
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
+            if (sv == null)
+                return;
             sv.ChangeView(0, 48, 1);
         }
 
         private void RelativePanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             ScrollViewer sv = ((RelativePanel)sender).Children[1] as ScrollViewer;
+            if (sv == null)
+                return;
             sv.ChangeView(0, 0, 1);
         }
 
@@ -107,19 +127,122 @@ namespace com.aurora.aumusic
             await this._pageParameters.PlaybackControl.Play(album.Songs, _pageParameters.Media);
         }
 
-        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            PlaybackPack p = new PlaybackPack();
-            p.Album = SelectedAlbum;
-            p.Media = this._pageParameters.Media;
-            p.PlaybackControl = this._pageParameters.PlaybackControl;
-            p.States = PLAYBACK_STATES.SingleAlbum;
-            ((Frame)((AlbumFlowPage)((RelativePanel)((Grid)((ListView)sender).Parent).Parent).Parent).Parent).Navigate(typeof(AlbumDetails), p);
-        }
 
         private void RelativePanel_PointerReleased_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            SelectedAlbum = ((RelativePanel)sender).DataContext as AlbumItem;
+            DetailedAlbum = ((RelativePanel)sender).DataContext as AlbumItem;
+            ZoomInInitial();
+        }
+
+        private void Zoom_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            AlbumFlowZoom.IsZoomedInViewActive = false;
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+            titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested -= Zoom_BackRequested;
+            DetailedAlbum = null;
+        }
+
+        private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+            DetailsScrollViewer = sender as ScrollViewer;
+        }
+
+        private void ScrollViewer_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            PointerPoint p = e.GetCurrentPoint(DetailsScrollViewer);
+            _verticalPosition -= p.Properties.MouseWheelDelta * _delta;
+            if (_verticalPosition > MaxScrollHeight)
+            {
+                _verticalPosition = MaxScrollHeight;
+            }
+            if (_verticalPosition < 0)
+            {
+                _verticalPosition = 0;
+            }
+            AlbumDetailsHeader.Height = HeaderHeight - _verticalPosition >= 0 ? HeaderHeight - _verticalPosition : 0;
+            DetailsScrollViewer.ChangeView(0, _verticalPosition, 1);
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _pageParameters.PlaybackControl.Clear();
+            _pageParameters.PlaybackControl.addNew(DetailedAlbum);
+            await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
+        }
+
+        private void RelativePanel_PointerEntered_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[3]);
+            b.Visibility = Visibility.Visible;
+        }
+
+        private void RelativePanel_PointerExited_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[3]);
+            b.Visibility = Visibility.Collapsed;
+        }
+
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            Song s = ((Button)sender).DataContext as Song;
+            int index = DetailedAlbum.Songs.IndexOf(s);
+            _pageParameters.PlaybackControl.Clear();
+            _pageParameters.PlaybackControl.addNew(DetailedAlbum);
+            await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
+        }
+
+        private void AlbumFlowZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            if (DetailsScrollViewer == null || DetailedAlbum == null)
+                return;
+            MaxScrollHeight = DetailsScrollViewer.ScrollableHeight;
+            _delta = MaxScrollHeight / (DetailedAlbum.Songs.Count * 120);
+            if (MaxScrollHeight == 0)
+            {
+                DetailsScrollViewer.PointerWheelChanged -= ScrollViewer_PointerWheelChanged;
+            }
+            else
+            {
+                DetailsScrollViewer.PointerWheelChanged += ScrollViewer_PointerWheelChanged;
+            }
+        }
+
+        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            AlbumFlowZoom.IsZoomedInViewActive = true;
+        }
+
+        private void Rectangle_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            DetailedAlbum = ((((sender as Rectangle).Parent as Grid).Parent as ScrollViewer).Parent as RelativePanel).DataContext as AlbumItem;
+            ZoomInInitial();
+            AlbumFlowZoom.IsZoomedInViewActive = true;
+        }
+
+        private void ZoomInInitial()
+        {
+            AlbumSongsResources.Source = DetailedAlbum.Songs;
+            HeaderHeight = AlbumDetailsHeader.Height;
+            AlbumDetailsHeader.Background = new SolidColorBrush(DetailedAlbum.Palette);
+            AlbumArtWork.Source = new BitmapImage(new Uri(DetailedAlbum.AlbumArtWork));
+            AlbumTitle.Foreground = new SolidColorBrush(DetailedAlbum.TextMainColor);
+            AlbumDetailsBlock.Foreground = new SolidColorBrush(DetailedAlbum.TextSubColor);
+            AlbumDetailsConverter albumDetials = new AlbumDetailsConverter();
+            string s = (string)albumDetials.Convert(DetailedAlbum, null, null, null);
+            AlbumDetailsBlock.Text = s;
+            AlbumTitle.Text = DetailedAlbum.AlbumName;
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            titleBar.BackgroundColor = DetailedAlbum.Palette;
+            titleBar.ButtonBackgroundColor = DetailedAlbum.Palette;
+            SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
     }
 

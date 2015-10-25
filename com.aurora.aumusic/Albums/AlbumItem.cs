@@ -23,6 +23,7 @@ namespace com.aurora.aumusic
         public string AlbumArtWork;
         private uint _year = 0;
         private Color _palette = new Color();
+        public Size ArtWorkSize { get; private set; }
         public Color Palette
         {
             get
@@ -124,7 +125,20 @@ namespace com.aurora.aumusic
 
         public void getArtwork()
         {
-            AlbumArtWork = Songs[0].ArtWork;
+            foreach (var item in Songs)
+            {
+                if (item.ArtWork != "ms-appx:///Assets/unknown.png")
+                {
+                    AlbumArtWork = item.ArtWork;
+                    ArtWorkSize = item.ArtWorkSize;
+                    break;
+                }
+            }
+            if (AlbumArtWork == null)
+            {
+                AlbumArtWork = "ms-appx:///Assets/unknown.png";
+                ArtWorkSize = new Size(400, 400);
+            }
         }
 
         public void refreshArtists()
@@ -186,6 +200,7 @@ namespace com.aurora.aumusic
                 }
                 this.Sort();
             }
+            this.OnPropertyChanged();
         }
 
         public void GenerateTextColor()
@@ -247,6 +262,7 @@ namespace com.aurora.aumusic
                 if (this.AlbumArtWork != item.ArtWork && item.ArtWork != "ms-appx:///Assets/unknown.png")
                 {
                     this.AlbumArtWork = item.ArtWork;
+                    this.ArtWorkSize = item.ArtWorkSize;
                     b = true;
                 }
             }
@@ -274,6 +290,7 @@ namespace com.aurora.aumusic
                 this.Genres = Songs[0].Genres;
                 this.AlbumArtWork = Songs[0].ArtWork;
                 this.Year = Songs[0].Year;
+                this.ArtWorkSize = Songs[0].ArtWorkSize;
                 await this.GetPalette();
             }
         }
