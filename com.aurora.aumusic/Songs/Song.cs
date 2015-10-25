@@ -165,14 +165,16 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal static Song RestoreSongfromStorage(List<IStorageFile> allList, ApplicationDataContainer SubContainer)
+        internal static Song RestoreSongfromStorage(List<IStorageFile> allList, ApplicationDataContainer SubContainer, int j)
         {
+            ApplicationDataContainer triContainer =
+    SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
             Song tempSong = new Song();
             bool isExist = false;
             try
             {
-                string key = (string)SubContainer.Values["MainKey"];
-                string foldertoken = (string)SubContainer.Values["FolderToken"];
+                string key = (string)triContainer.Values["MainKey"];
+                string foldertoken = (string)triContainer.Values["FolderToken"];
                 tempSong.MainKey = key;
                 tempSong.FolderToken = foldertoken;
                 foreach (var item in allList)
@@ -193,20 +195,20 @@ namespace com.aurora.aumusic
             {
                 return null;
             }
-            tempSong.PlayTimes = (int)SubContainer.Values["PlayTimes"];
-            tempSong.Rating = (uint)SubContainer.Values["Rating"];
-            tempSong.Title = (string)SubContainer.Values["Title"];
-            tempSong.ArtWork = (string)SubContainer.Values["ArtWork"];
-            tempSong.Album = (string)SubContainer.Values["Album"];
-            tempSong.Year = (uint)SubContainer.Values["Year"];
-            tempSong.Disc = (uint)SubContainer.Values["Disc"];
-            tempSong.DiscCount = (uint)SubContainer.Values["DiscCount"];
-            tempSong.Track = (uint)SubContainer.Values["Track"];
-            tempSong.TrackCount = (uint)SubContainer.Values["TrackCount"];
-            tempSong.AlbumArtists = (((string)SubContainer.Values["AlbumArtists"]) != null ? ((string)SubContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
-            tempSong.Artists = (((string)SubContainer.Values["Artists"]) != null ? ((string)SubContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
-            tempSong.Genres = (((string)SubContainer.Values["Genres"]) != null ? ((string)SubContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
-            string[] sa = (((string)SubContainer.Values["Duration"]) != null ? ((string)SubContainer.Values["Duration"]).Split(':') : null);
+            tempSong.PlayTimes = (int)triContainer.Values["PlayTimes"];
+            tempSong.Rating = (uint)triContainer.Values["Rating"];
+            tempSong.Title = (string)triContainer.Values["Title"];
+            tempSong.ArtWork = (string)triContainer.Values["ArtWork"];
+            tempSong.Album = (string)triContainer.Values["Album"];
+            tempSong.Year = (uint)triContainer.Values["Year"];
+            tempSong.Disc = (uint)triContainer.Values["Disc"];
+            tempSong.DiscCount = (uint)triContainer.Values["DiscCount"];
+            tempSong.Track = (uint)triContainer.Values["Track"];
+            tempSong.TrackCount = (uint)triContainer.Values["TrackCount"];
+            tempSong.AlbumArtists = (((string)triContainer.Values["AlbumArtists"]) != null ? ((string)triContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
+            tempSong.Artists = (((string)triContainer.Values["Artists"]) != null ? ((string)triContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
+            tempSong.Genres = (((string)triContainer.Values["Genres"]) != null ? ((string)triContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
+            string[] sa = (((string)triContainer.Values["Duration"]) != null ? ((string)triContainer.Values["Duration"]).Split(':') : null);
             tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]), Int32.Parse(sa[1]), Int32.Parse(sa[2]));
             return tempSong;
         }

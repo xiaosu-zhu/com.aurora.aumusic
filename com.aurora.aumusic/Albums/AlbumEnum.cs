@@ -44,7 +44,6 @@ namespace com.aurora.aumusic
                         State = RefreshState.NeedRefresh;
                     }
                 }
-                AlbumList = Albums.ToList();
                 return State;
             }
             catch (Exception)
@@ -251,9 +250,7 @@ namespace com.aurora.aumusic
                 int SongsCount = (int)SubContainer.Values["SongsCount"];
                 for (int j = 0; j < SongsCount; j++)
                 {
-                    ApplicationDataContainer triContainer =
-    SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
-                    Song tempSong = Song.RestoreSongfromStorage(AllList, triContainer);
+                    Song tempSong = Song.RestoreSongfromStorage(AllList, SubContainer, j);
                     if (tempSong == null)
                     {
                         continue;

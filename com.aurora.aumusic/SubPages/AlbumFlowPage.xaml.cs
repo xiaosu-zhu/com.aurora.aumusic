@@ -39,6 +39,7 @@ namespace com.aurora.aumusic
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             if (isInitialed)
             {
                 var view = ApplicationView.GetForCurrentView();
@@ -48,7 +49,7 @@ namespace com.aurora.aumusic
                     titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
                     titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
                 }
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                
                 if (Albums.AlbumList.Count >= 16)
                 {
                     Albums.Albums.Clear();
@@ -56,7 +57,6 @@ namespace com.aurora.aumusic
                 return;
             }
             _pageParameters = e.Parameter as PlaybackPack;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
@@ -82,6 +82,7 @@ namespace com.aurora.aumusic
                 case RefreshState.NeedRefresh: await Albums.Refresh(); break;
                 case RefreshState.Normal: break;
             }
+            Albums.AlbumList = Albums.Albums.ToList();
             GC.Collect();
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
