@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.FileProperties;
+using System.Collections.ObjectModel;
 
 namespace com.aurora.aumusic
 {
@@ -71,7 +72,7 @@ namespace com.aurora.aumusic
                 List<string> l = new List<string>();
                 foreach (var item in value)
                 {
-                    if (item == "")
+                    if (item == "" || item == " " || item == "  ")
                     {
                         continue;
                     }
@@ -165,36 +166,15 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal static Song RestoreSongfromStorage(List<IStorageFile> allList, ApplicationDataContainer SubContainer, int j)
+        internal static Song RestoreSongfromStorage(ApplicationDataContainer SubContainer, int j)
         {
             ApplicationDataContainer triContainer =
     SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
             Song tempSong = new Song();
-            bool isExist = false;
-            try
-            {
-                string key = (string)triContainer.Values["MainKey"];
-                string foldertoken = (string)triContainer.Values["FolderToken"];
-                tempSong.MainKey = key;
-                tempSong.FolderToken = foldertoken;
-                foreach (var item in allList)
-                {
-                    if (tempSong.MainKey == ((StorageFile)item).Path + ((StorageFile)item).Name)
-                    {
-                        tempSong.AudioFile = (StorageFile)item;
-                        isExist = true;
-                        break;
-                    }
-                }
-                if (!isExist)
-                {
-                    return null;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            string key = (string)triContainer.Values["MainKey"];
+            string foldertoken = (string)triContainer.Values["FolderToken"];
+            tempSong.MainKey = key;
+            tempSong.FolderToken = foldertoken;
             tempSong.PlayTimes = (int)triContainer.Values["PlayTimes"];
             tempSong.Rating = (uint)triContainer.Values["Rating"];
             tempSong.Title = (string)triContainer.Values["Title"];
@@ -212,6 +192,37 @@ namespace com.aurora.aumusic
             tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]), Int32.Parse(sa[1]), Int32.Parse(sa[2]));
             tempSong.ArtWorkSize = new Size((double)triContainer.Values["Width"], (double)triContainer.Values["Height"]);
             return tempSong;
+        }
+
+        public static List<IStorageFile> MatchingFiles(ObservableCollection<AlbumItem> albums, List<IStorageFile> allList)
+        {
+            foreach (var item in albums)
+            {
+                foreach (var song in item.Songs)
+                {
+                    bool isExist = false;
+                    if (song.AudioFile != null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        foreach (var file in allList)
+                        {
+                            if (song.MainKey == ((StorageFile)file).Path + ((StorageFile)file).Name)
+                            {
+                                song.AudioFile = (StorageFile)file;
+                                allList.Remove(file);
+                                isExist = true;
+                                break;
+                            }
+                        }
+                        if (isExist == false)
+                            item.Songs.Remove(song);
+                    }
+                }
+            }
+            return allList;
         }
 
         public string FolderToken { get; set; }
@@ -352,7 +363,7 @@ namespace com.aurora.aumusic
                     }
                     if (p[0].MimeType.Contains("jpeg") || p[0].MimeType.Contains("jpg"))
                     {
-                        StorageFile s =  await cacheFolder.GetFileAsync(ArtWorkName + ".jpg");
+                        StorageFile s = await cacheFolder.GetFileAsync(ArtWorkName + ".jpg");
                         ImageProperties ip = await s.Properties.GetImagePropertiesAsync();
                         ArtWorkSize = new Size(ip.Width, ip.Height);
                         ArtWork = "ms-appdata:///local/" + ArtWorkName + ".jpg";
@@ -402,7 +413,7 @@ namespace com.aurora.aumusic
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
 
-            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == ""))
+            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == ""||p.Artist=="各种艺术家"))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;

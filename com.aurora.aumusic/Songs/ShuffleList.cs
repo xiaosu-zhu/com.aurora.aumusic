@@ -29,6 +29,7 @@ namespace com.aurora.aumusic
                 shuffleList.Add(AllSongs[r.Next(AllSongs.Count)]);
             }
             return shuffleList;
+
         }
         public List<Song> GenerateFavouriteList()
         {
@@ -36,15 +37,21 @@ namespace com.aurora.aumusic
             {
                 return first.PlayTimes.CompareTo(second.PlayTimes);
             });
-            List<Song> favList = AllSongs.GetRange(0, FAV_LIST_CAPACITY);
+            List<Song> favList = new List<Song>();
+            if (AllSongs.Count > FAV_LIST_CAPACITY)
+                favList.AddRange(AllSongs.GetRange(0, FAV_LIST_CAPACITY));
+            else
+                favList.AddRange(AllSongs);
+            List<Song> list = new List<Song>();
             foreach (var item in favList)
             {
                 if (item.PlayTimes == 0)
                 {
-                    favList.Remove(item);
+                    continue;
                 }
+                list.Add(item);
             }
-            return favList;
+            return list;
         }
 
         internal static void Save(Song song)
@@ -59,8 +66,10 @@ namespace com.aurora.aumusic
             triContainer.Values["PlayTimes"] = song.PlayTimes;
         }
 
-        public void SaveFavouriteList(List<Song> favList)
+        public static void SaveFavouriteList(List<Song> favList)
         {
+            if (favList == null || favList.Count == 0)
+                return;
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
     localSettings.CreateContainer("FavouriteList", ApplicationDataCreateDisposition.Always);
@@ -69,23 +78,23 @@ namespace com.aurora.aumusic
             {
                 ApplicationDataContainer SubContainer =
                     localSettings.CreateContainer("Song" + i, ApplicationDataCreateDisposition.Always);
-                SubContainer.Values["FolderToken"] = favList[i].FolderToken;
-                SubContainer.Values["Position"] = favList[i].Position;
-                SubContainer.Values["SubPosition"] = favList[i].SubPosition;
+                SubContainer.Values["FolderToken"] = item.FolderToken;
+                SubContainer.Values["Position"] = item.Position;
+                SubContainer.Values["SubPosition"] = item.SubPosition;
                 try
                 {
                     string key = (string)SubContainer.Values["key"];
-                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(key, favList[i].AudioFile);
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(key, item.AudioFile);
                 }
                 catch (Exception)
                 {
-                    SubContainer.Values["Key"] = StorageApplicationPermissions.FutureAccessList.Add(favList[i].AudioFile);
+                    SubContainer.Values["Key"] = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile);
                 }
                 i++;
             }
             MainContainer.Values["SongsCount"] = i + 1;
         }
-        public async Task<List<Song>> RestoreFavouriteList()
+        public static async Task<List<Song>> RestoreFavouriteList()
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
@@ -94,33 +103,67 @@ namespace com.aurora.aumusic
             try
             {
                 i = (int)MainContainer.Values["SongsCount"];
+                List<Song> favList = new List<Song>();
+                for (int j = 0; j < i; j++)
+                {
+                    ApplicationDataContainer SubContainer =
+                         localSettings.CreateContainer("Song" + i, ApplicationDataCreateDisposition.Always);
+                    ApplicationDataContainer FolderContainer =
+                        localSettings.CreateContainer((string)SubContainer.Values["FolderToken"], ApplicationDataCreateDisposition.Always);
+                    ApplicationDataContainer AlbumContainer =
+                        FolderContainer.CreateContainer("Album" + (string)SubContainer.Values["Position"], ApplicationDataCreateDisposition.Always);
+                    ApplicationDataContainer SongContainer =
+                        AlbumContainer.CreateContainer("Song" + (string)SubContainer.Values["SubPosition"], ApplicationDataCreateDisposition.Always);
+                    int playtimes = (int)SongContainer.Values["PlaytTimes"];
+                    try
+                    {
+                        StorageFile f = await StorageApplicationPermissions.FutureAccessList.GetFileAsync((string)SubContainer.Values["Key"]);
+                        Song tempSong = new Song(f);
+                        await tempSong.initial();
+                        tempSong.FolderToken = (string)SubContainer.Values["FolderToken"];
+                        tempSong.PlayTimes = playtimes;
+                        tempSong.Position = (int)SubContainer.Values["Position"];
+                        tempSong.SubPosition = (int)SubContainer.Values["SubPosition"];
+                        favList.Add(tempSong);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
+                return favList;
             }
             catch (Exception)
             {
                 return null;
             }
-            List<Song> favList = new List<Song>();
-            for (int j = 0; j < i; j++)
+        }
+
+        internal void SaveShuffleList(List<Song> songs)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer("ShuffleList", ApplicationDataCreateDisposition.Always);
+            int i = 0;
+            foreach (var item in songs)
             {
                 ApplicationDataContainer SubContainer =
-                     localSettings.CreateContainer("Song" + i, ApplicationDataCreateDisposition.Always);
-                ApplicationDataContainer FolderContainer =
-                    localSettings.CreateContainer((string)SubContainer.Values["FolderToken"], ApplicationDataCreateDisposition.Always);
-                ApplicationDataContainer AlbumContainer =
-                    FolderContainer.CreateContainer("Album"+(string)SubContainer.Values["Position"], ApplicationDataCreateDisposition.Always);
-                ApplicationDataContainer SongContainer =
-                    AlbumContainer.CreateContainer("Song" + (string)SubContainer.Values["SubPosition"], ApplicationDataCreateDisposition.Always);
-                int playtimes = (int)SongContainer.Values["PlaytTimes"];
-                StorageFile f = await StorageApplicationPermissions.FutureAccessList.GetFileAsync((string)SubContainer.Values["Key"]);
-                Song tempSong = new Song(f);
-                await tempSong.initial();
-                tempSong.FolderToken = (string)SubContainer.Values["FolderToken"];
-                tempSong.PlayTimes = playtimes;
-                tempSong.Position = (int)SubContainer.Values["Position"];
-                tempSong.SubPosition = (int)SubContainer.Values["SubPosition"];
-                favList.Add(tempSong);
+                    localSettings.CreateContainer("Song" + i, ApplicationDataCreateDisposition.Always);
+                SubContainer.Values["FolderToken"] = item.FolderToken;
+                SubContainer.Values["Position"] = item.Position;
+                SubContainer.Values["SubPosition"] = item.SubPosition;
+                try
+                {
+                    string key = (string)SubContainer.Values["key"];
+                    StorageApplicationPermissions.FutureAccessList.AddOrReplace(key, item.AudioFile);
+                }
+                catch (Exception)
+                {
+                    SubContainer.Values["Key"] = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile);
+                }
+                i++;
             }
-            return favList;
+            MainContainer.Values["SongsCount"] = i;
         }
     }
 }

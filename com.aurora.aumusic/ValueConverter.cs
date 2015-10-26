@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace com.aurora.aumusic
@@ -164,4 +165,20 @@ namespace com.aurora.aumusic
         }
     }
 
+    public class ScrollPanoramaConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value == null)
+                return 0;
+            double height = (double)value;
+            double result = 424 - (height / 2) >= 0 ? 424 - (height / 2) : 0;
+            return result;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
 }

@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Input;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.System.Threading;
+using Windows.ApplicationModel;
 
 namespace com.aurora.aumusic
 {
@@ -33,6 +35,7 @@ namespace com.aurora.aumusic
 
         public double HeaderHeight { get; private set; }
         public double MaxScrollHeight { get; private set; }
+        public Task<List<Song>> GeneratefavListTask { get; private set; }
 
         public AlbumFlowPage()
         {
@@ -93,17 +96,26 @@ namespace com.aurora.aumusic
                 WaitingBar.IsIndeterminate = false;
                 return;
             }
-            switch (await Albums.getAlbumList())
+            var v = await Albums.RestoreAlbums();
+            switch (v)
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
                 case RefreshState.NeedRefresh: await Albums.Refresh(); break;
                 case RefreshState.Normal: break;
             }
-            Albums.AlbumList = Albums.Albums.ToList();
-            GC.Collect();
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
             isInitialed = true;
+            Albums.AlbumList = Albums.Albums.ToList();
+            Application.Current.Suspending += SaveLists;
+        }
+
+        private void SaveLists(object sender, SuspendingEventArgs e)
+        {
+            ShuffleList shuffleList = new ShuffleList(Albums.AlbumList);
+            shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
+            ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
+            
         }
 
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -152,22 +164,7 @@ namespace com.aurora.aumusic
             DetailsScrollViewer = sender as ScrollViewer;
         }
 
-        private void ScrollViewer_PointerWheelChanged(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            PointerPoint p = e.GetCurrentPoint(DetailsScrollViewer);
-            _verticalPosition -= p.Properties.MouseWheelDelta * _delta;
-            if (_verticalPosition > MaxScrollHeight)
-            {
-                _verticalPosition = MaxScrollHeight;
-            }
-            if (_verticalPosition < 0)
-            {
-                _verticalPosition = 0;
-            }
-            DetailsScrollViewer.ChangeView(0, _verticalPosition, 1);
-            RepositionAnimation.To = HeaderHeight - _verticalPosition >= 0 ? HeaderHeight - _verticalPosition : 0;
-            RepositionStoryBoard.Begin();
-        }
+
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -199,26 +196,7 @@ namespace com.aurora.aumusic
             await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
         }
 
-        private void AlbumFlowZoom_ViewChangeCompleted(object sender, SemanticZoomViewChangedEventArgs e)
-        {
-            if (DetailsScrollViewer == null || DetailedAlbum == null)
-                return;
-            MaxScrollHeight = DetailsScrollViewer.ScrollableHeight;
-            _delta = MaxScrollHeight / (DetailedAlbum.Songs.Count * 120);
-            if (MaxScrollHeight == 0)
-            {
-                DetailsScrollViewer.PointerWheelChanged -= ScrollViewer_PointerWheelChanged;
-            }
-            else
-            {
-                DetailsScrollViewer.PointerWheelChanged += ScrollViewer_PointerWheelChanged;
-            }
-        }
 
-        private void AlbumsFlowControls_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            AlbumFlowZoom.IsZoomedInViewActive = true;
-        }
 
         private void Rectangle_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
@@ -231,7 +209,7 @@ namespace com.aurora.aumusic
         {
             AlbumSongsResources.Source = DetailedAlbum.Songs;
             HeaderHeight = 424;
-            RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
+            AlbumDetailsHeader.Background = new SolidColorBrush(DetailedAlbum.Palette);
             AlbumArtWork.Source = new BitmapImage(new Uri(DetailedAlbum.AlbumArtWork));
             AlbumTitle.Foreground = new SolidColorBrush(DetailedAlbum.TextMainColor);
             AlbumDetailsBlock.Foreground = new SolidColorBrush(DetailedAlbum.TextSubColor);
@@ -245,7 +223,58 @@ namespace com.aurora.aumusic
             titleBar.ButtonBackgroundColor = DetailedAlbum.Palette;
             SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            bool completed = false;
+            completed = TimeTask(TimeSpan.FromMilliseconds(10), completed);
+            RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
         }
+
+        private bool TimeTask(TimeSpan delay, bool completed)
+        {
+            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+                               async (source) =>
+                               {
+                                   await
+                           Dispatcher.RunAsync(
+                                CoreDispatcherPriority.High,
+                                () =>
+                                {
+                                    DetailsViewbox.Margin = new Thickness(0, DetailsScrollViewer.VerticalOffset, 0, 0);
+                                });
+
+                                   completed = true;
+                               },
+                                    delay,
+                             async (source) =>
+                             {
+                                 await
+
+                              Dispatcher.RunAsync(
+                         CoreDispatcherPriority.High,
+                         () =>
+                         {
+
+                             if (completed)
+                             {
+                                 if (AlbumFlowZoom.IsZoomedInViewActive == false)
+                                     return;
+                                 completed = TimeTask(delay, completed);
+                             }
+                             else
+                             {
+                             }
+
+                         });
+                             });
+            return completed;
+        }
+        private async void ListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Song> shuffleList = new List<Song>();
+
+            //shuffleList.AddRange(await ShuffleList.RestoreFavouriteList());
+
+        }
+
     }
 
 
@@ -322,4 +351,5 @@ namespace com.aurora.aumusic
             return finalSize;
         }
     }
+
 }
