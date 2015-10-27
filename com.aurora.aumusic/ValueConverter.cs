@@ -165,15 +165,16 @@ namespace com.aurora.aumusic
         }
     }
 
-    public class ScrollPanoramaConverter : IValueConverter
+    public class ScrollParallaxConverter : IValueConverter
     {
+        private const double factor = 0.5;
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
-                return 0;
-            double height = (double)value;
-            double result = 424 - (height / 2) >= 0 ? 424 - (height / 2) : 0;
-            return result;
+            if(value is double)
+            {
+                return (double)value * factor;
+            }
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

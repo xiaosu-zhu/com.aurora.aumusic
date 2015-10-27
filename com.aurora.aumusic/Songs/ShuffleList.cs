@@ -10,7 +10,7 @@ namespace com.aurora.aumusic
 {
     class ShuffleList
     {
-        private static readonly int FAV_LIST_CAPACITY = 20;
+        private const int FAV_LIST_CAPACITY = 20;
 
         List<Song> AllSongs = new List<Song>();
         public ShuffleList(List<AlbumItem> Albums)

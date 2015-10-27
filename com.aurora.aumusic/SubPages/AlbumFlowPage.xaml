@@ -84,11 +84,75 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="DetailsButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource SystemTransparentBrush}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemThemeMainBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemTransparentBrush}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource Thickless}"/>
+                <Setter Property="Padding" Value="{ThemeResource Thickless}"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
+                <Setter Property="FontWeight" Value="ExtraLight"/>
+                <Setter Property="FontSize" Value="{ThemeResource HubHeaderThemeFontSize}"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Ellipse Canvas.ZIndex="1" x:Name="ellipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Transparent" Stroke="{ThemeResource SystemThemeMainBrush}" StrokeThickness="1" />
+                                <ContentPresenter x:Name="ContentPresenter" Margin="4,0,0,0" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <local:SongsCountConverter x:Key="CountConverter"/>
             <local:ArtistsCountConverter x:Key="ArtistsConverter" />
             <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <local:AlbumDetailsConverter x:Key="AlbumConverter" />
-            <local:ScrollPanoramaConverter x:Key="ScrollConverter" />
+            <local:ScrollParallaxConverter x:Key="ScrollConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">
@@ -198,14 +262,40 @@
                         <ControlTemplate TargetType="ListView">
                             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded">
-                                    <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                                    <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}">
+                                        <ItemsPresenter.Header>
+                                            <Grid Loaded="AlbumDetailsHeader_Loaded" x:Name="AlbumDetailsHeader" Height="424" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="320" Stretch="Uniform">
+                                                    <Viewbox.RenderTransform>
+                                                        <CompositeTransform TranslateY="{Binding ElementName=ScrollViewer, Path=VerticalOffset, Converter={StaticResource ScrollConverter}}" />
+                                                    </Viewbox.RenderTransform>
+                                                    <Image Loaded="AlbumArtWork_Loaded" x:Name="AlbumArtWork" />
+                                                </Viewbox>
+                                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                    <Viewbox Stretch="Uniform" MaxHeight="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                                                        <TextBlock Loaded="AlbumTitle_Loaded" x:Name="AlbumTitle" MaxWidth="320" MaxLines="3" TextWrapping="WrapWholeWords"  >
+
+                                                        </TextBlock>
+                                                    </Viewbox>
+                                                    <TextBlock Loaded="AlbumDetailsBlock_Loaded" x:Name="AlbumDetailsBlock" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
+
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <Button Style="{StaticResource DetailsButtonStyle}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
+                                            </Grid>
+                                        </ItemsPresenter.Header>
+                                    </ItemsPresenter>
                                 </ScrollViewer>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <Style x:Key="AlbumFlowStyle" TargetType="ListView">
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
@@ -300,101 +390,11 @@
                     </ListView>
                 </SemanticZoom.ZoomedOutView>
                 <SemanticZoom.ZoomedInView>
-                    <ListView Margin="0,48,0,0" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+                    <ListView x:Name="DetailsListView" Margin="0,48,0,0" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
                   IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                        <ListView.Resources>
-
-                            <Style x:Key="ButtonStyle1" TargetType="Button">
-                                <Setter Property="Background" Value="{ThemeResource SystemTransparentBrush}"/>
-                                <Setter Property="Foreground" Value="{ThemeResource SystemThemeMainBrush}"/>
-                                <Setter Property="BorderBrush" Value="{ThemeResource SystemTransparentBrush}"/>
-                                <Setter Property="BorderThickness" Value="{ThemeResource Thickless}"/>
-                                <Setter Property="Padding" Value="{ThemeResource Thickless}"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
-                                <Setter Property="FontWeight" Value="ExtraLight"/>
-                                <Setter Property="FontSize" Value="{ThemeResource HubHeaderThemeFontSize}"/>
-                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualState x:Name="Normal">
-                                                            <Storyboard>
-                                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="PointerOver">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="Pressed">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseLowBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="Disabled">
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="ellipse">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                                <Ellipse Canvas.ZIndex="1" x:Name="ellipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Transparent" Stroke="{ThemeResource SystemThemeMainBrush}" StrokeThickness="1" />
-                                                <ContentPresenter x:Name="ContentPresenter" Margin="4,0,0,0" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.Resources>
                         <ListView.Style>
                             <StaticResource ResourceKey="DetailsListViewStyle"/>
                         </ListView.Style>
-                        <ListView.Header>
-                            <Grid x:Name="AlbumDetailsHeader" Height="424" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="320" Stretch="Uniform">
-                                    <Image x:Name="AlbumArtWork" />
-                                </Viewbox>
-                                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                    <Viewbox Stretch="Uniform" MaxHeight="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
-                                        <TextBlock x:Name="AlbumTitle" MaxWidth="320" MaxLines="3" TextWrapping="WrapWholeWords"  >
-
-                                        </TextBlock>
-                                    </Viewbox>
-                                    <TextBlock x:Name="AlbumDetailsBlock" Style="{ThemeResource SubtitleTextBlockStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
-
-                                    </TextBlock>
-                                </StackPanel>
-                                <Button Style="{StaticResource ButtonStyle1}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
-                            </Grid>
-
-                        </ListView.Header>
                         <ListView.Footer>
                             <Grid Height="80" Width="auto" />
                         </ListView.Footer>

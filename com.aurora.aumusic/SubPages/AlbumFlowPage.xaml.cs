@@ -30,12 +30,13 @@ namespace com.aurora.aumusic
         AlbumItem DetailedAlbum;
         bool isInitialed = false;
         private ScrollViewer DetailsScrollViewer;
-        private double _delta;
-        private double _verticalPosition = 0.0;
-
         public double HeaderHeight { get; private set; }
         public double MaxScrollHeight { get; private set; }
         public Task<List<Song>> GeneratefavListTask { get; private set; }
+        public Grid AlbumDetailsHeader { get; private set; }
+        public Image AlbumArtWork { get; private set; }
+        public TextBlock AlbumTitle { get; private set; }
+        public TextBlock AlbumDetailsBlock { get; private set; }
 
         public AlbumFlowPage()
         {
@@ -115,7 +116,7 @@ namespace com.aurora.aumusic
             ShuffleList shuffleList = new ShuffleList(Albums.AlbumList);
             shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
             ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
-            
+
         }
 
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -223,50 +224,50 @@ namespace com.aurora.aumusic
             titleBar.ButtonBackgroundColor = DetailedAlbum.Palette;
             SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            bool completed = false;
-            completed = TimeTask(TimeSpan.FromMilliseconds(10), completed);
+            //bool completed = false;
+            //completed = TimeTask(TimeSpan.FromMilliseconds(10), completed);
             RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
         }
 
-        private bool TimeTask(TimeSpan delay, bool completed)
-        {
-            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
-                               async (source) =>
-                               {
-                                   await
-                           Dispatcher.RunAsync(
-                                CoreDispatcherPriority.High,
-                                () =>
-                                {
-                                    DetailsViewbox.Margin = new Thickness(0, DetailsScrollViewer.VerticalOffset, 0, 0);
-                                });
+        //private bool TimeTask(TimeSpan delay, bool completed)
+        //{
+        //    ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+        //                       async (source) =>
+        //                       {
+        //                           await
+        //                   Dispatcher.RunAsync(
+        //                        CoreDispatcherPriority.High,
+        //                        () =>
+        //                        {
+        //                            DetailsViewbox.Margin = new Thickness(0, DetailsScrollViewer.VerticalOffset, 0, 0);
+        //                        });
 
-                                   completed = true;
-                               },
-                                    delay,
-                             async (source) =>
-                             {
-                                 await
+        //                           completed = true;
+        //                       },
+        //                            delay,
+        //                     async (source) =>
+        //                     {
+        //                         await
 
-                              Dispatcher.RunAsync(
-                         CoreDispatcherPriority.High,
-                         () =>
-                         {
+        //                      Dispatcher.RunAsync(
+        //                 CoreDispatcherPriority.High,
+        //                 () =>
+        //                 {
 
-                             if (completed)
-                             {
-                                 if (AlbumFlowZoom.IsZoomedInViewActive == false)
-                                     return;
-                                 completed = TimeTask(delay, completed);
-                             }
-                             else
-                             {
-                             }
+        //                     if (completed)
+        //                     {
+        //                         if (AlbumFlowZoom.IsZoomedInViewActive == false)
+        //                             return;
+        //                         completed = TimeTask(delay, completed);
+        //                     }
+        //                     else
+        //                     {
+        //                     }
 
-                         });
-                             });
-            return completed;
-        }
+        //                 });
+        //                     });
+        //    return completed;
+        //}
         private async void ListView_Loaded(object sender, RoutedEventArgs e)
         {
             List<Song> shuffleList = new List<Song>();
@@ -275,6 +276,25 @@ namespace com.aurora.aumusic
 
         }
 
+        private void AlbumDetailsHeader_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumDetailsHeader = sender as Grid;
+        }
+
+        private void AlbumArtWork_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumArtWork = sender as Image;
+        }
+
+        private void AlbumTitle_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumTitle = sender as TextBlock;
+        }
+
+        private void AlbumDetailsBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumDetailsBlock = sender as TextBlock;
+        }
     }
 
 

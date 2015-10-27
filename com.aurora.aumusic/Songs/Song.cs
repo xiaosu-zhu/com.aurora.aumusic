@@ -118,8 +118,8 @@ namespace com.aurora.aumusic
         public uint Rating = 0;
         public string MainKey = null;
         public StorageFile AudioFile = null;
-        public uint Disc = 0;
-        public uint DiscCount = 0;
+        public uint Disc = 1;
+        public uint DiscCount = 1;
         public string[] _genres;
         public string[] Genres
         {
@@ -139,8 +139,8 @@ namespace com.aurora.aumusic
                 }
             }
         }
-        public uint Track = 0;
-        public uint TrackCount = 0;
+        public uint Track = 1;
+        public uint TrackCount = 1;
         public uint Year = 0;
 
         public string Album
@@ -413,7 +413,7 @@ namespace com.aurora.aumusic
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
 
-            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == ""||p.Artist=="各种艺术家"))
+            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == "" || p.Artist == "各种艺术家"))
             {
                 this.Title = p.Title;
                 this.Album = p.Album;
