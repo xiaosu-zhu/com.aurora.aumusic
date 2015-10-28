@@ -23,8 +23,8 @@ namespace com.aurora.aumusic
         private static int BUTTON_CLICKED = 0;
         PlaybackPack playbackPack = new PlaybackPack();
         PlayBack playBack = new PlayBack();
-        TextBlock TimeElapsedBlock;
-        TextBlock TimeTotalBlock;
+        //TextBlock TimeElapsedBlock;
+        //TextBlock TimeTotalBlock;
         Slider ProgressSlider;
         Slider VolumeSlider;
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon();
@@ -43,58 +43,58 @@ namespace com.aurora.aumusic
             vol_mute.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mute.png");
         }
 
-        private bool TimeTask(TimeSpan delay, bool completed)
-        {
-            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
-                               async (source) =>
-                                    {
-                                   await
+//        private bool TimeTask(TimeSpan delay, bool completed)
+//        {
+//            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+//                               async (source) =>
+//                                    {
+//                                   await
 
-                           Dispatcher.RunAsync(
-                                CoreDispatcherPriority.High,
-                                () =>
-                                {
-                                    TimeSpan ts = PlaybackControl.Position;
-                                    if (ts.Seconds >= 10)
-                                    {
-                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":" + ts.Seconds;
-                                        TimeElapsedBlock.Text = s;
-                                        return;
-                                    }
-                                    else
-                                    {
-                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":0" + ts.Seconds;
-                                        TimeElapsedBlock.Text = s;
-                                        return;
-                                    }
-                                });
+//                           Dispatcher.RunAsync(
+//                                CoreDispatcherPriority.High,
+//                                () =>
+//                                {
+//                                    TimeSpan ts = PlaybackControl.Position;
+//                                    if (ts.Seconds >= 10)
+//                                    {
+//                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":" + ts.Seconds;
+//                                        TimeElapsedBlock.Text = s;
+//                                        return;
+//                                    }
+//                                    else
+//                                    {
+//                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":0" + ts.Seconds;
+//                                        TimeElapsedBlock.Text = s;
+//                                        return;
+//                                    }
+//                                });
 
-                         completed = true;
-                                   },
-                                    delay,
-                             async (source) =>
-                               {
-                                    await
+//                         completed = true;
+//                                   },
+//                                    delay,
+//                             async (source) =>
+//                               {
+//                                    await
 
-                                 Dispatcher.RunAsync(
-                            CoreDispatcherPriority.High,
-                            () =>
-                            {
+//                                 Dispatcher.RunAsync(
+//                            CoreDispatcherPriority.High,
+//                            () =>
+//                            {
 
-                                if (completed)
-                                {
-                                    if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Closed || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Stopped || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Paused)
-                                        return;
-                                    completed = TimeTask(delay, completed);
-                                }
-                                else
-                                {
-                                }
+//                                if (completed)
+//                                {
+//                                    if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Closed || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Stopped || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Paused)
+//                                        return;
+//                                    completed = TimeTask(delay, completed);
+//                                }
+//                                else
+//                                {
+//                                }
 
-                            });
-});
-            return completed;
-        }
+//                            });
+//});
+//            return completed;
+//        }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
         {
@@ -148,12 +148,12 @@ namespace com.aurora.aumusic
             if (ts.Seconds >= 10)
             {
                 string p = ts.Hours * 60 + ts.Minutes + ":" + ts.Seconds;
-                TimeTotalBlock.Text = p;
+                TimeRemainingBlock.Text = p;
             }
             else
             {
                 string p = ts.Hours * 60 + ts.Minutes + ":0" + ts.Seconds;
-                TimeTotalBlock.Text = p;
+                TimeRemainingBlock.Text = p;
             }
             BitmapImage b = s != null ? new BitmapImage(new Uri(s.ArtWork)) : new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
             PlayBackImage.Source = b;
@@ -195,16 +195,6 @@ namespace com.aurora.aumusic
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
             }
-        }
-
-        private void TimeElapsedBlock_Loaded(object sender, RoutedEventArgs e)
-        {
-            TimeElapsedBlock = sender as TextBlock;
-        }
-
-        private void TimeRemainingBlock_Loaded(object sender, RoutedEventArgs e)
-        {
-            TimeTotalBlock = sender as TextBlock;
         }
 
         private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
@@ -277,7 +267,7 @@ namespace com.aurora.aumusic
             {
                 bool completed = false;
                 TimeSpan delay = TimeSpan.FromMilliseconds(16);
-                completed = TimeTask(delay, completed);
+                //completed = TimeTask(delay, completed);
             }
         }
 

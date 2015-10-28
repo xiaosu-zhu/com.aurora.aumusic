@@ -226,7 +226,7 @@ namespace com.aurora.aumusic
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             //bool completed = false;
             //completed = TimeTask(TimeSpan.FromMilliseconds(10), completed);
-            RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
+            //RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
         }
 
         //private bool TimeTask(TimeSpan delay, bool completed)

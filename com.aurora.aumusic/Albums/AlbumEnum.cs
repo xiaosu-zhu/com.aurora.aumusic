@@ -227,8 +227,12 @@ namespace com.aurora.aumusic
                     {
                         foreach (var s in item.Songs)
                         {
-                            if (song.Title == s.Title && song.AlbumArtists == s.AlbumArtists && song.ArtWork == s.ArtWork && song.Artists == s.Artists)
-                                return;
+                            if (song.Title == s.Title && song.ArtWork == s.ArtWork)
+                            {
+                                if (PasswordEquals(song.AlbumArtists, s.AlbumArtists) && PasswordEquals(song.Artists, s.Artists))
+                                    return;
+                            }
+
                         }
                         item.Songs.Add(song);
                         return;
@@ -242,6 +246,15 @@ namespace com.aurora.aumusic
             Albums.Add(album);
         }
 
+        private bool PasswordEquals(string[] b1, string[] b2)
+        {
+            if (b1.Length != b2.Length) return false;
+            if (b1 == null || b2 == null) return false;
+            for (int i = 0; i < b1.Length; i++)
+                if (b1[i] != b2[i])
+                    return false;
+            return true;
+        }
         private async Task<List<IStorageFile>> RestoreAlbumsfromStorage(string tempPath)
         {
 

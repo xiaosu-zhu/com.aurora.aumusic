@@ -96,6 +96,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlbumList.cs" />
     <Compile Include="Albums\AlbumEnum.cs" />
     <Compile Include="Albums\AlbumItem.cs" />
     <Compile Include="App.xaml.cs">

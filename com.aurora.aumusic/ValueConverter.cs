@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace com.aurora.aumusic
 {
@@ -13,18 +14,20 @@ namespace com.aurora.aumusic
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            TimeSpan timeSpan = (TimeSpan)value;
-            int i = timeSpan.Hours * 60 + timeSpan.Minutes;
-            string s;
-            if (timeSpan.Seconds >= 10)
+            if (value is TimeSpan)
             {
-                s = i + ":" + timeSpan.Seconds;
+                TimeSpan timeSpan = (TimeSpan)value;
+                int i = (timeSpan.Days * 24 + timeSpan.Hours) * 60 + timeSpan.Minutes;
+                if (timeSpan.Seconds >= 10)
+                {
+                    return i + ":" + timeSpan.Seconds;
+                }
+                else
+                {
+                    return i + ":0" + timeSpan.Seconds;
+                }
             }
-            else
-            {
-                s = i + ":0" + timeSpan.Seconds;
-            }
-            return s;
+            else return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -170,7 +173,7 @@ namespace com.aurora.aumusic
         private const double factor = 0.5;
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is double)
+            if (value is double)
             {
                 return (double)value * factor;
             }
@@ -180,6 +183,54 @@ namespace com.aurora.aumusic
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             return null;
+        }
+    }
+
+    public class MainColorConverter : IValueConverter
+    {
+        const double r_factor = 0.299, g_factor = 0.587, b_factor = 0.114;
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is SolidColorBrush)
+            {
+                SolidColorBrush brush = (SolidColorBrush)value;
+                Color c = brush.Color;
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 64)
+                {
+                    return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                }
+                else return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class SubColorConverter : IValueConverter
+    {
+        const double r_factor = 0.299, g_factor = 0.587, b_factor = 0.114;
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is SolidColorBrush)
+            {
+                SolidColorBrush brush = (SolidColorBrush)value;
+                Color c = brush.Color;
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 64)
+                {
+                    return new SolidColorBrush(Color.FromArgb(255, 217, 217, 217));
+                }
+                else return new SolidColorBrush(Color.FromArgb(255, 95, 95, 95));
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
         }
     }
 }

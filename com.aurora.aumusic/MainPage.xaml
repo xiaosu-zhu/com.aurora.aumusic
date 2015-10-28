@@ -19,6 +19,8 @@
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource x:Name="SplitViewSources" />
             <local:ThumbToolTipConveter x:Key="ThumbConverter" />
+            <local:DurationValueConverter x:Key="PositionConverter" />
+            <local:MainColorConverter x:Key="ColorConverter" />
             <Style x:Key="MediaTransportControlsStyle1" TargetType="MediaTransportControls">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -110,7 +112,7 @@
                                                                                 <CircleEase />
                                                                             </DoubleAnimation.EasingFunction>
                                                                         </DoubleAnimation>
-                                                                        <ColorAnimation To="#CCF0F0F0" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
+                                                                        <ColorAnimation To="#77F0F0F0" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
                                                                             <ColorAnimation.EasingFunction>
                                                                                 <CircleEase />
                                                                             </ColorAnimation.EasingFunction>
@@ -229,23 +231,8 @@
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="ControlPanelVisibilityStates">
                                         <VisualState x:Name="ControlPanelFadeIn">
-                                            <Storyboard>
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-                                                </DoubleAnimationUsingKeyFrames>
-                                            </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="ControlPanelFadeOut">
-                                            <Storyboard>
-                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                                    <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
-                                                </DoubleAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible" Storyboard.TargetName="ControlPanel_ControlPanelVisibilityStates_Border">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="False"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
                                         </VisualState>
                                     </VisualStateGroup>
                                     <VisualStateGroup x:Name="MediaStates">
@@ -413,10 +400,7 @@
                                             <Grid x:Name="MediaTransportControls_Timeline_Grid">
                                                 <Slider x:Name="ProgressSlider" Height="48" IsThumbToolTipEnabled="True" Margin="36,8,36,0" MinWidth="80" Style="{StaticResource MediaSliderStyle}" VerticalAlignment="Center" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                                                 <ProgressBar x:Name="BufferingProgressBar" Height="4" IsHitTestVisible="False" IsIndeterminate="True" Margin="0,2,0,0" Visibility="Collapsed" VerticalAlignment="Top"/>
-                                                <Grid x:Name="TimeTextGrid" Height="15" Margin="12,0" Grid.Row="1">
-                                                    <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Left" Margin="0,0,4,0" Style="{StaticResource MediaTextBlockStyle}" Text="0:00" Loaded="TimeElapsedBlock_Loaded"/>
-                                                    <TextBlock x:Name="TimeRemainingBlock" HorizontalAlignment="Right" Style="{StaticResource MediaTextBlockStyle}" Text="0:00" Margin="4,0,0,0" Loaded="TimeRemainingBlock_Loaded"/>
-                                                </Grid>
+                                                
                                             </Grid>
                                         </Border>
                                         <Border x:Name="LeftSidePlayBorder" Grid.Column="0" Grid.Row="1" Visibility="Collapsed">
@@ -754,11 +738,16 @@
             <!-- 主视图Frame -->
             <RelativePanel>
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
-                <RelativePanel Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <Rectangle Opacity="0.9" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}"/>
+                <RelativePanel x:Name="RootGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                    <Rectangle x:Name="BackRec" Opacity="0.9" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}"/>
                     <Viewbox x:Name="PlayBackArtwork" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
                         <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                     </Viewbox>
+                    <Grid Canvas.ZIndex="1" RelativePanel.AlignVerticalCenterWith="PlaybackControl" RelativePanel.AlignHorizontalCenterWith="PlaybackControl" RelativePanel.AlignLeftWith="PlaybackControl"
+                          RelativePanel.AlignRightWith="PlaybackControl" Margin="154,0,106,0"  x:Name="TimeTextGrid" Height="20" Grid.Row="1">
+                        <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Left" Text="{Binding ElementName=PlaybackControl, Path=Position,Converter={StaticResource PositionConverter}, TargetNullValue=0:00}" Foreground="{Binding ElementName=BackRec,Path=Fill,Converter={StaticResource ColorConverter},TargetNullValue=White}"/>
+                        <TextBlock x:Name="TimeRemainingBlock" HorizontalAlignment="Right" Text="0:00" Foreground="{Binding ElementName=BackRec,Path=Fill,Converter={StaticResource ColorConverter},TargetNullValue=White}"/>
+                    </Grid>
                     <MediaElement Name="PlaybackControl" CurrentStateChanged="PlaybackControl_CurrentStateChanged" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackArtwork" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
                         <MediaElement.TransportControls>
                             <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
