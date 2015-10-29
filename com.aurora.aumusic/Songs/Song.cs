@@ -118,7 +118,7 @@ namespace com.aurora.aumusic
         public uint Rating = 0;
         public string MainKey = null;
         public StorageFile AudioFile = null;
-        public uint Disc = 1;
+        private uint disc = 1;
         public uint DiscCount = 1;
         public string[] _genres;
         public string[] Genres
@@ -139,7 +139,8 @@ namespace com.aurora.aumusic
                 }
             }
         }
-        public uint Track = 1;
+
+        private uint track = 1;
         public uint TrackCount = 1;
         public uint Year = 0;
 
@@ -194,9 +195,9 @@ namespace com.aurora.aumusic
             return tempSong;
         }
 
-        public static List<IStorageFile> MatchingFiles(ObservableCollection<AlbumItem> albums, List<IStorageFile> allList)
+        public static List<IStorageFile> MatchingFiles(AlbumList albums, List<IStorageFile> allList)
         {
-            foreach (var item in albums)
+            foreach (AlbumItem item in albums)
             {
                 foreach (var song in item.Songs)
                 {
@@ -243,6 +244,42 @@ namespace com.aurora.aumusic
         public int Position { get; internal set; }
         public int SubPosition { get; internal set; }
         public Size ArtWorkSize { get; private set; }
+
+        public uint Track
+        {
+            get
+            {
+                return track;
+            }
+
+            set
+            {
+                if (value == 0)
+                {
+                    track = 1;
+                    return;
+                }
+                track = value;
+            }
+        }
+
+        public uint Disc
+        {
+            get
+            {
+                return disc;
+            }
+
+            set
+            {
+                if (value == 0)
+                {
+                    disc = 1;
+                    return;
+                }
+                disc = value;
+            }
+        }
 
         public Song(StorageFile File, string tempPath)
         {

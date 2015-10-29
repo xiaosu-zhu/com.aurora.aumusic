@@ -9,15 +9,15 @@ using Windows.UI.Xaml.Data;
 
 namespace com.aurora.aumusic
 {
-    class AlbumList : IList, INotifyCollectionChanged, IItemsRangeInfo
+    public class AlbumList : IList, INotifyCollectionChanged, IItemsRangeInfo
     {
-        private List<AlbumItem> _albumList;
-        private int _count;
+        private List<AlbumItem> _albumList = new List<AlbumItem>();
+        private ItemIndexRange LastRange;
         public object this[int index]
         {
             get
             {
-                if (index < _count)
+                if (index < _albumList.Count)
                 {
                     return _albumList[index];
                 }
@@ -26,7 +26,7 @@ namespace com.aurora.aumusic
 
             set
             {
-                if (index < _count)
+                if (index < _albumList.Count)
                 {
                     if (value is AlbumItem)
                     {
@@ -79,10 +79,23 @@ namespace com.aurora.aumusic
             }
         }
 
+        public double PreScrollFactor { get; private set; }
+        public double Difference { get; private set; }
+        public double Weight { get; private set; }
+        private ItemIndexRange LastFetch = null;
+
+        public AlbumList()
+        {
+            LastRange = new ItemIndexRange(0, 0);
+
+        }
+
         public int Add(object value)
         {
             if (value is AlbumItem)
                 _albumList.Add((AlbumItem)value);
+            NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, _albumList.Count - 1);
+            this.OnCollectionChanged(e);
             return _albumList.Count - 1;
             throw new ArrayTypeMismatchException();
         }
@@ -102,11 +115,16 @@ namespace com.aurora.aumusic
         public void CopyTo(Array array, int index)
         {
             int j = index;
-            for(int i =0;i<_albumList.Count;i++)
+            for (int i = 0; i < _albumList.Count; i++)
             {
                 array.SetValue(_albumList[i], j);
                 j++;
             }
+        }
+
+        internal List<AlbumItem> ToList()
+        {
+            return _albumList.GetRange(0, _albumList.Count);
         }
 
         public IEnumerator GetEnumerator()
@@ -116,7 +134,7 @@ namespace com.aurora.aumusic
 
         public int IndexOf(object value)
         {
-            if(value is AlbumItem)
+            if (value is AlbumItem)
             {
                 return _albumList.IndexOf((AlbumItem)value);
             }
@@ -125,7 +143,7 @@ namespace com.aurora.aumusic
 
         public void Insert(int index, object value)
         {
-            if(value is AlbumItem)
+            if (value is AlbumItem)
             {
                 _albumList.Insert(index, (AlbumItem)value);
             }
@@ -134,7 +152,7 @@ namespace com.aurora.aumusic
 
         public void Remove(object value)
         {
-            if(value is AlbumItem)
+            if (value is AlbumItem)
             {
                 _albumList.Remove((AlbumItem)value);
             }
@@ -146,9 +164,83 @@ namespace com.aurora.aumusic
             _albumList.RemoveAt(index);
         }
 
+        internal void Initial()
+        {
+            if (this.Count / 10 < 2)
+            {
+                this.FetchFinal(0, _albumList.Count - 1, LastFetch);
+            }
+            else
+            {
+                this.FetchFinal(0, 20, LastFetch);
+            }
+        }
+
         public void RangesChanged(ItemIndexRange visibleRange, IReadOnlyList<ItemIndexRange> trackedItems)
         {
-            throw new NotImplementedException();
+            Weight = (double)LastRange.Length / (double)visibleRange.Length;
+            int _firstDelta = this.LastRange.FirstIndex - visibleRange.FirstIndex;
+            int _lastDelta = this.LastRange.LastIndex - visibleRange.LastIndex;
+            Task.Run(() =>
+            {
+                foreach (var item in trackedItems)
+                {
+                    this.FetchFinal(item.FirstIndex, item.LastIndex, LastFetch);
+                }
+            });
+            this.Difference += (_firstDelta + _lastDelta) / (double)this.LastFetch.Length;
+            if (this.Difference > Weight || this.LastRange.FirstIndex > visibleRange.FirstIndex || this.LastRange.LastIndex < visibleRange.LastIndex)
+            {
+                this.Difference = 0.0;
+                this.PreScrollFactor = (_firstDelta + _lastDelta) / (double)visibleRange.Length;
+                int _count = (int)visibleRange.Length * 2 + 3;
+                int _offset = (int)((_count - (int)visibleRange.Length) * PreScrollFactor);
+                int _first = visibleRange.FirstIndex - _count / 2 + _offset;
+                int _last = visibleRange.LastIndex + _count / 2 - _offset;
+                NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, this.FetchFinal(_first, _last, LastFetch), _first);
+                this.OnCollectionChanged(e);
+            }
+
+
+        }
+
+        private IList FetchFinal(int _first, int _last, ItemIndexRange lastFetch)
+        {
+            for (int i = _first; i <= _last; i++)
+            {
+                if (_albumList[i].IsFetched)
+                {
+                    continue;
+                }
+                _albumList[i].Fetch();
+            }
+            if (lastFetch != null)
+            {
+                var t = Task.Factory.StartNew(() =>
+                           {
+                               for (int i = lastFetch.FirstIndex; i < _first; i++)
+                               {
+                                   _albumList[i].IsFetched = false;
+                                   _albumList[i].Collect();
+                               }
+                               GC.Collect();
+
+                           });
+                t.ContinueWith((task) =>
+                {
+                    for (int i = lastFetch.LastIndex; i > _last; i--)
+                    {
+                        _albumList[i].IsFetched = false;
+                        _albumList[i].Collect();
+                    }
+                    GC.Collect();
+                });
+                t.ContinueWith((task) =>
+                {
+                    LastFetch = new ItemIndexRange(_first, (uint)(_last - _first + 1));
+                });
+            }
+            return _albumList.GetRange(_first, (_last - _first + 1));
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -165,39 +257,9 @@ namespace com.aurora.aumusic
             OnCollectionChanged(e);
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // 要检测冗余调用
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: 释放托管状态(托管对象)。
-                }
-
-                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
-                // TODO: 将大型字段设置为 null。
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
-        // ~AlbumList() {
-        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-        //   Dispose(false);
-        // }
-
-        // 添加此代码以正确实现可处置模式。
         public void Dispose()
         {
-            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
-            Dispose(true);
-            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
-            // GC.SuppressFinalize(this);
+
         }
-        #endregion
     }
 }

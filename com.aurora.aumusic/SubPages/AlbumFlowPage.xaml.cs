@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.System.Threading;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml.Data;
 
 namespace com.aurora.aumusic
 {
@@ -28,7 +29,7 @@ namespace com.aurora.aumusic
         PlaybackPack _pageParameters;
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
-        bool isInitialed = false;
+        bool IsInitialed = false;
         private ScrollViewer DetailsScrollViewer;
         public double HeaderHeight { get; private set; }
         public double MaxScrollHeight { get; private set; }
@@ -41,8 +42,7 @@ namespace com.aurora.aumusic
         public AlbumFlowPage()
         {
             this.InitializeComponent();
-
-            AlbumFlowResources.Source = Albums.Albums;
+            AlbumFlowResources.Source = Albums.albumList;
             var view = ApplicationView.GetForCurrentView();
             ApplicationViewTitleBar titleBar = view.TitleBar;
             if (titleBar != null)
@@ -57,7 +57,7 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            if (isInitialed)
+            if (IsInitialed)
             {
                 var view = ApplicationView.GetForCurrentView();
                 ApplicationViewTitleBar titleBar = view.TitleBar;
@@ -78,7 +78,7 @@ namespace com.aurora.aumusic
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
         {
-            if (isInitialed)
+            if (IsInitialed)
             {
                 //if (Albums.AlbumList.Count >= 64)
                 //{
@@ -97,7 +97,7 @@ namespace com.aurora.aumusic
                 WaitingBar.IsIndeterminate = false;
                 return;
             }
-            var v = await Albums.RestoreAlbums();
+            var v = Albums.RestoreAlbums();
             switch (v)
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
@@ -106,16 +106,16 @@ namespace com.aurora.aumusic
             }
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
-            isInitialed = true;
-            Albums.AlbumList = Albums.Albums.ToList();
+            IsInitialed = true;
             Application.Current.Suspending += SaveLists;
+            Albums.albumList.Initial();
         }
 
         private void SaveLists(object sender, SuspendingEventArgs e)
         {
-            ShuffleList shuffleList = new ShuffleList(Albums.AlbumList);
-            shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
-            ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
+            //ShuffleList shuffleList = new ShuffleList(Albums.AlbumList);
+            //shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
+            //ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
 
         }
 

@@ -195,7 +195,7 @@ namespace com.aurora.aumusic
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 64)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                 }
@@ -219,7 +219,7 @@ namespace com.aurora.aumusic
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 64)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 217, 217, 217));
                 }

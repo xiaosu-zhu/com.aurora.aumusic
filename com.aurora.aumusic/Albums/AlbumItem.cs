@@ -20,10 +20,35 @@ namespace com.aurora.aumusic
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string AlbumName;
-        public string AlbumArtWork;
+        private string _albumartwork;
+        public string AlbumArtWork
+        {
+            get
+            {
+                return _albumartwork;
+            }
+            set
+            {
+                this._albumartwork = value;
+                this.OnPropertyChanged();
+            }
+        }
         private uint _year = 0;
         private Color _palette = new Color();
-        public Size ArtWorkSize { get; private set; }
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private Size _artworksize;
+        public Size ArtWorkSize
+        {
+            get
+            {
+                return _artworksize;
+            }
+            set
+            {
+                this._artworksize = value;
+                this.OnPropertyChanged();
+            }
+        }
         public Color Palette
         {
             get
@@ -88,6 +113,7 @@ namespace com.aurora.aumusic
                     return;
                 }
                 _albumartists = value;
+                this.OnPropertyChanged();
             }
         }
         private string[] _artists = null;
@@ -104,10 +130,13 @@ namespace com.aurora.aumusic
                     return;
                 }
                 _artists = value;
+                this.OnPropertyChanged();
             }
         }
 
         public int Position { get; internal set; }
+        public bool IsFetched { get; internal set; } = false;
+        public string FolderToken { get; internal set; }
 
         public string[] Genres = null;
         public uint Rating = 0;
@@ -143,6 +172,10 @@ namespace com.aurora.aumusic
 
         public void refreshArtists()
         {
+            if (this.Artists != null && this.Artists.Length > 0)
+            {
+                return;
+            }
             if (Songs.Count != 0)
             {
                 int i = 0, j = 0, k = 0, m = 0, o = 0;
@@ -201,6 +234,35 @@ namespace com.aurora.aumusic
                 this.Sort();
             }
             this.OnPropertyChanged();
+        }
+
+        internal void Fetch()
+        {
+            ApplicationDataContainer MainContainer =
+         localSettings.CreateContainer(FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + Position, ApplicationDataCreateDisposition.Always);
+            int SongsCount = (int)SubContainer.Values["SongsCount"];
+            for (int j = 0; j < SongsCount; j++)
+            {
+                Song tempSong = Song.RestoreSongfromStorage(SubContainer, j);
+                if (tempSong == null)
+                {
+                    continue;
+                }
+                tempSong.SubPosition = j;
+                Songs.Add(tempSong);
+                this.Restore();
+            }
+        }
+
+        internal void Collect()
+        {
+            this.Songs = null;
+            this.AlbumArtWork = null;
+            this.AlbumArtists = null;
+            this.Artists = null;
+            this.Genres = null;
         }
 
         public void GenerateTextColor()
@@ -338,6 +400,10 @@ namespace com.aurora.aumusic
 
         private void getGenres()
         {
+            if (this.Genres != null && this.Genres.Length > 0)
+            {
+                return;
+            }
             if (Songs.Count != 0)
             {
                 int i = 0, j = 0, k = 0;

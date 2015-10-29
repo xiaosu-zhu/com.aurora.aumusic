@@ -23,7 +23,7 @@ namespace com.aurora.aumusic
         public PlayBack(AlbumEnum Albums)
         {
             this.Songs = new List<Song>();
-            foreach (var item in Albums.AlbumList)
+            foreach (AlbumItem item in Albums.albumList)
             {
                 Songs.AddRange(item.Songs);
             }
@@ -48,7 +48,7 @@ namespace com.aurora.aumusic
         }
         public void addNew(AlbumEnum Albums)
         {
-            foreach (var item in Albums.AlbumList)
+            foreach (AlbumItem item in Albums.albumList)
             {
                 Songs.AddRange(item.Songs);
             }

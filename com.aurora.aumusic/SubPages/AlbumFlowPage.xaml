@@ -189,7 +189,7 @@
                         </TransitionCollection>
                     </RelativePanel.Transitions>
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
-                        <Image x:Name="AlbumArtWork" x:Phase="2" Source="{x:Bind AlbumArtWork, Mode=OneWay}" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" />
+                        <Image x:Name="AlbumArtWork" Source="{Binding AlbumArtWork, Mode=OneWay, FallbackValue=Assets/unknown.png}" Stretch="UniformToFill" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" />
                     </Viewbox>
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               VerticalAlignment="Bottom" Margin="0,-48,0,0" Height="96" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
