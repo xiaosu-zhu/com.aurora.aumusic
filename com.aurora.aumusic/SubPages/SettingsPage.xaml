@@ -14,24 +14,35 @@
     </Page.Transitions>
 
     <Page.Resources>
-        <CollectionViewSource x:Name="MusicFolderPathReosurces" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="KeyDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
 
-        <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="local:FolderItem" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Ellipse x:Name="Ellipse" Grid.Column="0"
-                                                         Width ="40" Height="40"
+            <CollectionViewSource x:Name="MusicFolderPathReosurces" IsSourceGrouped="True" />
+            <local:FolderPathConverter x:Key="PathConverter"/>
+
+            <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="local:FolderItem" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse x:Name="Ellipse" Grid.Column="0" Width ="40" Height="40"
                                                          Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{x:Bind FolderImg}" />
-                    </Ellipse.Fill>
-                </Ellipse>
-                <TextBlock x:Name="Musictext" Text="{x:Bind FolderPath}" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
-            </Grid>
-        </DataTemplate>
+                        <Ellipse.Fill>
+                            White
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+
     </Page.Resources>
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -90,14 +101,30 @@
                             <!--TODO: Search and pull lyrics-->
 
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch">
-                            <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
+                        <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
+                            <Grid HorizontalAlignment="Stretch">
+                                <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
+                                <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Style="{StaticResource TextBlockButtonStyle}">
+                                    <Button.Content>
+                                        <SymbolIcon Symbol="Add"/>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
                             <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
                   ItemTemplate="{StaticResource MusicFolderListTemplate}"
                   SelectionMode="Single"
                   ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch" Height="160">
+                                <ListView.GroupStyle>
+                                    <GroupStyle >
+                                        <GroupStyle.HeaderTemplate>
+                                            <DataTemplate x:DataType="local:PathGroupList">
+                                                <TextBlock Text="{x:Bind Key}" 
+                                       Style="{ThemeResource TitleTextBlockStyle}"/>
+                                            </DataTemplate>
+                                        </GroupStyle.HeaderTemplate>
+                                    </GroupStyle>
+                                </ListView.GroupStyle>
                             </ListView>
-                            <Button Content="更改查找位置" HorizontalAlignment="Right" Click="Button_Click"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel x:Name="PlaybackSettingsPanel" Background="LightGray" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">

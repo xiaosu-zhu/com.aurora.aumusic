@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -12,7 +14,7 @@ namespace com.aurora.aumusic
 
             this.InitializeComponent();
             MusicFolderPathReosurces.Source = folderPaths.GetFolders();
-            folderPaths.RestorePathsfromSettings();
+
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -28,10 +30,11 @@ namespace com.aurora.aumusic
             {
                 if (folderPaths.SaveFoldertoStorage(folder))
                 {
-                    //folderPaths.GetFolders();
-                    folderPaths.SaveFoldertoSettings();
+                    await Task.Run(() =>
+            {//folderPaths.GetFolders();
+                folderPaths.SaveFoldertoSettings();
+            });
                 }
-
 
             }
             else
@@ -40,5 +43,19 @@ namespace com.aurora.aumusic
             }
 
         }
+
+        private async void StackPanel_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var p = await folderPaths.RestorePathsfromSettings();
+            if (p != null)
+            {
+                foreach (var item in p)
+                {
+                    folderPaths.GetFolders().Add(item);
+                }
+            }
+
+        }
     }
+
 }

@@ -57,7 +57,7 @@ namespace com.aurora.aumusic
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
 
             }
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Required;
             AlbumFlowZoom.IsZoomedInViewActive = false;
 
         }
