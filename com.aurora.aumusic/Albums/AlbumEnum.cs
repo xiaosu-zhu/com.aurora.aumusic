@@ -22,9 +22,9 @@ namespace com.aurora.aumusic
         private List<KeyValuePair<string, List<IStorageFile>>> RefreshList = new List<KeyValuePair<string, List<IStorageFile>>>();
         public AlbumList albumList = new AlbumList();
 
-        public List<IStorageFile> AllList { get; private set; }
+        public List<IStorageFile> AllList = new List<IStorageFile>();
 
-        public RefreshState RestoreAlbums()
+        public async Task<RefreshState> RestoreAlbums()
         {
             RefreshState State = RefreshState.Normal;
             try
@@ -35,10 +35,37 @@ namespace com.aurora.aumusic
                 }
                 ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                 int count = (int)composite["FolderCount"];
+                var task = Task.Factory.StartNew(async () =>
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        string tempPath = (string)composite["FolderSettings" + i.ToString()];
+                        StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+                        AllList.AddRange(await SearchAllinFolder(folder));
+                    }
+                    return true;
+                });
                 for (int i = 0; i < count; i++)
                 {
                     string tempPath = (string)composite["FolderSettings" + i.ToString()];
                     RestoreAlbumsfromStorage(tempPath);
+                    var s = task.ContinueWith(async (p) =>
+                          {
+                              await p.Result;
+                              var m = Song.MatchingFiles(albumList, AllList);
+                              if (m.Count != 0)
+                              {
+                                  KeyValuePair<string, List<IStorageFile>> pair = new KeyValuePair<string, List<IStorageFile>>(tempPath, m);
+                                  if (RefreshList.Contains(pair))
+                                      return false;
+                                  RefreshList.Add(pair);
+                                  return true;
+                              }
+                              return false;
+                          });
+                    await s.Result;
+                    if (RefreshList.Count > 0)
+                        State = RefreshState.NeedRefresh;
                 }
                 return State;
             }
@@ -116,6 +143,7 @@ namespace com.aurora.aumusic
             foreach (AlbumItem item in albumList)
             {
                 await item.Refresh();
+                
             }
             List<AlbumItem> afterList = albumList.ToList();
             afterList.RemoveRange(0, index);
@@ -136,9 +164,12 @@ namespace com.aurora.aumusic
             {
                 ApplicationDataContainer SubContainer = MainContainer.CreateContainer("Album" + i, ApplicationDataCreateDisposition.Always);
                 int j = 0;
+                item.Position = i;
                 foreach (var song in item.Songs)
                 {
-                    ApplicationDataContainer triContainer = SubContainer.CreateContainer("Songs" + j, ApplicationDataCreateDisposition.Always);
+                    song.Position = i;
+                    song.SubPosition = j;
+                    ApplicationDataContainer triContainer = SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
                     triContainer.Values["FolderToken"] = song.FolderToken;
                     triContainer.Values["MainKey"] = song.MainKey;
                     triContainer.Values["Title"] = song.Title;
@@ -157,6 +188,9 @@ namespace com.aurora.aumusic
                     sb = string.Join("|:|", song.Genres);
                     triContainer.Values["Genres"] = sb;
                     triContainer.Values["Duration"] = song.Duration.ToString();
+                    triContainer.Values["PlayTimes"] = song.PlayTimes;
+                    triContainer.Values["Width"] = song.ArtWorkSize.Width;
+                    triContainer.Values["Height"] = song.ArtWorkSize.Height;
                     j++;
                 }
                 SubContainer.Values["SongsCount"] = item.Songs.Count;
@@ -167,7 +201,7 @@ namespace com.aurora.aumusic
                 SubContainer.Values["AlbumName"] = item.AlbumName;
                 i++;
             }
-            MainContainer.Values["AlbumsCount"] = i + 1;
+            MainContainer.Values["AlbumsCount"] = i;
         }
 
         private void saveAlbumstoStorage(List<AlbumItem> afterList, string tempPath)
@@ -258,12 +292,6 @@ namespace com.aurora.aumusic
         }
         private void RestoreAlbumsfromStorage(string tempPath)
         {
-            var t = Task.Factory.StartNew(async () =>
-            {
-                StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-                AllList = new List<IStorageFile>();
-                AllList.AddRange(await SearchAllinFolder(tempFolder));
-            });
             ApplicationDataContainer MainContainer =
            localSettings.CreateContainer(tempPath, ApplicationDataCreateDisposition.Always);
             int AlbumsCount = (int)MainContainer.Values["AlbumsCount"];
@@ -281,6 +309,7 @@ namespace com.aurora.aumusic
                 tempAlbum.GenerateTextColor();
                 tempAlbum.Rating = (uint)SubContainer.Values["Rating"];
                 tempAlbum.FolderToken = tempPath;
+                tempAlbum.Fetch();
                 albumList.Add(tempAlbum);
             }
         }

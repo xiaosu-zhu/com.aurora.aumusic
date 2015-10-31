@@ -189,7 +189,8 @@
                         </TransitionCollection>
                     </RelativePanel.Transitions>
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
-                        <Image x:Name="AlbumArtWork" Source="{Binding AlbumArtWork, Mode=OneWay, FallbackValue=/Assets/unknown.png}" Stretch="UniformToFill" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" />
+                        <Image x:Name="AlbumArtWork" Source="{Binding AlbumArtWork, Mode=OneWay,TargetNullValue=/Assets/C.png}" Stretch="UniformToFill" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" >
+                        </Image>
                     </Viewbox>
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                               VerticalAlignment="Bottom" Margin="0,-48,0,0" Height="96" HorizontalAlignment="Stretch" RelativePanel.Below="AlbumViewBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
@@ -202,17 +203,17 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Rectangle Canvas.ZIndex="1" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="Transparent" PointerReleased="Rectangle_PointerReleased" />
-                            <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4,4,0,0" VerticalAlignment="Top">
+                            <TextBlock Grid.Row="0" x:Name="AlbumName" Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind AlbumName, TargetNullValue=Loading}" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="4,4,0,0" VerticalAlignment="Top">
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind TextMainColor, Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
+                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumArtists" Text="{x:Bind AlbumArtists, Converter={StaticResource ArtistsConverter}, Mode=OneWay, TargetNullValue=Loading}" Style="{ThemeResource BaseTextBlockStyle}" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Center" >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind TextSubColor,Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumSongs" Text="{x:Bind Songs.Count, Converter={StaticResource CountConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="44,0,0,0"  >
+                            <TextBlock Grid.Row="1" x:Phase="1" x:Name="AlbumSongs" Text="{x:Bind SongsCount, Converter={StaticResource CountConverter}, Mode=OneWay,FallbackValue=Loading, TargetNullValue=Loading}" VerticalAlignment="Center" Margin="44,0,0,0"  >
                                 <TextBlock.Foreground>
                                     <SolidColorBrush Color="{x:Bind TextSubColor ,Mode=OneWay}" />
                                 </TextBlock.Foreground>
@@ -327,7 +328,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ListView">
                             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
-                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded">
+                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded_1" ViewChanged="ScrollViewer_ViewChanged">
                                     <ItemsPresenter Margin="0,48,0,0" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
                                 </ScrollViewer>
                             </Border>

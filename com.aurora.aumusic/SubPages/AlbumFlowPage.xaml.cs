@@ -31,6 +31,9 @@ namespace com.aurora.aumusic
         AlbumItem DetailedAlbum;
         bool IsInitialed = false;
         private ScrollViewer DetailsScrollViewer;
+        private double verticalOffset;
+        private Task refreshtask;
+
         public double HeaderHeight { get; private set; }
         public double MaxScrollHeight { get; private set; }
         public Task<List<Song>> GeneratefavListTask { get; private set; }
@@ -38,6 +41,9 @@ namespace com.aurora.aumusic
         public Image AlbumArtWork { get; private set; }
         public TextBlock AlbumTitle { get; private set; }
         public TextBlock AlbumDetailsBlock { get; private set; }
+        public double RowHeight { get; private set; }
+        public ThreadPoolTimer Refresher { get; private set; }
+        public ScrollViewer AlbumFlowScroller { get; private set; }
 
         public AlbumFlowPage()
         {
@@ -53,6 +59,7 @@ namespace com.aurora.aumusic
             }
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
             AlbumFlowZoom.IsZoomedInViewActive = false;
+
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -97,7 +104,7 @@ namespace com.aurora.aumusic
                 WaitingBar.IsIndeterminate = false;
                 return;
             }
-            var v = Albums.RestoreAlbums();
+            var v = await Albums.RestoreAlbums();
             switch (v)
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
@@ -108,7 +115,6 @@ namespace com.aurora.aumusic
             WaitingBar.IsIndeterminate = false;
             IsInitialed = true;
             Application.Current.Suspending += SaveLists;
-            Albums.albumList.Initial();
         }
 
         private void SaveLists(object sender, SuspendingEventArgs e)
@@ -224,54 +230,12 @@ namespace com.aurora.aumusic
             titleBar.ButtonBackgroundColor = DetailedAlbum.Palette;
             SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            //bool completed = false;
-            //completed = TimeTask(TimeSpan.FromMilliseconds(10), completed);
-            //RootGrid.Background = new SolidColorBrush(DetailedAlbum.Palette);
+            DetailsScrollViewer.ChangeView(0, 0, 1);
         }
 
-        //private bool TimeTask(TimeSpan delay, bool completed)
-        //{
-        //    ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
-        //                       async (source) =>
-        //                       {
-        //                           await
-        //                   Dispatcher.RunAsync(
-        //                        CoreDispatcherPriority.High,
-        //                        () =>
-        //                        {
-        //                            DetailsViewbox.Margin = new Thickness(0, DetailsScrollViewer.VerticalOffset, 0, 0);
-        //                        });
-
-        //                           completed = true;
-        //                       },
-        //                            delay,
-        //                     async (source) =>
-        //                     {
-        //                         await
-
-        //                      Dispatcher.RunAsync(
-        //                 CoreDispatcherPriority.High,
-        //                 () =>
-        //                 {
-
-        //                     if (completed)
-        //                     {
-        //                         if (AlbumFlowZoom.IsZoomedInViewActive == false)
-        //                             return;
-        //                         completed = TimeTask(delay, completed);
-        //                     }
-        //                     else
-        //                     {
-        //                     }
-
-        //                 });
-        //                     });
-        //    return completed;
-        //}
         private async void ListView_Loaded(object sender, RoutedEventArgs e)
         {
             List<Song> shuffleList = new List<Song>();
-
             //shuffleList.AddRange(await ShuffleList.RestoreFavouriteList());
 
         }
@@ -294,6 +258,45 @@ namespace com.aurora.aumusic
         private void AlbumDetailsBlock_Loaded(object sender, RoutedEventArgs e)
         {
             AlbumDetailsBlock = sender as TextBlock;
+        }
+        private void ScrollViewer_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            AlbumFlowScroller = sender as ScrollViewer;
+            //TimeSpan period = TimeSpan.FromSeconds(1);
+            //Refresher = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            //{
+            //    if (AlbumFlowScroller != null)
+            //    {
+            //        if (AlbumFlowScroller.ScrollableHeight > 0)
+            //            if (AlbumFlowScroller.VerticalOffset != verticalOffset)
+            //            {
+            //                verticalOffset = AlbumFlowScroller.VerticalOffset;
+            //                Debug.WriteLine(verticalOffset);
+            //                return;
+            //            }
+            //            else
+            //            {
+            //                refreshtask = Task.Factory.StartNew(() =>
+            //                {
+            //                    RowHeight = AlbumFlowScroller.ScrollableHeight * 3 / Albums.albumList.Count;
+            //                    ItemIndexRange r = new ItemIndexRange((int)((AlbumFlowScroller.VerticalOffset) / RowHeight), (uint)((AlbumFlowScroller.ActualHeight) * 3 / RowHeight) + 3);
+            //                    Albums.albumList.RangesChanged(r, null);
+            //                });
+            //            }
+            //        else return;
+            //    }
+            //    Dispatcher.RunAsync(CoreDispatcherPriority.High,
+            //        () =>
+            //        {
+
+            //        });
+
+            //}, period);
+
+        }
+
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
         }
     }
 

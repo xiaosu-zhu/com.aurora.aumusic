@@ -199,29 +199,34 @@ namespace com.aurora.aumusic
         {
             foreach (AlbumItem item in albums)
             {
-                foreach (var song in item.Songs)
+                for (int j = item.Songs.Count - 1; j >= 0; j--)
                 {
                     bool isExist = false;
-                    if (song.AudioFile != null)
+                    if (item.Songs[j].AudioFile != null)
                     {
                         continue;
                     }
                     else
                     {
-                        foreach (var file in allList)
+                        for (int i = allList.Count - 1; i >= 0; i--)
                         {
-                            if (song.MainKey == ((StorageFile)file).Path + ((StorageFile)file).Name)
+                            if (item.Songs[j].MainKey == ((StorageFile)allList[i]).Path + ((StorageFile)allList[i]).Name)
                             {
-                                song.AudioFile = (StorageFile)file;
-                                allList.Remove(file);
+                                item.Songs[j].AudioFile = (StorageFile)allList[i];
+                                allList.RemoveAt(i);
                                 isExist = true;
                                 break;
                             }
                         }
                         if (isExist == false)
-                            item.Songs.Remove(song);
+                        {
+                            item.Songs.RemoveAt(j);
+                            item.SongsCount = item.Songs.Count;
+                        }
                     }
                 }
+
+
             }
             return allList;
         }

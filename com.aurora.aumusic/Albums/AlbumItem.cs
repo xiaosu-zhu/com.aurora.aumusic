@@ -30,7 +30,6 @@ namespace com.aurora.aumusic
             set
             {
                 this._albumartwork = value;
-                this.OnPropertyChanged();
             }
         }
         private uint _year = 0;
@@ -46,7 +45,6 @@ namespace com.aurora.aumusic
             set
             {
                 this._artworksize = value;
-                this.OnPropertyChanged();
             }
         }
         public Color Palette
@@ -58,7 +56,6 @@ namespace com.aurora.aumusic
             set
             {
                 this._palette = value;
-                this.OnPropertyChanged();
             }
         }
         private Color _textmaincolor = Color.FromArgb(255, 0, 0, 0);
@@ -71,7 +68,6 @@ namespace com.aurora.aumusic
             set
             {
                 _textmaincolor = value;
-                this.OnPropertyChanged();
             }
         }
         private Color _textsubcolor = Color.FromArgb(255, 63, 63, 63);
@@ -84,7 +80,6 @@ namespace com.aurora.aumusic
             set
             {
                 _textsubcolor = value;
-                this.OnPropertyChanged();
             }
         }
         public uint Year
@@ -113,7 +108,6 @@ namespace com.aurora.aumusic
                     return;
                 }
                 _albumartists = value;
-                this.OnPropertyChanged();
             }
         }
         private string[] _artists = null;
@@ -130,10 +124,20 @@ namespace com.aurora.aumusic
                     return;
                 }
                 _artists = value;
-                this.OnPropertyChanged();
             }
         }
-
+        private int _songscount;
+        public int SongsCount
+        {
+            get
+            {
+                return this._songscount;
+            }
+            set
+            {
+                this._songscount = value;
+            }
+        }
         public int Position { get; internal set; }
         public bool IsFetched { get; internal set; } = false;
         public string FolderToken { get; internal set; }
@@ -160,7 +164,7 @@ namespace com.aurora.aumusic
                 {
                     AlbumArtWork = item.ArtWork;
                     ArtWorkSize = item.ArtWorkSize;
-                    break;
+                    return;
                 }
             }
             if (AlbumArtWork == null)
@@ -174,6 +178,8 @@ namespace com.aurora.aumusic
         {
             if (this.Artists != null && this.Artists.Length > 0)
             {
+                if (this.AlbumArtists[0]== "Unknown AlbumArtists")
+                    this.AlbumArtists = this.Artists;
                 return;
             }
             if (Songs.Count != 0)
@@ -233,27 +239,39 @@ namespace com.aurora.aumusic
                 }
                 this.Sort();
             }
-            this.OnPropertyChanged();
+            SongsCount = Songs.Count;
+            this.OnPropertyChanged("SongsCount");
+            this.OnPropertyChanged("AlbumArtists");
+            this.OnPropertyChanged("Artists");
         }
 
         internal void Fetch()
         {
-            ApplicationDataContainer MainContainer =
-         localSettings.CreateContainer(FolderToken, ApplicationDataCreateDisposition.Always);
-            ApplicationDataContainer SubContainer =
-    MainContainer.CreateContainer("Album" + Position, ApplicationDataCreateDisposition.Always);
-            int SongsCount = (int)SubContainer.Values["SongsCount"];
-            for (int j = 0; j < SongsCount; j++)
-            {
-                Song tempSong = Song.RestoreSongfromStorage(SubContainer, j);
-                if (tempSong == null)
+                ApplicationDataContainer MainContainer =
+                         localSettings.CreateContainer(FolderToken, ApplicationDataCreateDisposition.Always);
+                ApplicationDataContainer SubContainer =
+        MainContainer.CreateContainer("Album" + Position, ApplicationDataCreateDisposition.Always);
+                int SongsCount = (int)SubContainer.Values["SongsCount"];
+            try {
+                for (int j = 0; j < SongsCount; j++)
                 {
-                    continue;
+                    Song tempSong = Song.RestoreSongfromStorage(SubContainer, j);
+                    if (tempSong == null)
+                    {
+                        continue;
+                    }
+                    tempSong.SubPosition = j;
+                    Songs.Add(tempSong);
                 }
-                tempSong.SubPosition = j;
-                Songs.Add(tempSong);
                 this.Restore();
+                this.IsFetched = true;
+                this.SongsCount = Songs.Count;
             }
+            catch(Exception)
+            {
+                throw;
+            }
+            
         }
 
         internal void Collect()
@@ -274,13 +292,16 @@ namespace com.aurora.aumusic
             }
         }
 
+
+
         public void getYear()
         {
             if (Songs.Count != 0)
             {
                 foreach (var item in Songs)
                 {
-                    Year = item.Year;
+                    if (Year < item.Year)
+                        Year = item.Year;
                 }
             }
         }
@@ -409,15 +430,12 @@ namespace com.aurora.aumusic
                 int i = 0, j = 0, k = 0;
                 foreach (var item in Songs)
                 {
-                    if (item.Genres != null)
+                    if (item.Genres != null && item.Genres.Length > 0)
                     {
-                        if (item.Genres.Length != 0)
+                        if (item.Genres.Length > i)
                         {
-                            if (item.Genres.Length > i)
-                            {
-                                i = item.AlbumArtists.Length;
-                                k = j;
-                            }
+                            i = item.AlbumArtists.Length;
+                            k = j;
                         }
                     }
                     j++;

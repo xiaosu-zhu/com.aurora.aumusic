@@ -5,6 +5,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 
 namespace com.aurora.aumusic
@@ -82,6 +84,8 @@ namespace com.aurora.aumusic
         public double PreScrollFactor { get; private set; }
         public double Difference { get; private set; }
         public double Weight { get; private set; }
+        public ThreadPoolTimer Refresher { get; private set; }
+
         private ItemIndexRange LastFetch = null;
 
         public AlbumList()
@@ -154,6 +158,8 @@ namespace com.aurora.aumusic
         {
             if (value is AlbumItem)
             {
+                NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, value);
+                OnCollectionChanged(e);
                 _albumList.Remove((AlbumItem)value);
             }
             throw new ArrayTypeMismatchException();
@@ -161,51 +167,82 @@ namespace com.aurora.aumusic
 
         public void RemoveAt(int index)
         {
-            _albumList.RemoveAt(index);
+                NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, this[index]);
+                OnCollectionChanged(e);
+                _albumList.RemoveAt(index);
+        }
+
+        public void Refresh(object value)
+        {
+            if (value is AlbumItem)
+            {
+                try
+                {
+                    int i = _albumList.IndexOf((AlbumItem)value);
+                    NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, (AlbumItem)value, _albumList[i]);
+                    OnCollectionChanged(e);
+                    _albumList[i] = (AlbumItem)value;
+                    return;
+                }
+                catch (Exception)
+                {
+                    throw new NullReferenceException();
+                }
+            }
+            throw new ArrayTypeMismatchException();
         }
 
         internal void Initial()
         {
-            if (this.Count / 10 < 2)
-            {
-                this.FetchFinal(0, _albumList.Count - 1, LastFetch);
-            }
-            else
-            {
-                this.FetchFinal(0, 20, LastFetch);
-            }
+            //if (this.Count / 100 < 2)
+            //{
+            this.FetchFinal(0, _albumList.Count - 1);
+            //}
+            //else
+            //{
+            //    this.FetchFinal(0, 19);
+            //    LastRange = new ItemIndexRange(0, 9);
+            //}
         }
 
         public void RangesChanged(ItemIndexRange visibleRange, IReadOnlyList<ItemIndexRange> trackedItems)
         {
-            Weight = (double)LastRange.Length / (double)visibleRange.Length;
-            int _firstDelta = this.LastRange.FirstIndex - visibleRange.FirstIndex;
-            int _lastDelta = this.LastRange.LastIndex - visibleRange.LastIndex;
+
+            Weight = (double)LastRange.Length / (double)LastFetch.Length;
+            int _firstDelta = visibleRange.FirstIndex - this.LastRange.FirstIndex;
+            int _lastDelta = visibleRange.LastIndex - this.LastRange.LastIndex;
             Task.Run(() =>
             {
-                foreach (var item in trackedItems)
-                {
-                    this.FetchFinal(item.FirstIndex, item.LastIndex, LastFetch);
-                }
+                if (trackedItems != null)
+                    foreach (var item in trackedItems)
+                    {
+                        this.FetchFinal(item.FirstIndex, item.LastIndex);
+                    }
             });
             this.Difference += (_firstDelta + _lastDelta) / (double)this.LastFetch.Length;
-            if (this.Difference > Weight || this.LastRange.FirstIndex > visibleRange.FirstIndex || this.LastRange.LastIndex < visibleRange.LastIndex)
+            if (this.Difference > Weight || this.LastFetch.FirstIndex > visibleRange.FirstIndex || this.LastFetch.LastIndex < visibleRange.LastIndex)
             {
                 this.Difference = 0.0;
                 this.PreScrollFactor = (_firstDelta + _lastDelta) / (double)visibleRange.Length;
                 int _count = (int)visibleRange.Length * 2 + 3;
                 int _offset = (int)((_count - (int)visibleRange.Length) * PreScrollFactor);
-                int _first = visibleRange.FirstIndex - _count / 2 + _offset;
-                int _last = visibleRange.LastIndex + _count / 2 - _offset;
-                NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, this.FetchFinal(_first, _last, LastFetch), _first);
-                this.OnCollectionChanged(e);
+                int _first = (visibleRange.FirstIndex - _count / 2 + _offset);
+                int _last = (visibleRange.LastIndex + _count / 2 + _offset);
+                this.FetchFinal(_first, _last);
+                // NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, , _albumList.GetRange(LastFetch.FirstIndex,(int)LastFetch.Length));
+                // this.OnCollectionChanged(e);
             }
-
-
+            LastRange = visibleRange;
         }
 
-        private IList FetchFinal(int _first, int _last, ItemIndexRange lastFetch)
+
+
+        private IList FetchFinal(int _first, int _last)
         {
+            if (_first < 0)
+                _first = 0;
+            if (_last > _albumList.Count - 1)
+                _last = _albumList.Count - 1;
             for (int i = _first; i <= _last; i++)
             {
                 if (_albumList[i].IsFetched)
@@ -214,32 +251,31 @@ namespace com.aurora.aumusic
                 }
                 _albumList[i].Fetch();
             }
-            if (lastFetch != null)
+            if (LastFetch != null)
             {
                 var t = Task.Factory.StartNew(() =>
                            {
-                               for (int i = lastFetch.FirstIndex; i < _first; i++)
+                               for (int i = 0; i < _first; i++)
                                {
                                    _albumList[i].IsFetched = false;
                                    _albumList[i].Collect();
                                }
                                GC.Collect();
-
                            });
                 t.ContinueWith((task) =>
                 {
-                    for (int i = lastFetch.LastIndex; i > _last; i--)
+                    for (int i = _albumList.Count - 1; i > _last; i--)
                     {
+                        if (_albumList[i].IsFetched == false)
+                            continue;
                         _albumList[i].IsFetched = false;
                         _albumList[i].Collect();
                     }
                     GC.Collect();
                 });
-                t.ContinueWith((task) =>
-                {
-                    LastFetch = new ItemIndexRange(_first, (uint)(_last - _first + 1));
-                });
+
             }
+            LastFetch = new ItemIndexRange(_first, (uint)(_last - _first + 1));
             return _albumList.GetRange(_first, (_last - _first + 1));
         }
 
