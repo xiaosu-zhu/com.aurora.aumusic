@@ -84,6 +84,68 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="ButtonStyle2" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource Thickless}"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Ellipse x:Name="ellipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Transparent" />
+                                <ContentPresenter x:Name="ContentPresenter" Margin="3,0,0,0" Foreground="{ThemeResource SystemThemeMainBrush}" AutomationProperties.AccessibilityView="Raw" BorderBrush="Transparent" BorderThickness="0" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="Center" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="DetailsButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemTransparentBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemThemeMainBrush}"/>
@@ -153,6 +215,7 @@
             <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <local:AlbumDetailsConverter x:Key="AlbumConverter" />
             <local:ScrollParallaxConverter x:Key="ScrollConverter" />
+            <local:ShuffleListArtworkConverter x:Key="ShuffleConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">
@@ -226,9 +289,10 @@
             <CollectionViewSource x:Name="AlbumFlowResources" />
             <CollectionViewSource x:Name="ShuffleListResources" />
             <DataTemplate x:DataType="local:Song" x:Key="ShuffleListTemplate">
-                <RelativePanel>
-                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignVerticalCenterWithPanel="True" />
-                    <Button FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource TextBlockButtonStyle}" Content="&#xE768;" />
+                <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_2" PointerExited="RelativePanel_PointerExited_2">
+                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
+                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" MaxLines="1" TextTrimming="Clip" RelativePanel.LeftOf="PlayButton" RelativePanel.AlignVerticalCenterWithPanel="True" />
+                    <Button x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource ButtonStyle2}" Content="&#xE768;" />
                 </RelativePanel>
             </DataTemplate>
             <Style x:Key="DetailsListViewStyle" TargetType="ListView">
@@ -328,19 +392,25 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ListView">
                             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{StaticResource Thickless}" Background="{TemplateBinding Background}">
-                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded_1" ViewChanged="ScrollViewer_ViewChanged">
-                                    <ItemsPresenter Margin="0,48,0,0" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                                <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded_1">
+                                    <ItemsPresenter Margin="0,48,0,80" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
                                 </ScrollViewer>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="ShuffleArtworkStyle" TargetType="Image">
+                <Setter Property="Margin" Value="4" />
+                <Setter Property="Stretch" Value="UniformToFill" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
 
         </ResourceDictionary>
 
     </Page.Resources>
-    <RelativePanel x:Name="RootGrid" Background="{ThemeResource SystemBackgroundAltHighBrush}"  >
+    <RelativePanel x:Name="RootGrid" Background="{ThemeResource SystemControlAltHighBrush}"  >
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
             <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
             <TextBlock x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" Text="排序方式：" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
@@ -353,21 +423,73 @@
             <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.RightOf="MusicArrangeList" RelativePanel.AlignBottomWithPanel="True"/>
         </RelativePanel>
 
-        <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.Below="MymusicSubPanel" Margin="20,20,0,0" RelativePanel.AlignLeftWithPanel="True" >
+        <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.AlignBottomWithPanel="True" Margin="8,52,0,0" RelativePanel.AlignLeftWithPanel="True" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="手气不错" Margin="24,4,8,8"/>
-            <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Margin="8,8,8,8" />
-            <Rectangle Grid.Row="1" Fill="Beige" Width="auto" Height="240" />
-            <ListView Grid.Row="2"  ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="ListView_Loaded" IsItemClickEnabled="True">
-
+            <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
+                <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="0" Text="手气不错" VerticalAlignment="Center" Margin="4,0,0,0"/>
+            </StackPanel>
+            <ListView x:Name="FavListView" Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+                      ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="FavListView_Loaded" IsItemClickEnabled="True">
+                <ListView.Header>
+                    <Grid Background="{ThemeResource SystemControlAltHighBrush}" Width="240" Height="240">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="ShuffleArtwork1" Style="{StaticResource ShuffleArtworkStyle}" >
+                            <Image.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition/>
+                                    <ContentThemeTransition/>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </Image.Transitions>
+                        </Image>
+                        <Image x:Name="ShuffleArtwork2" Grid.Column="1" Style="{StaticResource ShuffleArtworkStyle}" >
+                            <Image.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition/>
+                                    <ContentThemeTransition/>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </Image.Transitions>
+                        </Image>
+                        <Image x:Name="ShuffleArtwork3" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+                            <Image.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition/>
+                                    <ContentThemeTransition/>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </Image.Transitions>
+                        </Image>
+                        <Image x:Name="ShuffleArtwork4" Grid.Column="1" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+                            <Image.Transitions>
+                                <TransitionCollection>
+                                    <AddDeleteThemeTransition/>
+                                    <ContentThemeTransition/>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </Image.Transitions>
+                        </Image>
+                    </Grid>
+                </ListView.Header>
+                <ListView.Footer>
+                    <Grid Height="80" Width="auto" />
+                </ListView.Footer>
             </ListView>
+            <ProgressBar x:Name="FavWaitingBar" IsIndeterminate="True" Grid.Row="1" VerticalAlignment="Center" />
         </Grid>
 
-        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">
+        <Grid x:Name="SemanticGrid" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
             <SemanticZoom x:Name="AlbumFlowZoom">
                 <SemanticZoom.ZoomedOutView>
@@ -397,7 +519,9 @@
                             <StaticResource ResourceKey="DetailsListViewStyle"/>
                         </ListView.Style>
                         <ListView.Footer>
-                            <Grid Height="80" Width="auto" />
+                            <Grid Height="80" Width="auto" >
+                                <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="Transparent" />
+                            </Grid>
                         </ListView.Footer>
                     </ListView>
 

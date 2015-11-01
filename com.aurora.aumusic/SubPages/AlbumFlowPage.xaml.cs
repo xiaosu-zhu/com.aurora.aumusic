@@ -41,6 +41,7 @@ namespace com.aurora.aumusic
         public double RowHeight { get; private set; }
         public ThreadPoolTimer Refresher { get; private set; }
         public ScrollViewer AlbumFlowScroller { get; private set; }
+        public Rectangle ShuffleHeader { get; private set; }
 
         public AlbumFlowPage()
         {
@@ -90,7 +91,7 @@ namespace com.aurora.aumusic
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
                 case RefreshState.NeedRefresh: await Albums.Refresh(); break;
-                case RefreshState.Normal:  break;
+                case RefreshState.Normal: break;
             }
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
@@ -101,7 +102,7 @@ namespace com.aurora.aumusic
 
         private void SaveLists(object sender, SuspendingEventArgs e)
         {
-            ShuffleList shuffleList = new ShuffleList(Albums.albums);
+            ShuffleList shuffleList = new ShuffleList(Albums.albumList.ToList());
             shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
             ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
 
@@ -215,13 +216,6 @@ namespace com.aurora.aumusic
             DetailsScrollViewer.ChangeView(0, 0, 1);
         }
 
-        private async void ListView_Loaded(object sender, RoutedEventArgs e)
-        {
-            List<Song> shuffleList = new List<Song>();
-            //shuffleList.AddRange(await ShuffleList.RestoreFavouriteList());
-
-        }
-
         private void AlbumDetailsHeader_Loaded(object sender, RoutedEventArgs e)
         {
             AlbumDetailsHeader = sender as Grid;
@@ -277,8 +271,87 @@ namespace com.aurora.aumusic
 
         }
 
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private async void FavListView_Loaded(object sender, RoutedEventArgs e)
         {
+            List<Song> shuffleList = new List<Song>();
+            var s = await ShuffleList.RestoreFavouriteList();
+            if (s != null)
+            {
+                shuffleList.AddRange(s);
+            }
+            var v = await ShuffleList.RestoreShuffleList();
+            if (v != null)
+            {
+                shuffleList.AddRange(v);
+            }
+            List<Song> final;
+            final = ShuffleList.ShuffleIt(shuffleList);
+            ShuffleListResources.Source = final;
+            await ShowShuffleArtwork(final);
+            TimeSpan period = TimeSpan.FromSeconds(60);
+            ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                    () =>
+                    {
+                        // 
+                        // UI components can be accessed within this scope.
+                        // 
+
+                    });
+
+            }, period);
+        }
+        private async Task ShowShuffleArtwork(List<Song> final)
+        {
+            if (FavListView != null)
+            {
+                if (final != null && final.Count > 0)
+                {
+                    var image1 = (Image)FavListView.FindName("ShuffleArtwork1");
+                    var image2 = (Image)FavListView.FindName("ShuffleArtwork2");
+                    var image3 = (Image)FavListView.FindName("ShuffleArtwork3");
+                    var image4 = (Image)FavListView.FindName("ShuffleArtwork4");
+                    Image[] img = new Image[] { image1, image2, image3, image4 };
+                    List<string> arts = new List<string>();
+                    await Task.Run(() =>
+                    {
+                        Random r = new Random();
+                        Song[] s = new Song[ShuffleList.FAV_LIST_CAPACITY];
+                        final.CopyTo(s);
+                        foreach (var item in img)
+                        {
+                            int i = r.Next(s.Length);
+                            while (arts.Contains(s[i].ArtWork))
+                            {
+                                i = r.Next(s.Length);
+                            }
+                            arts.Add(s[i].ArtWork);
+
+                        }
+                    });
+                    int j = 0;
+                    foreach (var item in img)
+                    {
+                        item.Source = new BitmapImage(new Uri(arts[j]));
+                        j++;
+                    }
+                }
+            }
+        }
+
+        private void RelativePanel_PointerEntered_2(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[2]);
+            b.Visibility = Visibility.Visible;
+        }
+
+        private void RelativePanel_PointerExited_2(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            RelativePanel r = sender as RelativePanel;
+            Button b = ((Button)r.Children[2]);
+            b.Visibility = Visibility.Collapsed;
         }
     }
 

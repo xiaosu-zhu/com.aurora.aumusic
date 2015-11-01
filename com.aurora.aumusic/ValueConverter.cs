@@ -254,4 +254,22 @@ namespace com.aurora.aumusic
 
     //public class FolderImageConverter
 
+    public class ShuffleListArtworkConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is List<Song>)
+            {
+                var s = value as List<Song>;
+
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
 }
