@@ -31,9 +31,6 @@ namespace com.aurora.aumusic
         AlbumItem DetailedAlbum;
         bool IsInitialed = false;
         private ScrollViewer DetailsScrollViewer;
-        private double verticalOffset;
-        private Task refreshtask;
-
         public double HeaderHeight { get; private set; }
         public double MaxScrollHeight { get; private set; }
         public Task<List<Song>> GeneratefavListTask { get; private set; }
@@ -73,11 +70,6 @@ namespace com.aurora.aumusic
                     titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
                     titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
                 }
-
-                //if (Albums.AlbumList.Count >= 64)
-                //{
-                //    Albums.Albums.Clear();
-                //}
                 return;
             }
             _pageParameters = e.Parameter as PlaybackPack;
@@ -87,29 +79,18 @@ namespace com.aurora.aumusic
         {
             if (IsInitialed)
             {
-                //if (Albums.AlbumList.Count >= 64)
-                //{
-                //    await Task.Delay(1);
-                //    int i = 0;
-                //    foreach (var item in Albums.AlbumList)
-                //    {
-                //        i++;
-                //        if (i % 64 == 0)
-                //            await Task.Delay(1);
-                //        Albums.Albums.Add(item);
-                //    }
-                //    GC.Collect();
-                //}
                 WaitingBar.Visibility = Visibility.Collapsed;
                 WaitingBar.IsIndeterminate = false;
                 return;
             }
-            var v = await Albums.RestoreAlbums();
+            RefreshState v = RefreshState.Normal;
+            v = await Albums.RestoreAlbums();
+            Albums.CopytoAlbumList();
             switch (v)
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
                 case RefreshState.NeedRefresh: await Albums.Refresh(); break;
-                case RefreshState.Normal: break;
+                case RefreshState.Normal:  break;
             }
             WaitingBar.Visibility = Visibility.Collapsed;
             WaitingBar.IsIndeterminate = false;
@@ -117,11 +98,12 @@ namespace com.aurora.aumusic
             Application.Current.Suspending += SaveLists;
         }
 
+
         private void SaveLists(object sender, SuspendingEventArgs e)
         {
-            //ShuffleList shuffleList = new ShuffleList(Albums.AlbumList);
-            //shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
-            //ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
+            ShuffleList shuffleList = new ShuffleList(Albums.albums);
+            shuffleList.SaveShuffleList(shuffleList.GenerateNewList(20));
+            ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
 
         }
 

@@ -362,7 +362,7 @@
             <TextBlock Grid.Row="0" Text="手气不错" Margin="24,4,8,8"/>
             <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Margin="8,8,8,8" />
             <Rectangle Grid.Row="1" Fill="Beige" Width="auto" Height="240" />
-            <ListView ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="ListView_Loaded" IsItemClickEnabled="True">
+            <ListView Grid.Row="2"  ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="ListView_Loaded" IsItemClickEnabled="True">
 
             </ListView>
         </Grid>

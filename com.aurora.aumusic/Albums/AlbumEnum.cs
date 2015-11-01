@@ -21,6 +21,7 @@ namespace com.aurora.aumusic
         private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
         private List<KeyValuePair<string, List<IStorageFile>>> RefreshList = new List<KeyValuePair<string, List<IStorageFile>>>();
         public AlbumList albumList = new AlbumList();
+        public List<AlbumItem> albums = new List<AlbumItem>();
 
         public List<IStorageFile> AllList = new List<IStorageFile>();
 
@@ -52,7 +53,7 @@ namespace com.aurora.aumusic
                     var s = task.ContinueWith(async (p) =>
                           {
                               await p.Result;
-                              var m = Song.MatchingFiles(albumList, AllList);
+                              var m = Song.MatchingFiles(albums, AllList);
                               if (m.Count != 0)
                               {
                                   KeyValuePair<string, List<IStorageFile>> pair = new KeyValuePair<string, List<IStorageFile>>(tempPath, m);
@@ -80,7 +81,7 @@ namespace com.aurora.aumusic
         {
             foreach (var item in RefreshList)
             {
-                int index = albumList.Count;
+                int index = albums.Count;
                 string tempPath = item.Key;
                 foreach (IStorageFile tempFile in item.Value)
                 {
@@ -88,19 +89,31 @@ namespace com.aurora.aumusic
                     {
                         Song song = new Song((StorageFile)tempFile, tempPath);
                         await song.initial();
-                        await AddtoAlbum(song);
+                        await AddtoAlbum_first(song);
                     }
                 }
-                foreach (AlbumItem album in albumList)
+                foreach (AlbumItem album in albums)
                 {
                     await album.Refresh();
                 }
-                List<AlbumItem> afterList = albumList.ToList();
+                List<AlbumItem> afterList = albums.ToList();
                 afterList.RemoveRange(0, index);
+                albums.AddRange(afterList);
                 Task.Run(() =>
                 {
                     RefreshAlbumstoStorage(afterList, tempPath);
                 });
+            }
+        }
+
+        internal void CopytoAlbumList()
+        {
+            if (albums.Count > 0)
+            {
+                foreach (var item in albums)
+                {
+                    albumList.Add(item);
+                }
             }
         }
 
@@ -119,10 +132,11 @@ namespace com.aurora.aumusic
                         String tempPath = (String)composite["FolderSettings" + i.ToString()];
                         Songscount += await GetSongs(tempPath);
                     }
-                    localSettings.Values["AlbumsCount"] = albumList.Count;
+                    localSettings.Values["AlbumsCount"] = albums.Count;
                     localSettings.Values["isCreated"] = true;
                 }
             }
+            albums.AddRange(albumList.Enumerable());
         }
 
         private async Task<int> GetSongs(string tempPath)
@@ -137,13 +151,13 @@ namespace com.aurora.aumusic
                 {
                     Song song = new Song(tempFile, tempPath);
                     await song.initial();
-                    await AddtoAlbum(song);
+                    await AddtoAlbum_first(song);
                 }
             }
             foreach (AlbumItem item in albumList)
             {
                 await item.Refresh();
-                
+
             }
             List<AlbumItem> afterList = albumList.ToList();
             afterList.RemoveRange(0, index);
@@ -152,6 +166,35 @@ namespace com.aurora.aumusic
                  saveAlbumstoStorage(afterList, tempPath);
              });
             return count;
+        }
+
+        private async Task AddtoAlbum_first(Song song)
+        {
+            if (albumList.Count > 0)
+            {
+                foreach (AlbumItem item in albumList)
+                {
+                    if (item.AlbumName == song.Album)
+                    {
+                        foreach (var s in item.Songs)
+                        {
+                            if (song.Title == s.Title && song.ArtWork == s.ArtWork)
+                            {
+                                if (PasswordEquals(song.AlbumArtists, s.AlbumArtists) && PasswordEquals(song.Artists, s.Artists))
+                                    return;
+                            }
+
+                        }
+                        item.Songs.Add(song);
+                        return;
+                    }
+                }
+            }
+            AlbumItem album = new AlbumItem();
+            album.AlbumName = song.Album;
+            album.Songs.Add(song);
+            await album.Initial();
+            albumList.Add(album);
         }
 
         private void RefreshAlbumstoStorage(List<AlbumItem> afterList, string tempPath)
@@ -254,9 +297,9 @@ namespace com.aurora.aumusic
 
         private async Task AddtoAlbum(Song song)
         {
-            if (albumList.Count > 0)
+            if (albums.Count > 0)
             {
-                foreach (AlbumItem item in albumList)
+                foreach (AlbumItem item in albums)
                 {
                     if (item.AlbumName == song.Album)
                     {
@@ -278,7 +321,7 @@ namespace com.aurora.aumusic
             album.AlbumName = song.Album;
             album.Songs.Add(song);
             await album.Initial();
-            albumList.Add(album);
+            albums.Add(album);
         }
 
         private bool PasswordEquals(string[] b1, string[] b2)
@@ -310,7 +353,7 @@ namespace com.aurora.aumusic
                 tempAlbum.Rating = (uint)SubContainer.Values["Rating"];
                 tempAlbum.FolderToken = tempPath;
                 tempAlbum.Fetch();
-                albumList.Add(tempAlbum);
+                albums.Add(tempAlbum);
             }
         }
 

@@ -136,6 +136,11 @@ namespace com.aurora.aumusic
             return _albumList.GetEnumerator();
         }
 
+        public IEnumerable<AlbumItem> Enumerable()
+        {
+            return _albumList;
+        }
+
         public int IndexOf(object value)
         {
             if (value is AlbumItem)
@@ -277,6 +282,14 @@ namespace com.aurora.aumusic
             }
             LastFetch = new ItemIndexRange(_first, (uint)(_last - _first + 1));
             return _albumList.GetRange(_first, (_last - _first + 1));
+        }
+
+        public void AddRange(IList<AlbumItem> albums)
+        {
+            NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, albums.ToList());
+            OnCollectionChanged(e);
+            _albumList.AddRange(albums);
+            
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;

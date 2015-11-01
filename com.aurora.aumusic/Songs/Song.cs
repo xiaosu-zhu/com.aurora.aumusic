@@ -195,14 +195,14 @@ namespace com.aurora.aumusic
             return tempSong;
         }
 
-        public static List<IStorageFile> MatchingFiles(AlbumList albums, List<IStorageFile> allList)
+        public static List<IStorageFile> MatchingFiles(List<AlbumItem> albums, List<IStorageFile> allList)
         {
-            foreach (AlbumItem item in albums)
+            for(int k = albums.Count - 1;k >= 0;k--)
             {
-                for (int j = item.Songs.Count - 1; j >= 0; j--)
+                for (int j = albums[k].Songs.Count - 1; j >= 0; j--)
                 {
                     bool isExist = false;
-                    if (item.Songs[j].AudioFile != null)
+                    if (albums[k].Songs[j].AudioFile != null)
                     {
                         continue;
                     }
@@ -210,9 +210,9 @@ namespace com.aurora.aumusic
                     {
                         for (int i = allList.Count - 1; i >= 0; i--)
                         {
-                            if (item.Songs[j].MainKey == ((StorageFile)allList[i]).Path + ((StorageFile)allList[i]).Name)
+                            if (albums[k].Songs[j].MainKey == ((StorageFile)allList[i]).Path + ((StorageFile)allList[i]).Name)
                             {
-                                item.Songs[j].AudioFile = (StorageFile)allList[i];
+                                albums[k].Songs[j].AudioFile = (StorageFile)allList[i];
                                 allList.RemoveAt(i);
                                 isExist = true;
                                 break;
@@ -220,13 +220,13 @@ namespace com.aurora.aumusic
                         }
                         if (isExist == false)
                         {
-                            item.Songs.RemoveAt(j);
-                            item.SongsCount = item.Songs.Count;
+                            albums[k].Songs.RemoveAt(j);
+                            albums[k].SongsCount = albums[k].Songs.Count;
                         }
                     }
                 }
-
-
+                if (albums[k].Songs.Count == 0)
+                    albums.RemoveAt(k);
             }
             return allList;
         }
