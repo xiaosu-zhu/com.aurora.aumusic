@@ -292,7 +292,7 @@
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_2" PointerExited="RelativePanel_PointerExited_2">
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" MaxLines="1" TextTrimming="Clip" RelativePanel.LeftOf="PlayButton" RelativePanel.AlignVerticalCenterWithPanel="True" />
-                    <Button x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource ButtonStyle2}" Content="&#xE768;" />
+                    <Button x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource ButtonStyle2}" Content="&#xE768;" Click="ShufflePlayButton_Click" />
                 </RelativePanel>
             </DataTemplate>
             <Style x:Key="DetailsListViewStyle" TargetType="ListView">
@@ -423,17 +423,67 @@
             <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.RightOf="MusicArrangeList" RelativePanel.AlignBottomWithPanel="True"/>
         </RelativePanel>
 
-        <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.AlignBottomWithPanel="True" Margin="8,52,0,0" RelativePanel.AlignLeftWithPanel="True" >
+        <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.AlignBottomWithPanel="True" Margin="8,52,0,0" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="4,0,0,0">
-                <TextBlock Grid.Row="0" Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" VerticalAlignment="Center" />
-                <TextBlock Grid.Row="0" Text="手气不错" VerticalAlignment="Center" Margin="4,0,0,0"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4,0,0,0">
+                <TextBlock Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" VerticalAlignment="Center" />
+                <TextBlock Text="手气不错" VerticalAlignment="Center" Margin="4,0,0,0"/>
             </StackPanel>
             <ListView x:Name="FavListView" Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
-                      ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="FavListView_Loaded" IsItemClickEnabled="True">
+                      ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="FavListView_Loaded" IsItemClickEnabled="True" ItemClick="FavListView_ItemClick">
+                <ListView.Resources>
+                    <Storyboard x:Name="ArtworkInStoryboardAll">
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork0" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork1" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork2" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork3" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkOutStoryboardAll">
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork0" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork1" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork2" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork3" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork00" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork11" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork22" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork33" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkInStoryboard0">
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork1" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork11" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkInStoryboard1">
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork2" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork22" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkInStoryboard2">
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork3" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork33" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkInStoryboard3">
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork4" />
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork44" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkOutStoryboard0">
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork1" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork11" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkOutStoryboard1">
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork2" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork22" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkOutStoryboard2">
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork3" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork33" />
+                    </Storyboard>
+                    <Storyboard x:Name="ArtworkOutStoryboard3">
+                        <FadeOutThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork4" />
+                        <FadeInThemeAnimation Duration="0:0:2" Storyboard.TargetName="ShuffleArtwork44" />
+                    </Storyboard>
+                </ListView.Resources>
                 <ListView.Header>
                     <Grid Background="{ThemeResource SystemControlAltHighBrush}" Width="240" Height="240">
                         <Grid.RowDefinitions>
@@ -444,41 +494,29 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image x:Name="ShuffleArtwork1" Style="{StaticResource ShuffleArtworkStyle}" >
-                            <Image.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition/>
-                                    <ContentThemeTransition/>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </Image.Transitions>
+                        <Image x:Name="ShuffleArtwork0" Canvas.ZIndex="1" Style="{StaticResource ShuffleArtworkStyle}">
+
                         </Image>
-                        <Image x:Name="ShuffleArtwork2" Grid.Column="1" Style="{StaticResource ShuffleArtworkStyle}" >
-                            <Image.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition/>
-                                    <ContentThemeTransition/>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </Image.Transitions>
+                        <Image x:Name="ShuffleArtwork1" Canvas.ZIndex="1" Grid.Column="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
                         </Image>
-                        <Image x:Name="ShuffleArtwork3" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
-                            <Image.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition/>
-                                    <ContentThemeTransition/>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </Image.Transitions>
+                        <Image x:Name="ShuffleArtwork2" Canvas.ZIndex="1" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
                         </Image>
-                        <Image x:Name="ShuffleArtwork4" Grid.Column="1" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
-                            <Image.Transitions>
-                                <TransitionCollection>
-                                    <AddDeleteThemeTransition/>
-                                    <ContentThemeTransition/>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </Image.Transitions>
+                        <Image x:Name="ShuffleArtwork3" Canvas.ZIndex="1" Grid.Column="1" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
+                        </Image>
+                        <Image x:Name="ShuffleArtwork00" Style="{StaticResource ShuffleArtworkStyle}">
+
+                        </Image>
+                        <Image x:Name="ShuffleArtwork11" Grid.Column="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
+                        </Image>
+                        <Image x:Name="ShuffleArtwork22" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
+                        </Image>
+                        <Image x:Name="ShuffleArtwork33" Grid.Column="1" Grid.Row="1" Style="{StaticResource ShuffleArtworkStyle}" >
+
                         </Image>
                     </Grid>
                 </ListView.Header>

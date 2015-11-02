@@ -263,12 +263,16 @@ namespace com.aurora.aumusic
 
         private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
         {
-            if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Playing)
-            {
-                bool completed = false;
-                TimeSpan delay = TimeSpan.FromMilliseconds(16);
-                //completed = TimeTask(delay, completed);
-            }
+        }
+
+        private void PlayBackGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            PlayBackFore.Visibility = Visibility.Visible;
+        }
+
+        private void PlayBackGrid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            PlayBackFore.Visibility = Visibility.Collapsed;
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
