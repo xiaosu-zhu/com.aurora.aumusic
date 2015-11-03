@@ -8,6 +8,23 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Windows.Graphics.DirectX;
+using Windows.Graphics.Effects;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.UI;
+
+using Windows.UI.Popups;
+
+using Windows.Storage.Streams;
+
+
 
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
@@ -273,6 +290,13 @@ namespace com.aurora.aumusic
         private void PlayBackGrid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             PlayBackFore.Visibility = Visibility.Collapsed;
+        }
+
+        private async void MainFrame_LayoutUpdated(object sender, object e)
+        {
+            RenderTargetBitmap renderer = new RenderTargetBitmap();
+            await renderer.RenderAsync(MainFrame);
+            Debug.WriteLine(DateTime.Now);
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
