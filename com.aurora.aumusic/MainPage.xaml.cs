@@ -23,6 +23,10 @@ using Windows.UI;
 using Windows.UI.Popups;
 
 using Windows.Storage.Streams;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using Windows.Graphics.Imaging;
 
 
 
@@ -46,6 +50,12 @@ namespace com.aurora.aumusic
         Slider VolumeSlider;
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon();
         AppBarButton volumrMuteButton;
+        RenderTargetBitmap renderer = new RenderTargetBitmap();
+        CanvasBitmap bitmap;
+        SoftwareBitmap RendererStream;
+
+        public static double FrameWidth { get; private set; }
+        public static double FrameHeight { get; private set; }
 
         public MainPage()
         {
@@ -60,58 +70,58 @@ namespace com.aurora.aumusic
             vol_mute.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mute.png");
         }
 
-//        private bool TimeTask(TimeSpan delay, bool completed)
-//        {
-//            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
-//                               async (source) =>
-//                                    {
-//                                   await
+        //        private bool TimeTask(TimeSpan delay, bool completed)
+        //        {
+        //            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+        //                               async (source) =>
+        //                                    {
+        //                                   await
 
-//                           Dispatcher.RunAsync(
-//                                CoreDispatcherPriority.High,
-//                                () =>
-//                                {
-//                                    TimeSpan ts = PlaybackControl.Position;
-//                                    if (ts.Seconds >= 10)
-//                                    {
-//                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":" + ts.Seconds;
-//                                        TimeElapsedBlock.Text = s;
-//                                        return;
-//                                    }
-//                                    else
-//                                    {
-//                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":0" + ts.Seconds;
-//                                        TimeElapsedBlock.Text = s;
-//                                        return;
-//                                    }
-//                                });
+        //                           Dispatcher.RunAsync(
+        //                                CoreDispatcherPriority.High,
+        //                                () =>
+        //                                {
+        //                                    TimeSpan ts = PlaybackControl.Position;
+        //                                    if (ts.Seconds >= 10)
+        //                                    {
+        //                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":" + ts.Seconds;
+        //                                        TimeElapsedBlock.Text = s;
+        //                                        return;
+        //                                    }
+        //                                    else
+        //                                    {
+        //                                        string s = ((ts.Days * 24) + ts.Hours) * 60 + ts.Minutes + ":0" + ts.Seconds;
+        //                                        TimeElapsedBlock.Text = s;
+        //                                        return;
+        //                                    }
+        //                                });
 
-//                         completed = true;
-//                                   },
-//                                    delay,
-//                             async (source) =>
-//                               {
-//                                    await
+        //                         completed = true;
+        //                                   },
+        //                                    delay,
+        //                             async (source) =>
+        //                               {
+        //                                    await
 
-//                                 Dispatcher.RunAsync(
-//                            CoreDispatcherPriority.High,
-//                            () =>
-//                            {
+        //                                 Dispatcher.RunAsync(
+        //                            CoreDispatcherPriority.High,
+        //                            () =>
+        //                            {
 
-//                                if (completed)
-//                                {
-//                                    if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Closed || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Stopped || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Paused)
-//                                        return;
-//                                    completed = TimeTask(delay, completed);
-//                                }
-//                                else
-//                                {
-//                                }
+        //                                if (completed)
+        //                                {
+        //                                    if (PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Closed || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Stopped || PlaybackControl.CurrentState == Windows.UI.Xaml.Media.MediaElementState.Paused)
+        //                                        return;
+        //                                    completed = TimeTask(delay, completed);
+        //                                }
+        //                                else
+        //                                {
+        //                                }
 
-//                            });
-//});
-//            return completed;
-//        }
+        //                            });
+        //});
+        //            return completed;
+        //        }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
         {
@@ -294,9 +304,62 @@ namespace com.aurora.aumusic
 
         private async void MainFrame_LayoutUpdated(object sender, object e)
         {
-            RenderTargetBitmap renderer = new RenderTargetBitmap();
             await renderer.RenderAsync(MainFrame);
-            Debug.WriteLine(DateTime.Now);
+            FrameWidth = MainFrame.ActualWidth;
+            FrameHeight = MainFrame.ActualHeight;
+            var p = await renderer.GetPixelsAsync();
+        }
+
+        private void BlurLayer_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
+        {
+        }
+
+        private void generate(ICanvasResourceCreator sender)
+        {
+            bitmap = CanvasBitmap.CreateFromSoftwareBitmap(sender, RendererStream);
+        }
+
+        private CanvasDevice GetSharedDevice()
+        {
+            return CanvasDevice.GetSharedDevice(forceSoftwareRenderer: false);
+        }
+
+        private ICanvasImage CropandScale(CanvasBitmap bitmap)
+        {
+            var crop = new CropEffect
+            {
+                Source = bitmap
+            };
+            crop.SourceRectangle = new Rect(0, FrameHeight - 64, FrameWidth, 54);
+            var scale = new ScaleEffect
+            {
+                Source = crop
+            };
+            scale.Scale = new Vector2(0.2f, 0.2f);
+            return scale;
+        }
+
+        private void MainFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            TimeSpan t = TimeSpan.FromSeconds(10);
+
+        }
+
+        private void BlurLayer_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        {
+            if (RendererStream != null && !FrameHeight.Equals(double.NaN))
+            {
+                generate(args.DrawingSession);
+                var effect = new GaussianBlurEffect
+                {
+                    Source = CropandScale(bitmap)
+                };
+                effect.BorderMode = EffectBorderMode.Hard;
+                effect.BlurAmount = 4.0f;
+                var Des = new Rect(0, 0, FrameWidth, 64);
+                args.DrawingSession.DrawImage(effect);
+            }
+
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)

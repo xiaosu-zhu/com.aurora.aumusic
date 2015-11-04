@@ -848,9 +848,11 @@
 
             <!-- 主视图Frame -->
             <RelativePanel>
-                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" LayoutUpdated="MainFrame_LayoutUpdated"/>
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" LayoutUpdated="MainFrame_LayoutUpdated" Navigated="MainFrame_Navigated"/>
                 <RelativePanel x:Name="RootGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <Rectangle x:Name="BackRec" Opacity="0.6" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}"/>
+                    <canvas:CanvasAnimatedControl Draw="BlurLayer_Draw" x:Name="BlurLayer" Update="BlurLayer_Update" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+                    <Rectangle x:Name="BackRec" Opacity="0.6" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}"/>
+
                     <Grid x:Name="PlayBackGrid" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                         <Viewbox x:Name="PlayBackArtwork"  RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
                             <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
