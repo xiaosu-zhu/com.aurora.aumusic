@@ -166,6 +166,7 @@ namespace com.aurora.aumusic
                 _title = (value == null) ? AudioFile.DisplayName : value;
             }
         }
+        public AlbumItem Parent;
 
         internal static Song RestoreSongfromStorage(ApplicationDataContainer SubContainer, int j)
         {

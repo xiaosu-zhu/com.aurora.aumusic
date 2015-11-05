@@ -238,6 +238,10 @@ namespace com.aurora.aumusic
                     await this.refreshPalette();
                 }
                 this.Sort();
+                foreach (var item in Songs)
+                {
+                    item.Parent = this;
+                }
             }
             SongsCount = Songs.Count;
             this.OnPropertyChanged("SongsCount");
@@ -334,6 +338,7 @@ namespace com.aurora.aumusic
             foreach (var item in Songs)
             {
                 item.Position = this.Position;
+                item.Parent = this;
             }
         }
 

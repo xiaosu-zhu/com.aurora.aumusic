@@ -38,6 +38,9 @@ namespace com.aurora.aumusic
         public ScrollViewer AlbumFlowScroller { get; private set; }
         public Rectangle ShuffleHeader { get; private set; }
         public bool IsShuffleListInitialed { get; private set; }
+        public TextBlock SongsDetailsBlock { get; private set; }
+        public TextBlock GenresDetailsBlock { get; private set; }
+
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
         List<string> ShuffleArts = new List<string>();
 
@@ -213,11 +216,21 @@ async () =>
             AlbumSongsResources.Source = DetailedAlbum.Songs;
             AlbumDetailsHeader.Background = new SolidColorBrush(DetailedAlbum.Palette);
             AlbumArtWork.Source = new BitmapImage(new Uri(DetailedAlbum.AlbumArtWork));
-            AlbumTitle.Foreground = new SolidColorBrush(DetailedAlbum.TextMainColor);
-            AlbumDetailsBlock.Foreground = new SolidColorBrush(DetailedAlbum.TextSubColor);
+            var brush = new SolidColorBrush(DetailedAlbum.TextMainColor);
+            AlbumTitle.Foreground = brush;
+            SongsDetailsBlock.Foreground = brush;
+            brush = new SolidColorBrush(DetailedAlbum.TextSubColor);
+            AlbumDetailsBlock.Foreground = brush;
+            GenresDetailsBlock.Foreground = brush;
             AlbumDetailsConverter albumDetials = new AlbumDetailsConverter();
             string s = (string)albumDetials.Convert(DetailedAlbum, null, null, null);
             AlbumDetailsBlock.Text = s;
+            SongsDetailsConverter songsDetails = new SongsDetailsConverter();
+            s = (string)songsDetails.Convert(DetailedAlbum, null, null, null);
+            SongsDetailsBlock.Text = s;
+            GenresDetailsConverter genresDetails = new GenresDetailsConverter();
+            s = (string)genresDetails.Convert(DetailedAlbum, null, null, null);
+            GenresDetailsBlock.Text = s;
             AlbumTitle.Text = DetailedAlbum.AlbumName;
             var view = ApplicationView.GetForCurrentView();
             ApplicationViewTitleBar titleBar = view.TitleBar;
@@ -458,6 +471,17 @@ async () =>
         private void FavListView_ItemClick(object sender, ItemClickEventArgs e)
         {
 
+        }
+
+        private void SongsDetailsBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            SongsDetailsBlock = sender as TextBlock;
+        }
+
+
+        private void GenresDetailsBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            GenresDetailsBlock = sender as TextBlock;
         }
     }
 

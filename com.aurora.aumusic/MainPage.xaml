@@ -22,7 +22,7 @@
             <local:ThumbToolTipConveter x:Key="ThumbConverter" />
             <local:DurationValueConverter x:Key="PositionConverter" />
             <local:MainColorConverter x:Key="ColorConverter" />
-            <Style x:Key="MediaTransportControlsStyle1" TargetType="MediaTransportControls">
+            <Style x:Key="MediaTransportControlsStyle" TargetType="MediaTransportControls">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="FlowDirection" Value="LeftToRight"/>
@@ -45,10 +45,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="AppBarButton">
                                                     <Grid
-            x:Name="Root"
-            MinWidth="{TemplateBinding MinWidth}"
-            MaxWidth="{TemplateBinding MaxWidth}"
-            Background="{TemplateBinding Background}">
+            x:Name="Root" MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}" Background="{TemplateBinding Background}">
                                                         <VisualStateManager.VisualStateGroups>
                                                             <VisualStateGroup x:Name="CommonStates">
                                                                 <VisualState x:Name="Normal">
@@ -311,8 +308,8 @@
                                                         <Grid x:Name="SliderContainer" Background="Transparent" Control.IsTemplateFocusTarget="True" Grid.Row="1">
                                                             <Grid x:Name="HorizontalTemplate" MinHeight="44">
                                                                 <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition Width="auto"/>
                                                                     <ColumnDefinition Width="*"/>
                                                                 </Grid.ColumnDefinitions>
                                                                 <Grid.RowDefinitions>
@@ -492,9 +489,9 @@
                                 <Border x:Name="ControlPanel_ControlPanelVisibilityStates_Border">
                                     <Grid x:Name="ControlPanelGrid" Background="Transparent" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -853,7 +850,7 @@
                     <!--canvas:CanvasAnimatedControl Draw="BlurLayer_Draw" x:Name="BlurLayer" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" /-->
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
 
-                    <Grid x:Name="PlayBackGrid" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                    <Grid x:Name="PlayBackGrid" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                         <Viewbox x:Name="PlayBackArtwork"  RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
                             <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
                         </Viewbox>
@@ -866,9 +863,19 @@
                     </Grid>
                     <MediaElement Name="PlaybackControl" CurrentStateChanged="PlaybackControl_CurrentStateChanged" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackGrid" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
                         <MediaElement.TransportControls>
-                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle1}" />
+                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle}" />
                         </MediaElement.TransportControls>
                     </MediaElement>
+                    <Grid x:Name="NowPlayingDetailsGrid" Visibility="Collapsed" RelativePanel.RightOf="PlayBackGrid" Width="152" Margin="0" Height="64" Background="Red" Loaded="NowPlayingDetailsGrid_Loaded" >
+                        <Grid.Resources>
+                            <Storyboard x:Name="NowPlayingIn">
+                                <FadeInThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
+                            </Storyboard>
+                            <Storyboard x:Name="NowPlayingOut">
+                                <FadeOutThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
+                            </Storyboard>
+                        </Grid.Resources>
+                    </Grid>
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

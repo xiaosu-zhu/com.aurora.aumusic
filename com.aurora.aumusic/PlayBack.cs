@@ -11,6 +11,10 @@ namespace com.aurora.aumusic
     {
         private List<Song> Songs = new List<Song>();
         private int NowIndex = -1;
+
+        public event NotifyPlayBackEventHandler NotifyPlayBackEvent;
+        public delegate void NotifyPlayBackEventHandler(object sender, NotifyPlayBackEventArgs e);
+
         #region
         public PlayBack(List<Song> Songs)
         {
@@ -88,6 +92,7 @@ namespace com.aurora.aumusic
 
             var stream = await a.AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, a.AudioFile.ContentType);
+            OnNotifyPlayBackEvent(a);
         }
         public async Task Play(int index, MediaElement m)
         {
@@ -100,6 +105,7 @@ namespace com.aurora.aumusic
                 });
                 var stream = await Songs[index].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
                 m.SetSource(stream, Songs[index].AudioFile.ContentType);
+                OnNotifyPlayBackEvent(Songs[index]);
             }
             else
             {
@@ -113,6 +119,7 @@ namespace com.aurora.aumusic
                 NowIndex = 0;
                 var stream = await Songs[0].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
                 m.SetSource(stream, Songs[0].AudioFile.ContentType);
+                OnNotifyPlayBackEvent(Songs[0]);
             }
             else
             {
@@ -126,6 +133,7 @@ namespace com.aurora.aumusic
             NowIndex = 0;
             var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
+            OnNotifyPlayBackEvent(Songs[NowIndex]);
             await Task.Run(() =>
             {
                 foreach (var item in Songs)
@@ -148,6 +156,7 @@ namespace com.aurora.aumusic
             }
             var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
+            OnNotifyPlayBackEvent(Songs[NowIndex]);
         }
         public async Task PlayPrevious(MediaElement m)
         {
@@ -161,6 +170,7 @@ namespace com.aurora.aumusic
             }
             var stream = await Songs[NowIndex].AudioFile.OpenAsync(Windows.Storage.FileAccessMode.Read);
             m.SetSource(stream, Songs[NowIndex].AudioFile.ContentType);
+            OnNotifyPlayBackEvent(Songs[NowIndex]);
         }
 
         public Song NowPlaying()
@@ -173,7 +183,30 @@ namespace com.aurora.aumusic
             {
                 return null;
             }
+           
+        }
+        public void OnNotifyPlayBackEvent(Song song)
+        {
+            NotifyPlayBackEventHandler h = NotifyPlayBackEvent;
+            if (h != null)
+                h(this, new NotifyPlayBackEventArgs(song));
+        }
+    }
+
+    public class NotifyPlayBackEventArgs
+    {
+        public NotifyPlayBackEventArgs(AlbumItem playingalbum, Song playingsong)
+        {
+            this.PlayingAlbum = playingalbum;
+            this.PlayingSong = playingsong;
         }
 
+        public NotifyPlayBackEventArgs(Song playingsong)
+        {
+            this.PlayingSong = playingsong;
+        }
+
+        public AlbumItem PlayingAlbum;
+        public Song PlayingSong;
     }
 }

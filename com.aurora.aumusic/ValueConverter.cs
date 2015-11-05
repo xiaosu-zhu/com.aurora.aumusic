@@ -192,7 +192,7 @@ namespace com.aurora.aumusic
         const double r_factor = 0.299, g_factor = 0.587, b_factor = 0.114;
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is SolidColorBrush)
+            if (value is SolidColorBrush)
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
@@ -258,7 +258,7 @@ namespace com.aurora.aumusic
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is List<Song>)
+            if (value is List<Song>)
             {
                 var s = value as List<Song>;
 
@@ -272,4 +272,58 @@ namespace com.aurora.aumusic
         }
     }
 
+    public class SongsDetailsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is AlbumItem)
+            {
+                StringBuilder sb = new StringBuilder("播放" + ((AlbumItem)value).Songs.Count);
+                sb.Append("首曲目");
+                return sb.ToString();
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GenresDetailsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is AlbumItem)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (((AlbumItem)value).Genres != null && ((AlbumItem)value).Genres.Length > 0)
+                {
+                    if (((AlbumItem)value).Genres[0] == "Unknown Genres")
+                        sb.Append("未知风格");
+                    else
+                        foreach (var item in ((AlbumItem)value).Genres)
+                        {
+                            sb.Append(item);
+                            sb.Append(", ");
+                        }
+                    if (sb[sb.Length - 1] == ' ')
+                        sb.Remove(sb.Length - 2, 2);
+                    sb.Append("·");
+                }
+                if (((AlbumItem)value).Year > 0)
+                    sb.Append(((AlbumItem)value).Year + "年");
+                else if (sb[sb.Length - 1] == '·')
+                    sb.Remove(sb.Length - 1, 1);
+                return sb.ToString();
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

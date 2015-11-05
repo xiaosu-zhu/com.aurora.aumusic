@@ -54,6 +54,7 @@ namespace com.aurora.aumusic
         RenderTargetBitmap renderer = new RenderTargetBitmap();
         CanvasBitmap bitmap;
         byte[] RendererStream;
+        ThreadPoolTimer wtftimer;
 
         public static int FrameWidth { get; private set; }
         public static int FrameHeight { get; private set; }
@@ -311,6 +312,8 @@ namespace com.aurora.aumusic
             await renderer.RenderAsync(MainFrame);
             FrameWidth = renderer.PixelWidth;
             FrameHeight = renderer.PixelHeight;
+            SoftwareBitmap map = new SoftwareBitmap(BitmapPixelFormat.Bgra8, FrameWidth, FrameHeight);
+            map.CopyFromBuffer(await renderer.GetPixelsAsync());
             RendererStream = WindowsRuntimeBufferExtensions.ToArray(await renderer.GetPixelsAsync());
             if (FrameHeight != 0)
                 Frame_Updated = true;
@@ -320,6 +323,7 @@ namespace com.aurora.aumusic
         {
             bitmap = CanvasBitmap.CreateFromBytes(sender, RendererStream, FrameWidth, FrameHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
         }
+
 
         private ICanvasImage CropandBlur(CanvasBitmap bitmap)
         {
@@ -344,14 +348,14 @@ namespace com.aurora.aumusic
 
         private void BlurLayer_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            if (Frame_Updated)
-            {
-                generate(args.DrawingSession);
-                //RenderFinal = CropandBlur(bitmap);
-                Frame_Updated = false;
-            }
-            if (bitmap != null)
-                args.DrawingSession.DrawImage(bitmap,0,-(FrameHeight-64));
+            //if (Frame_Updated)
+            //{
+            //    generate(args.DrawingSession);
+            //    RenderFinal = CropandBlur(bitmap);
+            //    Frame_Updated = false;
+            //}
+            //if (RenderFinal != null)
+            //    args.DrawingSession.DrawImage(RenderFinal,0,-(FrameHeight-64));
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
@@ -377,6 +381,11 @@ namespace com.aurora.aumusic
 
         }
 
+        private void NowPlayingDetailsGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            NowPlayingOut.Begin();
+        }
+
         private void PlaybackControl_Loaded(object sender, RoutedEventArgs e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -384,6 +393,28 @@ namespace com.aurora.aumusic
             {
                 PlaybackControl.Volume = (double)localSettings.Values["Volume"] / 100.0;
             }
+            playBack.NotifyPlayBackEvent += PlayBack_NotifyPlayBackEvent;
+        }
+
+        private void PlayBack_NotifyPlayBackEvent(object sender, NotifyPlayBackEventArgs e)
+        {
+            if (wtftimer != null)
+                wtftimer.Cancel();
+            NowPlayingDetailsGrid.Visibility = Visibility.Visible;
+            NowPlayingIn.Begin();
+            wtftimer = ThreadPoolTimer.CreateTimer((source) =>
+            {
+                Dispatcher.RunAsync(
+                           CoreDispatcherPriority.High,
+                           () =>
+                           {
+                               NowPlayingOut.Begin();
+                               
+                           });
+                NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
+
+            }, TimeSpan.FromSeconds(2));
+
         }
     }
 }

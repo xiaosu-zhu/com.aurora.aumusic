@@ -329,12 +329,12 @@
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded">
                                     <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}">
                                         <ItemsPresenter.Header>
-                                            <Grid Loaded="AlbumDetailsHeader_Loaded" x:Name="AlbumDetailsHeader" Height="424" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
+                                            <Grid Loaded="AlbumDetailsHeader_Loaded" x:Name="AlbumDetailsHeader" Height="{StaticResource DetailsGridHeigt}" Width="auto" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Height="320" Stretch="Uniform">
+                                                <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0,40,0,0" Height="320" Stretch="Uniform">
                                                     <Viewbox.RenderTransform>
                                                         <CompositeTransform TranslateY="{Binding ElementName=ScrollViewer, Path=VerticalOffset, Converter={StaticResource ScrollConverter}}" />
                                                     </Viewbox.RenderTransform>
@@ -351,6 +351,10 @@
                                                     </TextBlock>
                                                 </StackPanel>
                                                 <Button Style="{StaticResource DetailsButtonStyle}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
+                                                <StackPanel Margin="68,8,8,8" Height="48" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                                    <TextBlock FontSize="16" Margin="4,4,0,0" Loaded="SongsDetailsBlock_Loaded" x:Name="SongsDetailsBlock" />
+                                                    <TextBlock FontSize="12" Margin="4,4,0,0" Loaded="GenresDetailsBlock_Loaded"  x:Name="GenresDetailsBlock" />
+                                                </StackPanel>
                                             </Grid>
                                         </ItemsPresenter.Header>
                                     </ItemsPresenter>
@@ -527,7 +531,7 @@
             <ProgressBar x:Name="FavWaitingBar" IsIndeterminate="True" Grid.Row="1" VerticalAlignment="Center" />
         </Grid>
 
-        <Grid x:Name="SemanticGrid" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,12,0">
+        <Grid x:Name="SemanticGrid" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,0,0">
             <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
             <SemanticZoom x:Name="AlbumFlowZoom">
                 <SemanticZoom.ZoomedOutView>
@@ -551,7 +555,7 @@
                     </ListView>
                 </SemanticZoom.ZoomedOutView>
                 <SemanticZoom.ZoomedInView>
-                    <ListView x:Name="DetailsListView" Margin="0,48,0,0" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+                    <ListView x:Name="DetailsListView" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
                   IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <ListView.Style>
                             <StaticResource ResourceKey="DetailsListViewStyle"/>

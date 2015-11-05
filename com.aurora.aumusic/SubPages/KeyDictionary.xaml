@@ -6,4 +6,5 @@
     <Thickness x:Key="Thickless">0</Thickness>
     <x:Double x:Key='CMTCMediaButtonHeight'>48</x:Double>
     <x:Double x:Key='CMTCMediaButtonWidth'>48</x:Double>
+    <x:Double x:Key="DetailsGridHeigt">464</x:Double>
 </ResourceDictionary>
