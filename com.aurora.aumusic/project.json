@@ -1,6 +1,7 @@
 ﻿{
   "dependencies": {
     "Kfstorm.LrcParser": "1.0.3",
+    "LumiaImagingSDK.UWP": "3.0.593",
     "Microsoft.ApplicationInsights": "1.0.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",

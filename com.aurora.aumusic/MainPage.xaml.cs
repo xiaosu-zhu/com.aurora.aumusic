@@ -27,6 +27,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Windows.Graphics.Imaging;
+using Windows.UI.Xaml.Media;
 
 
 
@@ -52,10 +53,13 @@ namespace com.aurora.aumusic
         AppBarButton volumrMuteButton;
         RenderTargetBitmap renderer = new RenderTargetBitmap();
         CanvasBitmap bitmap;
-        SoftwareBitmap RendererStream;
+        byte[] RendererStream;
 
-        public static double FrameWidth { get; private set; }
-        public static double FrameHeight { get; private set; }
+        public static int FrameWidth { get; private set; }
+        public static int FrameHeight { get; private set; }
+        public ICanvasImage RenderFinal { get; private set; }
+
+        public bool Frame_Updated = false;
 
         public MainPage()
         {
@@ -305,61 +309,49 @@ namespace com.aurora.aumusic
         private async void MainFrame_LayoutUpdated(object sender, object e)
         {
             await renderer.RenderAsync(MainFrame);
-            FrameWidth = MainFrame.ActualWidth;
-            FrameHeight = MainFrame.ActualHeight;
-            var p = await renderer.GetPixelsAsync();
-        }
-
-        private void BlurLayer_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
-        {
+            FrameWidth = renderer.PixelWidth;
+            FrameHeight = renderer.PixelHeight;
+            RendererStream = WindowsRuntimeBufferExtensions.ToArray(await renderer.GetPixelsAsync());
+            if (FrameHeight != 0)
+                Frame_Updated = true;
         }
 
         private void generate(ICanvasResourceCreator sender)
         {
-            bitmap = CanvasBitmap.CreateFromSoftwareBitmap(sender, RendererStream);
+            bitmap = CanvasBitmap.CreateFromBytes(sender, RendererStream, FrameWidth, FrameHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
         }
 
-        private CanvasDevice GetSharedDevice()
+        private ICanvasImage CropandBlur(CanvasBitmap bitmap)
         {
-            return CanvasDevice.GetSharedDevice(forceSoftwareRenderer: false);
-        }
-
-        private ICanvasImage CropandScale(CanvasBitmap bitmap)
-        {
-            var crop = new CropEffect
+            //var crop = new CropEffect
+            //{
+            //    Source = bitmap
+            //};
+            //crop.SourceRectangle = new Rect(0, FrameHeight - 64, FrameWidth, 64);
+            var blur = new GaussianBlurEffect
             {
                 Source = bitmap
             };
-            crop.SourceRectangle = new Rect(0, FrameHeight - 64, FrameWidth, 54);
-            var scale = new ScaleEffect
-            {
-                Source = crop
-            };
-            scale.Scale = new Vector2(0.2f, 0.2f);
-            return scale;
+            blur.BorderMode = EffectBorderMode.Hard;
+            blur.BlurAmount = 8.0f;
+            return blur;
         }
 
         private void MainFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             TimeSpan t = TimeSpan.FromSeconds(10);
-
         }
 
         private void BlurLayer_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            if (RendererStream != null && !FrameHeight.Equals(double.NaN))
+            if (Frame_Updated)
             {
                 generate(args.DrawingSession);
-                var effect = new GaussianBlurEffect
-                {
-                    Source = CropandScale(bitmap)
-                };
-                effect.BorderMode = EffectBorderMode.Hard;
-                effect.BlurAmount = 4.0f;
-                var Des = new Rect(0, 0, FrameWidth, 64);
-                args.DrawingSession.DrawImage(effect);
+                //RenderFinal = CropandBlur(bitmap);
+                Frame_Updated = false;
             }
-
+            if (bitmap != null)
+                args.DrawingSession.DrawImage(bitmap,0,-(FrameHeight-64));
         }
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
