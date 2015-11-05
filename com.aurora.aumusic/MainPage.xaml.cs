@@ -49,7 +49,7 @@ namespace com.aurora.aumusic
         //TextBlock TimeTotalBlock;
         Slider ProgressSlider;
         Slider VolumeSlider;
-        BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon();
+        BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
         AppBarButton volumrMuteButton;
         RenderTargetBitmap renderer = new RenderTargetBitmap();
         CanvasBitmap bitmap;
@@ -73,6 +73,8 @@ namespace com.aurora.aumusic
             vol_mid.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mid.png");
             vol_low.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-low.png");
             vol_mute.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mute.png");
+            vol_high.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-high.png");
+            vol_no.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-no.png");
         }
 
         //        private bool TimeTask(TimeSpan delay, bool completed)
@@ -276,7 +278,7 @@ namespace com.aurora.aumusic
         {
             if (((Slider)sender).Value == 0)
             {
-                volumrMuteButton.Icon = new SymbolIcon(Symbol.Mute);
+                volumrMuteButton.Icon = vol_no;
             }
             else if (((Slider)sender).Value < 20)
             {
@@ -290,7 +292,7 @@ namespace com.aurora.aumusic
             {
                 volumrMuteButton.Icon = vol_mid;
             }
-            else volumrMuteButton.Icon = new SymbolIcon(Symbol.Volume);
+            else volumrMuteButton.Icon = vol_high;
         }
 
         private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
@@ -363,7 +365,7 @@ namespace com.aurora.aumusic
             volumrMuteButton = sender as AppBarButton;
             if (PlaybackControl.Volume == 0)
             {
-                volumrMuteButton.Icon = new SymbolIcon(Symbol.Mute);
+                volumrMuteButton.Icon = vol_no;
             }
             else if (PlaybackControl.Volume < 0.2)
             {
@@ -377,13 +379,18 @@ namespace com.aurora.aumusic
             {
                 volumrMuteButton.Icon = vol_mid;
             }
-            else volumrMuteButton.Icon = new SymbolIcon(Symbol.Volume);
+            else volumrMuteButton.Icon = vol_high;
 
         }
 
         private void NowPlayingDetailsGrid_Loaded(object sender, RoutedEventArgs e)
         {
             NowPlayingOut.Begin();
+        }
+
+        private void FastMuteButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void PlaybackControl_Loaded(object sender, RoutedEventArgs e)
@@ -409,7 +416,7 @@ namespace com.aurora.aumusic
                            () =>
                            {
                                NowPlayingOut.Begin();
-                               
+
                            });
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
 

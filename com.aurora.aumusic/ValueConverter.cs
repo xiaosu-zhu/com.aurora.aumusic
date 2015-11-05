@@ -326,4 +326,44 @@ namespace com.aurora.aumusic
             throw new NotImplementedException();
         }
     }
+
+    public class VolumeButtonConverter : IValueConverter
+    {
+        BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
+        public VolumeButtonConverter()
+        {
+            vol_mid.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mid.png");
+            vol_low.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-low.png");
+            vol_mute.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-mute.png");
+            vol_high.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-high.png");
+            vol_no.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-no.png");
+
+        }
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if ((double)value == 0)
+            {
+                return vol_no;
+            }
+            else if ((double)value < 0.2)
+            {
+               return vol_mute;
+            }
+            else if ((double)value < 0.5)
+            {
+                return vol_low;
+            }
+            else if ((double)value < 0.8)
+            {
+                return vol_mid;
+            }
+            else return vol_high;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
 }

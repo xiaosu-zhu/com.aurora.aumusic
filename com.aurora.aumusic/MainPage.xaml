@@ -22,6 +22,71 @@
             <local:ThumbToolTipConveter x:Key="ThumbConverter" />
             <local:DurationValueConverter x:Key="PositionConverter" />
             <local:MainColorConverter x:Key="ColorConverter" />
+            <local:VolumeButtonConverter x:Key="VolumeConverter" />
+            <Style x:Key="ButtonStyle2" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
+                <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+                <Setter Property="Padding" Value="8,4,8,4"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemThemeMainBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ellipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Ellipse x:Name="ellipse" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Transparent" />
+                                <ContentPresenter x:Name="ContentPresenter" Foreground="{ThemeResource SystemControlHighlightBaseHighBrush}" AutomationProperties.AccessibilityView="Raw" BorderBrush="Transparent" BorderThickness="0" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="Center" Padding="{TemplateBinding Padding}" VerticalContentAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="MediaTransportControlsStyle" TargetType="MediaTransportControls">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -542,14 +607,19 @@
                                                     <AppBarButton.Flyout>
                                                         <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                                             <StackPanel Orientation="Horizontal">
-                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="12,4,0,0" VerticalAlignment="Center" Width="256"/>
+                                                                <Button x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource ButtonStyle2}">
+                                                                    <Button.Content>
+                                                                        <SymbolIcon>
+                                                                            <SymbolIcon.Symbol>Mute</SymbolIcon.Symbol>
+                                                                        </SymbolIcon>
+                                                                    </Button.Content>
+                                                                </Button>
+                                                                <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
                                                                 <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle1}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                                             </StackPanel>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
-                                                    <AppBarButton.Icon>
-                                                        <SymbolIcon x:Name="VolumeMuteSymbol" Symbol="Volume"/>
-                                                    </AppBarButton.Icon>
+                                                    
                                                 </AppBarButton>
                                                 <AppBarButton x:Name="DetailsButton" MediaTransportControlsHelper.DropoutOrder="12" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details">
                                                     <AppBarButton.Icon>
