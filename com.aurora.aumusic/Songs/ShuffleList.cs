@@ -22,7 +22,7 @@ namespace com.aurora.aumusic
         }
         public List<Song> GenerateNewList(int count)
         {
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
             List<Song> shuffleList = new List<Song>();
             for (int i = 0; i < count; i++)
             {
@@ -197,7 +197,7 @@ namespace com.aurora.aumusic
                 return null;
             if (shuffleList.Count <= FAV_LIST_CAPACITY)
                 return shuffleList;
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
             List<Song> ts = new List<Song>();
             for(int i = 0; i < FAV_LIST_CAPACITY; i++)
             {

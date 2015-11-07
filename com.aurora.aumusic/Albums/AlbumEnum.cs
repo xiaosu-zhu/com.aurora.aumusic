@@ -230,7 +230,7 @@ namespace com.aurora.aumusic
                     triContainer.Values["AlbumArtists"] = sb;
                     sb = string.Join("|:|", song.Genres);
                     triContainer.Values["Genres"] = sb;
-                    triContainer.Values["Duration"] = song.Duration.ToString();
+                    triContainer.Values["Duration"] = song.Duration;
                     triContainer.Values["PlayTimes"] = song.PlayTimes;
                     triContainer.Values["Width"] = song.ArtWorkSize.Width;
                     triContainer.Values["Height"] = song.ArtWorkSize.Height;
@@ -278,7 +278,7 @@ namespace com.aurora.aumusic
                     triContainer.Values["AlbumArtists"] = sb;
                     sb = string.Join("|:|", song.Genres);
                     triContainer.Values["Genres"] = sb;
-                    triContainer.Values["Duration"] = song.Duration.ToString();
+                    triContainer.Values["Duration"] = song.Duration;
                     triContainer.Values["PlayTimes"] = song.PlayTimes;
                     triContainer.Values["Width"] = song.ArtWorkSize.Width;
                     triContainer.Values["Height"] = song.ArtWorkSize.Height;

@@ -288,7 +288,7 @@ async () =>
                 await ShowShuffleArtwork(final);
                 IsShuffleListInitialed = true;
                 HideBar(FavWaitingBar);
-                Random r = new Random();
+                Random r = new Random(Guid.NewGuid().GetHashCode());
                 TimeSpan delay = TimeSpan.FromSeconds(r.Next(15) + 3);
                 bool completed = false;
                 completed = PlayShuffleArtwork(delay, completed);
@@ -301,7 +301,7 @@ async () =>
                 (source) =>
                 {
                     bool[] bools = ShuffleArtworkState.ToArray();
-                    Random t = new Random();
+                    Random t = new Random(Guid.NewGuid().GetHashCode());
                     int count = t.Next(4);
                     while (count % 2 == 0)
                     {
@@ -341,7 +341,7 @@ async () =>
 
                 if (completed)
                 {
-                    Random r = new Random();
+                    Random r = new Random(Guid.NewGuid().GetHashCode());
                     TimeSpan d = TimeSpan.FromSeconds(r.Next(7) + 3);
                     bool c = false;
                     completed = PlayShuffleArtwork(d, c);
@@ -371,7 +371,7 @@ async () =>
 
         private void ShowForeArtWork(Image imagej, List<string> arts, int j, int i)
         {
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
             imagej.Source = new BitmapImage(new Uri(arts[i]));
             i = (i + 1 == arts.Count) ? 1 : i + 1;
             arts[0] = i.ToString();
@@ -386,7 +386,7 @@ async () =>
 
         private void ShowBackArtWork(Image imagejj, List<string> arts, int j, int i)
         {
-            Random r = new Random();
+            Random r = new Random(Guid.NewGuid().GetHashCode());
             imagejj.Source = new BitmapImage(new Uri(arts[i]));
             i = (i + 1 == arts.Count) ? 1 : i + 1;
             arts[0] = i.ToString();
@@ -429,7 +429,7 @@ async () =>
                     });
                     ShuffleArts.Add(1.ToString());
                     ShuffleArts.AddRange(arts.GetRange(0, arts.Count));
-                    Random r = new Random();
+                    Random r = new Random(Guid.NewGuid().GetHashCode());
                     for (int j = 0; j < img.Length; j++)
                     {
                         if (arts.Count == 0)

@@ -190,15 +190,14 @@ namespace com.aurora.aumusic
             tempSong.AlbumArtists = (((string)triContainer.Values["AlbumArtists"]) != null ? ((string)triContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Artists = (((string)triContainer.Values["Artists"]) != null ? ((string)triContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Genres = (((string)triContainer.Values["Genres"]) != null ? ((string)triContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
-            string[] sa = (((string)triContainer.Values["Duration"]) != null ? ((string)triContainer.Values["Duration"]).Split(':') : null);
-            tempSong.Duration = new TimeSpan(Int32.Parse(sa[0]), Int32.Parse(sa[1]), Int32.Parse(sa[2]));
+            tempSong.Duration = TimeSpan.Parse((string)triContainer.Values["Duration"]);
             tempSong.ArtWorkSize = new Size((double)triContainer.Values["Width"], (double)triContainer.Values["Height"]);
             return tempSong;
         }
 
         public static List<IStorageFile> MatchingFiles(List<AlbumItem> albums, List<IStorageFile> allList)
         {
-            for(int k = albums.Count - 1;k >= 0;k--)
+            for (int k = albums.Count - 1; k >= 0; k--)
             {
                 for (int j = albums[k].Songs.Count - 1; j >= 0; j--)
                 {
