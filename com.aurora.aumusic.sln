@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.aurora.aumusic", "com.aurora.aumusic\com.aurora.aumusic.csproj", "{E1B5A946-1BEC-4F88-A596-FF18DF13CC85}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E687D099-BB4F-4411-A32A-54E11C89FAE9} = {E687D099-BB4F-4411-A32A-54E11C89FAE9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.aurora.aumusic.backgroundtask", "com.aurora.aumusic.backgroundtask\com.aurora.aumusic.backgroundtask.csproj", "{E687D099-BB4F-4411-A32A-54E11C89FAE9}"
 EndProject

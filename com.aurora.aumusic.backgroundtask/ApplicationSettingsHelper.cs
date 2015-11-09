@@ -9,6 +9,7 @@ namespace com.aurora.aumusic.backgroundtask
 {
     public static class ApplicationSettingsHelper
     {
+        
         /// <summary>
         /// Function to read a setting value and clear it after reading it
         /// </summary>
