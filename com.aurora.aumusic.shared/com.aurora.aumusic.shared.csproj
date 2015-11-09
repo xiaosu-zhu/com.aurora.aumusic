@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E687D099-BB4F-4411-A32A-54E11C89FAE9}</ProjectGuid>
+    <ProjectGuid>{1efd9a4d-c2c4-4ee0-a5e6-74b76872ad72}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.aurora.aumusic.backgroundtask</RootNamespace>
-    <AssemblyName>com.aurora.aumusic.backgroundtask</AssemblyName>
+    <RootNamespace>com.aurora.aumusic.shared</RootNamespace>
+    <AssemblyName>com.aurora.aumusic.shared</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
@@ -68,7 +68,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -108,19 +107,12 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettingsHelper.cs" />
-    <Compile Include="BackgroundAudio.cs" />
-    <Compile Include="MessageService\BackgroundMessage.cs" />
-    <Compile Include="MessageService\ForegroundMessage.cs" />
-    <Compile Include="MessageService\MessageService.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Properties\com.aurora.aumusic.backgroundtask.rd.xml" />
+    <Content Include="Properties\com.aurora.aumusic.shared.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

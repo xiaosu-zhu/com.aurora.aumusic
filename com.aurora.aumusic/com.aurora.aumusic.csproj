@@ -248,6 +248,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.aurora.aumusic.backgroundtask\com.aurora.aumusic.backgroundtask.csproj">
+      <Project>{e687d099-bb4f-4411-a32a-54e11c89fae9}</Project>
+      <Name>com.aurora.aumusic.backgroundtask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\com.aurora.aumusic.shared\com.aurora.aumusic.shared.csproj">
+      <Project>{1efd9a4d-c2c4-4ee0-a5e6-74b76872ad72}</Project>
+      <Name>com.aurora.aumusic.shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
