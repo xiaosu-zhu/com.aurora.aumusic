@@ -21,6 +21,12 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.System.Threading;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Data;
+using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Songs;
+using com.aurora.aumusic.shared;
+using System.Collections;
+using System.Collections.Specialized;
+using System.Text;
 
 namespace com.aurora.aumusic
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared.FolderSettings
 {
     public class FolderItem
     {

@@ -2,6 +2,7 @@
     x:Class="com.aurora.aumusic.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="using:com.aurora.aumusic.shared"
     xmlns:local="using:com.aurora.aumusic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,10 +20,10 @@
                 <ResourceDictionary Source="SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource x:Name="SplitViewSources" />
-            <local:ThumbToolTipConveter x:Key="ThumbConverter" />
-            <local:DurationValueConverter x:Key="PositionConverter" />
-            <local:MainColorConverter x:Key="ColorConverter" />
-            <local:VolumeButtonConverter x:Key="VolumeConverter" />
+            <Converter:ThumbToolTipConveter x:Key="ThumbConverter" />
+            <Converter:DurationValueConverter x:Key="PositionConverter" />
+            <Converter:MainColorConverter x:Key="ColorConverter" />
+            <Converter:VolumeButtonConverter x:Key="VolumeConverter" />
             <Style x:Key="ButtonStyle2" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
@@ -400,7 +401,7 @@
                         <ControlTemplate TargetType="MediaTransportControls">
                             <Grid x:Name="RootGrid" Background="Transparent">
                                 <Grid.Resources>
-                                   
+
                                 </Grid.Resources>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="ControlPanelVisibilityStates">

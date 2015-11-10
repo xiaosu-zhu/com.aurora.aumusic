@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Albums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared.Songs
 {
-    class ShuffleList
+    public class ShuffleList
     {
         public const int FAV_LIST_CAPACITY = 20;
 
@@ -129,7 +130,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal void SaveShuffleList(List<Song> songs)
+        public void SaveShuffleList(List<Song> songs)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
@@ -148,7 +149,7 @@ namespace com.aurora.aumusic
             MainContainer.Values["ShuSongsCount"] = i;
         }
 
-        internal static async Task<List<Song>> RestoreShuffleList()
+        public static async Task<List<Song>> RestoreShuffleList()
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             try
@@ -191,7 +192,7 @@ namespace com.aurora.aumusic
 
         }
 
-        internal static List<Song> ShuffleIt(List<Song> shuffleList)
+        public static List<Song> ShuffleIt(List<Song> shuffleList)
         {
             if (shuffleList == null || shuffleList.Count == 0)
                 return null;

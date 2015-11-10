@@ -5,7 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:local="using:com.aurora.aumusic">
+    xmlns:local="using:com.aurora.aumusic"
+    xmlns:Songs="using:com.aurora.aumusic.shared.Songs"
+    xmlns:Albums="using:com.aurora.aumusic.shared.Albums"
+    xmlns:Converter="using:com.aurora.aumusic.shared">
     <!--必须定义local 才能在下面引用自定义布局-->
 
     <Page.Transitions>
@@ -210,14 +213,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <local:SongsCountConverter x:Key="CountConverter"/>
-            <local:ArtistsCountConverter x:Key="ArtistsConverter" />
-            <local:ListViewItemStyleSelector x:Key="ListStyleSelector" />
-            <local:AlbumDetailsConverter x:Key="AlbumConverter" />
-            <local:ScrollParallaxConverter x:Key="ScrollConverter" />
-            <local:ShuffleListArtworkConverter x:Key="ShuffleConverter" />
+            <Converter:SongsCountConverter x:Key="CountConverter"/>
+            <Converter:ArtistsCountConverter x:Key="ArtistsConverter" />
+            <Converter:ListViewItemStyleSelector x:Key="ListStyleSelector" />
+            <Converter:AlbumDetailsConverter x:Key="AlbumConverter" />
+            <Converter:ScrollParallaxConverter x:Key="ScrollConverter" />
+            <Converter:ShuffleListArtworkConverter x:Key="ShuffleConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
-            <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="local:Song" >
+            <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="Songs:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <Grid Height="44" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
@@ -234,7 +237,7 @@
                             <ColumnDefinition Width="96" />
                         </Grid.ColumnDefinitions>
                         <Grid.Resources>
-                            <local:DurationValueConverter x:Key="DurationConverter" />
+                            <Converter:DurationValueConverter x:Key="DurationConverter" />
                         </Grid.Resources>
                         <TextBlock x:Name="Artists" Grid.Column="0" Text="{x:Bind Artists[0] ,Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
                         <TextBlock x:Name="Duration" Grid.Column="1" Text="{Binding Path=Duration, Converter={StaticResource DurationConverter},Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
@@ -243,7 +246,7 @@
                 </RelativePanel>
             </DataTemplate>
 
-            <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="local:AlbumItem">
+            <DataTemplate x:Name="AlbumFlowTemplate" x:DataType="Albums:AlbumItem">
                 <RelativePanel PointerEntered="RelativePanel_PointerEntered" PointerExited="RelativePanel_PointerExited" PointerReleased="RelativePanel_PointerReleased_1" >
                     <RelativePanel.Transitions>
                         <TransitionCollection>
@@ -288,7 +291,7 @@
             </DataTemplate>
             <CollectionViewSource x:Name="AlbumFlowResources" />
             <CollectionViewSource x:Name="ShuffleListResources" />
-            <DataTemplate x:DataType="local:Song" x:Key="ShuffleListTemplate">
+            <DataTemplate x:DataType="Songs:Song" x:Key="ShuffleListTemplate">
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_2" PointerExited="RelativePanel_PointerExited_2">
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" MaxLines="1" TextTrimming="Clip" RelativePanel.LeftOf="PlayButton" RelativePanel.AlignVerticalCenterWithPanel="True" />

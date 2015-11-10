@@ -6,7 +6,7 @@
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "TagLib.Portable": "1.0.2",
+    "TagLib.Portable": "1.0.3",
     "Win2D.uwp": "1.7.0",
     "WriteableBitmapEx": "1.5.0"
   },

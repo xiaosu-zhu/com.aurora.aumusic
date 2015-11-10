@@ -1,15 +1,18 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Songs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared
 {
     public class DurationValueConverter : IValueConverter
     {
@@ -347,7 +350,7 @@ namespace com.aurora.aumusic
             }
             else if ((double)value < 0.2)
             {
-               return vol_mute;
+                return vol_mute;
             }
             else if ((double)value < 0.5)
             {
@@ -364,6 +367,41 @@ namespace com.aurora.aumusic
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             return null;
+        }
+    }
+
+    public class ListViewItemStyleSelector : StyleSelector
+    {
+        protected override Style SelectStyleCore(object item,
+            DependencyObject container)
+        {
+            Style st = new Style();
+            st.TargetType = typeof(ListViewItem);
+            Setter backGroundSetter = new Setter();
+            backGroundSetter.Property = ListViewItem.BackgroundProperty;
+            ListView listView =
+                ItemsControl.ItemsControlFromItemContainer(container)
+                  as ListView;
+            int index =
+                listView.IndexFromContainer(container);
+            if (index % 2 == 0)
+            {
+                backGroundSetter.Value = Color.FromArgb(255, 240, 240, 240);
+            }
+            else
+            {
+                backGroundSetter.Value = Color.FromArgb(255, 255, 255, 255);
+            }
+            st.Setters.Add(backGroundSetter);
+            Setter paddingSetter = new Setter();
+            paddingSetter.Property = ListViewItem.PaddingProperty;
+            paddingSetter.Value = 0;
+            st.Setters.Add(paddingSetter);
+            Setter alignSetter = new Setter();
+            alignSetter.Property = ListViewItem.HorizontalContentAlignmentProperty;
+            alignSetter.Value = "Stretch";
+            st.Setters.Add(alignSetter);
+            return st;
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Songs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared
 {
     public class PlayBack
     {

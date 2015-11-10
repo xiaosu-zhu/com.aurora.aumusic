@@ -96,19 +96,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlbumList.cs" />
-    <Compile Include="Albums\AlbumEnum.cs" />
-    <Compile Include="Albums\AlbumItem.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BitmapHelper.cs" />
-    <Compile Include="FolderSettings\FolderItem.cs" />
-    <Compile Include="FolderSettings\FolderPathObservation.cs" />
-    <Compile Include="PlayBack.cs" />
-    <Compile Include="PlaybackPack.cs" />
-    <Compile Include="Songs\ShuffleList.cs" />
-    <Compile Include="Songs\Song.cs" />
     <Compile Include="SplitListView.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
@@ -136,7 +126,6 @@
     <Compile Include="SubPages\SongsPage.xaml.cs">
       <DependentUpon>SongsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

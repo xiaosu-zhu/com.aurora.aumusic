@@ -17,7 +17,7 @@ namespace com.aurora.aumusic
 
         private void SongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var Item = SongList.SelectedItem;
+           // var Item = SongList.SelectedItem;
         }
 
         private void hehButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

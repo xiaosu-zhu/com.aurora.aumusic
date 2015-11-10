@@ -13,38 +13,5 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Page.Resources>
-        <CollectionViewSource x:Name="SongListReosurces" />
-        <DataTemplate x:Name="SongListTemplate" x:DataType="local:Song" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <Rectangle x:Name="Rectangle" Grid.Column="0" Grid.RowSpan="2"
-                                                         Width ="64" Height="64"
-                                                         Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="{x:Bind ArtWork}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-                <TextBlock x:Name="SongTitle" Text="{x:Bind Title}" Grid.Column="1" Grid.Row="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
-                <TextBlock x:Name="SongAlbum" Text="{x:Bind Album}" Grid.Column="1" Grid.Row="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
-    <RelativePanel>
-        <ListView x:Name="SongList" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="12,40,0,0"
-                  ItemsSource="{x:Bind SongListReosurces.View}"
-                  ItemTemplate="{StaticResource SongListTemplate}"
-                  SelectionMode="Single"
-                  ShowsScrollingPlaceholders="True" SelectionChanged="SongList_SelectionChanged">
-        </ListView>
-        <Button x:Name="hehButton" Click="hehButton_Click" Content="cun" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="-40,0,0,0"/>
-        <Button x:Name="hahButton" Click="hahButton_Click" Content="qu" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="40,0,0,0" />
-    </RelativePanel>
+       
 </Page>

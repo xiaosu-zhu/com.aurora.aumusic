@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.FolderSettings;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;

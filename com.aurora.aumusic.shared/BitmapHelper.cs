@@ -10,7 +10,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared
 {
     public class BitmapHelper
     {

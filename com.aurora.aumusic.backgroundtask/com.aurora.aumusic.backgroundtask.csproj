@@ -110,11 +110,14 @@
   <ItemGroup>
     <Compile Include="ApplicationSettingsHelper.cs" />
     <Compile Include="BackgroundAudio.cs" />
-    <Compile Include="MessageService\BackgroundMessage.cs" />
-    <Compile Include="MessageService\ForegroundMessage.cs" />
-    <Compile Include="MessageService\MessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\com.aurora.aumusic.backgroundtask.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\com.aurora.aumusic.shared\com.aurora.aumusic.shared.csproj">
+      <Project>{1efd9a4d-c2c4-4ee0-a5e6-74b76872ad72}</Project>
+      <Name>com.aurora.aumusic.shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

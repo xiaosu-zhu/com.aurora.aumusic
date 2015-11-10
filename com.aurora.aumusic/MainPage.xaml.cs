@@ -28,6 +28,8 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media;
+using com.aurora.aumusic.shared;
+using com.aurora.aumusic.shared.Songs;
 
 
 

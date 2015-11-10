@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Songs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,7 +13,8 @@ using Windows.Storage.AccessCache;
 using Windows.UI;
 using Windows.UI.Xaml;
 
-namespace com.aurora.aumusic
+
+namespace com.aurora.aumusic.shared.Albums
 {
     public enum RefreshState { NeedRefresh, NeedCreate, Normal };
     public class AlbumEnum
@@ -77,7 +79,7 @@ namespace com.aurora.aumusic
 
         }
 
-        internal async Task Refresh()
+        public async Task Refresh()
         {
             foreach (var item in RefreshList)
             {
@@ -106,7 +108,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal void CopytoAlbumList()
+        public void CopytoAlbumList()
         {
             if (albums.Count > 0)
             {

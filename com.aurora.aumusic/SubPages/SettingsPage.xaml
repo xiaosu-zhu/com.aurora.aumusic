@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:com.aurora.aumusic"
+    xmlns:Folders="using:com.aurora.aumusic.shared.FolderSettings"
+    xmlns:Converter="using:com.aurora.aumusic.shared"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -24,9 +26,9 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <CollectionViewSource x:Name="MusicFolderPathReosurces" IsSourceGrouped="True" />
-            <local:FolderPathConverter x:Key="PathConverter"/>
+            <Converter:FolderPathConverter x:Key="PathConverter"/>
 
-            <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="local:FolderItem" >
+            <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="Folders:FolderItem" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -117,7 +119,7 @@
                                 <ListView.GroupStyle>
                                     <GroupStyle >
                                         <GroupStyle.HeaderTemplate>
-                                            <DataTemplate x:DataType="local:PathGroupList">
+                                            <DataTemplate x:DataType="Folders:PathGroupList">
                                                 <TextBlock Text="{x:Bind Key}" 
                                        Style="{ThemeResource TitleTextBlockStyle}"/>
                                             </DataTemplate>

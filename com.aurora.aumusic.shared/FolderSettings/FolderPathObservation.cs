@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared.FolderSettings
 {
-    class FolderPathObservation
+    public class FolderPathObservation
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ObservableCollection<PathGroupList> Folders = new ObservableCollection<PathGroupList>();

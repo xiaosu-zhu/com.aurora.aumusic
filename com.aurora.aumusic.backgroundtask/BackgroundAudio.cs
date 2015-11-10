@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.MessageService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Media;
 using Windows.Media.Playback;
 
@@ -35,8 +37,9 @@ namespace com.aurora.aumusic.backgroundtask
 
         private void BackgroundMediaPlayer_MessageReceivedFromForeground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
-
-
+            //ValueSet p = new ValueSet();
+            //p.Add("NowState", NOWPLAYBACKSTATE.Playing);
+            //BackgroundMediaPlayer.SendMessageToForeground(p);
         }
 
         private void Current_CurrentStateChanged(MediaPlayer sender, object args)

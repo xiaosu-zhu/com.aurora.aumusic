@@ -13,8 +13,9 @@ using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml;
 using Windows.UI;
+using com.aurora.aumusic.shared.Songs;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared.Albums
 {
     public class AlbumItem : INotifyPropertyChanged
     {

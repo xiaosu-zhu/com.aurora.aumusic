@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Albums;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -9,7 +10,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared
 {
     public class AlbumList : IList, INotifyCollectionChanged, IItemsRangeInfo
     {
@@ -126,7 +127,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        internal List<AlbumItem> ToList()
+        public List<AlbumItem> ToList()
         {
             return _albumList.GetRange(0, _albumList.Count);
         }

@@ -14,8 +14,9 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.FileProperties;
 using System.Collections.ObjectModel;
+using com.aurora.aumusic.shared.Albums;
 
-namespace com.aurora.aumusic
+namespace com.aurora.aumusic.shared.Songs
 {
     public class Song
     {
@@ -190,7 +191,7 @@ namespace com.aurora.aumusic
             tempSong.AlbumArtists = (((string)triContainer.Values["AlbumArtists"]) != null ? ((string)triContainer.Values["AlbumArtists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Artists = (((string)triContainer.Values["Artists"]) != null ? ((string)triContainer.Values["Artists"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Genres = (((string)triContainer.Values["Genres"]) != null ? ((string)triContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
-            tempSong.Duration = TimeSpan.Parse((string)triContainer.Values["Duration"]);
+            tempSong.Duration = (TimeSpan)triContainer.Values["Duration"];
             tempSong.ArtWorkSize = new Size((double)triContainer.Values["Width"], (double)triContainer.Values["Height"]);
             return tempSong;
         }

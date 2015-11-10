@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.aurora.aumusic.backgroundtask.MessageService
+namespace com.aurora.aumusic.shared.MessageService
 {
     public enum DESIREDPLAYBACKSTATE { Play, Pause, Next, Previous, Stop, Unknown };
     public enum NOWPLAYBACKSTATE { Playing, Paused, Stopped };
