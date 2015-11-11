@@ -264,11 +264,9 @@ namespace com.aurora.aumusic
             await renderer.RenderAsync(MainFrame);
             FrameWidth = renderer.PixelWidth;
             FrameHeight = renderer.PixelHeight;
-            SoftwareBitmap map = new SoftwareBitmap(BitmapPixelFormat.Bgra8, FrameWidth, FrameHeight);
-            map.CopyFromBuffer(await renderer.GetPixelsAsync());
-            RendererStream = WindowsRuntimeBufferExtensions.ToArray(await renderer.GetPixelsAsync());
             if (FrameHeight != 0)
                 Frame_Updated = true;
+
         }
 
         private void generate(ICanvasResourceCreator sender)

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Media.Playback;
-using com.aurora.aumusic;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
-    public class ForegroundMessage
+
+    public enum BackgroundTaskState
     {
-        public MediaPlaybackList PlayList;
-        public DESIREDPLAYBACKSTATE PlaybackState;
+        Unknown,
+        Started,
+        Running,
+        Canceled
     }
 }

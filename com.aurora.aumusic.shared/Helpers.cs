@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace com.aurora.aumusic.backgroundtask
+namespace com.aurora.aumusic.shared
 {
     public static class ApplicationSettingsHelper
     {
-        
+
         /// <summary>
         /// Function to read a setting value and clear it after reading it
         /// </summary>
@@ -42,5 +42,12 @@ namespace com.aurora.aumusic.backgroundtask
             }
         }
 
+    }
+    public static class EnumHelper
+    {
+        public static T Parse<T>(string value) where T : struct
+        {
+            return (T)Enum.Parse(typeof(T), value);
+        }
     }
 }

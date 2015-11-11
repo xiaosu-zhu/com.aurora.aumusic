@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
-    class BackgroundMessage
+    class BackPlaybackChangedMessage
     {
         public NOWPLAYBACKSTATE NowState;
     }

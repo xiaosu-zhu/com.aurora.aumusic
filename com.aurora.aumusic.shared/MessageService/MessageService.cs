@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
     public enum DESIREDPLAYBACKSTATE { Play, Pause, Next, Previous, Stop, Unknown };
-    public enum NOWPLAYBACKSTATE { Playing, Paused, Stopped };
+    public enum NOWPLAYBACKSTATE { Playing, Paused, Stopped, Previous, Next };
     public enum APPSTATE { Active, Suspended, Unknown };
     public static class MessageService
     {
@@ -18,16 +19,29 @@ namespace com.aurora.aumusic.shared.MessageService
 
         public static void SendMessageToForeground<T>(T message)
         {
+            ValueSet p = new ValueSet();
+            if (message is BackPlaybackChangedMessage)
+            {
+                p.Add("Message", message);
+                Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToForeground(p);
+            }
 
-            //TODO
         }
 
         public static void SendMessageToBackground<T>(T message)
         {
-            //TODO
+            ValueSet p = new ValueSet();
+            if (message is ForePlaybackChangedMessage)
+            {
+                p.Add("Message", message);
+                Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToBackground(p);
+            }
+
         }
 
-        public static DESIREDPLAYBACKSTATE GetDesiredState(ForegroundMessage Message)
+
+
+        public static DESIREDPLAYBACKSTATE GetDesiredState(ForePlaybackChangedMessage Message)
         {
             return DESIREDPLAYBACKSTATE.Unknown;
         }

@@ -1,4 +1,5 @@
-﻿using com.aurora.aumusic.shared.MessageService;
+﻿using com.aurora.aumusic.shared;
+using com.aurora.aumusic.shared.MessageService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using Windows.Media.Playback;
 
 namespace com.aurora.aumusic.backgroundtask
 {
-    public class BackgroundAudio : IBackgroundTask
+    public sealed class BackgroundAudio : IBackgroundTask
     {
         private SystemMediaTransportControls smtc;
         private BackgroundTaskDeferral deferral;

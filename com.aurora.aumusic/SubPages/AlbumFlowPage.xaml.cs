@@ -27,6 +27,9 @@ using com.aurora.aumusic.shared;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
+using com.aurora.aumusic.backgroundtask;
+using com.aurora.aumusic.shared.MessageService;
+using Windows.ApplicationModel.Background;
 
 namespace com.aurora.aumusic
 {
@@ -46,6 +49,15 @@ namespace com.aurora.aumusic
         public bool IsShuffleListInitialed { get; private set; }
         public TextBlock SongsDetailsBlock { get; private set; }
         public TextBlock GenresDetailsBlock { get; private set; }
+        private AutoResetEvent backgroundAudioTaskStarted;
+        private bool isMyBackgroundTaskRunning = false;
+        private bool IsMyBackgroundTaskRunning
+        {
+            get
+            {
+                return isMyBackgroundTaskRunning;
+            }
+        }
 
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
         List<string> ShuffleArts = new List<string>();
@@ -64,7 +76,7 @@ namespace com.aurora.aumusic
             }
             this.NavigationCacheMode = NavigationCacheMode.Required;
             AlbumFlowZoom.IsZoomedInViewActive = false;
-
+            backgroundAudioTaskStarted = new AutoResetEvent(false);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -81,6 +93,48 @@ namespace com.aurora.aumusic
                 return;
             }
             _pageParameters = e.Parameter as PlaybackPack;
+        }
+
+        private void AddMediaPlayerEventHandlers()
+        {
+            BackgroundMediaPlayer.Current.CurrentStateChanged += this.MediaPlayer_CurrentStateChanged;
+            BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
+        }
+
+        private void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
+        {
+        }
+
+        private void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
+        {
+        }
+
+        private void StartBackgroundAudioTask()
+        {
+            AddMediaPlayerEventHandlers();
+            var player =  BackgroundMediaPlayer.Current;
+            if (!IsMyBackgroundTaskRunning)
+            {
+                var startResult = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            {
+                                bool result = backgroundAudioTaskStarted.WaitOne(10000);
+                                //Send message to initiate playback
+                                if (result == true)
+                                {
+                                    if (Albums.albumList.Count > 0)
+                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToList()));
+                                }
+                                else
+                                {
+                                    throw new Exception("Background Audio Task didn't start in expected time");
+                                }
+                            });
+            }
+            else
+            {
+                if (Albums.albumList.Count > 0)
+                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToList()));
+            }
         }
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
@@ -101,6 +155,15 @@ namespace com.aurora.aumusic
             }
             HideBar(WaitingBar);
             IsInitialed = true;
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == nameof(BackgroundAudio))
+                {
+                    isMyBackgroundTaskRunning = true;
+                    break;
+                }
+            }
+            StartBackgroundAudioTask();
             Application.Current.Suspending += SaveLists;
             TimeSpan period = TimeSpan.FromSeconds(5);
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>

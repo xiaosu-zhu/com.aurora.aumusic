@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E687D099-BB4F-4411-A32A-54E11C89FAE9}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>com.aurora.aumusic.backgroundtask</RootNamespace>
     <AssemblyName>com.aurora.aumusic.backgroundtask</AssemblyName>
@@ -105,10 +105,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="ClassDiagram1.cd" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSettingsHelper.cs" />
     <Compile Include="BackgroundAudio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\com.aurora.aumusic.backgroundtask.rd.xml" />

@@ -20,9 +20,17 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="com.aurora.aumusic.backgroundtask.BackgroundAudio">
+          <BackgroundTasks>
+            <Task Type="audio" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage" />
     <uap:Capability Name="musicLibrary" />
   </Capabilities>
