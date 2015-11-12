@@ -73,27 +73,7 @@ namespace com.aurora.aumusic.backgroundtask
             try
             {
                 // immediately set not running
-                backgroundTaskStarted.Reset();
-
-                // save state
-                ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.TrackId, GetCurrentTrackId() == null ? null : GetCurrentTrackId().ToString());
-                ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.Position, BackgroundMediaPlayer.Current.Position);
-                ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Canceled.ToString());
-                ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.AppState, Enum.GetName(typeof(AppState), foregroundAppState));
-
-                // unsubscribe from list changes
-                if (playbackList != null)
-                {
-                    playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
-                    playbackList = null;
-                }
-
-                // unsubscribe event handlers
-                BackgroundMediaPlayer.MessageReceivedFromForeground -= BackgroundMediaPlayer_MessageReceivedFromForeground;
-                smtc.ButtonPressed -= Smtc_ButtonPressed;
-                smtc.PropertyChanged -= Smtc_PropertyChanged;
-
-                BackgroundMediaPlayer.Shutdown(); // shutdown media pipeline
+                TaskExecute();
             }
             catch (Exception ex)
             {
@@ -103,6 +83,12 @@ namespace com.aurora.aumusic.backgroundtask
         }
 
         private void TaskCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            TaskExecute();
+            deferral.Complete();
+        }
+
+        private void TaskExecute()
         {
             backgroundTaskStarted.Reset();
 
@@ -124,7 +110,6 @@ namespace com.aurora.aumusic.backgroundtask
             smtc.ButtonPressed -= Smtc_ButtonPressed;
             smtc.PropertyChanged -= Smtc_PropertyChanged;
             BackgroundMediaPlayer.Shutdown(); // shutdown media pipeline
-            deferral.Complete();
         }
 
         private void BackgroundMediaPlayer_MessageReceivedFromForeground(object sender, MediaPlayerDataReceivedEventArgs e)
