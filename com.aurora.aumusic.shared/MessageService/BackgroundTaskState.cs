@@ -10,8 +10,12 @@ namespace com.aurora.aumusic.shared.MessageService
     public enum BackgroundTaskState
     {
         Unknown,
-        Started,
         Running,
-        Canceled
+        Canceled,
+        Stopped
     }
+
+    public enum DesiredPlaybackState { Play, Pause, Next, Previous, Stop, Unknown };
+    public enum NowPlaybackState { Playing, Paused, Stopped, Previous, Next };
+    public enum AppState { Active, Suspended, Unknown };
 }

@@ -59,6 +59,8 @@ namespace com.aurora.aumusic
             }
         }
 
+        public BackgroundTaskState BackgroundState = BackgroundTaskState.Stopped;
+
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
         List<string> ShuffleArts = new List<string>();
 
@@ -101,18 +103,56 @@ namespace com.aurora.aumusic
             BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
         }
 
-        private void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
+        private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
+            BackPlaybackChangedMessage stateChangedMessage;
+            if (MessageService.TryParseMessage(e.Data, out stateChangedMessage))
+            {
+                // When foreground app is active change track based on background message
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    // If playback stopped then clear the UI
+                    if (stateChangedMessage.CurrentSong == null)
+                    {
+                        setPlaybackControlDefault();
+                        return;
+                    }
+
+                    setPlaybackControl(stateChangedMessage.CurrentSong);
+                });
+                return;
+            }
+
+            BackgroundTaskStateChangedMessage backgroundTaskMessage;
+            if (MessageService.TryParseMessage(e.Data, out backgroundTaskMessage))
+            {
+                // StartBackgroundAudioTask is waiting for this signal to know when the task is up and running
+                // and ready to receive messages
+                if (backgroundTaskMessage.TaskState == BackgroundTaskState.Running && BackgroundState != BackgroundTaskState.Running)
+                {
+                    backgroundAudioTaskStarted.Set();
+                    BackgroundState = BackgroundTaskState.Running;
+                }
+                return;
+            }
         }
 
         private void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
         {
+            if (sender.CurrentState == MediaPlayerState.Paused)
+            {
+                setPlaybackControl(MediaPlayerState.Paused);
+            }
+            else if (sender.CurrentState == MediaPlayerState.Closed)
+            {
+                setPlaybackControl(MediaPlayerState.Stopped);
+            }
         }
 
         private void StartBackgroundAudioTask()
         {
             AddMediaPlayerEventHandlers();
-            var player =  BackgroundMediaPlayer.Current;
+            var player = BackgroundMediaPlayer.Current;
             if (!IsMyBackgroundTaskRunning)
             {
                 var startResult = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

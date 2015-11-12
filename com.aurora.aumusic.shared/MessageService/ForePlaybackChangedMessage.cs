@@ -10,6 +10,6 @@ namespace com.aurora.aumusic.shared.MessageService
 {
     public class ForePlaybackChangedMessage
     {
-        public DESIREDPLAYBACKSTATE PlaybackState;
+        public DesiredPlaybackState PlaybackState;
     }
 }

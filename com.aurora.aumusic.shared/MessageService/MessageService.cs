@@ -7,15 +7,13 @@ using Windows.Foundation.Collections;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
-    public enum DESIREDPLAYBACKSTATE { Play, Pause, Next, Previous, Stop, Unknown };
-    public enum NOWPLAYBACKSTATE { Playing, Paused, Stopped, Previous, Next };
-    public enum APPSTATE { Active, Suspended, Unknown };
+
     public static class MessageService
     {
         // The underlying BMP methods can pass a ValueSet. MessageService
         // relies on this to pass a type and body payload.
-        const string MessageType = "MessageType";
-        const string MessageBody = "MessageBody";
+        public const string MessageType = "MessageType";
+        public const string MessageBody = "MessageBody";
 
         public static void SendMessageToForeground<T>(T message)
         {
@@ -39,11 +37,33 @@ namespace com.aurora.aumusic.shared.MessageService
 
         }
 
-
-
-        public static DESIREDPLAYBACKSTATE GetDesiredState(ForePlaybackChangedMessage Message)
+        public static bool TryParseMessage<T>(ValueSet valueSet, out T message)
         {
-            return DESIREDPLAYBACKSTATE.Unknown;
+            object messageTypeValue;
+            object messageBodyValue;
+
+            message = default(T);
+
+            // Get message payload
+            if (valueSet.TryGetValue(MessageService.MessageType, out messageTypeValue)
+                && valueSet.TryGetValue(MessageService.MessageBody, out messageBodyValue))
+            {
+                // Validate type
+                if ((string)messageTypeValue != typeof(T).FullName)
+                {
+                    return false;
+                }
+
+                message = (T)messageBodyValue;
+                return true;
+            }
+
+            return false;
+        }
+
+        public static DesiredPlaybackState GetDesiredState(ForePlaybackChangedMessage Message)
+        {
+            return DesiredPlaybackState.Unknown;
         }
     }
 }

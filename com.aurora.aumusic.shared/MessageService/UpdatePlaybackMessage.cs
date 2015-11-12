@@ -14,6 +14,6 @@ namespace com.aurora.aumusic.shared.MessageService
             Albums = albums;
         }
 
-        List<AlbumItem> Albums;
+        public List<AlbumItem> Albums;
     }
 }
