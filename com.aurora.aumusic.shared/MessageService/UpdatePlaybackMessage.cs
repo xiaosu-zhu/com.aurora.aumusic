@@ -2,18 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    [DataContract]
     public class UpdatePlaybackMessage
     {
-        public UpdatePlaybackMessage(List<AlbumItem> albums)
+        public UpdatePlaybackMessage(MediaPlaybackList albums)
         {
             Albums = albums;
         }
 
-        public List<AlbumItem> Albums;
+        [DataMember]
+        public MediaPlaybackList Albums;
     }
 }

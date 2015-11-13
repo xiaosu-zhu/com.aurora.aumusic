@@ -170,7 +170,7 @@ namespace com.aurora.aumusic
                                 //playbackPack.Media = PlaybackControl;
                                 playbackPack.PlaybackControl = playBack;
                                 playbackPack.States = PLAYBACK_STATES.Null;
-                                MainFrame.Navigate(typeof(AlbumFlowPage), playbackPack); break;
+                                MainFrame.Navigate(typeof(AlbumFlowPage), PlayBackControl); break;
                             }
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
@@ -249,6 +249,8 @@ namespace com.aurora.aumusic
         {
         }
 
+        #region
+        //animation of left-bottom Albumart
         private void PlayBackGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             PlayBackFore.Visibility = Visibility.Visible;
@@ -258,15 +260,10 @@ namespace com.aurora.aumusic
         {
             PlayBackFore.Visibility = Visibility.Collapsed;
         }
-
+        #endregion
         private async void MainFrame_LayoutUpdated(object sender, object e)
         {
-            await renderer.RenderAsync(MainFrame);
-            FrameWidth = renderer.PixelWidth;
-            FrameHeight = renderer.PixelHeight;
-            if (FrameHeight != 0)
-                Frame_Updated = true;
-
+            
         }
 
         private void generate(ICanvasResourceCreator sender)
@@ -293,7 +290,6 @@ namespace com.aurora.aumusic
 
         private void MainFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            TimeSpan t = TimeSpan.FromSeconds(10);
         }
 
         private void BlurLayer_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)

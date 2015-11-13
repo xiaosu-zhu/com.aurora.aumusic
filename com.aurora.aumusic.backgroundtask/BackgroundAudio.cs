@@ -31,7 +31,7 @@ namespace com.aurora.aumusic.backgroundtask
         private AppState foregroundAppState;
         private NowPlaybackState PlaybackState = NowPlaybackState.Stopped;
 
-        public List<Song> Songs;
+        private List<Song> songs = new List<Song>();
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -130,7 +130,7 @@ namespace com.aurora.aumusic.backgroundtask
             UpdatePlaybackMessage update;
             if (MessageService.TryParseMessage(e.Data, out update))
             {
-                CreatePlaybackList(update.Albums);
+                
             }
         }
 
@@ -316,7 +316,7 @@ namespace com.aurora.aumusic.backgroundtask
                     source.CustomProperties[AlbumArtKey] = new Uri(item.ArtWork);
                     playbackList.Items.Add(new MediaPlaybackItem(source));
                 }
-                this.Songs.AddRange(album.Songs);
+                this.songs.AddRange(album.Songs);
             }
 
             // Don't auto start
@@ -339,7 +339,7 @@ namespace com.aurora.aumusic.backgroundtask
             var currentTrackId = item.Source.CustomProperties[TrackIdKey] as string;
             // Notify foreground of change or persist for later
             if (foregroundAppState == AppState.Active)
-                MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(PlaybackState, Songs.Find(x => x.MainKey == currentTrackId)));
+                MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(PlaybackState, new SongModel(songs.Find(x => x.MainKey == currentTrackId))));
             else
                 ApplicationSettingsHelper.SaveSettingsValue(TrackIdKey, currentTrackId == null ? null : currentTrackId.ToString());
 

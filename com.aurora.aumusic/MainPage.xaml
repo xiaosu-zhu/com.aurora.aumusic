@@ -842,30 +842,37 @@
                 <RelativePanel x:Name="RootGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
                     <!--canvas:CanvasAnimatedControl Draw="BlurLayer_Draw" x:Name="BlurLayer" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" /-->
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
-
-                    <Grid x:Name="PlayBackGrid" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
-                        <Viewbox x:Name="PlayBackArtwork"  RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Stretch="Uniform" Margin="8" >
-                            <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
-                        </Viewbox>
-                        <Rectangle x:Name="PlayBackFore" Fill="White" Opacity="0.3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-                    </Grid>
-                    <Grid x:Name="PlayBackControl" RelativePanel.RightOf="PlayBackGrid" Margin="0,8,8,8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" Padding="4" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid.RenderTransform>
-                            <TranslateTransform/>
-                        </Grid.RenderTransform>
-                        <Grid x:Name="MediaTransportControls_Timeline_Grid" VerticalAlignment="Center" Margin="0,-8,0,0" Grid.Column="2">
+                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Center" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                            <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" >
+                                <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
+                            </Viewbox>
+                            <Rectangle x:Name="PlayBackFore" Fill="White" Opacity="0.3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        </Grid>
+                        <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Visibility="Collapsed" VerticalAlignment="Center" Width="152" Margin="0" Height="64" Background="Red" Loaded="NowPlayingDetailsGrid_Loaded" >
+                            <Grid.Resources>
+                                <Storyboard x:Name="NowPlayingIn">
+                                    <FadeInThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
+                                </Storyboard>
+                                <Storyboard x:Name="NowPlayingOut">
+                                    <FadeOutThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
+                                </Storyboard>
+                            </Grid.Resources>
+                        </Grid>
+                        <Grid x:Name="MediaTransportControls_Timeline_Grid" VerticalAlignment="Center" Grid.Column="3">
                             <Slider x:Name="ProgressSlider" Height="48" IsThumbToolTipEnabled="True" Margin="8" MinWidth="80" Style="{StaticResource MediaSliderStyle}" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                         </Grid>
-                        <TextBlock x:Name="TimeRemainingBlock" HorizontalAlignment="Center" Margin="4,14,4,4" Grid.Column="3" Text="0:00" Foreground="White"/>
-                        <TextBlock x:Name="TimeElapsedBlock" HorizontalAlignment="Center" Margin="4,14,4,4"  Grid.Column="1" Text="0:00" Foreground="White"/>
-                        <StackPanel Margin="0" Orientation="Horizontal" Grid.Column="4" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+                        <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4" Grid.Column="4" Text="0:00" Foreground="White"/>
+                        <TextBlock x:Name="TimeElapsedBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"  Grid.Column="2" Text="0:00" Foreground="White"/>
+                        <StackPanel Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" Margin="0,4,0,0" HorizontalAlignment="Center" >
                             <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PreviousSymbol" Symbol="Previous" />
@@ -887,7 +894,7 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" x:Name="MediaControlsCommandBar" VerticalAlignment="Stretch" Grid.Column="0" HorizontalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal" x:Name="MediaControlsCommandBar" Margin="0,4,0,0" VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Center" >
                             <AppBarButton x:Name="VolumeMuteButton" Loaded="VolumeMuteButton_Loaded" Style="{StaticResource AppBarButtonStyleFull}">
                                 <AppBarButton.Flyout>
                                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
@@ -918,16 +925,7 @@
                             <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle}" />
                         </MediaElement.TransportControls>
                     </-->
-                    <Grid x:Name="NowPlayingDetailsGrid" Visibility="Collapsed" RelativePanel.RightOf="PlayBackGrid" Width="152" Margin="0" Height="64" Background="Red" Loaded="NowPlayingDetailsGrid_Loaded" >
-                        <Grid.Resources>
-                            <Storyboard x:Name="NowPlayingIn">
-                                <FadeInThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
-                            </Storyboard>
-                            <Storyboard x:Name="NowPlayingOut">
-                                <FadeOutThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
-                            </Storyboard>
-                        </Grid.Resources>
-                    </Grid>
+                    
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

@@ -35,7 +35,8 @@ namespace com.aurora.aumusic
 {
     public sealed partial class AlbumFlowPage : Page
     {
-        PlaybackPack _pageParameters;
+        Grid _pageParameters;
+        PlaybackControl playbackControl;
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
         bool IsInitialed = false;
@@ -94,7 +95,8 @@ namespace com.aurora.aumusic
                 }
                 return;
             }
-            _pageParameters = e.Parameter as PlaybackPack;
+            _pageParameters = e.Parameter as Grid;
+            playbackControl = new PlaybackControl(_pageParameters);
         }
 
         private void AddMediaPlayerEventHandlers()
@@ -114,11 +116,11 @@ namespace com.aurora.aumusic
                     // If playback stopped then clear the UI
                     if (stateChangedMessage.CurrentSong == null)
                     {
-                        setPlaybackControlDefault();
+                        playbackControl.setPlaybackControlDefault();
                         return;
                     }
 
-                    setPlaybackControl(stateChangedMessage.CurrentSong);
+                    playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
                 });
                 return;
             }
@@ -137,17 +139,21 @@ namespace com.aurora.aumusic
             }
         }
 
+        
+
         private void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
         {
             if (sender.CurrentState == MediaPlayerState.Paused)
             {
-                setPlaybackControl(MediaPlayerState.Paused);
+                playbackControl.setPlaybackControl(MediaPlayerState.Paused);
             }
             else if (sender.CurrentState == MediaPlayerState.Closed)
             {
-                setPlaybackControl(MediaPlayerState.Stopped);
+                playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
             }
         }
+
+        
 
         private void StartBackgroundAudioTask()
         {
@@ -157,12 +163,12 @@ namespace com.aurora.aumusic
             {
                 var startResult = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                bool result = backgroundAudioTaskStarted.WaitOne(10000);
+                                bool result = backgroundAudioTaskStarted.WaitOne(100000);
                                 //Send message to initiate playback
                                 if (result == true)
                                 {
                                     if (Albums.albumList.Count > 0)
-                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToList()));
+                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToMediaPlaybackList()));
                                 }
                                 else
                                 {
@@ -173,7 +179,7 @@ namespace com.aurora.aumusic
             else
             {
                 if (Albums.albumList.Count > 0)
-                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToList()));
+                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToMediaPlaybackList()));
             }
         }
 
@@ -252,7 +258,7 @@ async () =>
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
-            await this._pageParameters.PlaybackControl.Play(album.Songs, _pageParameters.Media);
+            //await this._pageParameters.PlaybackControl.Play(album.Songs, _pageParameters.Media);
         }
 
 
@@ -283,9 +289,9 @@ async () =>
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            _pageParameters.PlaybackControl.Clear();
-            _pageParameters.PlaybackControl.addNew(DetailedAlbum);
-            await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
+            //_pageParameters.PlaybackControl.Clear();
+            //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
+            //await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
         }
 
         private void RelativePanel_PointerEntered_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -306,9 +312,9 @@ async () =>
         {
             Song s = ((Button)sender).DataContext as Song;
             int index = DetailedAlbum.Songs.IndexOf(s);
-            _pageParameters.PlaybackControl.Clear();
-            _pageParameters.PlaybackControl.addNew(DetailedAlbum);
-            await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
+           // _pageParameters.PlaybackControl.Clear();
+            //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
+           // await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
         }
 
 
@@ -573,8 +579,8 @@ async () =>
         {
             Song song = (Song)(sender as Button).DataContext;
             List<Song> source = (List<Song>)ShuffleListResources.Source;
-            _pageParameters.PlaybackControl.addNew(source);
-            await _pageParameters.PlaybackControl.Play(source.IndexOf(song), _pageParameters.Media);
+           // _pageParameters.PlaybackControl.addNew(source);
+           // await _pageParameters.PlaybackControl.Play(source.IndexOf(song), _pageParameters.Media);
         }
 
         private void FavListView_ItemClick(object sender, ItemClickEventArgs e)

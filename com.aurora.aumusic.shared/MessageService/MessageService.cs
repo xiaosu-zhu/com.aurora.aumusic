@@ -18,23 +18,17 @@ namespace com.aurora.aumusic.shared.MessageService
         public static void SendMessageToForeground<T>(T message)
         {
             ValueSet p = new ValueSet();
-            if (message is BackPlaybackChangedMessage)
-            {
-                p.Add("Message", message);
-                Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToForeground(p);
-            }
-
+            p.Add(MessageType, typeof(T).FullName);
+            p.Add(MessageBody, JsonHelper.ToJson(message));
+            Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToForeground(p);
         }
 
         public static void SendMessageToBackground<T>(T message)
         {
             ValueSet p = new ValueSet();
-            if (message is ForePlaybackChangedMessage)
-            {
-                p.Add("Message", message);
-                Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToBackground(p);
-            }
-
+            p.Add(MessageType, typeof(T).FullName);
+            p.Add(MessageBody, JsonHelper.ToJson(message));
+            Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToBackground(p);
         }
 
         public static bool TryParseMessage<T>(ValueSet valueSet, out T message)
@@ -54,7 +48,7 @@ namespace com.aurora.aumusic.shared.MessageService
                     return false;
                 }
 
-                message = (T)messageBodyValue;
+                message = JsonHelper.FromJson<T>(messageBodyValue.ToString());
                 return true;
             }
 
