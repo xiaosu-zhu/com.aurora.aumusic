@@ -114,6 +114,7 @@
     <Compile Include="BitmapHelper.cs" />
     <Compile Include="FolderSettings\FolderItem.cs" />
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
+    <Compile Include="ISongModelList.cs" />
     <Compile Include="ListViewItemStyleSelector.cs" />
     <Compile Include="MessageService\BackgroundTaskStateChangedMessage.cs" />
     <Compile Include="MessageService\BackPlaybackChangedMessage.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="MessageService\ApplicationSettingsConstants.cs" />
     <Compile Include="MessageService\ForePlaybackChangedMessage.cs" />
     <Compile Include="MessageService\MessageService.cs" />
+    <Compile Include="MessageService\RefreshStateMessage.cs" />
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />
     <Compile Include="PlayBack.cs" />
     <Compile Include="PlaybackPack.cs" />

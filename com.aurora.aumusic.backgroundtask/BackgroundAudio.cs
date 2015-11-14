@@ -14,24 +14,32 @@ using Windows.Foundation.Collections;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.Storage.Streams;
 
 namespace com.aurora.aumusic.backgroundtask
 {
     public sealed class BackgroundAudio : IBackgroundTask
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private const string TrackIdKey = "trackid";
         private const string TitleKey = "title";
         private const string AlbumArtKey = "albumart";
+        private const string AlbumKey = "album";
         private SystemMediaTransportControls smtc;
         private BackgroundTaskDeferral deferral;
         private ManualResetEvent backgroundTaskStarted = new ManualResetEvent(false);
         private MediaPlaybackList playbackList = new MediaPlaybackList();
         private bool playbackStartedPreviously = false;
         private AppState foregroundAppState;
-        private NowPlaybackState PlaybackState = NowPlaybackState.Stopped;
+        private PlaybackState PlaybackState = PlaybackState.Stopped;
+
+        List<KeyValuePair<string, List<IStorageFile>>> AllList = new List<KeyValuePair<string, List<IStorageFile>>>();
 
         private List<Song> songs = new List<Song>();
+
+        private List<IStorageFile> FileList = new List<IStorageFile>();
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -56,6 +64,25 @@ namespace com.aurora.aumusic.backgroundtask
             ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Running.ToString());
 
             deferral = taskInstance.GetDeferral(); // This must be retrieved prior to subscribing to events below which use it
+
+            Task.Run(async () =>
+            {
+                if (!(bool)localSettings.Values["isCreated"])
+                {
+                    MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));
+                    return;
+                }
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                int count = (int)composite["FolderCount"];
+                for (int i = 0; i < count; i++)
+                {
+                    List<IStorageFile> files = new List<IStorageFile>();
+                    string tempPath = (string)composite["FolderSettings" + i.ToString()];
+                    StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+                    files.AddRange(await AlbumEnum.SearchAllinFolder(folder));
+                    AllList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
+                }
+            });
 
             // Mark the background task as started to unblock SMTC Play operation (see related WaitOne on this signal)
             backgroundTaskStarted.Set();
@@ -84,8 +111,6 @@ namespace com.aurora.aumusic.backgroundtask
 
         private void TaskCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
         {
-            TaskExecute();
-            deferral.Complete();
         }
 
         private void TaskExecute()
@@ -117,34 +142,54 @@ namespace com.aurora.aumusic.backgroundtask
             ForePlaybackChangedMessage message;
             if (MessageService.TryParseMessage(e.Data, out message))
             {
-                switch (message.PlaybackState)
+                CreatePlaybackList(message.DesiredSongs);
+                switch (message.DesiredPlaybackState)
                 {
-                    case DesiredPlaybackState.Play: StartPlayback(); break;
-                    case DesiredPlaybackState.Pause: PausePlayback(); break;
-                    case DesiredPlaybackState.Next: SkipToNext(); break;
-                    case DesiredPlaybackState.Previous: SkipToPrevious(); break;
-                    case DesiredPlaybackState.Stop: StopPlayback(); break;
+                    case PlaybackState.Playing: StartPlayback(); break;
+                    case PlaybackState.Paused: PausePlayback(); break;
+                    case PlaybackState.Next: SkipToNext(); break;
+                    case PlaybackState.Previous: SkipToPrevious(); break;
+                    case PlaybackState.Stopped: StopPlayback(); break;
                     default: break;
                 }
             }
             UpdatePlaybackMessage update;
             if (MessageService.TryParseMessage(e.Data, out update))
             {
-                
+                ConfirmFiles(update.Songs);
             }
+        }
+
+        private void CreatePlaybackList(List<SongModel> desiredSongs)
+        {
+            playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+            playbackList.Items.Clear();
+            foreach (var item in desiredSongs)
+            {
+                var source = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(FileList.Find(x => (item.MainKey == (((StorageFile)x).Path + ((StorageFile)x).Name)))));
+                source.Source.CustomProperties[TrackIdKey] = item.MainKey;
+                source.Source.CustomProperties[AlbumArtKey] = item.AlbumArtwork;
+                source.Source.CustomProperties[TitleKey] = item.Title;
+                source.Source.CustomProperties[AlbumKey] = item.Album;
+                playbackList.Items.Add(source);
+            }
+            playbackList.AutoRepeatEnabled = true;
+            BackgroundMediaPlayer.Current.AutoPlay = false;
+            BackgroundMediaPlayer.Current.Source = playbackList;
+            playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
         private void StopPlayback()
         {
             BackgroundMediaPlayer.Current.Pause();
             BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
-            PlaybackState = NowPlaybackState.Stopped;
+            PlaybackState = PlaybackState.Stopped;
         }
 
         private void PausePlayback()
         {
             BackgroundMediaPlayer.Current.Pause();
-            PlaybackState = NowPlaybackState.Paused;
+            PlaybackState = PlaybackState.Paused;
         }
 
         private void Current_CurrentStateChanged(MediaPlayer sender, object args)
@@ -161,7 +206,7 @@ namespace com.aurora.aumusic.backgroundtask
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Closed;
             }
-            if (PlaybackState == NowPlaybackState.Stopped)
+            if (PlaybackState == PlaybackState.Stopped)
                 smtc.PlaybackStatus = MediaPlaybackStatus.Stopped;
         }
 
@@ -219,7 +264,7 @@ namespace com.aurora.aumusic.backgroundtask
 
         private void StartPlayback()
         {
-            if (PlaybackState == NowPlaybackState.Paused)
+            if (PlaybackState == PlaybackState.Paused)
             {
                 BackgroundMediaPlayer.Current.Play();
             }
@@ -280,7 +325,7 @@ namespace com.aurora.aumusic.backgroundtask
                 // Begin playing
                 BackgroundMediaPlayer.Current.Play();
             }
-            PlaybackState = NowPlaybackState.Playing;
+            PlaybackState = PlaybackState.Playing;
         }
 
         string GetCurrentTrackId()
@@ -299,34 +344,40 @@ namespace com.aurora.aumusic.backgroundtask
             return item.Source.CustomProperties[TrackIdKey] as string;
         }
 
-        void CreatePlaybackList(IEnumerable<AlbumItem> albums)
+        async void ConfirmFiles(IEnumerable<SongModel> mainkeys)
         {
             // Make a new list and enable looping
-            playbackList = new MediaPlaybackList();
-            playbackList.AutoRepeatEnabled = true;
 
             // Add playback items to the list
-            foreach (var album in albums)
+
+
+            for (int k = AllList.Count - 1; k >= 0; k--)
             {
-                foreach (var item in album.Songs)
+                for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
                 {
-                    var source = MediaSource.CreateFromStorageFile(item.AudioFile);
-                    source.CustomProperties[TrackIdKey] = item.MainKey;
-                    source.CustomProperties[TitleKey] = item.Title;
-                    source.CustomProperties[AlbumArtKey] = new Uri(item.ArtWork);
-                    playbackList.Items.Add(new MediaPlaybackItem(source));
+                    foreach (var key in mainkeys)
+                    {
+                        if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
+                        {
+                            FileList.Add(AllList[k].Value[j]);
+                            AllList[k].Value.RemoveAt(j);
+                            break;
+                        }
+                    }
                 }
-                this.songs.AddRange(album.Songs);
+                if (AllList[k].Value.Count == 0)
+                    AllList.RemoveAt(k);
             }
+            if (AllList.Count > 0)
+                MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));
+            //// Don't auto start
+            //BackgroundMediaPlayer.Current.AutoPlay = false;
 
-            // Don't auto start
-            BackgroundMediaPlayer.Current.AutoPlay = false;
+            //// Assign the list to the player
+            //BackgroundMediaPlayer.Current.Source = playbackList;
 
-            // Assign the list to the player
-            BackgroundMediaPlayer.Current.Source = playbackList;
-
-            // Add handler for future playlist item changes
-            playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+            //// Add handler for future playlist item changes
+            //playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
         }
 
         private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)

@@ -55,9 +55,9 @@ namespace com.aurora.aumusic.shared.MessageService
             return false;
         }
 
-        public static DesiredPlaybackState GetDesiredState(ForePlaybackChangedMessage Message)
+        public static PlaybackState GetDesiredState(ForePlaybackChangedMessage Message)
         {
-            return DesiredPlaybackState.Unknown;
+            return PlaybackState.Unknown;
         }
     }
 }

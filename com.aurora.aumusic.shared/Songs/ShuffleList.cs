@@ -82,7 +82,7 @@ namespace com.aurora.aumusic.shared.Songs
                 SubContainer.Values["FolderToken"] = item.FolderToken;
                 SubContainer.Values["Position"] = item.Position;
                 SubContainer.Values["SubPosition"] = item.SubPosition;
-                SubContainer.Values["Key"] = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile);
+                SubContainer.Values["Key"] = item.MainKey;
                 i++;
             }
             MainContainer.Values["FavSongsCount"] = i;
@@ -106,18 +106,18 @@ namespace com.aurora.aumusic.shared.Songs
                     ApplicationDataContainer AlbumContainer =
                         FolderContainer.CreateContainer("Album" + (int)SubContainer.Values["Position"], ApplicationDataCreateDisposition.Always);
                     string key = (string)SubContainer.Values["key"];
-                    StorageFile file;
-                    try
-                    {
-                        file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(key);
-                        StorageApplicationPermissions.FutureAccessList.Remove(key);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
+                    //StorageFile file;
+                    //try
+                    //{
+                    //    file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(key);
+                    //    StorageApplicationPermissions.FutureAccessList.Remove(key);
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    continue;
+                    //}
                     Song tempSong = Song.RestoreSongfromStorage(AlbumContainer, (int)SubContainer.Values["SubPosition"]);
-                    tempSong.AudioFile = file;
+                    //tempSong.AudioFile = file;
                     tempSong.Position = (int)SubContainer.Values["Position"];
                     tempSong.SubPosition = (int)SubContainer.Values["SubPosition"];
                     favList.Add(tempSong);
@@ -143,7 +143,7 @@ namespace com.aurora.aumusic.shared.Songs
                 SubContainer.Values["FolderToken"] = item.FolderToken;
                 SubContainer.Values["Position"] = item.Position;
                 SubContainer.Values["SubPosition"] = item.SubPosition;
-                SubContainer.Values["Key"] = StorageApplicationPermissions.FutureAccessList.Add(item.AudioFile);
+                SubContainer.Values["Key"] = item.MainKey;
                 i++;
             }
             MainContainer.Values["ShuSongsCount"] = i;
@@ -167,18 +167,18 @@ namespace com.aurora.aumusic.shared.Songs
                     ApplicationDataContainer AlbumContainer =
                         FolderContainer.CreateContainer("Album" + (int)SubContainer.Values["Position"], ApplicationDataCreateDisposition.Always);
                     string key = (string)SubContainer.Values["key"];
-                    StorageFile file;
-                    try
-                    {
-                        file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(key);
-                        StorageApplicationPermissions.FutureAccessList.Remove(key);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
+                    //StorageFile file;
+                    //try
+                    //{
+                    //    file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(key);
+                    //    StorageApplicationPermissions.FutureAccessList.Remove(key);
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    continue;
+                    //}
                     Song tempSong = Song.RestoreSongfromStorage(AlbumContainer, (int)SubContainer.Values["SubPosition"]);
-                    tempSong.AudioFile = file;
+                    //tempSong.AudioFile = file;
                     tempSong.Position = (int)SubContainer.Values["Position"];
                     tempSong.SubPosition = (int)SubContainer.Values["SubPosition"];
                     songs.Add(tempSong);
@@ -200,7 +200,7 @@ namespace com.aurora.aumusic.shared.Songs
                 return shuffleList;
             Random r = new Random(Guid.NewGuid().GetHashCode());
             List<Song> ts = new List<Song>();
-            for(int i = 0; i < FAV_LIST_CAPACITY; i++)
+            for (int i = 0; i < FAV_LIST_CAPACITY; i++)
             {
                 var s = r.Next(shuffleList.Count);
                 ts.Add(shuffleList[s]);

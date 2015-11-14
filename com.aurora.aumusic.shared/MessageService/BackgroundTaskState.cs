@@ -15,7 +15,6 @@ namespace com.aurora.aumusic.shared.MessageService
         Stopped
     }
 
-    public enum DesiredPlaybackState { Play, Pause, Next, Previous, Stop, Unknown };
-    public enum NowPlaybackState { Playing, Paused, Stopped, Previous, Next };
+    public enum PlaybackState { Playing, Paused, Next, Previous, Stopped, Unknown };
     public enum AppState { Active, Suspended, Unknown };
 }

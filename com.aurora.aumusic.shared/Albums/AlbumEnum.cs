@@ -38,37 +38,10 @@ namespace com.aurora.aumusic.shared.Albums
                 }
                 ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                 int count = (int)composite["FolderCount"];
-                var task = Task.Factory.StartNew(async () =>
-                {
-                    for (int i = 0; i < count; i++)
-                    {
-                        string tempPath = (string)composite["FolderSettings" + i.ToString()];
-                        StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-                        AllList.AddRange(await SearchAllinFolder(folder));
-                    }
-                    return true;
-                });
                 for (int i = 0; i < count; i++)
                 {
                     string tempPath = (string)composite["FolderSettings" + i.ToString()];
                     RestoreAlbumsfromStorage(tempPath);
-                    var s = task.ContinueWith(async (p) =>
-                          {
-                              await p.Result;
-                              var m = Song.MatchingFiles(albums, AllList);
-                              if (m.Count != 0)
-                              {
-                                  KeyValuePair<string, List<IStorageFile>> pair = new KeyValuePair<string, List<IStorageFile>>(tempPath, m);
-                                  if (RefreshList.Contains(pair))
-                                      return false;
-                                  RefreshList.Add(pair);
-                                  return true;
-                              }
-                              return false;
-                          });
-                    await s.Result;
-                    if (RefreshList.Count > 0)
-                        State = RefreshState.NeedRefresh;
                 }
                 return State;
             }
@@ -361,7 +334,7 @@ namespace com.aurora.aumusic.shared.Albums
 
 
 
-        private async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
+        public static async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
         {
             IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
             List<IStorageFile> finalList = new List<IStorageFile>();

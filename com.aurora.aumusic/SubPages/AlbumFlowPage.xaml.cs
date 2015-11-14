@@ -125,6 +125,16 @@ namespace com.aurora.aumusic
                 return;
             }
 
+            RefreshStateMessage refresh;
+            if (MessageService.TryParseMessage(e.Data, out refresh))
+            {
+                if (refresh.Refresh == RefreshState.NeedRefresh)
+                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await Albums.Refresh();
+                    });
+            }
+
             BackgroundTaskStateChangedMessage backgroundTaskMessage;
             if (MessageService.TryParseMessage(e.Data, out backgroundTaskMessage))
             {
@@ -139,7 +149,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        
+
 
         private void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
         {
@@ -153,7 +163,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        
+
 
         private void StartBackgroundAudioTask()
         {
@@ -168,18 +178,19 @@ namespace com.aurora.aumusic
                                 if (result == true)
                                 {
                                     if (Albums.albumList.Count > 0)
-                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToMediaPlaybackList()));
+                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
                                 }
                                 else
                                 {
                                     throw new Exception("Background Audio Task didn't start in expected time");
                                 }
                             });
+                isMyBackgroundTaskRunning = true;
             }
             else
             {
                 if (Albums.albumList.Count > 0)
-                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToMediaPlaybackList()));
+                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
             }
         }
 
@@ -258,6 +269,7 @@ async () =>
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, album.ToSongModelList()));
             //await this._pageParameters.PlaybackControl.Play(album.Songs, _pageParameters.Media);
         }
 
@@ -289,6 +301,7 @@ async () =>
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList()));
             //_pageParameters.PlaybackControl.Clear();
             //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
             //await _pageParameters.PlaybackControl.Play(_pageParameters.Media);
@@ -310,11 +323,10 @@ async () =>
 
         private async void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            Song s = ((Button)sender).DataContext as Song;
-            int index = DetailedAlbum.Songs.IndexOf(s);
-           // _pageParameters.PlaybackControl.Clear();
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList()));
+            // _pageParameters.PlaybackControl.Clear();
             //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
-           // await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
+            // await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);
         }
 
 
@@ -579,8 +591,8 @@ async () =>
         {
             Song song = (Song)(sender as Button).DataContext;
             List<Song> source = (List<Song>)ShuffleListResources.Source;
-           // _pageParameters.PlaybackControl.addNew(source);
-           // await _pageParameters.PlaybackControl.Play(source.IndexOf(song), _pageParameters.Media);
+            // _pageParameters.PlaybackControl.addNew(source);
+            // await _pageParameters.PlaybackControl.Play(source.IndexOf(song), _pageParameters.Media);
         }
 
         private void FavListView_ItemClick(object sender, ItemClickEventArgs e)

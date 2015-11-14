@@ -17,7 +17,7 @@ using com.aurora.aumusic.shared.Songs;
 
 namespace com.aurora.aumusic.shared.Albums
 {
-    public class AlbumItem : INotifyPropertyChanged
+    public class AlbumItem : INotifyPropertyChanged, ISongModelList
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string AlbumName;
@@ -179,7 +179,7 @@ namespace com.aurora.aumusic.shared.Albums
         {
             if (this.Artists != null && this.Artists.Length > 0)
             {
-                if (this.AlbumArtists[0]== "Unknown AlbumArtists")
+                if (this.AlbumArtists[0] == "Unknown AlbumArtists")
                     this.AlbumArtists = this.Artists;
                 return;
             }
@@ -252,12 +252,13 @@ namespace com.aurora.aumusic.shared.Albums
 
         internal void Fetch()
         {
-                ApplicationDataContainer MainContainer =
-                         localSettings.CreateContainer(FolderToken, ApplicationDataCreateDisposition.Always);
-                ApplicationDataContainer SubContainer =
-        MainContainer.CreateContainer("Album" + Position, ApplicationDataCreateDisposition.Always);
-                int SongsCount = (int)SubContainer.Values["SongsCount"];
-            try {
+            ApplicationDataContainer MainContainer =
+                     localSettings.CreateContainer(FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + Position, ApplicationDataCreateDisposition.Always);
+            int SongsCount = (int)SubContainer.Values["SongsCount"];
+            try
+            {
                 for (int j = 0; j < SongsCount; j++)
                 {
                     Song tempSong = Song.RestoreSongfromStorage(SubContainer, j);
@@ -272,11 +273,11 @@ namespace com.aurora.aumusic.shared.Albums
                 this.IsFetched = true;
                 this.SongsCount = Songs.Count;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
-            
+
         }
 
         internal void Collect()
@@ -471,5 +472,14 @@ namespace com.aurora.aumusic.shared.Albums
             this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public List<SongModel> ToSongModelList()
+        {
+            List<SongModel> songs = new List<SongModel>();
+            foreach (var item in Songs)
+            {
+                songs.Add(new SongModel(item));
+            }
+            return songs;
+        }
     }
 }

@@ -12,11 +12,11 @@ namespace com.aurora.aumusic.shared.MessageService
     public class BackPlaybackChangedMessage
     {
         [DataMember]
-        public NowPlaybackState NowState;
+        public PlaybackState NowState;
         [DataMember]
         public SongModel CurrentSong;
 
-        public BackPlaybackChangedMessage(NowPlaybackState now, SongModel song)
+        public BackPlaybackChangedMessage(PlaybackState now, SongModel song)
         {
             CurrentSong = song;
             NowState = now;

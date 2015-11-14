@@ -35,12 +35,12 @@ namespace com.aurora.aumusic
 
         public void setPlaybackControlDefault()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void setPlaybackControl(MediaPlayerState state)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

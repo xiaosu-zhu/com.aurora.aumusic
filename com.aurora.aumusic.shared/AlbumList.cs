@@ -11,10 +11,11 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Data;
 using Windows.Media.Playback;
 using Windows.Media.Core;
+using com.aurora.aumusic.shared.Songs;
 
 namespace com.aurora.aumusic.shared
 {
-    public class AlbumList : IList, INotifyCollectionChanged, IItemsRangeInfo
+    public class AlbumList : IList, INotifyCollectionChanged, IItemsRangeInfo,ISongModelList
     {
         private const string TrackIdKey = "trackid";
         private const string TitleKey = "title";
@@ -246,21 +247,17 @@ namespace com.aurora.aumusic.shared
             LastRange = visibleRange;
         }
 
-        public MediaPlaybackList ToMediaPlaybackList()
+        public List<SongModel> ToSongModelList()
         {
-            MediaPlaybackList playbackList = new MediaPlaybackList();
+            List<SongModel> songs = new List<SongModel>();
             foreach (var album in _albumList)
             {
                 foreach (var item in album.Songs)
                 {
-                    var source = MediaSource.CreateFromStorageFile(item.AudioFile);
-                    source.CustomProperties[TrackIdKey] = item.MainKey;
-                    source.CustomProperties[TitleKey] = item.Title;
-                    source.CustomProperties[AlbumArtKey] = new Uri(item.ArtWork);
-                    playbackList.Items.Add(new MediaPlaybackItem(source));
+                    songs.Add(new SongModel(item));
                 }
             }
-            return playbackList;
+            return songs;
         }
 
         private IList FetchFinal(int _first, int _last)
