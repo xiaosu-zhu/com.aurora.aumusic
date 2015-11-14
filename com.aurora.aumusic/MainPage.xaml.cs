@@ -30,6 +30,8 @@ using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media;
 using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.Songs;
+using Windows.Media.Playback;
+using com.aurora.aumusic.shared.MessageService;
 
 
 
@@ -43,9 +45,9 @@ namespace com.aurora.aumusic
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        PlaybackControl playbackControl;
         SplitListView splitlistview;
         private static int BUTTON_CLICKED = 0;
-        PlaybackPack playbackPack = new PlaybackPack();
         PlayBack playBack = new PlayBack();
         //TextBlock TimeElapsedBlock;
         //TextBlock TimeTotalBlock;
@@ -61,6 +63,7 @@ namespace com.aurora.aumusic
         public static int FrameWidth { get; private set; }
         public static int FrameHeight { get; private set; }
         public ICanvasImage RenderFinal { get; private set; }
+        public MediaPlayerState NowState = MediaPlayerState.Stopped;
 
         public bool Frame_Updated = false;
 
@@ -167,10 +170,10 @@ namespace com.aurora.aumusic
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                             if (composite != null)
                             {
-                                //playbackPack.Media = PlaybackControl;
-                                playbackPack.PlaybackControl = playBack;
-                                playbackPack.States = PLAYBACK_STATES.Null;
-                                MainFrame.Navigate(typeof(AlbumFlowPage), PlayBackControl); break;
+                                MainFrame.Navigate(typeof(AlbumFlowPage));
+                                BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+                                BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayer_CurrentStateChanged;
+                                break;
                             }
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
@@ -178,6 +181,49 @@ namespace com.aurora.aumusic
                     case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
+            }
+        }
+
+        private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
+        {
+            BackPlaybackChangedMessage stateChangedMessage;
+            if (MessageService.TryParseMessage(e.Data, out stateChangedMessage))
+            {
+                // When foreground app is active change track based on background message
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    // If playback stopped then clear the UI
+                    if (stateChangedMessage.CurrentSong == null)
+                    {
+                        playbackControl.setPlaybackControlDefault();
+                        return;
+                    }
+                    else
+                        playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
+                    playbackControl.setPlaybackControl(stateChangedMessage.NowState);
+                    NowState = stateChangedMessage.NowState;
+                });
+                return;
+            }
+        }
+
+        private async void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
+        {
+            if (NowState == MediaPlayerState.Paused)
+            {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    playbackControl.setPlaybackControl(MediaPlayerState.Paused);
+                });
+
+            }
+            else if (NowState == MediaPlayerState.Stopped)
+            {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
+                });
+
             }
         }
 
@@ -263,7 +309,7 @@ namespace com.aurora.aumusic
         #endregion
         private async void MainFrame_LayoutUpdated(object sender, object e)
         {
-            
+
         }
 
         private void generate(ICanvasResourceCreator sender)
@@ -327,6 +373,35 @@ namespace com.aurora.aumusic
 
         }
 
+        private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values.ContainsKey("Volume"))
+            {
+                VolumeSlider.Value = (double)(localSettings.Values["Volume"]);
+            }
+
+            if (VolumeSlider.Value == 0)
+            {
+                volumrMuteButton.Icon = vol_no;
+            }
+            else if (VolumeSlider.Value < 20)
+            {
+                volumrMuteButton.Icon = vol_mute;
+            }
+            else if (VolumeSlider.Value < 50)
+            {
+                volumrMuteButton.Icon = vol_low;
+            }
+            else if (VolumeSlider.Value < 80)
+            {
+                volumrMuteButton.Icon = vol_mid;
+            }
+            else volumrMuteButton.Icon = vol_high;
+            playBack.NotifyPlayBackEvent += PlayBack_NotifyPlayBackEvent;
+            playbackControl = new PlaybackControl(PlayBackControl);
+        }
+
         private void NowPlayingDetailsGrid_Loaded(object sender, RoutedEventArgs e)
         {
             NowPlayingOut.Begin();
@@ -335,16 +410,6 @@ namespace com.aurora.aumusic
         private void FastMuteButton_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void PlaybackControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values.ContainsKey("volume"))
-            {
-                //PlaybackControl.Volume = (double)localSettings.Values["Volume"] / 100.0;
-            }
-            playBack.NotifyPlayBackEvent += PlayBack_NotifyPlayBackEvent;
         }
 
         private void PlayBack_NotifyPlayBackEvent(object sender, NotifyPlayBackEventArgs e)

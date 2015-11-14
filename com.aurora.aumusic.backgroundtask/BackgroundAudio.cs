@@ -33,11 +33,11 @@ namespace com.aurora.aumusic.backgroundtask
         private MediaPlaybackList playbackList = new MediaPlaybackList();
         private bool playbackStartedPreviously = false;
         private AppState foregroundAppState;
-        private PlaybackState PlaybackState = PlaybackState.Stopped;
+        private MediaPlayerState NowState = MediaPlayerState.Stopped;
 
         List<KeyValuePair<string, List<IStorageFile>>> AllList = new List<KeyValuePair<string, List<IStorageFile>>>();
 
-        private List<Song> songs = new List<Song>();
+        private List<SongModel> Songs;
 
         private List<IStorageFile> FileList = new List<IStorageFile>();
 
@@ -173,6 +173,7 @@ namespace com.aurora.aumusic.backgroundtask
                 source.Source.CustomProperties[AlbumKey] = item.Album;
                 playbackList.Items.Add(source);
             }
+            this.Songs = desiredSongs;
             playbackList.AutoRepeatEnabled = true;
             BackgroundMediaPlayer.Current.AutoPlay = false;
             BackgroundMediaPlayer.Current.Source = playbackList;
@@ -183,13 +184,13 @@ namespace com.aurora.aumusic.backgroundtask
         {
             BackgroundMediaPlayer.Current.Pause();
             BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
-            PlaybackState = PlaybackState.Stopped;
+            NowState = MediaPlayerState.Stopped;
         }
 
         private void PausePlayback()
         {
             BackgroundMediaPlayer.Current.Pause();
-            PlaybackState = PlaybackState.Paused;
+            NowState = MediaPlayerState.Paused;
         }
 
         private void Current_CurrentStateChanged(MediaPlayer sender, object args)
@@ -206,7 +207,7 @@ namespace com.aurora.aumusic.backgroundtask
             {
                 smtc.PlaybackStatus = MediaPlaybackStatus.Closed;
             }
-            if (PlaybackState == PlaybackState.Stopped)
+            if (NowState == MediaPlayerState.Stopped)
                 smtc.PlaybackStatus = MediaPlaybackStatus.Stopped;
         }
 
@@ -264,68 +265,15 @@ namespace com.aurora.aumusic.backgroundtask
 
         private void StartPlayback()
         {
-            if (PlaybackState == PlaybackState.Paused)
+            if (NowState == MediaPlayerState.Paused)
             {
                 BackgroundMediaPlayer.Current.Play();
-            }
-            else if (!playbackStartedPreviously)
-            {
-                playbackStartedPreviously = true;
-
-                // If the task was cancelled we would have saved the current track and its position. We will try playback from there.
-                var currentTrackId = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.TrackId);
-                var currentTrackPosition = ApplicationSettingsHelper.ReadResetSettingsValue(ApplicationSettingsConstants.Position);
-                if (currentTrackId != null)
-                {
-                    // Find the index of the item by name
-                    var index = playbackList.Items.ToList().FindIndex(item =>
-                        GetTrackId(item).ToString() == (string)currentTrackId);
-
-                    if (currentTrackPosition == null)
-                    {
-                        // Play from start if we dont have position
-                        playbackList.MoveTo((uint)index);
-
-                        // Begin playing
-                        BackgroundMediaPlayer.Current.Play();
-                    }
-                    else
-                    {
-                        // Play from exact position otherwise
-                        TypedEventHandler<MediaPlaybackList, CurrentMediaPlaybackItemChangedEventArgs> handler = null;
-                        handler = (MediaPlaybackList list, CurrentMediaPlaybackItemChangedEventArgs args) =>
-                        {
-                            if (args.NewItem == playbackList.Items[index])
-                            {
-                                // Unsubscribe because this only had to run once for this item
-                                playbackList.CurrentItemChanged -= handler;
-
-                                // Set position
-                                var position = currentTrackPosition;
-                                BackgroundMediaPlayer.Current.Position = (TimeSpan)position;
-
-                                // Begin playing
-                                BackgroundMediaPlayer.Current.Play();
-                            }
-                        };
-                        playbackList.CurrentItemChanged += handler;
-
-                        // Switch to the track which will trigger an item changed event
-                        playbackList.MoveTo((uint)index);
-                    }
-                }
-                else
-                {
-                    // Begin playing
-                    BackgroundMediaPlayer.Current.Play();
-                }
             }
             else
             {
-                // Begin playing
                 BackgroundMediaPlayer.Current.Play();
             }
-            PlaybackState = PlaybackState.Playing;
+            NowState = MediaPlayerState.Playing;
         }
 
         string GetCurrentTrackId()
@@ -389,10 +337,7 @@ namespace com.aurora.aumusic.backgroundtask
             // Get the current track
             var currentTrackId = item.Source.CustomProperties[TrackIdKey] as string;
             // Notify foreground of change or persist for later
-            if (foregroundAppState == AppState.Active)
-                MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(PlaybackState, new SongModel(songs.Find(x => x.MainKey == currentTrackId))));
-            else
-                ApplicationSettingsHelper.SaveSettingsValue(TrackIdKey, currentTrackId == null ? null : currentTrackId.ToString());
+            MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(NowState, Songs.Find(x => x.MainKey == currentTrackId)));
 
         }
 

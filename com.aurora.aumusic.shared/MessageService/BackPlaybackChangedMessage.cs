@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
@@ -12,11 +13,11 @@ namespace com.aurora.aumusic.shared.MessageService
     public class BackPlaybackChangedMessage
     {
         [DataMember]
-        public PlaybackState NowState;
+        public MediaPlayerState NowState;
         [DataMember]
         public SongModel CurrentSong;
 
-        public BackPlaybackChangedMessage(PlaybackState now, SongModel song)
+        public BackPlaybackChangedMessage(MediaPlayerState now, SongModel song)
         {
             CurrentSong = song;
             NowState = now;

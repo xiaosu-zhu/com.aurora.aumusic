@@ -36,7 +36,7 @@ namespace com.aurora.aumusic
     public sealed partial class AlbumFlowPage : Page
     {
         Grid _pageParameters;
-        PlaybackControl playbackControl;
+        
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
         bool IsInitialed = false;
@@ -95,36 +95,15 @@ namespace com.aurora.aumusic
                 }
                 return;
             }
-            _pageParameters = e.Parameter as Grid;
-            playbackControl = new PlaybackControl(_pageParameters);
         }
 
         private void AddMediaPlayerEventHandlers()
         {
-            BackgroundMediaPlayer.Current.CurrentStateChanged += this.MediaPlayer_CurrentStateChanged;
             BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
-            BackPlaybackChangedMessage stateChangedMessage;
-            if (MessageService.TryParseMessage(e.Data, out stateChangedMessage))
-            {
-                // When foreground app is active change track based on background message
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    // If playback stopped then clear the UI
-                    if (stateChangedMessage.CurrentSong == null)
-                    {
-                        playbackControl.setPlaybackControlDefault();
-                        return;
-                    }
-
-                    playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
-                });
-                return;
-            }
-
             RefreshStateMessage refresh;
             if (MessageService.TryParseMessage(e.Data, out refresh))
             {
@@ -151,17 +130,7 @@ namespace com.aurora.aumusic
 
 
 
-        private void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
-        {
-            if (sender.CurrentState == MediaPlayerState.Paused)
-            {
-                playbackControl.setPlaybackControl(MediaPlayerState.Paused);
-            }
-            else if (sender.CurrentState == MediaPlayerState.Closed)
-            {
-                playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
-            }
-        }
+
 
 
 
@@ -244,10 +213,27 @@ async () =>
 
         private void SaveLists(object sender, SuspendingEventArgs e)
         {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            if (IsMyBackgroundTaskRunning)
+            {
+                // Stop handling player events immediately
+                RemoveMediaPlayerEventHandlers();
+
+                // Tell the background task the foreground is suspended
+                MessageService.SendMessageToBackground(new AppStateChangedMessage(AppState.Suspended));
+            }
+
+            // Persist that the foreground app is suspended
+            ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.AppState, AppState.Suspended.ToString());
             ShuffleList shuffleList = new ShuffleList(Albums.albumList.ToList());
             shuffleList.SaveShuffleList(shuffleList.GenerateNewList(ShuffleList.FAV_LIST_CAPACITY));
             ShuffleList.SaveFavouriteList(shuffleList.GenerateFavouriteList());
+            deferral.Complete();
+        }
 
+        private void RemoveMediaPlayerEventHandlers()
+        {
+            BackgroundMediaPlayer.MessageReceivedFromBackground -= this.BackgroundMediaPlayer_MessageReceivedFromBackground;
         }
 
         private void RelativePanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

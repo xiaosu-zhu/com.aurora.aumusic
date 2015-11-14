@@ -842,7 +842,7 @@
                 <RelativePanel x:Name="RootGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
                     <!--canvas:CanvasAnimatedControl Draw="BlurLayer_Draw" x:Name="BlurLayer" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" /-->
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
-                    <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" Padding="4" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                    <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" Padding="4" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto"/>
@@ -851,9 +851,9 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Center" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
-                            <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" >
-                                <Image x:Name="PlayBackImage" Source="Assets/unknown.png" />
+                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                            <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" HorizontalAlignment="Stretch" >
+                                <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Fill="White" Opacity="0.3" Visibility="Collapsed" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>
@@ -906,7 +906,7 @@
                                                     </SymbolIcon>
                                                 </Button.Content>
                                             </Button>
-                                            <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
+                                            <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
                                             <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle1}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                         </StackPanel>
                                     </Flyout>

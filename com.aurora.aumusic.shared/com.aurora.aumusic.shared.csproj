@@ -116,6 +116,7 @@
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
     <Compile Include="ISongModelList.cs" />
     <Compile Include="ListViewItemStyleSelector.cs" />
+    <Compile Include="MessageService\AppStateChangedMessage.cs" />
     <Compile Include="MessageService\BackgroundTaskStateChangedMessage.cs" />
     <Compile Include="MessageService\BackPlaybackChangedMessage.cs" />
     <Compile Include="MessageService\BackgroundTaskState.cs" />
@@ -125,7 +126,6 @@
     <Compile Include="MessageService\RefreshStateMessage.cs" />
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />
     <Compile Include="PlayBack.cs" />
-    <Compile Include="PlaybackPack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Songs\ShuffleList.cs" />
     <Compile Include="Songs\Song.cs" />
