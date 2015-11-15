@@ -20,7 +20,7 @@ namespace com.aurora.aumusic
         AppBarButton ShuffleButton;
         Image AlbumArtwork;
         TextBlock TimeRemainingBlock;
-        TextBlock TimeElapsedBlock;
+        TextBlock TimePastBlock;
 
         public PlaybackControl(Grid grid)
         {
@@ -29,12 +29,12 @@ namespace com.aurora.aumusic
             ShuffleButton = PlaybackControlGrid.FindName("ShuffleButton") as AppBarButton;
             AlbumArtwork = PlaybackControlGrid.FindName("PlayBackImage") as Image;
             TimeRemainingBlock = PlaybackControlGrid.FindName("TimeRemainingBlock") as TextBlock;
-            TimeElapsedBlock = PlaybackControlGrid.FindName("TimeElapsedBlock") as TextBlock;
+            TimePastBlock = PlaybackControlGrid.FindName("TimeElapsedBlock") as TextBlock;
         }
 
         public void setPlaybackControl(SongModel currentSong)
         {
-            AlbumArtwork.Source = new BitmapImage(currentSong.AlbumArtwork);
+            AlbumArtwork.Source = new BitmapImage(new Uri(currentSong.AlbumArtwork));
             DurationValueConverter converter = new DurationValueConverter();
             TimeRemainingBlock.Text = (string)converter.Convert(currentSong.Duration, null, null, null);
 
@@ -43,7 +43,7 @@ namespace com.aurora.aumusic
         public void setPlaybackControlDefault()
         {
             PlayPauseButton.Icon = new SymbolIcon(Symbol.Play);
-            TimeElapsedBlock.Text = "0:00";
+            TimePastBlock.Text = "0:00";
             TimeRemainingBlock.Text = "0:00";
             AlbumArtwork.Source = null;
         }

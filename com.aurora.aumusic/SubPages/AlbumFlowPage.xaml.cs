@@ -64,6 +64,7 @@ namespace com.aurora.aumusic
 
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
         List<string> ShuffleArts = new List<string>();
+        private MainPage mainpage;
 
         public AlbumFlowPage()
         {
@@ -95,11 +96,13 @@ namespace com.aurora.aumusic
                 }
                 return;
             }
+            mainpage = e.Parameter as MainPage;
         }
 
         private void AddMediaPlayerEventHandlers()
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
+            mainpage.AddMediaHandler();
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -474,7 +477,7 @@ async () =>
         {
             var imagej = (Image)FavListView.FindName("ShuffleArtwork" + j.ToString());
             var imagejj = (Image)FavListView.FindName("ShuffleArtwork" + j.ToString() + j.ToString());
-            int i = int.Parse(ShuffleArts[0]);
+            int i = int.Parse(arts[0]);
             switch (item)
             {
                 case true: ShowForeArtWork(imagej, arts, j, i); break;

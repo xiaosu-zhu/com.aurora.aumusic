@@ -15,7 +15,7 @@ namespace com.aurora.aumusic.shared.Songs
         [DataMember]
         public string Album;
         [DataMember]
-        public Uri AlbumArtwork;
+        public string AlbumArtwork;
         [DataMember]
         public TimeSpan Duration;
         [DataMember]
@@ -25,7 +25,7 @@ namespace com.aurora.aumusic.shared.Songs
         {
             Title = song.Title;
             Album = song.Album;
-            AlbumArtwork = new Uri(song.ArtWork);
+            AlbumArtwork = song.ArtWork;
             Duration = song.Duration;
             MainKey = song.MainKey;
         }

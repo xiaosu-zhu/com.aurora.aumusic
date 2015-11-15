@@ -54,10 +54,6 @@ namespace com.aurora.aumusic
         //Slider ProgressSlider;
         //Slider VolumeSlider;
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
-        AppBarButton volumrMuteButton;
-        RenderTargetBitmap renderer = new RenderTargetBitmap();
-        CanvasBitmap bitmap;
-        byte[] RendererStream;
         ThreadPoolTimer wtftimer;
 
         public static int FrameWidth { get; private set; }
@@ -125,7 +121,12 @@ namespace com.aurora.aumusic
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            //PlaybackControl.MediaEnded -= SetMediaEnd;
+            ProgressSlider.ValueChanged += ProgressSlider_ValueChanged;
+        }
+
+        private void ProgressSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * ProgressSlider.Value) / 100.0));
         }
 
         private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
@@ -170,9 +171,8 @@ namespace com.aurora.aumusic
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                             if (composite != null)
                             {
-                                MainFrame.Navigate(typeof(AlbumFlowPage));
-                                BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
-                                BackgroundMediaPlayer.Current.CurrentStateChanged += MediaPlayer_CurrentStateChanged;
+                                MainFrame.Navigate(typeof(AlbumFlowPage), this);
+                                
                                 break;
                             }
                         }
@@ -182,6 +182,11 @@ namespace com.aurora.aumusic
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
             }
+        }
+
+        public  void AddMediaHandler()
+        {
+            BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -202,6 +207,8 @@ namespace com.aurora.aumusic
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
                     playbackControl.setPlaybackControl(stateChangedMessage.NowState);
                     NowState = stateChangedMessage.NowState;
+                    var converter = ProgressSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
+                    converter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
                 });
                 return;
             }
@@ -229,7 +236,18 @@ namespace com.aurora.aumusic
 
         private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
         {
-            ProgressSlider = sender as Slider;
+            wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                if (NowState == MediaPlayerState.Playing)
+                {
+                    this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        // If playback stopped then clear the UI
+                        ProgressSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                    });
+                }
+            },
+            TimeSpan.FromSeconds(1));
         }
 
         private async void PreviousButton_Click(object sender, RoutedEventArgs e)
@@ -274,21 +292,21 @@ namespace com.aurora.aumusic
         {
             if (((Slider)sender).Value == 0)
             {
-                volumrMuteButton.Icon = vol_no;
+                VolumeMuteButton.Icon = vol_no;
             }
             else if (((Slider)sender).Value < 20)
             {
-                volumrMuteButton.Icon = vol_mute;
+                VolumeMuteButton.Icon = vol_mute;
             }
             else if (((Slider)sender).Value < 50)
             {
-                volumrMuteButton.Icon = vol_low;
+                VolumeMuteButton.Icon = vol_low;
             }
             else if (((Slider)sender).Value < 80)
             {
-                volumrMuteButton.Icon = vol_mid;
+                VolumeMuteButton.Icon = vol_mid;
             }
-            else volumrMuteButton.Icon = vol_high;
+            else VolumeMuteButton.Icon = vol_high;
         }
 
         private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
@@ -299,12 +317,12 @@ namespace com.aurora.aumusic
         //animation of left-bottom Albumart
         private void PlayBackGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            PlayBackFore.Visibility = Visibility.Visible;
+            AlbumArtWorkIn.Begin();
         }
 
         private void PlayBackGrid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            PlayBackFore.Visibility = Visibility.Collapsed;
+            AlbumArtWorkOut.Begin();
         }
         #endregion
         private async void MainFrame_LayoutUpdated(object sender, object e)
@@ -314,7 +332,6 @@ namespace com.aurora.aumusic
 
         private void generate(ICanvasResourceCreator sender)
         {
-            bitmap = CanvasBitmap.CreateFromBytes(sender, RendererStream, FrameWidth, FrameHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
         }
 
 
@@ -352,7 +369,6 @@ namespace com.aurora.aumusic
 
         private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
         {
-            volumrMuteButton = sender as AppBarButton;
             //if (PlaybackControl.Volume == 0)
             //{
             //    volumrMuteButton.Icon = vol_no;
@@ -383,21 +399,21 @@ namespace com.aurora.aumusic
 
             if (VolumeSlider.Value == 0)
             {
-                volumrMuteButton.Icon = vol_no;
+                VolumeMuteButton.Icon = vol_no;
             }
             else if (VolumeSlider.Value < 20)
             {
-                volumrMuteButton.Icon = vol_mute;
+                VolumeMuteButton.Icon = vol_mute;
             }
             else if (VolumeSlider.Value < 50)
             {
-                volumrMuteButton.Icon = vol_low;
+                VolumeMuteButton.Icon = vol_low;
             }
             else if (VolumeSlider.Value < 80)
             {
-                volumrMuteButton.Icon = vol_mid;
+                VolumeMuteButton.Icon = vol_mid;
             }
-            else volumrMuteButton.Icon = vol_high;
+            else VolumeMuteButton.Icon = vol_high;
             playBack.NotifyPlayBackEvent += PlayBack_NotifyPlayBackEvent;
             playbackControl = new PlaybackControl(PlayBackControl);
         }

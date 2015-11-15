@@ -301,13 +301,15 @@ namespace com.aurora.aumusic.backgroundtask
 
             for (int k = AllList.Count - 1; k >= 0; k--)
             {
+                FileList.Clear();
                 for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
                 {
+                    FileList.AddRange(AllList[k].Value);
                     foreach (var key in mainkeys)
                     {
                         if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
                         {
-                            FileList.Add(AllList[k].Value[j]);
+                            
                             AllList[k].Value.RemoveAt(j);
                             break;
                         }
@@ -318,14 +320,7 @@ namespace com.aurora.aumusic.backgroundtask
             }
             if (AllList.Count > 0)
                 MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));
-            //// Don't auto start
-            //BackgroundMediaPlayer.Current.AutoPlay = false;
-
-            //// Assign the list to the player
-            //BackgroundMediaPlayer.Current.Source = playbackList;
-
-            //// Add handler for future playlist item changes
-            //playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+            AllList = null;
         }
 
         private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
