@@ -142,7 +142,8 @@ namespace com.aurora.aumusic.backgroundtask
             ForePlaybackChangedMessage message;
             if (MessageService.TryParseMessage(e.Data, out message))
             {
-                CreatePlaybackList(message.DesiredSongs);
+                if (message.DesiredSongs != null)
+                    CreatePlaybackList(message.DesiredSongs);
                 switch (message.DesiredPlaybackState)
                 {
                     case PlaybackState.Playing: StartPlayback(); break;
@@ -309,7 +310,7 @@ namespace com.aurora.aumusic.backgroundtask
                     {
                         if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
                         {
-                            
+
                             AllList[k].Value.RemoveAt(j);
                             break;
                         }
@@ -350,7 +351,7 @@ namespace com.aurora.aumusic.backgroundtask
             smtc.DisplayUpdater.Type = MediaPlaybackType.Music;
             smtc.DisplayUpdater.MusicProperties.Title = item.Source.CustomProperties[TitleKey] as string;
 
-            var albumArtUri = item.Source.CustomProperties[AlbumArtKey] as Uri;
+            var albumArtUri = new Uri(item.Source.CustomProperties[AlbumArtKey] as string);
             if (albumArtUri != null)
                 smtc.DisplayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromUri(albumArtUri);
             else

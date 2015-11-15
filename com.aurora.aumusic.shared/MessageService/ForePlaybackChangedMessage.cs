@@ -19,6 +19,12 @@ namespace com.aurora.aumusic.shared.MessageService
             DesiredSongs = songs;
         }
 
+        public ForePlaybackChangedMessage(PlaybackState state)
+        {
+            DesiredPlaybackState = state;
+            DesiredSongs = null;
+        }
+
         [DataMember]
         public PlaybackState DesiredPlaybackState;
         [DataMember]

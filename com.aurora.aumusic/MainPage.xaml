@@ -206,8 +206,7 @@
                                 <Grid.Resources>
                                     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
                                         <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Background" Value="{ThemeResource SystemAccentColor}"/>
-                                        <Setter Property="Foreground" Value="{ThemeResource SystemControlTranslucentAltHighBrush}"/>
+
                                         <Setter Property="Opacity" Value="1"/>
                                         <Setter Property="Template">
                                             <Setter.Value>
@@ -285,7 +284,9 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="HorizontalTrackRect">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="HorizontalThumb">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="HorizontalThumb">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
@@ -334,7 +335,7 @@
                                         </Grid.RowDefinitions>
                                         <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlTranslucentHighBrush}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
                                         <Rectangle x:Name="HorizontalDecreaseRect" Fill="White" Grid.Row="1"/>
-                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
+                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="{ThemeResource SystemAccentColor}" Foreground="{ThemeResource SystemControlTranslucentAltHighBrush}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -819,7 +820,7 @@
                             <Viewbox x:Name="PlayBackArtwork" Margin="4" Stretch="Uniform" HorizontalAlignment="Stretch" >
                                 <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
-                            <Rectangle x:Name="PlayBackFore" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>
                         <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Visibility="Collapsed" VerticalAlignment="Center" Width="152" Margin="0" Height="64" Background="Red" Loaded="NowPlayingDetailsGrid_Loaded" >
                             <Grid.Resources>
@@ -835,14 +836,14 @@
                             <Slider x:Name="ProgressSlider" Height="64" IsThumbToolTipEnabled="True" Margin="4,14,4,4" MinWidth="80" Style="{StaticResource MediaSliderStyle}" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                         </Grid>
                         <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4" Grid.Column="4" Text="0:00" Foreground="White"/>
-                        <TextBlock x:Name="TimePastBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"  Grid.Column="2" Text="0:00" Foreground="White"/>
+                        <TextBlock x:Name="TimePastBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"  Grid.Column="2" Text="{Binding ElementName=ProgressSlider, Path=Value, Converter={StaticResource ThumbConverter}}" Foreground="White"/>
                         <StackPanel Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
                             <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PreviousSymbol" Symbol="Previous" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
-                            <AppBarButton x:Name="PlayPauseButtonOnLeft" Style="{StaticResource AppBarButtonStyleFull}">
+                            <AppBarButton x:Name="PlayPauseButtonOnLeft" Style="{StaticResource AppBarButtonStyleFull}" Click="PlayPauseButtonOnLeft_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PlayPauseSymbolLeft" Symbol="Play"/>
                                 </AppBarButton.Icon>
@@ -852,7 +853,7 @@
                                     <SymbolIcon x:Name="NextSymbol" Symbol="Next" />
                                 </AppBarButton.Icon>
                             </AppBarButton>
-                            <AppBarButton x:Name="DetailsButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details">
+                            <AppBarButton x:Name="DetailsButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details" Click="DetailsButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="DetailsSymbol" Symbol="FullScreen"/>
                                 </AppBarButton.Icon>
@@ -876,9 +877,14 @@
                                     </Flyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
-                            <AppBarButton x:Name="ShuffleButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details">
+                            <AppBarButton x:Name="ShuffleButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details" Click="ShuffleButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                            <AppBarButton x:Name="StopButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details" Click="StopButton_Click">
+                                <AppBarButton.Icon>
+                                    <SymbolIcon x:Name="StopSymbol" Symbol="Stop"/>
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>

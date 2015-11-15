@@ -21,6 +21,7 @@ namespace com.aurora.aumusic
         Image AlbumArtwork;
         TextBlock TimeRemainingBlock;
         TextBlock TimePastBlock;
+        Slider ProgressSlider;
 
         public PlaybackControl(Grid grid)
         {
@@ -30,6 +31,7 @@ namespace com.aurora.aumusic
             AlbumArtwork = PlaybackControlGrid.FindName("PlayBackImage") as Image;
             TimeRemainingBlock = PlaybackControlGrid.FindName("TimeRemainingBlock") as TextBlock;
             TimePastBlock = PlaybackControlGrid.FindName("TimeElapsedBlock") as TextBlock;
+            ProgressSlider = PlaybackControlGrid.FindName("ProgressSlider") as Slider;
         }
 
         public void setPlaybackControl(SongModel currentSong)
@@ -59,12 +61,15 @@ namespace com.aurora.aumusic
                 case MediaPlayerState.Buffering:
                     break;
                 case MediaPlayerState.Playing:
+                    ProgressSlider.IsEnabled = true;
                     (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Pause;
                     break;
                 case MediaPlayerState.Paused:
                     (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Play;
                     break;
                 case MediaPlayerState.Stopped:
+                    ProgressSlider.IsEnabled = false;
+                    (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Play;
                     break;
                 default:
                     break;

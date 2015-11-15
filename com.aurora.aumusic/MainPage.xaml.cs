@@ -96,57 +96,15 @@ namespace com.aurora.aumusic
             }
         }
 
-
-
-        private async void HorizontalThumb_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            //if (playBack.NowPlaying() != null)
-            //{
-            //    if ((PlaybackControl.Position + TimeSpan.FromMilliseconds(500)) >= playBack.NowPlaying().Duration)
-            //    {
-            //        await playBack.PlayNext(PlaybackControl);
-            //    }
-            //    else
-            //    {
-            //        PlaybackControl.Play();
-            //    }
-            //}
-            //PlaybackControl.MediaEnded += SetMediaEnd;
-        }
-        private async void SetMediaEnd(object sender, RoutedEventArgs e)
-        {
-            //AlbumFlowPage a = MainFrame.Content as AlbumFlowPage;
-            //await playBack.PlayNext(this.PlaybackControl);
-        }
-
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            wtftimer.Cancel();
             ProgressSlider.ValueChanged += ProgressSlider_ValueChanged;
         }
 
         private void ProgressSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * ProgressSlider.Value) / 100.0));
-        }
-
-        private void PlaybackControl_MediaOpened(object sender, RoutedEventArgs e)
-        {
-            Song s = playBack.NowPlaying();
-            TimeSpan ts = s.Duration;
-            if (ts.Seconds >= 10)
-            {
-                string p = ts.Hours * 60 + ts.Minutes + ":" + ts.Seconds;
-                TimeRemainingBlock.Text = p;
-            }
-            else
-            {
-                string p = ts.Hours * 60 + ts.Minutes + ":0" + ts.Seconds;
-                TimeRemainingBlock.Text = p;
-            }
-            BitmapImage b = s != null ? new BitmapImage(new Uri(s.ArtWork)) : new BitmapImage(new Uri("ms-appx:///Assets/unknown.png"));
-            PlayBackImage.Source = b;
-            //ThumbToolTipConveter thumbConverter = (ThumbToolTipConveter)ProgressSlider.ThumbToolTipValueConverter;
-            //thumbConverter.sParmeter = ts.TotalSeconds;
         }
 
         private void MenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -172,7 +130,7 @@ namespace com.aurora.aumusic
                             if (composite != null)
                             {
                                 MainFrame.Navigate(typeof(AlbumFlowPage), this);
-                                
+
                                 break;
                             }
                         }
@@ -184,9 +142,38 @@ namespace com.aurora.aumusic
             }
         }
 
-        public  void AddMediaHandler()
+        public void AddMediaHandler()
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+            BackgroundMediaPlayer.Current.CurrentStateChanged += Current_CurrentStateChanged;
+        }
+
+        private void Current_CurrentStateChanged(MediaPlayer sender, object args)
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                switch (NowState)
+            {
+                case MediaPlayerState.Closed:
+                    break;
+                case MediaPlayerState.Opening:
+                    break;
+                case MediaPlayerState.Buffering:
+                    break;
+                case MediaPlayerState.Playing:
+                    playbackControl.setPlaybackControl(MediaPlayerState.Playing);
+                    break;
+                case MediaPlayerState.Paused:
+                    playbackControl.setPlaybackControl(MediaPlayerState.Paused);
+                    break;
+                case MediaPlayerState.Stopped:
+                    playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
+                    break;
+                default:
+                    break;
+            }
+            });
+            
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -205,80 +192,46 @@ namespace com.aurora.aumusic
                     }
                     else
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
-                    playbackControl.setPlaybackControl(stateChangedMessage.NowState);
                     NowState = stateChangedMessage.NowState;
-                    var converter = ProgressSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
-                    converter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
+                    BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+                    ThumbToolTipConveter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
                 });
                 return;
             }
         }
 
-        private async void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
-        {
-            if (NowState == MediaPlayerState.Paused)
-            {
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    playbackControl.setPlaybackControl(MediaPlayerState.Paused);
-                });
-
-            }
-            else if (NowState == MediaPlayerState.Stopped)
-            {
-                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
-                });
-
-            }
-        }
-
         private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
         {
+            ProgressSlider.IsEnabled = false;
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)
                 {
                     this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
-                        // If playback stopped then clear the UI
                         ProgressSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
                     });
                 }
             },
-            TimeSpan.FromSeconds(1));
+            TimeSpan.FromSeconds(0.16));
         }
 
-        private async void PreviousButton_Click(object sender, RoutedEventArgs e)
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
-            if (playBack.NowPlaying() != null)
-            {
-                //if (PlaybackControl.Position <= TimeSpan.FromSeconds((playBack.NowPlaying().Duration.TotalSeconds / 99)))
-                //{
-                //    await playBack.PlayPrevious(PlaybackControl);
-                //}
-                //else
-                //{
-                //    PlaybackControl.Position = TimeSpan.FromSeconds(0);
-                //    PlaybackControl.Play();
-                //}
-            }
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Previous));
+            NowState = MediaPlayerState.Playing;
         }
 
-        private async void NextButton_Click(object sender, RoutedEventArgs e)
+        private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (playBack.NowPlaying() != null)
-            {
-                //await playBack.PlayNext(PlaybackControl);
-            }
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Next));
+            NowState = MediaPlayerState.Playing;
         }
 
 
 
         private void VolumeSlider_Loaded(object sender, RoutedEventArgs e)
         {
-            VolumeSlider = sender as Slider;
             VolumeSlider.ValueChanged += VolumeSlider_ValueChanged;
         }
 
@@ -307,6 +260,8 @@ namespace com.aurora.aumusic
                 VolumeMuteButton.Icon = vol_mid;
             }
             else VolumeMuteButton.Icon = vol_high;
+            if (NowState == MediaPlayerState.Playing)
+                BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
         }
 
         private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
@@ -389,6 +344,72 @@ namespace com.aurora.aumusic
 
         }
 
+        private void PlayBackFore_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumArtWorkOut.Begin();
+        }
+
+        private void HorizontalThumb_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            ProgressSlider.ValueChanged -= ProgressSlider_ValueChanged;
+            wtftimer.Cancel();
+            wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                if (NowState == MediaPlayerState.Playing)
+                {
+                    this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        ProgressSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                    });
+                }
+            },
+            TimeSpan.FromSeconds(0.16));
+        }
+
+        private void PlayPauseButtonOnLeft_Click(object sender, RoutedEventArgs e)
+        {
+            switch (NowState)
+            {
+                case MediaPlayerState.Closed:
+                    break;
+                case MediaPlayerState.Opening:
+                    break;
+                case MediaPlayerState.Buffering:
+                    break;
+                case MediaPlayerState.Playing:
+                    MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Paused));
+                    NowState = MediaPlayerState.Paused;
+                    break;
+                case MediaPlayerState.Paused:
+                    MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing));
+                    NowState = MediaPlayerState.Playing;
+                    break;
+                case MediaPlayerState.Stopped:
+                    MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing));
+                    NowState = MediaPlayerState.Playing;
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShuffleButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Stopped));
+            NowState = MediaPlayerState.Stopped;
+        }
+
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -430,22 +451,6 @@ namespace com.aurora.aumusic
 
         private void PlayBack_NotifyPlayBackEvent(object sender, NotifyPlayBackEventArgs e)
         {
-            if (wtftimer != null)
-                wtftimer.Cancel();
-            NowPlayingDetailsGrid.Visibility = Visibility.Visible;
-            NowPlayingIn.Begin();
-            wtftimer = ThreadPoolTimer.CreateTimer((source) =>
-            {
-                Dispatcher.RunAsync(
-                           CoreDispatcherPriority.High,
-                           () =>
-                           {
-                               NowPlayingOut.Begin();
-
-                           });
-                NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
-
-            }, TimeSpan.FromSeconds(2));
 
         }
     }

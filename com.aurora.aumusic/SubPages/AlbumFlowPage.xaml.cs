@@ -140,7 +140,6 @@ namespace com.aurora.aumusic
         private void StartBackgroundAudioTask()
         {
             AddMediaPlayerEventHandlers();
-            var player = BackgroundMediaPlayer.Current;
             if (!IsMyBackgroundTaskRunning)
             {
                 var startResult = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

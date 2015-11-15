@@ -151,7 +151,7 @@ namespace com.aurora.aumusic.shared
 
     public class ThumbToolTipConveter : IValueConverter
     {
-        public double sParmeter = 0;
+        public static double sParmeter = 0;
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is double)
