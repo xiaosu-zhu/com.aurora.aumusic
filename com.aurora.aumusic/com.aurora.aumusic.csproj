@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NowPlayingHub.cs" />
     <Compile Include="PlaybackControl.cs" />
     <Compile Include="SplitListView.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
@@ -231,11 +232,6 @@
     <Page Include="SubPages\SongsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SubPages\Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
   <ItemGroup>

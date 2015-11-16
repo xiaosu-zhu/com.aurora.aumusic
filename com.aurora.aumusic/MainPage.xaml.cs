@@ -60,8 +60,9 @@ namespace com.aurora.aumusic
         public static int FrameHeight { get; private set; }
         public ICanvasImage RenderFinal { get; private set; }
         public MediaPlayerState NowState = MediaPlayerState.Stopped;
-
+        private PlaybackMode NowMode = PlaybackMode.Normal;
         public bool Frame_Updated = false;
+        private NowPlayingHub nowPlayingHub;
 
         public MainPage()
         {
@@ -153,27 +154,33 @@ namespace com.aurora.aumusic
             this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 switch (NowState)
-            {
-                case MediaPlayerState.Closed:
-                    break;
-                case MediaPlayerState.Opening:
-                    break;
-                case MediaPlayerState.Buffering:
-                    break;
-                case MediaPlayerState.Playing:
-                    playbackControl.setPlaybackControl(MediaPlayerState.Playing);
-                    break;
-                case MediaPlayerState.Paused:
-                    playbackControl.setPlaybackControl(MediaPlayerState.Paused);
-                    break;
-                case MediaPlayerState.Stopped:
-                    playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
-                    break;
-                default:
-                    break;
-            }
+                {
+                    case MediaPlayerState.Closed:
+                        break;
+                    case MediaPlayerState.Opening:
+                        break;
+                    case MediaPlayerState.Buffering:
+                        break;
+                    case MediaPlayerState.Playing:
+                        playbackControl.setPlaybackControl(MediaPlayerState.Playing);
+                        NowPlayingIn.Begin();
+                        CommandBarOut.Begin();
+                        break;
+                    case MediaPlayerState.Paused:
+                        playbackControl.setPlaybackControl(MediaPlayerState.Paused);
+                        NowPlayingOut.Begin();
+                        CommandBarIn.Begin();
+                        break;
+                    case MediaPlayerState.Stopped:
+                        playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
+                        NowPlayingOut.Begin();
+                        CommandBarIn.Begin();
+                        break;
+                    default:
+                        break;
+                }
             });
-            
+
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -191,7 +198,10 @@ namespace com.aurora.aumusic
                         return;
                     }
                     else
+                    {
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
+                        nowPlayingHub.Set(stateChangedMessage.CurrentSong);
+                    }
                     NowState = stateChangedMessage.NowState;
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
                     ThumbToolTipConveter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
@@ -401,7 +411,30 @@ namespace com.aurora.aumusic
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-
+            switch (NowMode)
+            {
+                case PlaybackMode.Normal:
+                    NowMode = PlaybackMode.Shuffle;
+                    ShuffleButton.IsChecked = true;
+                    break;
+                case PlaybackMode.Repeat:
+                    NowMode = PlaybackMode.ShuffleRepeat;
+                    ShuffleButton.IsChecked = true;
+                    break;
+                case PlaybackMode.RepeatSingle:
+                    ShuffleButton.IsChecked = false;
+                    break;
+                case PlaybackMode.Shuffle:
+                    NowMode = PlaybackMode.Normal;
+                    ShuffleButton.IsChecked = false;
+                    break;
+                case PlaybackMode.ShuffleRepeat:
+                    NowMode = PlaybackMode.Repeat;
+                    ShuffleButton.IsChecked = false;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -410,9 +443,38 @@ namespace com.aurora.aumusic
             NowState = MediaPlayerState.Stopped;
         }
 
-        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+        private void RepeatButton_Checked(object sender, RoutedEventArgs e)
         {
-
+            switch (NowMode)
+            {
+                case PlaybackMode.Normal:
+                    NowMode = PlaybackMode.Repeat;
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    break;
+                case PlaybackMode.Repeat:
+                    NowMode = PlaybackMode.RepeatSingle;
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    break;
+                case PlaybackMode.RepeatSingle:
+                    NowMode = PlaybackMode.Normal;
+                    RepeatButton.IsChecked = false;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    break;
+                case PlaybackMode.Shuffle:
+                    NowMode = PlaybackMode.ShuffleRepeat;
+                    RepeatButton.IsChecked = true;
+                    break;
+                case PlaybackMode.ShuffleRepeat:
+                    NowMode = PlaybackMode.RepeatSingle;
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    ShuffleButton.IsChecked = false;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
@@ -447,6 +509,7 @@ namespace com.aurora.aumusic
         private void NowPlayingDetailsGrid_Loaded(object sender, RoutedEventArgs e)
         {
             NowPlayingOut.Begin();
+            nowPlayingHub = new NowPlayingHub(sender as Grid);
         }
 
         private void FastMuteButton_Click(object sender, RoutedEventArgs e)

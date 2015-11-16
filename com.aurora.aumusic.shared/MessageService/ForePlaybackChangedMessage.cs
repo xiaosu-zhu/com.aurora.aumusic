@@ -35,6 +35,8 @@ namespace com.aurora.aumusic.shared.MessageService
         [DataMember]
         public PlaybackState DesiredPlaybackState;
         [DataMember]
+        public PlaybackMode DesiredPlaybackMode = PlaybackMode.Normal;
+        [DataMember]
         public List<SongModel> DesiredSongs;
         [DataMember]
         public SongModel Index = null;

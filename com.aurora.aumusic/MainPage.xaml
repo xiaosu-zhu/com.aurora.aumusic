@@ -115,7 +115,7 @@
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
                                                 </ColorAnimation>
-                                                <ColorAnimation To="#CCFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                                <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
@@ -139,10 +139,10 @@
                                         <VisualState x:Name="Pressed">
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemTransparentBrush}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentAltLowBrush}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="#99FFFFFF"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -156,9 +156,9 @@
                                         <VisualState x:Name="Checked">
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemTransparentBrush}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ColorAnimation To="#44FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                                <ColorAnimation To="#99FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
@@ -167,7 +167,7 @@
                                         </VisualState>
                                         <VisualState x:Name="CheckedPointerOver">
                                             <Storyboard>
-                                                <ColorAnimation To="#77FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                                <ColorAnimation To="#BBFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
@@ -236,7 +236,7 @@
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
                                                 </ColorAnimation>
-                                                <ColorAnimation To="#CCFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                                <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
@@ -289,7 +289,7 @@
                 HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                 AutomationProperties.AccessibilityView="Raw"/>
-                                 
+
                                 </Grid>
                             </Grid>
                         </ControlTemplate>
@@ -308,12 +308,21 @@
                 <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                 <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
             </Style>
-            <Style x:Key="MediaTextBlockStyle1" TargetType="TextBlock">
+            <Style x:Key="NowPlayingMainStyle" TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlTranslucentAltHighBrush}"/>
-                <Setter Property="FontSize" Value="{ThemeResource MTCMediaFontSize}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlAltHighBrush}"/>
+                <Setter Property="FontSize" Value="{ThemeResource NowMainFontSize}"/>
                 <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                 <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
+                <Setter Property="TextTrimming" Value="Clip" />
+            </Style>
+            <Style x:Key="NowPlayingSubStyle" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlTranslucentHighBrush}"/>
+                <Setter Property="FontSize" Value="{ThemeResource NowSubFontSize}"/>
+                <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
+                <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
+                <Setter Property="TextTrimming" Value="Clip" />
             </Style>
             <Style x:Key="MediaSliderStyle" TargetType="Slider">
                 <Setter Property="Background" Value="Transparent"/>
@@ -401,7 +410,7 @@
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
                                             <Storyboard>
-                                            
+
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="HorizontalDecreaseRect">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
@@ -946,7 +955,7 @@
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>
-                        <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Visibility="Collapsed" VerticalAlignment="Center" Width="152" Margin="0" Height="64" Background="Red" Loaded="NowPlayingDetailsGrid_Loaded" >
+                        <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Loaded="NowPlayingDetailsGrid_Loaded" Canvas.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{Binding ElementName=MediaControlsCommandBar, Path=Width}" Margin="0" Height="64">
                             <Grid.Resources>
                                 <Storyboard x:Name="NowPlayingIn">
                                     <FadeInThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
@@ -955,6 +964,10 @@
                                     <FadeOutThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
                                 </Storyboard>
                             </Grid.Resources>
+                            <StackPanel Margin="4" Orientation="Vertical">
+                                <TextBlock x:Name="NowTitle" Style="{ThemeResource NowPlayingMainStyle}" Text="text1"/>
+                                <TextBlock x:Name="NowAlbum" Style="{ThemeResource NowPlayingSubStyle}" Text="text2"/>
+                            </StackPanel>
                         </Grid>
                         <Grid x:Name="MediaTransportControls_Timeline_Grid" VerticalAlignment="Center" Grid.Column="3">
                             <Slider x:Name="ProgressSlider" Height="64" IsThumbToolTipEnabled="True" Margin="4,14,4,4" MinWidth="80" Style="{StaticResource MediaSliderStyle}" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
@@ -983,7 +996,15 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" x:Name="MediaControlsCommandBar" VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal" Canvas.ZIndex="1" x:Name="MediaControlsCommandBar" VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Center" >
+                            <StackPanel.Resources>
+                                <Storyboard x:Name="CommandBarOut">
+                                    <FadeOutThemeAnimation Storyboard.TargetName="MediaControlsCommandBar" />
+                                </Storyboard>
+                                <Storyboard x:Name="CommandBarIn">
+                                    <FadeInThemeAnimation Storyboard.TargetName="MediaControlsCommandBar" />
+                                </Storyboard>
+                            </StackPanel.Resources>
                             <AppBarButton x:Name="VolumeMuteButton" Loaded="VolumeMuteButton_Loaded" Style="{StaticResource AppBarButtonStyleFull}">
                                 <AppBarButton.Flyout>
                                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
@@ -996,17 +1017,17 @@
                                                 </Button.Content>
                                             </Button>
                                             <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
-                                            <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle1}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
+                                            <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                         </StackPanel>
                                     </Flyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
-                            <AppBarToggleButton x:Name="RepeatButton"  Style="{StaticResource AppBarToggleButtonFull}" ToolTipService.ToolTip="Repeat" Click="RepeatButton_Click">
+                            <AppBarToggleButton x:Name="RepeatButton" Style="{StaticResource AppBarToggleButtonFull}" Click="RepeatButton_Checked" ToolTipService.ToolTip="Repeat" >
                                 <AppBarToggleButton.Icon>
                                     <SymbolIcon x:Name="RepeatSymbol" Symbol="RepeatAll"/>
                                 </AppBarToggleButton.Icon>
                             </AppBarToggleButton>
-                            <AppBarToggleButton x:Name="ShuffleButton"  Style="{StaticResource AppBarToggleButtonFull}" ToolTipService.ToolTip="Shuffle" Click="ShuffleButton_Click">
+                            <AppBarToggleButton x:Name="ShuffleButton"  Style="{StaticResource AppBarToggleButtonFull}" Click="ShuffleButton_Click" ToolTipService.ToolTip="Shuffle">
                                 <AppBarToggleButton.Icon>
                                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle"/>
                                 </AppBarToggleButton.Icon>
@@ -1024,7 +1045,7 @@
                             <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle}" />
                         </MediaElement.TransportControls>
                     </-->
-                    
+
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

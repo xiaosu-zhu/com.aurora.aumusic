@@ -254,7 +254,7 @@ async () =>
             sv.ChangeView(0, 0, 1);
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             AlbumItem album = ((Button)sender).DataContext as AlbumItem;
             MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, album.ToSongModelList()));
@@ -287,7 +287,7 @@ async () =>
 
 
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList()));
             //_pageParameters.PlaybackControl.Clear();

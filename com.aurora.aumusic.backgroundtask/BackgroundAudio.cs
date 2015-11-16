@@ -40,6 +40,7 @@ namespace com.aurora.aumusic.backgroundtask
         private List<SongModel> Songs;
 
         private List<IStorageFile> FileList = new List<IStorageFile>();
+        private PlaybackMode NowMode;
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -146,7 +147,7 @@ namespace com.aurora.aumusic.backgroundtask
                     CreatePlaybackList(message.DesiredSongs);
                 switch (message.DesiredPlaybackState)
                 {
-                    case PlaybackState.Playing: StartPlayback(message.Index); break;
+                    case PlaybackState.Playing: StartPlayback(message.Index, message.DesiredPlaybackMode); break;
                     case PlaybackState.Paused: PausePlayback(); break;
                     case PlaybackState.Next: SkipToNext(); break;
                     case PlaybackState.Previous: SkipToPrevious(); break;
@@ -234,7 +235,7 @@ namespace com.aurora.aumusic.backgroundtask
                     if (!result)
                         throw new Exception("Background Task didnt initialize in time");
 
-                    StartPlayback(null);
+                    StartPlayback(null, NowMode);
                     break;
                 case SystemMediaTransportControlsButton.Pause:
                     BackgroundMediaPlayer.Current.Pause();
@@ -270,14 +271,19 @@ namespace com.aurora.aumusic.backgroundtask
             BackgroundMediaPlayer.Current.Play();
         }
 
-        private async void StartPlayback(SongModel song)
+        private async void StartPlayback(SongModel song, PlaybackMode mode)
         {
+            NowMode = mode;
             if (song != null)
             {
                 var index = playbackList.Items.ToList().FindIndex(item =>
                             GetTrackId(item).ToString() == song.MainKey);
                 try
                 {
+                    if (NowMode == PlaybackMode.Shuffle || NowMode == PlaybackMode.ShuffleRepeat)
+                        playbackList.ShuffleEnabled = true;
+                    if (NowMode == PlaybackMode.Repeat || NowMode == PlaybackMode.ShuffleRepeat)
+                        playbackList.AutoRepeatEnabled = true;
                     playbackList.MoveTo((uint)index);
                 }
                 catch (Exception)
