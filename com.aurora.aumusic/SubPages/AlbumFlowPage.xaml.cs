@@ -309,9 +309,9 @@ async () =>
             b.Visibility = Visibility.Collapsed;
         }
 
-        private async void PlayButton_Click(object sender, RoutedEventArgs e)
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList()));
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList(),new SongModel(((sender as Button).DataContext as Song))));
             // _pageParameters.PlaybackControl.Clear();
             //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
             // await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);

@@ -19,6 +19,13 @@ namespace com.aurora.aumusic.shared.MessageService
             DesiredSongs = songs;
         }
 
+        public ForePlaybackChangedMessage(PlaybackState state, List<SongModel> songs, SongModel song)
+        {
+            DesiredPlaybackState = state;
+            DesiredSongs = songs;
+            Index = song;
+        }
+
         public ForePlaybackChangedMessage(PlaybackState state)
         {
             DesiredPlaybackState = state;
@@ -29,5 +36,7 @@ namespace com.aurora.aumusic.shared.MessageService
         public PlaybackState DesiredPlaybackState;
         [DataMember]
         public List<SongModel> DesiredSongs;
+        [DataMember]
+        public SongModel Index = null;
     }
 }

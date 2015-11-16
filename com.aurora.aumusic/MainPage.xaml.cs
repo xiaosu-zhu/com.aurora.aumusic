@@ -410,6 +410,11 @@ namespace com.aurora.aumusic
             NowState = MediaPlayerState.Stopped;
         }
 
+        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
