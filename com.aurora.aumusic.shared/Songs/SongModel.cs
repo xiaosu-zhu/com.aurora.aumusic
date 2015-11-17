@@ -20,6 +20,8 @@ namespace com.aurora.aumusic.shared.Songs
         public TimeSpan Duration;
         [DataMember]
         public string MainKey;
+        [DataMember]
+        public string[] Artists;
 
         public SongModel(Song song)
         {
@@ -28,6 +30,7 @@ namespace com.aurora.aumusic.shared.Songs
             AlbumArtwork = song.ArtWork;
             Duration = song.Duration;
             MainKey = song.MainKey;
+            Artists = song.Artists;
         }
     }
 }

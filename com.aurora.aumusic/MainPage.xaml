@@ -315,6 +315,7 @@
                 <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                 <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
                 <Setter Property="TextTrimming" Value="Clip" />
+                <Setter Property="MaxLines" Value="1" />
             </Style>
             <Style x:Key="NowPlayingSubStyle" TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -323,6 +324,7 @@
                 <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                 <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
                 <Setter Property="TextTrimming" Value="Clip" />
+                <Setter Property="MaxLines" Value="1" />
             </Style>
             <Style x:Key="MediaSliderStyle" TargetType="Slider">
                 <Setter Property="Background" Value="Transparent"/>
@@ -955,7 +957,7 @@
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>
-                        <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Loaded="NowPlayingDetailsGrid_Loaded" Canvas.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="{Binding ElementName=MediaControlsCommandBar, Path=Width}" Margin="0" Height="64">
+                        <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Loaded="NowPlayingDetailsGrid_Loaded" Canvas.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="192" Margin="0" Height="64">
                             <Grid.Resources>
                                 <Storyboard x:Name="NowPlayingIn">
                                     <FadeInThemeAnimation Storyboard.TargetName="NowPlayingDetailsGrid" />
@@ -965,8 +967,9 @@
                                 </Storyboard>
                             </Grid.Resources>
                             <StackPanel Margin="4" Orientation="Vertical">
-                                <TextBlock x:Name="NowTitle" Style="{ThemeResource NowPlayingMainStyle}" Text="text1"/>
-                                <TextBlock x:Name="NowAlbum" Style="{ThemeResource NowPlayingSubStyle}" Text="text2"/>
+                                <TextBlock x:Name="NowTitle" Style="{ThemeResource NowPlayingMainStyle}" />
+                                <TextBlock x:Name="NowAlbum" Style="{ThemeResource NowPlayingSubStyle}"/>
+                                <TextBlock x:Name="NowArtists" Style="{ThemeResource NowPlayingSubStyle}"/>
                             </StackPanel>
                         </Grid>
                         <Grid x:Name="MediaTransportControls_Timeline_Grid" VerticalAlignment="Center" Grid.Column="3">

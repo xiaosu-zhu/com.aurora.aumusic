@@ -149,6 +149,45 @@ namespace com.aurora.aumusic.shared
         }
     }
 
+    public class ArtistsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var artists = value as string[];
+            if (artists == null)
+                return "未知创作人";
+            StringBuilder sb = new StringBuilder();
+            if (artists[0] == "Unknown Artists")
+            {
+                return "未知创作人";
+            }
+            else
+            {
+                int i = 0;
+                foreach (var item in artists)
+                {
+                    i++;
+                    if (i > 2)
+                    {
+                        sb.Remove(sb.Length - 2, 2);
+                        sb.Append("等");
+                        break;
+                    }
+                    sb.Append(item);
+                    sb.Append(", ");
+                }
+                if (sb[sb.Length - 1] == ' ')
+                    sb.Remove(sb.Length - 2, 2);
+            }
+            return sb.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
     public class ThumbToolTipConveter : IValueConverter
     {
         public static double sParmeter = 0;
