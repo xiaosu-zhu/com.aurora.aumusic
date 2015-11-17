@@ -34,6 +34,7 @@ namespace com.aurora.aumusic.backgroundtask
         private bool playbackStartedPreviously = false;
         private AppState foregroundAppState;
         private MediaPlayerState NowState = MediaPlayerState.Stopped;
+        private MediaPlaybackList templist;
 
         List<KeyValuePair<string, List<IStorageFile>>> AllList = new List<KeyValuePair<string, List<IStorageFile>>>();
 
@@ -147,12 +148,65 @@ namespace com.aurora.aumusic.backgroundtask
                     CreatePlaybackList(message.DesiredSongs);
                 switch (message.DesiredPlaybackState)
                 {
-                    case PlaybackState.Playing: StartPlayback(message.Index, message.DesiredPlaybackMode); break;
+                    case PlaybackState.Playing: StartPlayback(message.Index); break;
                     case PlaybackState.Paused: PausePlayback(); break;
                     case PlaybackState.Next: SkipToNext(); break;
                     case PlaybackState.Previous: SkipToPrevious(); break;
                     case PlaybackState.Stopped: StopPlayback(); break;
-                    default: break;
+                    case PlaybackState.Unknown: break;
+                }
+                var time = BackgroundMediaPlayer.Current.Position;
+                switch (message.DesiredPlaybackMode)
+                {
+                    case PlaybackMode.Normal:
+                        ResetplaybackList();
+                        playbackList.ShuffleEnabled = false;
+                        playbackList.AutoRepeatEnabled = false;
+                        BackgroundMediaPlayer.Current.Position = time;
+                        if(NowState== MediaPlayerState.Playing)
+                        {
+                            BackgroundMediaPlayer.Current.Play();
+                        }
+                        break;
+                    case PlaybackMode.Repeat:
+                        playbackList.ShuffleEnabled = false;
+                        playbackList.AutoRepeatEnabled = true;
+                        BackgroundMediaPlayer.Current.Position = time;
+                        if (NowState == MediaPlayerState.Playing)
+                        {
+                            BackgroundMediaPlayer.Current.Play();
+                        }
+                        break;
+                    case PlaybackMode.RepeatSingle:
+                        SetplaybackListSingle();
+                        playbackList.ShuffleEnabled = false;
+                        playbackList.AutoRepeatEnabled = true;
+                        BackgroundMediaPlayer.Current.Position = time;
+                        if (NowState == MediaPlayerState.Playing)
+                        {
+                            BackgroundMediaPlayer.Current.Play();
+                        }
+                        break;
+                    case PlaybackMode.Shuffle:
+                        playbackList.ShuffleEnabled = true;
+                        playbackList.AutoRepeatEnabled = false;
+                        BackgroundMediaPlayer.Current.Position = time;
+                        if (NowState == MediaPlayerState.Playing)
+                        {
+                            BackgroundMediaPlayer.Current.Play();
+                        }
+                        break;
+                    case PlaybackMode.ShuffleRepeat:
+                        playbackList.AutoRepeatEnabled = true;
+                        playbackList.ShuffleEnabled = false;
+                        BackgroundMediaPlayer.Current.Position = time;
+                        if (NowState == MediaPlayerState.Playing)
+                        {
+                            BackgroundMediaPlayer.Current.Play();
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
             UpdatePlaybackMessage update;
@@ -160,6 +214,36 @@ namespace com.aurora.aumusic.backgroundtask
             {
                 ConfirmFiles(update.Songs);
             }
+        }
+
+        private void ResetplaybackList()
+        {
+            playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+            var tem = playbackList.CurrentItem;
+            if (templist != null)
+            {
+                foreach (var item in templist.Items)
+                {
+                    playbackList.Items.Add(item);
+                }
+                var index = playbackList.Items.IndexOf(tem);
+                playbackList.MoveTo((uint)index);
+            }
+            playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+        }
+
+        private void SetplaybackListSingle()
+        {
+            playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
+            templist = new MediaPlaybackList();
+            foreach (var item in playbackList.Items)
+            {
+                templist.Items.Add(item);
+            }
+            var current = playbackList.CurrentItem;
+            playbackList.Items.Clear();
+            playbackList.CurrentItemChanged += PlaybackList_CurrentItemChanged;
+            playbackList.Items.Add(current);
         }
 
         private void CreatePlaybackList(List<SongModel> desiredSongs)
@@ -235,7 +319,7 @@ namespace com.aurora.aumusic.backgroundtask
                     if (!result)
                         throw new Exception("Background Task didnt initialize in time");
 
-                    StartPlayback(null, NowMode);
+                    StartPlayback(null);
                     break;
                 case SystemMediaTransportControlsButton.Pause:
                     BackgroundMediaPlayer.Current.Pause();
@@ -271,19 +355,14 @@ namespace com.aurora.aumusic.backgroundtask
             BackgroundMediaPlayer.Current.Play();
         }
 
-        private async void StartPlayback(SongModel song, PlaybackMode mode)
+        private async void StartPlayback(SongModel song)
         {
-            NowMode = mode;
             if (song != null)
             {
                 var index = playbackList.Items.ToList().FindIndex(item =>
                             GetTrackId(item).ToString() == song.MainKey);
                 try
                 {
-                    if (NowMode == PlaybackMode.Shuffle || NowMode == PlaybackMode.ShuffleRepeat)
-                        playbackList.ShuffleEnabled = true;
-                    if (NowMode == PlaybackMode.Repeat || NowMode == PlaybackMode.ShuffleRepeat)
-                        playbackList.AutoRepeatEnabled = true;
                     playbackList.MoveTo((uint)index);
                 }
                 catch (Exception)

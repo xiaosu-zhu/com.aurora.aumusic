@@ -60,7 +60,19 @@ namespace com.aurora.aumusic
         public static int FrameHeight { get; private set; }
         public ICanvasImage RenderFinal { get; private set; }
         public MediaPlayerState NowState = MediaPlayerState.Stopped;
-        private PlaybackMode NowMode = PlaybackMode.Normal;
+        private PlaybackMode _playbackmode = PlaybackMode.Normal;
+        private PlaybackMode NowMode
+        {
+            get
+            {
+                return _playbackmode;
+            }
+            set
+            {
+                this._playbackmode = value;
+                MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(_playbackmode));
+            }
+        }
         public bool Frame_Updated = false;
         private NowPlayingHub nowPlayingHub;
 
@@ -165,16 +177,22 @@ namespace com.aurora.aumusic
                         playbackControl.setPlaybackControl(MediaPlayerState.Playing);
                         NowPlayingIn.Begin();
                         CommandBarOut.Begin();
+                        MediaControlsCommandBar.PointerEntered += NowPlayingDetailsGrid_PointerEntered;
+                        MediaControlsCommandBar.PointerExited += NowPlayingDetailsGrid_PointerExited;
                         break;
                     case MediaPlayerState.Paused:
                         playbackControl.setPlaybackControl(MediaPlayerState.Paused);
                         NowPlayingOut.Begin();
                         CommandBarIn.Begin();
+                        MediaControlsCommandBar.PointerEntered -= NowPlayingDetailsGrid_PointerEntered;
+                        MediaControlsCommandBar.PointerExited -= NowPlayingDetailsGrid_PointerExited;
                         break;
                     case MediaPlayerState.Stopped:
                         playbackControl.setPlaybackControl(MediaPlayerState.Stopped);
                         NowPlayingOut.Begin();
                         CommandBarIn.Begin();
+                        MediaControlsCommandBar.PointerEntered -= NowPlayingDetailsGrid_PointerEntered;
+                        MediaControlsCommandBar.PointerExited -= NowPlayingDetailsGrid_PointerExited;
                         break;
                     default:
                         break;
@@ -270,8 +288,7 @@ namespace com.aurora.aumusic
                 VolumeMuteButton.Icon = vol_mid;
             }
             else VolumeMuteButton.Icon = vol_high;
-            if (NowState == MediaPlayerState.Playing)
-                BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+            BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
         }
 
         private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
@@ -451,30 +468,47 @@ namespace com.aurora.aumusic
                     NowMode = PlaybackMode.Repeat;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    NowMode = PlaybackMode.Repeat;
                     break;
                 case PlaybackMode.Repeat:
                     NowMode = PlaybackMode.RepeatSingle;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    NowMode = PlaybackMode.RepeatSingle;
                     break;
                 case PlaybackMode.RepeatSingle:
                     NowMode = PlaybackMode.Normal;
                     RepeatButton.IsChecked = false;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    NowMode = PlaybackMode.Normal;
                     break;
                 case PlaybackMode.Shuffle:
                     NowMode = PlaybackMode.ShuffleRepeat;
                     RepeatButton.IsChecked = true;
+                    NowMode = PlaybackMode.Repeat;
                     break;
                 case PlaybackMode.ShuffleRepeat:
                     NowMode = PlaybackMode.RepeatSingle;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
                     ShuffleButton.IsChecked = false;
+                    NowMode = PlaybackMode.RepeatSingle;
                     break;
                 default:
                     break;
             }
+        }
+
+        private void NowPlayingDetailsGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            NowPlayingOut.Begin();
+            CommandBarIn.Begin();
+        }
+
+        private void NowPlayingDetailsGrid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            NowPlayingIn.Begin();
+            CommandBarOut.Begin();
         }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
