@@ -39,12 +39,12 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Grid x:Name="RootGrid">
+                            <Grid x:Name="PlaybackControlGrid">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
                                             <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="PointerOver">
@@ -55,7 +55,7 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemThemeMainBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
@@ -66,7 +66,7 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
@@ -491,7 +491,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="MediaTransportControls">
-                            <Grid x:Name="RootGrid" Background="Transparent">
+                            <Grid x:Name="PlaybackControlGrid" Background="Transparent">
                                 <Grid.Resources>
 
                                 </Grid.Resources>
@@ -652,19 +652,19 @@
             </Style>
 
             <ControlTemplate x:Key="SplitViewTogglePaneButtonTemplate" TargetType="Button">
-                <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                <Grid x:Name="PlaybackControlGrid" Background="{TemplateBinding Background}">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal" />
                             <VisualState x:Name="PointerOver">
                                 <VisualState.Setters>
-                                    <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumHighBrush}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Pressed">
                                 <VisualState.Setters>
-                                    <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
                                     <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
                                 </VisualState.Setters>
                             </VisualState>
@@ -784,12 +784,12 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <Grid x:Name="PlaybackControlGrid" Background="{TemplateBinding Background}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
                                             <Storyboard>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="ButtonRec">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                                                 </ObjectAnimationUsingKeyFrames>
@@ -800,10 +800,10 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="PlaybackControlGrid">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
@@ -811,12 +811,12 @@
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="PlaybackControlGrid"/>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="PlaybackControlGrid">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemTransparentBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
@@ -929,10 +929,47 @@
             </SplitView.Pane>
 
             <!-- 主视图Frame -->
-            <RelativePanel>
-                <Frame x:Name="MainFrame" LayoutUpdated="MainFrame_LayoutUpdated" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
-                <RelativePanel x:Name="RootGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
-                    <!--canvas:CanvasAnimatedControl Draw="BlurLayer_Draw" x:Name="BlurLayer" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" /-->
+            <RelativePanel x:Name="Root">
+                <Frame x:Name="MainFrame" LayoutUpdated="MainFrame_LayoutUpdated" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+                    <Frame.Resources>
+                        <Storyboard x:Name="MainFrameOut">
+                            <DoubleAnimation Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="Height" Duration="0:0:0.75" EnableDependentAnimation="True" To="0.0">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </Frame.Resources>
+                </Frame>
+                <RelativePanel x:Name="PlaybackControlGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                    <RelativePanel.Resources>
+                        <Storyboard x:Name="PlaybackControlGridIn">
+                            <DoubleAnimation Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.75" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="0" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="1" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </RelativePanel.Resources>
+                    <Rectangle x:Name="GndRec" Loaded="GndRec_Loaded" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemControlAltHighBrush}" >
+                        <Rectangle.Resources>
+                            <Storyboard x:Name="GndRecOut">
+                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" >
+                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Rectangle.Resources>
+                    </Rectangle>
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
                     <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
                         <Grid.ColumnDefinitions>
@@ -943,7 +980,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding RootGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding PlaybackControlGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>
                                 <Storyboard x:Name="AlbumArtWorkIn">
                                     <FadeInThemeAnimation Storyboard.TargetName="PlayBackFore" />

@@ -32,6 +32,7 @@ using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.Songs;
 using Windows.Media.Playback;
 using com.aurora.aumusic.shared.MessageService;
+using Windows.UI.Xaml.Media.Animation;
 
 
 
@@ -49,10 +50,6 @@ namespace com.aurora.aumusic
         SplitListView splitlistview;
         private static int BUTTON_CLICKED = 0;
         PlayBack playBack = new PlayBack();
-        //TextBlock TimeElapsedBlock;
-        //TextBlock TimeTotalBlock;
-        //Slider ProgressSlider;
-        //Slider VolumeSlider;
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
         ThreadPoolTimer wtftimer;
 
@@ -75,6 +72,7 @@ namespace com.aurora.aumusic
         }
         public bool Frame_Updated = false;
         private NowPlayingHub nowPlayingHub;
+        private double volume = 0;
 
         public MainPage()
         {
@@ -307,7 +305,7 @@ namespace com.aurora.aumusic
             AlbumArtWorkOut.Begin();
         }
         #endregion
-        private async void MainFrame_LayoutUpdated(object sender, object e)
+        private void MainFrame_LayoutUpdated(object sender, object e)
         {
 
         }
@@ -421,9 +419,19 @@ namespace com.aurora.aumusic
 
         }
 
-        private void DetailsButton_Click(object sender, RoutedEventArgs e)
+        private async void DetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            var renderer = new RenderTargetBitmap();
+            await renderer.RenderAsync(MainFrame);
+            MainFrame.Navigate(typeof(CachePage), renderer);
 
+            var ani = MainFrameOut.Children[0] as DoubleAnimation;
+            ani.From = MainFrame.ActualHeight;
+            ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
+            ani.To = MainFrame.ActualHeight;
+            PlaybackControlGridIn.Begin();
+            MainFrameOut.Begin();
+            PlayBackControl.Visibility = Visibility.Collapsed;
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
@@ -511,6 +519,11 @@ namespace com.aurora.aumusic
             CommandBarOut.Begin();
         }
 
+        private void GndRec_Loaded(object sender, RoutedEventArgs e)
+        {
+            GndRecOut.Begin();
+        }
+
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -548,7 +561,15 @@ namespace com.aurora.aumusic
 
         private void FastMuteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (VolumeSlider.Value > 0)
+            {
+                volume = VolumeSlider.Value;
+                VolumeSlider.Value = 0;
+            }
+            else if (volume > 0)
+            {
+                VolumeSlider.Value = volume;
+            }
         }
 
         private void PlayBack_NotifyPlayBackEvent(object sender, NotifyPlayBackEventArgs e)

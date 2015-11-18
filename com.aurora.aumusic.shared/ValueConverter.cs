@@ -229,6 +229,24 @@ namespace com.aurora.aumusic.shared
         }
     }
 
+    public class FrameParallaxConverter : IValueConverter
+    {
+        private const double factor = 0.5;
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double)
+            {
+                return (double)value * factor;
+            }
+            return 0.0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
     public class MainColorConverter : IValueConverter
     {
         const double r_factor = 0.299, g_factor = 0.587, b_factor = 0.114;

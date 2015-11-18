@@ -111,6 +111,9 @@
     <Compile Include="SubPages\AlbumFlowPage.xaml.cs">
       <DependentUpon>AlbumFlowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\CachePage.xaml.cs">
+      <DependentUpon>CachePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="SubPages\CachePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubPages\DarkThemeDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -523,6 +523,7 @@ async () =>
 
         private async Task<List<string>> ShowShuffleArtwork(List<Song> final)
         {
+            ShuffleArts.Clear();
             if (FavListView != null)
             {
                 if (final != null && final.Count > 0)
