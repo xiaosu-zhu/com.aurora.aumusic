@@ -941,7 +941,7 @@
                         </Storyboard>
                     </Frame.Resources>
                 </Frame>
-                <RelativePanel x:Name="PlaybackControlGrid" Height="64" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+                <RelativePanel x:Name="PlaybackControlGrid" Height="64" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
                     <RelativePanel.Resources>
                         <Storyboard x:Name="PlaybackControlGridIn">
                             <DoubleAnimation Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height" Duration="0:0:0.75" EnableDependentAnimation="True">
@@ -949,29 +949,32 @@
                                     <QuinticEase EasingMode="EaseOut"/>
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="0" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateX" Duration="0:0:0.75" To="24" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuinticEase EasingMode="EaseOut"/>
+                                    <QuinticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="1" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateY" Duration="0:0:0.75" To="24" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGrid" Storyboard.TargetProperty="Height" From="64" Duration="0:0:0.75" To="256" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="0" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuinticEase EasingMode="EaseOut"/>
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <Rectangle x:Name="GndRec" Loaded="GndRec_Loaded" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemControlAltHighBrush}" >
-                        <Rectangle.Resources>
-                            <Storyboard x:Name="GndRecOut">
-                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" >
-                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </Rectangle.Resources>
+                    <Rectangle x:Name="GndRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Red">
                     </Rectangle>
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
-                    <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="64" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
+                    <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto"/>
@@ -980,7 +983,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="{Binding PlaybackControlGrid.Height}" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>
                                 <Storyboard x:Name="AlbumArtWorkIn">
                                     <FadeInThemeAnimation Storyboard.TargetName="PlayBackFore" />
@@ -989,6 +992,9 @@
                                     <FadeOutThemeAnimation Storyboard.TargetName="PlayBackFore" />
                                 </Storyboard>
                             </Grid.Resources>
+                            <Grid.RenderTransform>
+                                <CompositeTransform x:Name="PlayBackGridTrans" TranslateX="0" TranslateY="0" />
+                            </Grid.RenderTransform>
                             <Viewbox x:Name="PlayBackArtwork" Margin="4" Stretch="Uniform" HorizontalAlignment="Stretch" >
                                 <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
@@ -1014,7 +1020,7 @@
                         </Grid>
                         <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4" Grid.Column="4" Text="0:00" Foreground="White"/>
                         <TextBlock x:Name="TimePastBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"  Grid.Column="2" Text="{Binding ElementName=ProgressSlider, Path=Value, Converter={StaticResource ThumbConverter}}" Foreground="White"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
+                        <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
                             <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PreviousSymbol" Symbol="Previous" />
@@ -1078,14 +1084,8 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>
+                        <Frame Grid.Column="1" Grid.ColumnSpan="5" x:Name="NowPlayingFrame" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Blue" Visibility="Collapsed" />
                     </Grid>
-
-                    <!--MediaElement Name="PlaybackControl" CurrentStateChanged="PlaybackControl_CurrentStateChanged" AutoPlay="True" Opacity="1" IsFullWindow="False" AreTransportControlsEnabled="True" RelativePanel.RightOf="PlayBackGrid" Margin="8" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" MediaEnded="SetMediaEnd" MediaOpened="PlaybackControl_MediaOpened" Loaded="PlaybackControl_Loaded">
-                        <MediaElement.TransportControls>
-                            <MediaTransportControls x:Name="TransportSontrol" Background="{ThemeResource SystemTransparentBrush}" Foreground="White" IsCompact="True" Style="{StaticResource MediaTransportControlsStyle}" />
-                        </MediaElement.TransportControls>
-                    </-->
-
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

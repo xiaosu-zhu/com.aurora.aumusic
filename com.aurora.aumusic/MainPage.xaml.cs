@@ -70,6 +70,9 @@ namespace com.aurora.aumusic
                 MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(_playbackmode));
             }
         }
+
+        public SongModel CurrentSong = null;
+
         public bool Frame_Updated = false;
         private NowPlayingHub nowPlayingHub;
         private double volume = 0;
@@ -216,6 +219,7 @@ namespace com.aurora.aumusic
                     else
                     {
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
+                        this.CurrentSong = stateChangedMessage.CurrentSong;
                         nowPlayingHub.Set(stateChangedMessage.CurrentSong);
                     }
                     NowState = stateChangedMessage.NowState;
@@ -421,17 +425,29 @@ namespace com.aurora.aumusic
 
         private async void DetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            var renderer = new RenderTargetBitmap();
-            await renderer.RenderAsync(MainFrame);
-            MainFrame.Navigate(typeof(CachePage), renderer);
+            if (CurrentSong != null)
+            {
+                var renderer = new RenderTargetBitmap();
+                await renderer.RenderAsync(MainFrame);
+                MainFrame.Navigate(typeof(CachePage), renderer);
 
-            var ani = MainFrameOut.Children[0] as DoubleAnimation;
-            ani.From = MainFrame.ActualHeight;
-            ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
-            ani.To = MainFrame.ActualHeight;
-            PlaybackControlGridIn.Begin();
-            MainFrameOut.Begin();
-            PlayBackControl.Visibility = Visibility.Collapsed;
+                var ani = MainFrameOut.Children[0] as DoubleAnimation;
+                ani.From = MainFrame.ActualHeight;
+                ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
+                ani.To = MainFrame.ActualHeight;
+                PlaybackControlGridIn.Begin();
+                MainFrameOut.Begin();
+                GndRec.Visibility = Visibility.Visible;
+                NowPlayingFrame.Visibility = Visibility.Visible;
+                NowPlayingFrame.Navigate(typeof(NowPage), CurrentSong);
+                NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
+                MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;
+                TimeRemainingBlock.Visibility = Visibility.Collapsed;
+                TimePastBlock.Visibility = Visibility.Collapsed;
+                LeftPanel.Visibility = Visibility.Collapsed;
+                MediaControlsCommandBar.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
@@ -466,6 +482,7 @@ namespace com.aurora.aumusic
         {
             MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Stopped));
             NowState = MediaPlayerState.Stopped;
+            CurrentSong = null;
         }
 
         private void RepeatButton_Checked(object sender, RoutedEventArgs e)
@@ -519,10 +536,6 @@ namespace com.aurora.aumusic
             CommandBarOut.Begin();
         }
 
-        private void GndRec_Loaded(object sender, RoutedEventArgs e)
-        {
-            GndRecOut.Begin();
-        }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {
