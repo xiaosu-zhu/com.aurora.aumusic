@@ -437,6 +437,8 @@ namespace com.aurora.aumusic
                 ani.To = MainFrame.ActualHeight;
                 PlaybackControlGridIn.Begin();
                 MainFrameOut.Begin();
+                PlayBackGrid.PointerEntered -= PlayBackGrid_PointerEntered;
+                PlayBackGrid.PointerExited -= PlayBackGrid_PointerExited;
                 GndRec.Visibility = Visibility.Visible;
                 NowPlayingFrame.Visibility = Visibility.Visible;
                 NowPlayingFrame.Navigate(typeof(NowPage), CurrentSong);

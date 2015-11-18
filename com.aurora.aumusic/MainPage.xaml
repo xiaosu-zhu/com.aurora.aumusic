@@ -971,7 +971,7 @@
                             </DoubleAnimation>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <Rectangle x:Name="GndRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Red">
+                    <Rectangle x:Name="GndRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}">
                     </Rectangle>
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
                     <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
@@ -983,7 +983,7 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid x:Name="PlayBackGrid" Grid.Column="0" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
+                        <Grid x:Name="PlayBackGrid" Grid.Column="0" Canvas.ZIndex="1" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>
                                 <Storyboard x:Name="AlbumArtWorkIn">
                                     <FadeInThemeAnimation Storyboard.TargetName="PlayBackFore" />
@@ -1084,7 +1084,7 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>
-                        <Frame Grid.Column="1" Grid.ColumnSpan="5" x:Name="NowPlayingFrame" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Blue" Visibility="Collapsed" />
+                        <Frame Grid.Column="1" Grid.ColumnSpan="5" x:Name="NowPlayingFrame" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
                     </Grid>
                 </RelativePanel>
             </RelativePanel>
