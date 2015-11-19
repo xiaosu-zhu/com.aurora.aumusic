@@ -14,6 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SubPages/KeyDictionary.xaml"/>
+                <ResourceDictionary Source="StylesDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
@@ -88,214 +89,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="AppBarToggleButtonFull" TargetType="AppBarToggleButton">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAltHighBrush}"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="Width" Value="{StaticResource CMTCMediaButtonWidth}"/>
-                <Setter Property="Height" Value="{StaticResource CMTCMediaButtonHeight}"/>
-                <Setter Property="UseSystemFocusVisuals" Value="True" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="AppBarToggleButton">
-                            <Grid
-            x:Name="Root"
-            MinWidth="{TemplateBinding MinWidth}"
-            MaxWidth="{TemplateBinding MaxWidth}"
-            Background="{TemplateBinding Background}">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <Storyboard>
-                                                <ColorAnimation To="Transparent" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                                <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="PointerOver">
-                                            <Storyboard>
-                                                <ColorAnimation To="#44FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                                <ColorAnimation To="#FFFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="#99FFFFFF"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Disabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Checked">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ColorAnimation To="#99FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedPointerOver">
-                                            <Storyboard>
-                                                <ColorAnimation To="#BBFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedPressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundAltHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentAltLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="CheckedDisabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
 
-                                <Grid x:Name="ContentRoot" MinHeight="{ThemeResource AppBarThemeCompactHeight}">
-                                    <ContentPresenter
-                x:Name="Content"
-                Height="20"
-                Content="{TemplateBinding Icon}"
-                Foreground="{TemplateBinding Foreground}"
-                HorizontalAlignment="Center"
-                AutomationProperties.AccessibilityView="Raw"/>
-
-                                </Grid>
-
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
-            <Style x:Key="AppBarButtonStyleFull" TargetType="AppBarButton">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlTranslucentAltHighBrush}"/>
-                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="Width" Value="{StaticResource CMTCMediaButtonWidth}"/>
-                <Setter Property="Height" Value="{StaticResource CMTCMediaButtonHeight}"/>
-                <Setter Property="UseSystemFocusVisuals" Value="True" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="AppBarButton">
-                            <Grid
-            x:Name="Root" MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}" Background="{TemplateBinding Background}" VerticalAlignment="Stretch">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <Storyboard>
-                                                <ColorAnimation To="Transparent" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                                <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="PointerOver">
-                                            <Storyboard>
-                                                <ColorAnimation To="#44FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                                <ColorAnimation To="#FFFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
-                                                    <ColorAnimation.EasingFunction>
-                                                        <CircleEase />
-                                                    </ColorAnimation.EasingFunction>
-                                                </ColorAnimation>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemBackgroundAltHighBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Disabled">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                                </ObjectAnimationUsingKeyFrames>
-
-
-                                            </Storyboard>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-
-                                <Grid x:Name="ContentRoot" VerticalAlignment="Center" MinHeight="{ThemeResource AppBarThemeCompactHeight}">
-                                    <ContentPresenter
-                x:Name="Content"
-                Height="20"
-                Content="{TemplateBinding Icon}"
-                Foreground="{TemplateBinding Foreground}"
-                HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                AutomationProperties.AccessibilityView="Raw"/>
-
-                                </Grid>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <Style x:Key="CommandBarStyle" TargetType="CommandBar">
                 <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -970,6 +764,14 @@
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
+                        <Storyboard x:Name="PlaybackControlGridSet">
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="RelativePanel.AlignTopWithPanel">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="true" />
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="auto" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
                     </RelativePanel.Resources>
                     <Rectangle x:Name="GndRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}">
                     </Rectangle>
@@ -983,6 +785,13 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Frame x:Name="NowCtrlFrame" Grid.Row="1" Visibility="Collapsed" Padding="0,24,-48,0">
+                            <Rectangle Fill="Red" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        </Frame>
                         <Grid x:Name="PlayBackGrid" Grid.Column="0" Canvas.ZIndex="1" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>
                                 <Storyboard x:Name="AlbumArtWorkIn">
@@ -995,7 +804,7 @@
                             <Grid.RenderTransform>
                                 <CompositeTransform x:Name="PlayBackGridTrans" TranslateX="0" TranslateY="0" />
                             </Grid.RenderTransform>
-                            <Viewbox x:Name="PlayBackArtwork" Margin="4" Stretch="Uniform" HorizontalAlignment="Stretch" >
+                            <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" HorizontalAlignment="Stretch" >
                                 <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -1018,8 +827,8 @@
                         <Grid x:Name="MediaTransportControls_Timeline_Grid" VerticalAlignment="Center" Grid.Column="3">
                             <Slider x:Name="ProgressSlider" Height="64" IsThumbToolTipEnabled="True" Margin="4,14,4,4" MinWidth="80" Style="{StaticResource MediaSliderStyle}" Loaded="ProgressSlider_Loaded" ThumbToolTipValueConverter="{StaticResource ThumbConverter}"/>
                         </Grid>
-                        <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4" Grid.Column="4" Text="0:00" Foreground="White"/>
-                        <TextBlock x:Name="TimePastBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4"  Grid.Column="2" Text="{Binding ElementName=ProgressSlider, Path=Value, Converter={StaticResource ThumbConverter}}" Foreground="White"/>
+                        <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,22,4,0" Grid.Column="4" Text="0:00" Foreground="White"/>
+                        <TextBlock x:Name="TimePastBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,22,4,0"  Grid.Column="2" Text="{Binding ElementName=ProgressSlider, Path=Value, Converter={StaticResource ThumbConverter}}" Foreground="White"/>
                         <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
                             <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
                                 <AppBarButton.Icon>
@@ -1084,8 +893,9 @@
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </StackPanel>
-                        <Frame Grid.Column="1" Grid.ColumnSpan="5" x:Name="NowPlayingFrame" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+                        <Frame Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="2" x:Name="NowLrcFrame" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
                     </Grid>
+                    
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

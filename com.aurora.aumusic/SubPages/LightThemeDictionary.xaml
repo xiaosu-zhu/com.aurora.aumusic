@@ -4,9 +4,11 @@
     xmlns:local="using:com.aurora.aumusic">
 
     <SolidColorBrush x:Key="SystemBackgroundAltHighBrush" Color="#FFF0F0F0"/>
+    <SolidColorBrush x:Key="SystemBackgroundBaseHighBrush" Color="#FF101010"/>
     <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="SystemControlForegroundAltHighBrush" Color="#FFFFFFFF"/>
     <SolidColorBrush x:Key="SystemControlTranslucentAltHighBrush" Color="#CCFFFFFF" />
+    <SolidColorBrush x:Key="SystemControlTranslucentBaseHighBrush" Color="#CC000000" />
     <SolidColorBrush x:Key="SystemControlTranslucentAltLowBrush" Color="#44FFFFFF" />
     <SolidColorBrush x:Key="SystemControlForegroundBaseHighBrush" Color="#FF000000" />
     <SolidColorBrush x:Key="SystemControlAltLowBrush" Color="#FF171717" />
@@ -16,6 +18,7 @@
     <SolidColorBrush x:Key="SystemControlTranslucentLowBrush" Color="#44F0F0F0" />
     <SolidColorBrush x:Key="SystemControlTranslucentBaseLowBrush" Color="#33000000" />
     <SolidColorBrush x:Key="SystemControlTranslucentHighLightBrush" Color="#44DFDFDF" />
+    <SolidColorBrush x:Key="SystemControlTranslucentBaseLightBrush" Color="#44232323" />
     <SolidColorBrush x:Key="SystemThemeMainBrush" Color="{ThemeResource SystemAccentColor}" />
     <SolidColorBrush x:Key="SystemTransparentBrush" Color="Transparent" />
 </ResourceDictionary>

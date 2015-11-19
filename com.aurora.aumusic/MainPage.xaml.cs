@@ -440,14 +440,17 @@ namespace com.aurora.aumusic
                 PlayBackGrid.PointerEntered -= PlayBackGrid_PointerEntered;
                 PlayBackGrid.PointerExited -= PlayBackGrid_PointerExited;
                 GndRec.Visibility = Visibility.Visible;
-                NowPlayingFrame.Visibility = Visibility.Visible;
-                NowPlayingFrame.Navigate(typeof(NowPage), CurrentSong);
+                NowLrcFrame.Visibility = Visibility.Visible;
+                NowLrcFrame.Navigate(typeof(NowPage), CurrentSong);
+                NowCtrlFrame.Visibility = Visibility.Visible;
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
                 MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;
                 TimeRemainingBlock.Visibility = Visibility.Collapsed;
                 TimePastBlock.Visibility = Visibility.Collapsed;
                 LeftPanel.Visibility = Visibility.Collapsed;
                 MediaControlsCommandBar.Visibility = Visibility.Collapsed;
+                await Task.Delay(750);
+                PlaybackControlGridSet.Begin();
             }
 
         }
