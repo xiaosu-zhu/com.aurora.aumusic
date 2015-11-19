@@ -441,7 +441,7 @@ namespace com.aurora.aumusic
                 PlayBackGrid.PointerExited -= PlayBackGrid_PointerExited;
                 GndRec.Visibility = Visibility.Visible;
                 NowLrcFrame.Visibility = Visibility.Visible;
-                NowLrcFrame.Navigate(typeof(NowPage), CurrentSong);
+                NowLrcFrame.Navigate(typeof(LrcPage), CurrentSong);
                 NowCtrlFrame.Visibility = Visibility.Visible;
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
                 MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;

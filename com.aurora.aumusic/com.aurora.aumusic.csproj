@@ -111,6 +111,9 @@
     <Compile Include="SubPages\AlbumFlowPage.xaml.cs">
       <DependentUpon>AlbumFlowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\NowPage.xaml.cs">
+      <DependentUpon>NowPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\SubSubPages\CachePage.xaml.cs">
       <DependentUpon>CachePage.xaml</DependentUpon>
     </Compile>
@@ -118,8 +121,8 @@
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SubPages\ListViewItemStyleSelector.cs" />
-    <Compile Include="SubPages\SubSubPages\NowPage.xaml.cs">
-      <DependentUpon>NowPage.xaml</DependentUpon>
+    <Compile Include="SubPages\SubSubPages\LrcPage.xaml.cs">
+      <DependentUpon>LrcPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubPages\PlayBackDetails.xaml.cs">
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="SubPages\NowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SubPages\SubSubPages\CachePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SubPages\SubSubPages\NowPage.xaml">
+    <Page Include="SubPages\SubSubPages\LrcPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
