@@ -13,9 +13,13 @@ namespace UnitTestProject1
         public static async void TestMethod1()
         {
             Song song = new Song();
-            song.Title = "后青春期的诗";
-            song.Artists = new string[] { "五月天" };
-            Debug.WriteLine((await LrcHelper.isLrcExist(song)).ToString());
+            song.Title = "鳥の詩";
+            song.Artists = new string[] { "Lia" };
+            LrcRequestModel lrcresult = (await LrcHelper.isLrcExist(song));
+            if (lrcresult.count > 0)
+            {
+                await LrcHelper.Fetch(lrcresult);
+            }
         }
     }
 }

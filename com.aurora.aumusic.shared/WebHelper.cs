@@ -10,7 +10,7 @@ namespace com.aurora.aumusic.shared
 {
     public static class WebHelper
     {
-        public async static Task<T> WebGETAsync<T>(string url, int timeout, T data)
+        public async static Task<T> WebGETAsync<T>(string url, T data)
         {
             WebRequest wrGETURL;
             wrGETURL = WebRequest.Create(url);
@@ -24,5 +24,20 @@ namespace com.aurora.aumusic.shared
             sLine = await objReader.ReadToEndAsync();
             return JsonHelper.FromJson<T>(sLine);
         }
+        public async static Task<string> WebDOWNAsync(string url)
+    {
+        WebRequest wrGETURL;
+        wrGETURL = WebRequest.Create(url);
+        wrGETURL.Method = "GET";
+        Stream objStream;
+        objStream = (await wrGETURL.GetResponseAsync()).GetResponseStream();
+
+        StreamReader objReader = new StreamReader(objStream);
+
+        string sLine = "";
+        sLine = await objReader.ReadToEndAsync();
+        return sLine;
     }
+    }
+    
 }

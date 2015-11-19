@@ -14,10 +14,17 @@ namespace com.aurora.aumusic.shared.Lrc
             'つ','ぬ','ふ','む','ゆ','る','ん','え','け','せ','て','ね','へ','め',
             'れ','お','こ','そ','と','の','ほ','も','よ','ろ','を','が','ざ','だ',
             'ば','ぱ','ぎ','じ','ぢ','び','ぴ','ぐ','ず','づ','ぶ','げ','ぜ','で','べ','ぺ','ご','ぞ','ど','ぼ','ぽ'};
+
+        public static async Task Fetch(LrcRequestModel lrcresult)
+        {
+            string url = lrcresult.result[0].lrc;
+            Uri result = await WebHelper.WebDOWNAsync(url);
+        }
+
         public static async Task<LrcRequestModel> isLrcExist(Song song)
         {
             var url = genreqest(song);
-            var result =  await WebHelper.WebGETAsync(url, 0, new LrcRequestModel());
+            var result =  await WebHelper.WebGETAsync(url, new LrcRequestModel());
             return result;
         }
 
