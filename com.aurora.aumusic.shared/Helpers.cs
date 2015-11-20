@@ -99,4 +99,25 @@ namespace com.aurora.aumusic.shared
             }
         }
     }
+
+    public static class FileHelper
+    {
+        public static async Task SaveFile(string sLine, string uri)
+        {
+            StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
+
+            StorageFile cacheFile = await cacheFolder.CreateFileAsync(uri, CreationCollisionOption.ReplaceExisting);
+            var flow = await cacheFile.OpenAsync(FileAccessMode.ReadWrite);
+            using (var outputStream = flow.GetOutputStreamAt(0))
+            {
+                using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                {
+                    dataWriter.WriteString(sLine);
+                    await dataWriter.StoreAsync();
+                    await outputStream.FlushAsync();
+                }
+            }
+            flow.Dispose();
+        }
+    }
 }

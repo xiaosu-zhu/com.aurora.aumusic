@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Songs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,20 +25,17 @@ namespace com.aurora.aumusic.shared
             sLine = await objReader.ReadToEndAsync();
             return JsonHelper.FromJson<T>(sLine);
         }
-        public async static Task<string> WebDOWNAsync(string url)
-    {
-        WebRequest wrGETURL;
-        wrGETURL = WebRequest.Create(url);
-        wrGETURL.Method = "GET";
-        Stream objStream;
-        objStream = (await wrGETURL.GetResponseAsync()).GetResponseStream();
-
-        StreamReader objReader = new StreamReader(objStream);
-
-        string sLine = "";
-        sLine = await objReader.ReadToEndAsync();
-        return sLine;
+        public async static Task<Stream> WebDOWNAsync(string url)
+        {
+            
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(url);
+            wrGETURL.Method = "GET";
+            Stream objStream;
+            objStream = (await wrGETURL.GetResponseAsync()).GetResponseStream();
+            return objStream;
+            
+        }
     }
-    }
-    
+
 }

@@ -18,7 +18,7 @@ namespace UnitTestProject1
             LrcRequestModel lrcresult = (await LrcHelper.isLrcExist(song));
             if (lrcresult.count > 0)
             {
-                await LrcHelper.Fetch(lrcresult);
+                Debug.Write(await LrcHelper.Fetch(lrcresult, song));
             }
         }
     }

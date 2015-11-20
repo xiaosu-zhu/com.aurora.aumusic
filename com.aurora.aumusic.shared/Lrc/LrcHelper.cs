@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace com.aurora.aumusic.shared.Lrc
 {
@@ -15,16 +16,29 @@ namespace com.aurora.aumusic.shared.Lrc
             'れ','お','こ','そ','と','の','ほ','も','よ','ろ','を','が','ざ','だ',
             'ば','ぱ','ぎ','じ','ぢ','び','ぴ','ぐ','ず','づ','ぶ','げ','ぜ','で','べ','ぺ','ご','ぞ','ど','ぼ','ぽ'};
 
-        public static async Task Fetch(LrcRequestModel lrcresult)
+        public static async Task<string> Fetch(LrcRequestModel lrcresult, Song song)
         {
             string url = lrcresult.result[0].lrc;
-            Uri result = await WebHelper.WebDOWNAsync(url);
+
+            return await SaveLrctoStorage(await WebHelper.WebDOWNAsync(url), song);
         }
+
+        private static async Task<string> SaveLrctoStorage(Stream stream, Song song)
+        {
+            StreamReader objReader = new StreamReader(stream);
+            string sLine = "";
+            sLine = await objReader.ReadToEndAsync();
+            var uri = song.Title + "-" + song.Artists[0] + "-" + song.Album + ".lrc";
+            await FileHelper.SaveFile(sLine, uri);
+            return uri;
+        }
+
+
 
         public static async Task<LrcRequestModel> isLrcExist(Song song)
         {
             var url = genreqest(song);
-            var result =  await WebHelper.WebGETAsync(url, new LrcRequestModel());
+            var result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
             return result;
         }
 
