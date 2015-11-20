@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ListViewExtension.cs" />
     <Compile Include="NowPlayingHub.cs" />
     <Compile Include="PlaybackControl.cs" />
     <Compile Include="SplitListView.cs" />

@@ -22,6 +22,16 @@ namespace com.aurora.aumusic.shared.Songs
         public string MainKey;
         [DataMember]
         public string[] Artists;
+        [DataMember]
+        public string[] Genres;
+        [DataMember]
+        public uint Year;
+        [DataMember]
+        public uint Rating;
+        [DataMember]
+        public int Position;
+        [DataMember]
+        public int SubPosition;
 
         public SongModel(Song song)
         {
@@ -31,6 +41,11 @@ namespace com.aurora.aumusic.shared.Songs
             Duration = song.Duration;
             MainKey = song.MainKey;
             Artists = song.Artists;
+            Genres = song.Genres;
+            Rating = song.Rating;
+            Year = song.Year;
+            Position = song.Position;
+            SubPosition = song.SubPosition;
         }
     }
 }

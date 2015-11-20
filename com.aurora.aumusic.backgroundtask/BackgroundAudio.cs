@@ -427,6 +427,8 @@ namespace com.aurora.aumusic.backgroundtask
         {
             var item = args.NewItem;
             // Update the system view
+            if (item == null)
+                return;
             UpdateUVCOnNewTrack(item);
 
             // Get the current track

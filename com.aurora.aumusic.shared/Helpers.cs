@@ -102,11 +102,11 @@ namespace com.aurora.aumusic.shared
 
     public static class FileHelper
     {
-        public static async Task SaveFile(string sLine, string uri)
+        public static async Task SaveFile(string sLine, string path)
         {
             StorageFolder cacheFolder = ApplicationData.Current.LocalFolder;
 
-            StorageFile cacheFile = await cacheFolder.CreateFileAsync(uri, CreationCollisionOption.ReplaceExisting);
+            StorageFile cacheFile = await cacheFolder.CreateFileAsync(path, CreationCollisionOption.ReplaceExisting);
             var flow = await cacheFile.OpenAsync(FileAccessMode.ReadWrite);
             using (var outputStream = flow.GetOutputStreamAt(0))
             {
@@ -118,6 +118,15 @@ namespace com.aurora.aumusic.shared
                 }
             }
             flow.Dispose();
+        }
+
+        public static async Task<string> ReadFileasString(string path)
+        {
+            if (path == null)
+                return null;
+            StorageFolder sFolder = ApplicationData.Current.LocalFolder;
+            StorageFile sFile = await sFolder.GetFileAsync(path);
+            return await FileIO.ReadTextAsync(sFile);
         }
     }
 }

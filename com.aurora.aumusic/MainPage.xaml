@@ -89,7 +89,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
             <Style x:Key="CommandBarStyle" TargetType="CommandBar">
                 <Setter Property="Height" Value="{ThemeResource CMTCMediaButtonHeight}"/>
                 <Setter Property="Background" Value="Transparent"/>
@@ -444,84 +443,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <ControlTemplate x:Key="SplitViewTogglePaneButtonTemplate" TargetType="Button">
-                <Grid x:Name="PlaybackControlGrid" Background="{TemplateBinding Background}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal" />
-                            <VisualState x:Name="PointerOver">
-                                <VisualState.Setters>
-                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumHighBrush}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Pressed">
-                                <VisualState.Setters>
-                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
-                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-
-                    <ContentPresenter
-                                      x:Name="ContentPresenter"
-                                      Padding="{TemplateBinding Padding}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      AutomationProperties.AccessibilityView="Raw"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      ContentTransitions="{TemplateBinding ContentTransitions}" />
-                </Grid>
-            </ControlTemplate>
-
-            <Style x:Key="SplitViewTogglePaneButtonStyle" TargetType="Button">
-                <Setter Property="Transitions">
-                    <Setter.Value>
-                        <TransitionCollection>
-                            <EntranceThemeTransition/>
-                        </TransitionCollection>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="UseSystemFocusVisuals" Value="True" />
-
-                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
-                <Setter Property="Content" Value="&#xE700;" />
-                <Setter Property="Height" Value="36" />
-                <Setter Property="Width" Value="48" />
-
-                <Setter Property="FontWeight" Value="Normal" />
-                <Setter Property="FontSize" Value="20" />
-                <Setter Property="Template" Value="{StaticResource SplitViewTogglePaneButtonTemplate}" />
-            </Style>
-            <DataTemplate x:Key="SplitListDataTemplate" x:DataType="local:Splitlist" >
-                <RelativePanel VerticalAlignment="Stretch">
-                    <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" Height="48" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                    <Grid x:Name="ListItemIcon" Width="48" Height="48" RelativePanel.AlignLeftWithPanel="True">
-                        <SymbolIcon Symbol="{x:Bind IconSymbol}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    </Grid>
-                    <TextBlock Text="{x:Bind Title}" RelativePanel.RightOf="ListItemIcon" RelativePanel.AlignVerticalCenterWithPanel="True"
-                                       Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18.667" />
-                </RelativePanel>
-            </DataTemplate>
-            <Style x:Key="ListViewStyle1" TargetType="ListView">
+            <Style x:Key="SplitListViewStyle" TargetType="ListView">
                 <Setter Property="IsTabStop" Value="False"/>
                 <Setter Property="TabNavigation" Value="Once"/>
                 <Setter Property="IsSwipeEnabled" Value="True"/>
@@ -630,6 +552,83 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <ControlTemplate x:Key="SplitViewTogglePaneButtonTemplate" TargetType="Button">
+                <Grid x:Name="PlaybackControlGrid" Background="{TemplateBinding Background}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal" />
+                            <VisualState x:Name="PointerOver">
+                                <VisualState.Setters>
+                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumHighBrush}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Target="PlaybackControlGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <ContentPresenter
+                                      x:Name="ContentPresenter"
+                                      Padding="{TemplateBinding Padding}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      AutomationProperties.AccessibilityView="Raw"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      ContentTransitions="{TemplateBinding ContentTransitions}" />
+                </Grid>
+            </ControlTemplate>
+
+            <Style x:Key="SplitViewTogglePaneButtonStyle" TargetType="Button">
+                <Setter Property="Transitions">
+                    <Setter.Value>
+                        <TransitionCollection>
+                            <EntranceThemeTransition/>
+                        </TransitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                <Setter Property="Content" Value="&#xE700;" />
+                <Setter Property="Height" Value="36" />
+                <Setter Property="Width" Value="48" />
+
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Template" Value="{StaticResource SplitViewTogglePaneButtonTemplate}" />
+            </Style>
+            <DataTemplate x:Key="SplitListDataTemplate" x:DataType="local:Splitlist" >
+                <RelativePanel VerticalAlignment="Stretch">
+                    <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" Height="48" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                    <Grid x:Name="ListItemIcon" Width="48" Height="48" RelativePanel.AlignLeftWithPanel="True">
+                        <SymbolIcon Symbol="{x:Bind IconSymbol}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Grid>
+                    <TextBlock Text="{x:Bind Title}" RelativePanel.RightOf="ListItemIcon" RelativePanel.AlignVerticalCenterWithPanel="True"
+                                       Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18.667" />
+                </RelativePanel>
+            </DataTemplate>
+
 
         </ResourceDictionary>
 
@@ -685,7 +684,7 @@
                 <Grid>
                     <Button x:Name="Menubtn" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
                     <ListView  x:Name="MenuList" Margin="0,36,0,0" ItemsSource="{x:Bind SplitViewSources.View}"
-                  ItemTemplate="{StaticResource SplitListDataTemplate}" Style="{StaticResource ListViewStyle1}" SelectionChanged="MenuList_SelectionChanged" >
+                  ItemTemplate="{StaticResource SplitListDataTemplate}" Style="{StaticResource SplitListViewStyle}" SelectionChanged="MenuList_SelectionChanged" >
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -763,6 +762,11 @@
                                     <QuinticEase EasingMode="EaseOut"/>
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.25" To="1" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuinticEase EasingMode="EaseOut"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
                         </Storyboard>
                         <Storyboard x:Name="PlaybackControlGridSet">
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="RelativePanel.AlignTopWithPanel">
@@ -773,7 +777,7 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <Rectangle x:Name="GndRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemControlBackgroundAltHighBrush}">
+                    <Rectangle x:Name="GndRec" Opacity="0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemBackgroundAltHighBrush}">
                     </Rectangle>
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
                     <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
@@ -789,8 +793,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Frame x:Name="NowCtrlFrame" Grid.Row="1" Visibility="Collapsed" Padding="0,24,-48,0">
-                            <Rectangle Fill="Red" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                        <Frame x:Name="NowCtrlFrame" Grid.Row="1" Visibility="Collapsed" Grid.ColumnSpan="6" Padding="0,24,0,0">
                         </Frame>
                         <Grid x:Name="PlayBackGrid" Grid.Column="0" Canvas.ZIndex="1" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>
@@ -895,7 +898,7 @@
                         </StackPanel>
                         <Frame Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="2" x:Name="NowLrcFrame" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
                     </Grid>
-                    
+
                 </RelativePanel>
             </RelativePanel>
         </SplitView>

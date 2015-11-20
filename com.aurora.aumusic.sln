@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.aurora.aumusic.backgrou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.aurora.aumusic.shared", "com.aurora.aumusic.shared\com.aurora.aumusic.shared.csproj", "{1EFD9A4D-C2C4-4EE0-A5E6-74B76872AD72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,26 +77,6 @@ Global
 		{1EFD9A4D-C2C4-4EE0-A5E6-74B76872AD72}.Release|x64.Build.0 = Release|x64
 		{1EFD9A4D-C2C4-4EE0-A5E6-74B76872AD72}.Release|x86.ActiveCfg = Release|x86
 		{1EFD9A4D-C2C4-4EE0-A5E6-74B76872AD72}.Release|x86.Build.0 = Release|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|ARM.ActiveCfg = Debug|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|ARM.Build.0 = Debug|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|ARM.Deploy.0 = Debug|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x64.ActiveCfg = Debug|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x64.Build.0 = Debug|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x64.Deploy.0 = Debug|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x86.ActiveCfg = Debug|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x86.Build.0 = Debug|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Debug|x86.Deploy.0 = Debug|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|Any CPU.ActiveCfg = Release|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|ARM.ActiveCfg = Release|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|ARM.Build.0 = Release|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|ARM.Deploy.0 = Release|ARM
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x64.ActiveCfg = Release|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x64.Build.0 = Release|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x64.Deploy.0 = Release|x64
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x86.ActiveCfg = Release|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x86.Build.0 = Release|x86
-		{D890F657-9EF5-42E7-8475-6EEDF8AEB9FB}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

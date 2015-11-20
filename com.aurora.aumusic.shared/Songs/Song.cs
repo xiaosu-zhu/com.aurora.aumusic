@@ -300,6 +300,20 @@ namespace com.aurora.aumusic.shared.Songs
         {
         }
 
+        public Song(SongModel song)
+        {
+            this.Position = song.Position;
+            this.Album = song.Album;
+            this.Artists = song.Artists;
+            this.Year = song.Year;
+            this.Title = song.Title;
+            this.SubPosition = song.SubPosition;
+            this.Rating = song.Rating;
+            this.MainKey = song.MainKey;
+            this.Duration = song.Duration;
+            this.Genres = song.Genres;
+        }
+
         public Song(StorageFile audioFile)
         {
             AudioFile = audioFile;

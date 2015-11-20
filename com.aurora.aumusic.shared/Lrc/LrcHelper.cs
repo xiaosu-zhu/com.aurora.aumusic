@@ -18,6 +18,8 @@ namespace com.aurora.aumusic.shared.Lrc
 
         public static async Task<string> Fetch(LrcRequestModel lrcresult, Song song)
         {
+            if (lrcresult.count == 0)
+                return null;
             string url = lrcresult.result[0].lrc;
 
             return await SaveLrctoStorage(await WebHelper.WebDOWNAsync(url), song);
@@ -39,6 +41,11 @@ namespace com.aurora.aumusic.shared.Lrc
         {
             var url = genreqest(song);
             var result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
+            if (result.count == 0)
+            {
+                url = genreqestthin(song);
+                result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
+            }
             return result;
         }
 
@@ -66,6 +73,26 @@ namespace com.aurora.aumusic.shared.Lrc
                 else
                     artist = song.Artists[0];
             return artist != null ? "http://geci.me/api/lyric/" + title + '/' + artist : "http://geci.me/api/lyric/" + title;
+        }
+
+        private static string genreqestthin(Song song)
+        {
+            bool isNippon = false;
+            foreach (var item in NipponChar)
+            {
+                if (song.Title.Contains(item))
+                {
+                    isNippon = true;
+                    break;
+                }
+            }
+            string title;
+            if (!isNippon)
+                title = ChineseConverter.ToSimplified(song.Title);
+            else
+                title = song.Title;
+
+            return "http://geci.me/api/lyric/" + title;
         }
     }
 }
