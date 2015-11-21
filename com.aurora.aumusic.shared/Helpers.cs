@@ -7,6 +7,8 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace com.aurora.aumusic.shared
 {
@@ -128,5 +130,31 @@ namespace com.aurora.aumusic.shared
             StorageFile sFile = await sFolder.GetFileAsync(path);
             return await FileIO.ReadTextAsync(sFile);
         }
+
+        public static async Task<IRandomAccessStream> ReadFileasStream(string path)
+        {
+            var stream = await LoadBitmap(path);
+            stream.Seek(0);
+            return stream;
+        }
+
+        public static async Task<IRandomAccessStream> LoadBitmap(string relativePath)
+        {
+            var s = relativePath.Substring(relativePath.LastIndexOf('/') + 1);
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(s);
+            try
+            {
+                var cache = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(storageFile.Name);
+                await cache.DeleteAsync();
+            }
+            catch (Exception)
+            {
+
+            }
+            storageFile = await storageFile.CopyAsync(ApplicationData.Current.LocalCacheFolder);
+            var stream = await storageFile.OpenAsync(FileAccessMode.ReadWrite);
+            return stream;
+        }
+
     }
 }

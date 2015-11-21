@@ -25,6 +25,7 @@
             <Converter:DurationValueConverter x:Key="PositionConverter" />
             <Converter:MainColorConverter x:Key="ColorConverter" />
             <Converter:VolumeButtonConverter x:Key="VolumeConverter" />
+            <Converter:TranslateYConverter x:Key="YConverter" />
             <Style x:Key="ButtonStyle2" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
@@ -777,8 +778,13 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <Rectangle x:Name="GndRec" Opacity="0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemBackgroundAltHighBrush}">
-                    </Rectangle>
+                    <Viewbox x:Name="GndRec" Opacity="0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" VerticalAlignment="Center" Stretch="UniformToFill" RelativePanel.AlignTopWithPanel="True">
+                        <Viewbox.RenderTransform>
+                            <CompositeTransform TranslateY="-256" />
+                        </Viewbox.RenderTransform>
+                        <Image x:Name="BackgroundBlur" VerticalAlignment="Center">
+                        </Image>
+                    </Viewbox>
                     <Rectangle x:Name="BackRec" Opacity="0.8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemThemeMainBrush}" />
                     <Grid x:Name="PlayBackControl" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Loaded="PlayBackControl_Loaded">
                         <Grid.ColumnDefinitions>
@@ -808,7 +814,7 @@
                                 <CompositeTransform x:Name="PlayBackGridTrans" TranslateX="0" TranslateY="0" />
                             </Grid.RenderTransform>
                             <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" HorizontalAlignment="Stretch" >
-                                <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
+                                <Image x:Name="PlayBackImage" ImageOpened="PlayBackImage_ImageOpened" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>

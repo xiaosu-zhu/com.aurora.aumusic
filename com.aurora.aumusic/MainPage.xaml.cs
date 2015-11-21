@@ -21,6 +21,7 @@ using Windows.Foundation;
 using Windows.UI;
 
 using Windows.UI.Popups;
+using Lumia.Imaging.Adjustments;
 
 using Windows.Storage.Streams;
 using Microsoft.Graphics.Canvas;
@@ -33,6 +34,7 @@ using com.aurora.aumusic.shared.Songs;
 using Windows.Media.Playback;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.UI.Xaml.Media.Animation;
+using Lumia.Imaging;
 
 
 
@@ -51,6 +53,7 @@ namespace com.aurora.aumusic
         private static int BUTTON_CLICKED = 0;
         PlayBack playBack = new PlayBack();
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
+        private SwapChainPanelRenderer m_renderer;
         ThreadPoolTimer wtftimer;
 
         public static int FrameWidth { get; private set; }
@@ -207,7 +210,6 @@ namespace com.aurora.aumusic
             BackPlaybackChangedMessage stateChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out stateChangedMessage))
             {
-                // When foreground app is active change track based on background message
                 await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // If playback stopped then clear the UI
@@ -221,11 +223,14 @@ namespace com.aurora.aumusic
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
                         this.CurrentSong = stateChangedMessage.CurrentSong;
                         nowPlayingHub.Set(stateChangedMessage.CurrentSong);
+
                     }
                     NowState = stateChangedMessage.NowState;
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
                     ThumbToolTipConveter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
+
                 });
+
                 return;
             }
         }
@@ -536,6 +541,39 @@ namespace com.aurora.aumusic
             CommandBarOut.Begin();
         }
 
+        private async void PlayBackImage_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSong != null)
+            {
+                using (var stream = await FileHelper.ReadFileasStream(CurrentSong.AlbumArtwork))
+                {
+                    var device = new CanvasDevice();
+                    var bitmap = await CanvasBitmap.LoadAsync(device, stream);
+
+                    var renderer = new CanvasRenderTarget(device,
+                                                          bitmap.SizeInPixels.Width,
+                                                          bitmap.SizeInPixels.Height, bitmap.Dpi);
+
+                    using (var ds = renderer.CreateDrawingSession())
+                    {
+                        var blur = new GaussianBlurEffect
+                        {
+                            Source = bitmap
+                        };
+                        blur.BlurAmount = 16.0f;
+                        blur.BorderMode = EffectBorderMode.Hard;
+                        ds.DrawImage(blur);
+                    }
+
+                    stream.Seek(0);
+                    await renderer.SaveAsync(stream, CanvasBitmapFileFormat.Png);
+                    stream.Seek(0);
+                    BitmapImage image = new BitmapImage();
+                    image.SetSource(stream);
+                    BackgroundBlur.Source = image;
+                }
+            }
+        }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {

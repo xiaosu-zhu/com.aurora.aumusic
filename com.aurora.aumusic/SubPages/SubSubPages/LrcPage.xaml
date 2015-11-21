@@ -93,6 +93,9 @@
 
 
     <RelativePanel>
+        <Viewbox Stretch="UniformToFill" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" >
+            <Image x:Name="BackgroundBlur" />
+        </Viewbox>
         <ListView x:Name="LyricView" LayoutUpdated="LyricView_LayoutUpdated" SelectionMode="Single" ItemTemplate="{StaticResource LyricShow}" IsItemClickEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource LyricViewStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
             <ListView.Header>
                 <Grid x:Name="DynamicHeader" Height="128" HorizontalAlignment="Stretch" />
@@ -101,7 +104,15 @@
                 <Grid x:Name="DynamicFooter" HorizontalAlignment="Stretch" />
             </ListView.Footer>
         </ListView>
-        <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
+        <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="1,1" >
+                    <GradientStop Color="Black" Offset="0.489"/>
+                    <GradientStop Color="Transparent"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <StackPanel x:Name="WaitingPanel" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
             <ProgressRing x:Name="WaitingRing" Loaded="WaitingRing_Loaded" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="64" Height="64" />
             <TextBlock x:Name="WaitingText" Text="加载歌词中" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="12" />

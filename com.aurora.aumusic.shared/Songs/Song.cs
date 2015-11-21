@@ -312,6 +312,7 @@ namespace com.aurora.aumusic.shared.Songs
             this.MainKey = song.MainKey;
             this.Duration = song.Duration;
             this.Genres = song.Genres;
+            this.ArtWork = song.AlbumArtwork;
         }
 
         public Song(StorageFile audioFile)

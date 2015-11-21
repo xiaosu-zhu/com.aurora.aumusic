@@ -13,7 +13,6 @@ namespace com.aurora.aumusic
 {
     public static class ListViewExtension
     {
-        static List<double> offsets;
         public static ScrollViewer GetScrollViewer(this DependencyObject element)
         {
             if (element is ScrollViewer)

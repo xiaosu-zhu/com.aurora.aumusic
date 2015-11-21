@@ -295,6 +295,19 @@ namespace com.aurora.aumusic.shared
         }
     }
 
+    public class TranslateYConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return -(((double)value) / 2 - 152);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
     public class FolderPathConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
