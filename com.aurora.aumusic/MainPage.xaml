@@ -723,7 +723,7 @@
 
             <!-- 主视图Frame -->
             <RelativePanel x:Name="Root">
-                <Frame x:Name="MainFrame" LayoutUpdated="MainFrame_LayoutUpdated" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+                <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
                     <Frame.Resources>
                         <Storyboard x:Name="MainFrameOut">
                             <DoubleAnimation Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="Height" Duration="0:0:0.75" EnableDependentAnimation="True" To="0.0">

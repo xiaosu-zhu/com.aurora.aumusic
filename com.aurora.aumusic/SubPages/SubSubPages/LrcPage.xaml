@@ -93,9 +93,15 @@
 
 
     <RelativePanel>
-        <ListView x:Name="LyricView" ItemTemplate="{StaticResource LyricShow}" IsItemClickEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource LyricViewStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
-
+        <ListView x:Name="LyricView" LayoutUpdated="LyricView_LayoutUpdated" SelectionMode="Single" ItemTemplate="{StaticResource LyricShow}" IsItemClickEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource LyricViewStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+            <ListView.Header>
+                <Grid x:Name="DynamicHeader" Height="128" HorizontalAlignment="Stretch" />
+            </ListView.Header>
+            <ListView.Footer>
+                <Grid x:Name="DynamicFooter" HorizontalAlignment="Stretch" />
+            </ListView.Footer>
         </ListView>
+        <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
         <StackPanel x:Name="WaitingPanel" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
             <ProgressRing x:Name="WaitingRing" Loaded="WaitingRing_Loaded" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="64" Height="64" />
             <TextBlock x:Name="WaitingText" Text="加载歌词中" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="12" />
@@ -103,10 +109,6 @@
         <StackPanel x:Name="ErrPanel" Visibility="Collapsed" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
             <TextBlock x:Name="ErrText" Text="搜索失败" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="12" />
         </StackPanel>
-        <AppBarButton x:Name="DeDetailsButton" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
-            <AppBarButton.Icon>
-                <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />
-            </AppBarButton.Icon>
-        </AppBarButton>
+        
     </RelativePanel>
 </Page>

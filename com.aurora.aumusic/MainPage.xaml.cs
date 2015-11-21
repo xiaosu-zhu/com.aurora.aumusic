@@ -309,10 +309,6 @@ namespace com.aurora.aumusic
             AlbumArtWorkOut.Begin();
         }
         #endregion
-        private void MainFrame_LayoutUpdated(object sender, object e)
-        {
-
-        }
 
         private void generate(ICanvasResourceCreator sender)
         {

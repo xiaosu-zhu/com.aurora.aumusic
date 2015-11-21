@@ -6,8 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    </Grid>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../StylesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    
+    <RelativePanel>
+        <AppBarButton x:Name="DeDetailsButton" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+            <AppBarButton.Icon>
+                <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />
+            </AppBarButton.Icon>
+        </AppBarButton>
+    </RelativePanel>
 </Page>
