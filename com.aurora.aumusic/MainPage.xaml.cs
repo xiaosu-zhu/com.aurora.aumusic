@@ -35,6 +35,7 @@ using Windows.Media.Playback;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.UI.Xaml.Media.Animation;
 using Lumia.Imaging;
+using Windows.Graphics.Display;
 
 
 
@@ -449,7 +450,7 @@ namespace com.aurora.aumusic
                 TimePastBlock.Visibility = Visibility.Collapsed;
                 LeftPanel.Visibility = Visibility.Collapsed;
                 MediaControlsCommandBar.Visibility = Visibility.Collapsed;
-                await Task.Delay(750);
+                await Task.Delay(1600);
                 PlaybackControlGridSet.Begin();
             }
 
@@ -574,6 +575,7 @@ namespace com.aurora.aumusic
                 }
             }
         }
+
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {
