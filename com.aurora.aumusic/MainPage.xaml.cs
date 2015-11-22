@@ -231,7 +231,6 @@ namespace com.aurora.aumusic
                     ThumbToolTipConveter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
 
                 });
-
                 return;
             }
         }

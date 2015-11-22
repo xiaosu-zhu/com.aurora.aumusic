@@ -153,6 +153,9 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            int count = 2;
+            if (((bool)parameter) == true)
+                count = int.MaxValue;
             var artists = value as string[];
             if (artists == null)
                 return "未知创作人";
@@ -167,7 +170,7 @@ namespace com.aurora.aumusic.shared
                 foreach (var item in artists)
                 {
                     i++;
-                    if (i > 2)
+                    if (i > count)
                     {
                         sb.Remove(sb.Length - 2, 2);
                         sb.Append("等");
@@ -387,6 +390,29 @@ namespace com.aurora.aumusic.shared
                 }
                 if (((AlbumItem)value).Year > 0)
                     sb.Append(((AlbumItem)value).Year + "年");
+                else if (sb[sb.Length - 1] == '·')
+                    sb.Remove(sb.Length - 1, 1);
+                return sb.ToString();
+            }
+            if(value is Song)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (((Song)value).Genres != null && ((Song)value).Genres.Length > 0)
+                {
+                    if (((Song)value).Genres[0] == "Unknown Genres")
+                        sb.Append("未知风格");
+                    else
+                        foreach (var item in ((Song)value).Genres)
+                        {
+                            sb.Append(item);
+                            sb.Append(", ");
+                        }
+                    if (sb[sb.Length - 1] == ' ')
+                        sb.Remove(sb.Length - 2, 2);
+                    sb.Append("·");
+                }
+                if (((Song)value).Year > 0)
+                    sb.Append(((Song)value).Year + "年");
                 else if (sb[sb.Length - 1] == '·')
                     sb.Remove(sb.Length - 1, 1);
                 return sb.ToString();

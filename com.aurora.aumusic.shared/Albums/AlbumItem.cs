@@ -388,8 +388,7 @@ namespace com.aurora.aumusic.shared.Albums
         public async Task GetPalette()
         {
             Uri urisource = new Uri(AlbumArtWork);
-            BitmapHelper p = new BitmapHelper();
-            Palette = await p.New(urisource);
+            Palette = await BitmapHelper.New(urisource);
             this.GenerateTextColor();
         }
 

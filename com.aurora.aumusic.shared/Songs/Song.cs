@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.FileProperties;
 using System.Collections.ObjectModel;
 using com.aurora.aumusic.shared.Albums;
+using Windows.UI;
 
 namespace com.aurora.aumusic.shared.Songs
 {

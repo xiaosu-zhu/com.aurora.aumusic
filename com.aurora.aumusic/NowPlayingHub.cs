@@ -26,7 +26,7 @@ namespace com.aurora.aumusic
             text.Text = currentSong.Album;
             text = RootGrid.FindName("NowArtists") as TextBlock;
             var converter = new ArtistsConverter();
-            text.Text = (string)converter.Convert(currentSong.Artists, null, null, null);
+            text.Text = (string)converter.Convert(currentSong.Artists, null, false, null);
 
         }
     }

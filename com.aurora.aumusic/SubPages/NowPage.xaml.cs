@@ -1,18 +1,25 @@
-﻿using com.aurora.aumusic.shared.Songs;
+﻿using com.aurora.aumusic.shared;
+using com.aurora.aumusic.shared.MessageService;
+using com.aurora.aumusic.shared.Songs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Playback;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace com.aurora.aumusic
 {
+
     public sealed partial class NowPage : Page
     {
         Song CurrentSong;
+        Color MainColor;
 
         private bool _loved = false;
         private bool _broken = false;
@@ -51,6 +58,34 @@ namespace com.aurora.aumusic
             base.OnNavigatedTo(e);
             if (e.Parameter != null)
                 CurrentSong = new Song(e.Parameter as SongModel);
+            BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+            updateui();
+        }
+
+        private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
+        {
+            BackPlaybackChangedMessage message;
+            if (MessageService.TryParseMessage(e.Data, out message))
+            {
+                if (message.CurrentSong != null)
+                {
+                    await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, new Windows.UI.Core.DispatchedHandler(() =>
+                     {
+                         CurrentSong = new Song(message.CurrentSong);
+                         updateui();
+                     }));
+                }
+            }
+        }
+
+        private void updateui()
+        {
+            NowTitle.Text = CurrentSong.Title;
+            NowAlbum.Text = CurrentSong.Album;
+            GenresDetailsConverter converter = new GenresDetailsConverter();
+            NowDetails.Text = (string)converter.Convert(CurrentSong, null, null, null);
+            var con = new ArtistsConverter();
+            NowArtist.Text = (string)con.Convert(CurrentSong.Artists, null, true, null);
         }
 
         private void OneStarButton_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -122,6 +157,13 @@ namespace com.aurora.aumusic
             {
                 LoveButtonBreak.Begin();
             }
+        }
+
+        private async void PlayPauseButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(1500);
+            MainColor = await BitmapHelper.New(new Uri(CurrentSong.ArtWork));
+            PlayPauseButton.Background = new SolidColorBrush(MainColor);
         }
     }
 }

@@ -14,10 +14,10 @@ namespace com.aurora.aumusic.shared
 {
     public class BitmapHelper
     {
-        public static readonly int CALCULATE_BITMAP_MIN_DIMENSION = 50;
-        Color[] pixels;
+        private static readonly int CALCULATE_BITMAP_MIN_DIMENSION = 50;
+        static Color[] pixels;
 
-        public static async Task<Color> GetPixels(WriteableBitmap bitmap, Color[] pixels, Int32 width, Int32 height)
+        private static async Task<Color> GetPixels(WriteableBitmap bitmap, Color[] pixels, Int32 width, Int32 height)
         {
             IRandomAccessStream bitmapStream = new InMemoryRandomAccessStream();
             await bitmap.ToStreamAsJpeg(bitmapStream);
@@ -38,14 +38,14 @@ namespace com.aurora.aumusic.shared
             }
             return Color.FromArgb((byte)(255), (byte)(r / sum), (byte)(g / sum), (byte)(b / sum));
         }
-        public async Task<Color> fromBitmap(WriteableBitmap bitmap)
+        private static async Task<Color> fromBitmap(WriteableBitmap bitmap)
         {
             int width = bitmap.PixelWidth;
             int height = bitmap.PixelHeight;
             pixels = new Color[width * height];
             return await GetPixels(bitmap, pixels, width, height);
         }
-        private WriteableBitmap scaleBitmapDown(WriteableBitmap bitmap)
+        private static WriteableBitmap scaleBitmapDown(WriteableBitmap bitmap)
         {
             int minDimension = Math.Min(bitmap.PixelWidth, bitmap.PixelHeight);
 
@@ -58,10 +58,9 @@ namespace com.aurora.aumusic.shared
             float scaleRatio = CALCULATE_BITMAP_MIN_DIMENSION / (float)minDimension;
 
             WriteableBitmap resizedBitmap = bitmap.Resize((Int32)(bitmap.PixelWidth * scaleRatio), (Int32)(bitmap.PixelHeight * scaleRatio), WriteableBitmapExtensions.Interpolation.Bilinear);
-
             return resizedBitmap;
         }
-        public async Task<Color> New(Uri urisource)
+        public static async Task<Color> New(Uri urisource)
         {
             WriteableBitmap buffer = await BitmapFactory.New(1, 1).FromContent(urisource);
             WriteableBitmap scaledbmp = scaleBitmapDown(buffer);
