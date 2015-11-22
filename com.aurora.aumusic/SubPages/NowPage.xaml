@@ -10,16 +10,129 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../StylesDictionary.xaml" />
+                <ResourceDictionary Source="KeyDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
+
+            <Style x:Name="QuickButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="{StaticResource Thickless}" />
+                <Setter Property="Margin" Value="2,0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter x:Name="ContentPresenter"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="0"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
-    
-    
+
     <RelativePanel>
+        <Rectangle RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.Above="PlaybackControlPanel" >
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="1,0">
+                    <GradientStop Color="Transparent"/>
+                    <GradientStop Color="#66000000" Offset="1"/>
+
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <TextBlock Margin="24,8,8,8" x:Name="NowTitle" Style="{ThemeResource HeaderTextBlockStyle}" Text="What a holly shit" Foreground="White" />
+        <TextBlock Margin="28,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Fucking hell" Foreground="White" />
+        <TextBlock Margin="28,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitle" Style="{ThemeResource TitleTextBlockStyle}" Text="Fucking hell" Foreground="White" />
+        <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Text="2012 · Rock · Next: Fuck you!" Foreground="White" />
+
+        <StackPanel Margin="28,0,8,8" x:Name="QuickPanel" RelativePanel.Below="NowDetails" Orientation="Horizontal">
+            <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button.Content>
+                    &#xE224;
+                </Button.Content>
+            </Button>
+            <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button.Content>
+                    &#xE224;
+                </Button.Content>
+            </Button>
+            <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button.Content>
+                    &#xE224;
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
+        </RelativePanel>
         <AppBarButton x:Name="DeDetailsButton" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
             <AppBarButton.Icon>
                 <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />

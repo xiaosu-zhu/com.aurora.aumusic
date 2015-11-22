@@ -143,6 +143,11 @@
     <None Include="com.aurora.aumusic_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\blurfore.scale-100.png" />
+    <Content Include="Assets\blurfore.scale-140.png" />
+    <Content Include="Assets\blurfore.scale-180.png" />
+    <Content Include="Assets\blurfore.scale-240.png" />
+    <Content Include="Assets\blurfore.scale-80.png" />
     <Content Include="Assets\ButtonIcon\Volume-high.scale-100.png" />
     <Content Include="Assets\ButtonIcon\Volume-high.scale-140.png" />
     <Content Include="Assets\ButtonIcon\Volume-high.scale-180.png" />

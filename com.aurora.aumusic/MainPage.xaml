@@ -729,7 +729,7 @@
                         <Storyboard x:Name="MainFrameOut">
                             <DoubleAnimation Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="Height" Duration="0:0:1.5" EnableDependentAnimation="True" To="0.0">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -740,32 +740,32 @@
                         <Storyboard x:Name="PlaybackControlGridIn">
                             <DoubleAnimation Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height" Duration="0:0:1.5" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateX" Duration="0:0:1.5" To="24" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateY" Duration="0:0:1.5" To="24" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="PlayBackGrid" Storyboard.TargetProperty="Height" From="64" Duration="0:0:1.5" To="256" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.5" To="0" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                             <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.5" To="1" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
-                                    <QuadraticEase EasingMode="EaseInOut" />
+                                    <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
                         </Storyboard>
@@ -778,7 +778,7 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemBackgroundAltHighBrush}"/>
+                    <Rectangle x:Name="BorderRec" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="{ThemeResource SystemBackgroundAltHighBrush}"/>
                     <Viewbox x:Name="GndRec" Opacity="0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" VerticalAlignment="Center" Stretch="UniformToFill" RelativePanel.AlignTopWithPanel="True">
                         <Image x:Name="BackgroundBlur">
                         </Image>
@@ -797,7 +797,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Frame x:Name="NowCtrlFrame" Grid.Row="1" Visibility="Collapsed" Grid.ColumnSpan="6" Padding="0,24,0,0">
+                        <Frame x:Name="NowCtrlFrame" Grid.Row="1" Canvas.ZIndex="1" Visibility="Collapsed" Grid.ColumnSpan="6" Padding="0,24,0,0">
                         </Frame>
                         <Grid x:Name="PlayBackGrid" Grid.Column="0" Canvas.ZIndex="1" MinWidth="64" Height="64" HorizontalAlignment="Left" VerticalAlignment="Top" PointerEntered="PlayBackGrid_PointerEntered" PointerExited="PlayBackGrid_PointerExited">
                             <Grid.Resources>

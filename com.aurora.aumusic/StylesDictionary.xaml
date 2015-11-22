@@ -265,7 +265,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentBaseLightBrush}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlTranslucentHighLightBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemBackgroundBaseHighBrush}"/>

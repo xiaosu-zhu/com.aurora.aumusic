@@ -433,23 +433,27 @@ namespace com.aurora.aumusic
                 await renderer.RenderAsync(MainFrame);
                 MainFrame.Navigate(typeof(CachePage), renderer);
 
-                var ani = MainFrameOut.Children[0] as DoubleAnimation;
-                ani.From = MainFrame.ActualHeight;
-                ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
-                ani.To = MainFrame.ActualHeight;
-                PlaybackControlGridIn.Begin();
-                MainFrameOut.Begin();
+                BorderRec.Visibility = Visibility.Visible;
                 PlayBackGrid.PointerEntered -= PlayBackGrid_PointerEntered;
                 PlayBackGrid.PointerExited -= PlayBackGrid_PointerExited;
                 NowLrcFrame.Visibility = Visibility.Visible;
                 NowLrcFrame.Navigate(typeof(LrcPage), CurrentSong);
                 NowCtrlFrame.Visibility = Visibility.Visible;
+                NowCtrlFrame.Navigate(typeof(NowPage),CurrentSong);
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
                 MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;
                 TimeRemainingBlock.Visibility = Visibility.Collapsed;
                 TimePastBlock.Visibility = Visibility.Collapsed;
                 LeftPanel.Visibility = Visibility.Collapsed;
                 MediaControlsCommandBar.Visibility = Visibility.Collapsed;
+
+                var ani = MainFrameOut.Children[0] as DoubleAnimation;
+                ani.From = MainFrame.ActualHeight;
+                ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
+                ani.To = MainFrame.ActualHeight;
+                PlaybackControlGridIn.Begin();
+                MainFrameOut.Begin();
+                
                 await Task.Delay(1600);
                 PlaybackControlGridSet.Begin();
             }

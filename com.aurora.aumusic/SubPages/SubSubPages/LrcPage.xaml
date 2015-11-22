@@ -66,7 +66,7 @@
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
                 <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="TabNavigation" Value="Local"/>
                 <Setter Property="IsHoldingEnabled" Value="True"/>
                 <Setter Property="Padding" Value="0"/>
@@ -92,10 +92,22 @@
     </Page.Transitions>
 
 
-    <RelativePanel>
-        <Viewbox Stretch="UniformToFill" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" >
-            <Image x:Name="BackgroundBlur" />
-        </Viewbox>
+    <RelativePanel x:Name="Root" Opacity="0">
+        <RelativePanel.Resources>
+            <Storyboard x:Name="PanelIn">
+                <DoubleAnimation Duration="0:0:1.5" EnableDependentAnimation="True" Storyboard.TargetName="Root" From="0" To="1" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </RelativePanel.Resources>
+        <Rectangle x:Name="Background" Opacity="0.6" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="280" >
+            <Rectangle.Fill>
+                <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        
         <ListView x:Name="LyricView" LayoutUpdated="LyricView_LayoutUpdated" SelectionMode="Single" ItemTemplate="{StaticResource LyricShow}" IsItemClickEnabled="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource LyricViewStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
             <ListView.Header>
                 <Grid x:Name="DynamicHeader" Height="128" HorizontalAlignment="Stretch" />
@@ -104,14 +116,15 @@
                 <Grid x:Name="DynamicFooter" HorizontalAlignment="Stretch" />
             </ListView.Footer>
         </ListView>
-        <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+        <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+            
         </Rectangle>
-        <StackPanel x:Name="WaitingPanel" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
-            <ProgressRing x:Name="WaitingRing" Loaded="WaitingRing_Loaded" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="64" Height="64" />
-            <TextBlock x:Name="WaitingText" Text="加载歌词中" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="12" />
+        <StackPanel x:Name="WaitingPanel" Orientation="Vertical" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,100,0,0" >
+            <ProgressRing x:Name="WaitingRing" Loaded="WaitingRing_Loaded" Foreground="White" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="64" Height="64" />
+            <TextBlock x:Name="WaitingText" Text="加载歌词中" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
         </StackPanel>
-        <StackPanel x:Name="ErrPanel" Visibility="Collapsed" Orientation="Vertical" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" >
-            <TextBlock x:Name="ErrText" Text="搜索失败" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="12" />
+        <StackPanel x:Name="ErrPanel" Visibility="Collapsed" Orientation="Vertical" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,136,0,0" >
+            <TextBlock x:Name="ErrText" Text="搜索失败" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
         </StackPanel>
         
     </RelativePanel>
