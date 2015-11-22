@@ -35,8 +35,6 @@ namespace com.aurora.aumusic.shared.Lrc
             return uri;
         }
 
-
-
         public static async Task<LrcRequestModel> isLrcExist(Song song)
         {
             var url = genreqest(song);

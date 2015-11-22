@@ -27,7 +27,7 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
                 <Setter Property="FontWeight" Value="Normal" />
-                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontSize" Value="20" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -114,21 +114,33 @@
         <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Text="2012 · Rock · Next: Fuck you!" Foreground="White" />
 
         <StackPanel Margin="28,0,8,8" x:Name="QuickPanel" RelativePanel.Below="NowDetails" Orientation="Horizontal">
-            <Button Style="{ThemeResource QuickButtonStyle}" >
-                <Button.Content>
-                    &#xE224;
-                </Button.Content>
-            </Button>
-            <Button Style="{ThemeResource QuickButtonStyle}" >
-                <Button.Content>
-                    &#xE224;
-                </Button.Content>
-            </Button>
-            <Button Style="{ThemeResource QuickButtonStyle}" >
-                <Button.Content>
-                    &#xE224;
-                </Button.Content>
-            </Button>
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{ThemeResource QuickButtonStyle}" >
+                    <Button.Content>
+                        &#xE224;
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource QuickButtonStyle}" >
+                    <Button.Content>
+                        &#xE224;
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource QuickButtonStyle}" >
+                    <Button.Content>
+                        &#xE224;
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource QuickButtonStyle}" >
+                    <Button.Content>
+                        &#xE224;
+                    </Button.Content>
+                </Button>
+                <Button Style="{ThemeResource QuickButtonStyle}" >
+                    <Button.Content>
+                        &#xE224;
+                    </Button.Content>
+                </Button>
+            </StackPanel>
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
