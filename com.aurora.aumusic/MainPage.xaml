@@ -727,7 +727,7 @@
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
                     <Frame.Resources>
                         <Storyboard x:Name="MainFrameOut">
-                            <DoubleAnimation Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="Height" Duration="0:0:1.5" EnableDependentAnimation="True" To="0.0">
+                            <DoubleAnimation Storyboard.TargetName="MainFrame" Storyboard.TargetProperty="Height" Duration="0:0:1" EnableDependentAnimation="True" To="0.0">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
@@ -738,32 +738,32 @@
                 <RelativePanel x:Name="PlaybackControlGrid" Height="64" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
                     <RelativePanel.Resources>
                         <Storyboard x:Name="PlaybackControlGridIn">
-                            <DoubleAnimation Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height" Duration="0:0:1.5" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlaybackControlGrid" Storyboard.TargetProperty="Height" Duration="0:0:1" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateX" Duration="0:0:1.5" To="24" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateX" Duration="0:0:1" To="24" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateY" Duration="0:0:1.5" To="24" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGridTrans" Storyboard.TargetProperty="TranslateY" Duration="0:0:1" To="24" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="PlayBackGrid" Storyboard.TargetProperty="Height" From="64" Duration="0:0:1.5" To="256" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="PlayBackGrid" Storyboard.TargetProperty="Height" From="64" Duration="0:0:1" To="256" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.5" To="0" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1" To="0" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1.5" To="1" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="GndRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1" To="1" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>

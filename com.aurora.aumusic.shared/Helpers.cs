@@ -112,7 +112,7 @@ namespace com.aurora.aumusic.shared
             var flow = await cacheFile.OpenAsync(FileAccessMode.ReadWrite);
             using (var outputStream = flow.GetOutputStreamAt(0))
             {
-                using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                using (var dataWriter = new DataWriter(outputStream))
                 {
                     dataWriter.WriteString(sLine);
                     await dataWriter.StoreAsync();

@@ -19,7 +19,6 @@
 
             <Style x:Name="QuickButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Foreground" Value="White"/>
                 <Setter Property="BorderBrush" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="{StaticResource Thickless}" />
                 <Setter Property="Margin" Value="2,0" />
@@ -41,30 +40,8 @@
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="PointerOver">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Pressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                            </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Disabled">
                                             <Storyboard>
@@ -112,35 +89,409 @@
         <TextBlock Margin="28,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Text="Fucking hell" Foreground="White" />
         <TextBlock Margin="28,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitle" Style="{ThemeResource TitleTextBlockStyle}" Text="Fucking hell" Foreground="White" />
         <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Text="2012 · Rock · Next: Fuck you!" Foreground="White" />
-
         <StackPanel Margin="28,0,8,8" x:Name="QuickPanel" RelativePanel.Below="NowDetails" Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal">
-                <Button Style="{ThemeResource QuickButtonStyle}" >
+            <RelativePanel PointerExited="OneStarButton_PointerExited" x:Name="RatingPanel">
+                <RelativePanel.Resources>
+                    <Storyboard x:Name="NoStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="OneStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="TwoStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="ThreeStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="FourStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="FiveStar">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="OneStarSet">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="TwoStarSet">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="ThreeStarSet">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="FourStarSet">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE224;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="FiveStarSet">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0B4;"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OneStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TwoStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ThreeStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FourStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FiveStarButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gold"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="LoveButtonOver">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0A5;" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="LoveButtonNormal">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE006;" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="LoveButtonLove">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE0A5;" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="red" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="LoveButtonBreak">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Content">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE007;" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoveButton" Storyboard.TargetProperty="Foreground">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Black" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </RelativePanel.Resources>
+                <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+                <Button x:Name="OneStarButton" Foreground="White" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="TwoStarButton" Foreground="White" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="ThreeStarButton" Foreground="White" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FourStarButton" Foreground="White" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FiveStarButton" Foreground="White" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-            </StackPanel>
+            </RelativePanel>
+
+            <Button Margin="24,2,0,0" x:Name="LoveButton" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Foreground="White" Style="{ThemeResource QuickButtonStyle}" >
+                <Button.Content>
+                    &#xE006;
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
