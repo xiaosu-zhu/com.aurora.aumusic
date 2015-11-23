@@ -54,7 +54,6 @@ namespace com.aurora.aumusic
         private static int BUTTON_CLICKED = 0;
         PlayBack playBack = new PlayBack();
         BitmapIcon vol_low = new BitmapIcon(), vol_mid = new BitmapIcon(), vol_mute = new BitmapIcon(), vol_high = new BitmapIcon(), vol_no = new BitmapIcon();
-        private SwapChainPanelRenderer m_renderer;
         ThreadPoolTimer wtftimer;
 
         public static int FrameWidth { get; private set; }
@@ -74,6 +73,10 @@ namespace com.aurora.aumusic
                 MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(_playbackmode));
             }
         }
+
+        public byte[] ArtworkStream { get; private set; }
+
+        public bool NavigatedtoDetailPages = false;
 
         public SongModel CurrentSong = null;
 
@@ -224,7 +227,6 @@ namespace com.aurora.aumusic
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
                         this.CurrentSong = stateChangedMessage.CurrentSong;
                         nowPlayingHub.Set(stateChangedMessage.CurrentSong);
-
                     }
                     NowState = stateChangedMessage.NowState;
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
@@ -235,8 +237,8 @@ namespace com.aurora.aumusic
             UpdateArtworkMessage updateartwork;
             if (MessageService.TryParseMessage(e.Data, out updateartwork))
             {
-                var stream = await FileHelper.ToStream(updateartwork.ByteStream);
-
+                var stream = await FileHelper.ToRandomAccessStream(updateartwork.ByteStream);
+                this.ArtworkStream = updateartwork.ByteStream;
                 this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     BitmapImage image = new BitmapImage();
@@ -310,10 +312,6 @@ namespace com.aurora.aumusic
             BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
         }
 
-        private void PlaybackControl_CurrentStateChanged(object sender, RoutedEventArgs e)
-        {
-        }
-
         #region
         //animation of left-bottom Albumart
         private void PlayBackGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -326,65 +324,6 @@ namespace com.aurora.aumusic
             AlbumArtWorkOut.Begin();
         }
         #endregion
-
-        private void generate(ICanvasResourceCreator sender)
-        {
-        }
-
-
-        private ICanvasImage CropandBlur(CanvasBitmap bitmap)
-        {
-            //var crop = new CropEffect
-            //{
-            //    Source = bitmap
-            //};
-            //crop.SourceRectangle = new Rect(0, FrameHeight - 64, FrameWidth, 64);
-            var blur = new GaussianBlurEffect
-            {
-                Source = bitmap
-            };
-            blur.BorderMode = EffectBorderMode.Hard;
-            blur.BlurAmount = 8.0f;
-            return blur;
-        }
-
-        private void MainFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-        }
-
-        private void BlurLayer_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
-        {
-            //if (Frame_Updated)
-            //{
-            //    generate(args.DrawingSession);
-            //    RenderFinal = CropandBlur(bitmap);
-            //    Frame_Updated = false;
-            //}
-            //if (RenderFinal != null)
-            //    args.DrawingSession.DrawImage(RenderFinal,0,-(FrameHeight-64));
-        }
-
-        private void VolumeMuteButton_Loaded(object sender, RoutedEventArgs e)
-        {
-            //if (PlaybackControl.Volume == 0)
-            //{
-            //    volumrMuteButton.Icon = vol_no;
-            //}
-            //else if (PlaybackControl.Volume < 0.2)
-            //{
-            //    volumrMuteButton.Icon = vol_mute;
-            //}
-            //else if (PlaybackControl.Volume < 0.5)
-            //{
-            //    volumrMuteButton.Icon = vol_low;
-            //}
-            //else if (PlaybackControl.Volume < 0.8)
-            //{
-            //    volumrMuteButton.Icon = vol_mid;
-            //}
-            //else volumrMuteButton.Icon = vol_high;
-
-        }
 
         private void PlayBackFore_Loaded(object sender, RoutedEventArgs e)
         {
@@ -451,6 +390,9 @@ namespace com.aurora.aumusic
                 NowLrcFrame.Navigate(typeof(LrcPage), CurrentSong);
                 NowCtrlFrame.Visibility = Visibility.Visible;
                 NowCtrlFrame.Navigate(typeof(NowPage), CurrentSong);
+                if (ArtworkStream != null)
+                    (NowCtrlFrame.Content as NowPage).updateartwork(ArtworkStream);
+                NavigatedtoDetailPages = true;
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
                 MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;
                 TimeRemainingBlock.Visibility = Visibility.Collapsed;
@@ -579,7 +521,7 @@ namespace com.aurora.aumusic
                         blur.BorderMode = EffectBorderMode.Hard;
                         ds.DrawImage(blur);
                     }
-                    
+
                     stream.Seek(0);
                     await renderer.SaveAsync(stream, CanvasBitmapFileFormat.Png);
                     stream.Seek(0);
@@ -620,7 +562,6 @@ namespace com.aurora.aumusic
                 VolumeMuteButton.Icon = vol_mid;
             }
             else VolumeMuteButton.Icon = vol_high;
-            playBack.NotifyPlayBackEvent += PlayBack_NotifyPlayBackEvent;
             playbackControl = new PlaybackControl(PlayBackControl);
         }
 
@@ -641,11 +582,6 @@ namespace com.aurora.aumusic
             {
                 VolumeSlider.Value = volume;
             }
-        }
-
-        private void PlayBack_NotifyPlayBackEvent(object sender, NotifyPlayBackEventArgs e)
-        {
-
         }
     }
 }

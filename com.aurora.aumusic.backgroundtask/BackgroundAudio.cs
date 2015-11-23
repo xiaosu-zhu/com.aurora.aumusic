@@ -445,7 +445,7 @@ namespace com.aurora.aumusic.backgroundtask
 
         private async void UpdateUVCOnNewTrack(byte[] bytestream)
         {
-            smtc.DisplayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(await FileHelper.ToStream(bytestream));
+            smtc.DisplayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(await FileHelper.ToRandomAccessStream(bytestream));
             smtc.DisplayUpdater.Update();
         }
 

@@ -135,7 +135,7 @@
                             Content="{TemplateBinding Content}"
                             ContentTransitions="{TemplateBinding ContentTransitions}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="12"
+                            Padding="20"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                             AutomationProperties.AccessibilityView="Raw"/>
@@ -147,21 +147,40 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <RelativePanel x:Name="Root">
+    <RelativePanel x:Name="Root" Opacity="0">
+        <RelativePanel.Resources>
+            <Storyboard x:Name="PanelIn">
+                <DoubleAnimation Duration="0:0:1" EnableDependentAnimation="True" Storyboard.TargetName="Root" From="0" To="1" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation.EasingFunction>
+                        <QuadraticEase EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </RelativePanel.Resources>
         <Rectangle RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.Above="PlaybackControlPanel" >
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="1,0">
                     <GradientStop Color="Transparent"/>
                     <GradientStop Color="#66000000" Offset="1"/>
-
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock Margin="24,8,8,8" x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="White" MaxLines="1" MaxWidth="280"/>
-        <TextBlock Margin="28,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White" />
-        <TextBlock Margin="28,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitle" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
-        <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" />
-        <StackPanel Margin="28,0,8,8" x:Name="QuickPanel" RelativePanel.Below="NowDetails" Orientation="Horizontal">
+
+        <Rectangle x:Name="TextShadow" RelativePanel.AlignLeftWith="TextGroup" RelativePanel.AlignRightWith="TextGroup" RelativePanel.AlignTopWith="TextGroup" RelativePanel.AlignBottomWith="TextGroup" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Assets/blurfore.png" Stretch="Fill" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <RelativePanel x:Name="TextGroup">
+            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="320" Height="64">
+                <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="White" MaxWidth="320"/>
+            </Viewbox>
+            <TextBlock Margin="32,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White" />
+            <TextBlock Margin="32,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitleScale" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
+            <TextBlock Margin="32,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" />
+        </RelativePanel>
+
+        <StackPanel Margin="32,0,8,8" x:Name="QuickPanel" RelativePanel.Below="TextGroup" Orientation="Horizontal">
             <RelativePanel PointerExited="OneStarButton_PointerExited" x:Name="RatingPanel">
                 <RelativePanel.Resources>
                     <Storyboard x:Name="NoStar">
@@ -567,9 +586,19 @@
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
-            <Button x:Name="PlayPauseButton" Loaded="PlayPauseButton_Loaded" Style="{ThemeResource MainButtonStyle}" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
+            <Button x:Name="PlayPauseButton" Style="{ThemeResource MainButtonStyle}" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
                 <Button.Content>
                     <BitmapIcon UriSource="/Assets/ButtonIcon/playsolid.png" Margin="8,0,0,0" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="NextButton" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="White" RelativePanel.RightOf="PlayPauseButton" Margin="80,78,0,0" Width="72" Height="72">
+                <Button.Content >
+                    <BitmapIcon UriSource="/Assets/ButtonIcon/nextsolid.png" />
+                </Button.Content>
+            </Button>
+            <Button x:Name="PreviousButton" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="White" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,80,0" Width="72" Height="72">
+                <Button.Content >
+                    <BitmapIcon UriSource="/Assets/ButtonIcon/previoussolid.png" />
                 </Button.Content>
             </Button>
         </RelativePanel>

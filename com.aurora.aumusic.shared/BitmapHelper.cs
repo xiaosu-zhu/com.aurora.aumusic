@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,13 @@ namespace com.aurora.aumusic.shared
         {
             WriteableBitmap buffer = await BitmapFactory.New(1, 1).FromContent(urisource);
             WriteableBitmap scaledbmp = scaleBitmapDown(buffer);
+            return await fromBitmap(scaledbmp);
+        }
+
+        public static async Task<Color> New(Stream stream)
+        {
+            WriteableBitmap map = await BitmapFactory.New(1, 1).FromStream(stream);
+            WriteableBitmap scaledbmp = scaleBitmapDown(map);
             return await fromBitmap(scaledbmp);
         }
     }

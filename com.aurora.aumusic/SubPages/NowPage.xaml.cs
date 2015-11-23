@@ -1,6 +1,8 @@
 ﻿using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.MessageService;
 using com.aurora.aumusic.shared.Songs;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace com.aurora.aumusic
@@ -59,6 +62,7 @@ namespace com.aurora.aumusic
             if (e.Parameter != null)
                 CurrentSong = new Song(e.Parameter as SongModel);
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+            PanelIn.Begin();
             updateui();
         }
 
@@ -75,6 +79,16 @@ namespace com.aurora.aumusic
                          updateui();
                      }));
                 }
+            }
+            UpdateArtworkMessage artwork;
+            if (MessageService.TryParseMessage(e.Data, out artwork))
+            {
+                var stream = FileHelper.ToStream(artwork.ByteStream);
+                await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async () =>
+                {
+                    MainColor = await BitmapHelper.New(stream);
+                    PlayPauseButton.Background = new SolidColorBrush(MainColor);
+                }));
             }
         }
 
@@ -159,11 +173,15 @@ namespace com.aurora.aumusic
             }
         }
 
-        private async void PlayPauseButton_Loaded(object sender, RoutedEventArgs e)
+        internal async void updateartwork(byte[] artworkStream)
         {
+            var stream = FileHelper.ToStream(artworkStream);
             await Task.Delay(1500);
-            MainColor = await BitmapHelper.New(new Uri(CurrentSong.ArtWork));
-            PlayPauseButton.Background = new SolidColorBrush(MainColor);
+            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async () =>
+            {
+                MainColor = await BitmapHelper.New(stream);
+                PlayPauseButton.Background = new SolidColorBrush(MainColor);
+            }));
         }
     }
 }

@@ -867,7 +867,7 @@
                                     <FadeInThemeAnimation Storyboard.TargetName="MediaControlsCommandBar" />
                                 </Storyboard>
                             </StackPanel.Resources>
-                            <AppBarButton x:Name="VolumeMuteButton" Loaded="VolumeMuteButton_Loaded" Style="{StaticResource AppBarButtonStyleFull}">
+                            <AppBarButton x:Name="VolumeMuteButton" Style="{StaticResource AppBarButtonStyleFull}">
                                 <AppBarButton.Flyout>
                                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                         <StackPanel Orientation="Horizontal">

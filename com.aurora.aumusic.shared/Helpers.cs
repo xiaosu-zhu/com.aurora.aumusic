@@ -217,7 +217,7 @@ namespace com.aurora.aumusic.shared
             return null;
         }
 
-        public static async Task<IRandomAccessStream> ToStream(byte[] bytestream)
+        public static async Task<IRandomAccessStream> ToRandomAccessStream(byte[] bytestream)
         {
             InMemoryRandomAccessStream memoryStream = new InMemoryRandomAccessStream();
             DataWriter datawriter = new DataWriter(memoryStream.GetOutputStreamAt(0));
@@ -225,6 +225,12 @@ namespace com.aurora.aumusic.shared
             await datawriter.StoreAsync();
             memoryStream.Seek(0);
             return memoryStream;
+        }
+
+        public static Stream ToStream(byte[] byteStream)
+        {
+            Stream stream = new MemoryStream(byteStream);
+            return stream;
         }
     }
 }

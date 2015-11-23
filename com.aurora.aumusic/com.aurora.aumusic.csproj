@@ -204,6 +204,11 @@
     <Content Include="Assets\K.png" />
     <Content Include="Assets\L.png" />
     <Content Include="Assets\unknown.png" />
+    <Content Include="Assets\uptodownshadow.scale-100.png" />
+    <Content Include="Assets\uptodownshadow.scale-140.png" />
+    <Content Include="Assets\uptodownshadow.scale-180.png" />
+    <Content Include="Assets\uptodownshadow.scale-240.png" />
+    <Content Include="Assets\uptodownshadow.scale-80.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
