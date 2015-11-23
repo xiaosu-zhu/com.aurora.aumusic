@@ -36,10 +36,8 @@ namespace com.aurora.aumusic
 
         public void setPlaybackControl(SongModel currentSong)
         {
-            AlbumArtwork.Source = new BitmapImage(new Uri(currentSong.AlbumArtwork));
             DurationValueConverter converter = new DurationValueConverter();
             TimeRemainingBlock.Text = (string)converter.Convert(currentSong.Duration, null, null, null);
-
         }
 
         public void setPlaybackControlDefault()

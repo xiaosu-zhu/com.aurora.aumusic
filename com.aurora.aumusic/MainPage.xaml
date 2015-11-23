@@ -812,7 +812,7 @@
                                 <CompositeTransform x:Name="PlayBackGridTrans" TranslateX="0" TranslateY="0" />
                             </Grid.RenderTransform>
                             <Viewbox x:Name="PlayBackArtwork" Stretch="Uniform" HorizontalAlignment="Stretch" >
-                                <Image x:Name="PlayBackImage" ImageOpened="PlayBackImage_ImageOpened" Source="{Binding FallbackValue=Assets/unknown.png}" />
+                                <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/unknown.png}" />
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="White" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         </Grid>

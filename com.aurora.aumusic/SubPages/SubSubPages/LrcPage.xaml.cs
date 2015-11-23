@@ -48,7 +48,20 @@ namespace com.aurora.aumusic
 
         public async Task genLrc()
         {
-            var result = await LrcHelper.Fetch(await LrcHelper.isLrcExist(CurrentSong), CurrentSong);
+            string result = null;
+            try
+            {
+                result = await LrcHelper.Fetch(await LrcHelper.isLrcExist(CurrentSong), CurrentSong);
+            }
+            catch (System.Net.WebException)
+            {
+                this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() =>
+                {
+                    ErrText.Text = "没有网络连接";
+                }));
+
+            }
+
             if (result == null)
             {
                 lyric = null;

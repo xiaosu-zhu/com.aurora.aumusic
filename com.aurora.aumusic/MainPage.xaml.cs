@@ -217,7 +217,7 @@ namespace com.aurora.aumusic
                     if (stateChangedMessage.CurrentSong == null)
                     {
                         playbackControl.setPlaybackControlDefault();
-                        return;
+
                     }
                     else
                     {
@@ -231,7 +231,19 @@ namespace com.aurora.aumusic
                     ThumbToolTipConveter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
 
                 });
-                return;
+            }
+            UpdateArtworkMessage updateartwork;
+            if (MessageService.TryParseMessage(e.Data, out updateartwork))
+            {
+                var stream = await FileHelper.ToStream(updateartwork.ByteStream);
+
+                this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.SetSource(stream);
+                    PlayBackImage.Source = image;
+                    PlayBackImage_ImageOpened(stream);
+                });
             }
         }
 
@@ -438,7 +450,7 @@ namespace com.aurora.aumusic
                 NowLrcFrame.Visibility = Visibility.Visible;
                 NowLrcFrame.Navigate(typeof(LrcPage), CurrentSong);
                 NowCtrlFrame.Visibility = Visibility.Visible;
-                NowCtrlFrame.Navigate(typeof(NowPage),CurrentSong);
+                NowCtrlFrame.Navigate(typeof(NowPage), CurrentSong);
                 NowPlayingDetailsGrid.Visibility = Visibility.Collapsed;
                 MediaTransportControls_Timeline_Grid.Visibility = Visibility.Collapsed;
                 TimeRemainingBlock.Visibility = Visibility.Collapsed;
@@ -452,7 +464,7 @@ namespace com.aurora.aumusic
                 ani.To = MainFrame.ActualHeight;
                 PlaybackControlGridIn.Begin();
                 MainFrameOut.Begin();
-                
+
                 await Task.Delay(1600);
                 PlaybackControlGridSet.Begin();
             }
@@ -545,11 +557,10 @@ namespace com.aurora.aumusic
             CommandBarOut.Begin();
         }
 
-        private async void PlayBackImage_ImageOpened(object sender, RoutedEventArgs e)
+        private async void PlayBackImage_ImageOpened(IRandomAccessStream stream)
         {
             if (CurrentSong != null)
             {
-                using (var stream = await FileHelper.ReadFileasStream(CurrentSong.AlbumArtwork))
                 {
                     var device = new CanvasDevice();
                     var bitmap = await CanvasBitmap.LoadAsync(device, stream);
@@ -568,13 +579,17 @@ namespace com.aurora.aumusic
                         blur.BorderMode = EffectBorderMode.Hard;
                         ds.DrawImage(blur);
                     }
-
+                    
                     stream.Seek(0);
                     await renderer.SaveAsync(stream, CanvasBitmapFileFormat.Png);
                     stream.Seek(0);
                     BitmapImage image = new BitmapImage();
                     image.SetSource(stream);
                     BackgroundBlur.Source = image;
+                    renderer = null;
+                    bitmap = null;
+                    device = null;
+                    GC.Collect();
                 }
             }
         }

@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using TagLib;
+using TagLib.Mpeg;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -156,5 +158,73 @@ namespace com.aurora.aumusic.shared
             return stream;
         }
 
+        public static async Task<byte[]> FetchArtwork(IStorageFile file)
+        {
+            if (null != file)
+            {
+                switch (file.FileType)
+                {
+                    case ".mp3": return await FetchfromMP3(file);
+                    case ".m4a": return await FetchfromM4A(file);
+                    case ".flac": return await FetchfromFLAC(file);
+                    case ".wav": return null;
+                    default:
+                        return null;
+                }
+            }
+            return null;
+        }
+
+        private static async Task<byte[]> FetchfromFLAC(IStorageFile file)
+        {
+            var fileStream = await file.OpenStreamForReadAsync();
+            var tagFile = TagLib.File.Create(new StreamFileAbstraction(file.Name,
+                             fileStream, fileStream));
+            var tags = tagFile.GetTag(TagTypes.FlacMetadata);
+            var p = tags.Pictures;
+            if (p.Length > 0)
+            {
+                return p[0].Data.Data;
+            }
+            return null;
+        }
+
+        private static async Task<byte[]> FetchfromM4A(IStorageFile file)
+        {
+            var fileStream = await file.OpenStreamForReadAsync();
+            var tagFile = TagLib.File.Create(new StreamFileAbstraction(file.Name,
+                             fileStream, fileStream));
+            var tags = tagFile.GetTag(TagTypes.Apple);
+            var p = tags.Pictures;
+            if (p.Length > 0)
+            {
+                return p[0].Data.Data;
+            }
+            return null;
+        }
+
+        private static async Task<byte[]> FetchfromMP3(IStorageFile file)
+        {
+            var fileStream = await file.OpenStreamForReadAsync();
+            var tagFile = TagLib.File.Create(new StreamFileAbstraction(file.Name,
+                             fileStream, fileStream));
+            var tags = tagFile.GetTag(TagTypes.Id3v2);
+            var p = tags.Pictures;
+            if (p.Length > 0)
+            {
+                return p[0].Data.Data;
+            }
+            return null;
+        }
+
+        public static async Task<IRandomAccessStream> ToStream(byte[] bytestream)
+        {
+            InMemoryRandomAccessStream memoryStream = new InMemoryRandomAccessStream();
+            DataWriter datawriter = new DataWriter(memoryStream.GetOutputStreamAt(0));
+            datawriter.WriteBytes(bytestream);
+            await datawriter.StoreAsync();
+            memoryStream.Seek(0);
+            return memoryStream;
+        }
     }
 }

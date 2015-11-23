@@ -39,7 +39,7 @@ namespace com.aurora.aumusic.shared.Lrc
         {
             var url = genreqest(song);
             var result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
-            if (result.count == 0)
+            if (result !=null && result.count == 0)
             {
                 url = genreqestthin(song);
                 result = await WebHelper.WebGETAsync(url, new LrcRequestModel());

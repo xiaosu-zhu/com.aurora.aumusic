@@ -163,7 +163,7 @@ namespace com.aurora.aumusic.backgroundtask
                         playbackList.ShuffleEnabled = false;
                         playbackList.AutoRepeatEnabled = false;
                         BackgroundMediaPlayer.Current.Position = time;
-                        if(NowState== MediaPlayerState.Playing)
+                        if (NowState == MediaPlayerState.Playing)
                         {
                             BackgroundMediaPlayer.Current.Play();
                         }
@@ -423,7 +423,7 @@ namespace com.aurora.aumusic.backgroundtask
             AllList = null;
         }
 
-        private void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
+        private async void PlaybackList_CurrentItemChanged(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args)
         {
             var item = args.NewItem;
             // Update the system view
@@ -435,6 +435,18 @@ namespace com.aurora.aumusic.backgroundtask
             var currentTrackId = item.Source.CustomProperties[TrackIdKey] as string;
             // Notify foreground of change or persist for later
             MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(NowState, Songs.Find(x => x.MainKey == currentTrackId)));
+            var bytestream = await FileHelper.FetchArtwork(FileList.Find(x => currentTrackId == ((StorageFile)x).Path + ((StorageFile)x).Name));
+            if (bytestream != null)
+            {
+                MessageService.SendMessageToForeground(new UpdateArtworkMessage(bytestream));
+                UpdateUVCOnNewTrack(bytestream);
+            }
+        }
+
+        private async void UpdateUVCOnNewTrack(byte[] bytestream)
+        {
+            smtc.DisplayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromStream(await FileHelper.ToStream(bytestream));
+            smtc.DisplayUpdater.Update();
         }
 
         private void UpdateUVCOnNewTrack(MediaPlaybackItem item)
@@ -452,11 +464,6 @@ namespace com.aurora.aumusic.backgroundtask
             smtc.DisplayUpdater.MusicProperties.Title = item.Source.CustomProperties[TitleKey] as string;
 
             var albumArtUri = new Uri(item.Source.CustomProperties[AlbumArtKey] as string);
-            if (albumArtUri != null)
-                smtc.DisplayUpdater.Thumbnail = RandomAccessStreamReference.CreateFromUri(albumArtUri);
-            else
-                smtc.DisplayUpdater.Thumbnail = null;
-
             smtc.DisplayUpdater.Update();
         }
     }

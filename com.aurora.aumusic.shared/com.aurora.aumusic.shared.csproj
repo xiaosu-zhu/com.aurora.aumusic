@@ -128,6 +128,7 @@
     <Compile Include="MessageService\ForePlaybackChangedMessage.cs" />
     <Compile Include="MessageService\MessageService.cs" />
     <Compile Include="MessageService\RefreshStateMessage.cs" />
+    <Compile Include="MessageService\UpdateArtworkMessage.cs" />
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />
     <Compile Include="PlayBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
