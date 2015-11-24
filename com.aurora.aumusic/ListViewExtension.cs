@@ -24,12 +24,24 @@ namespace com.aurora.aumusic
             await rtb.RenderAsync(element);
 
             var pixelBuffer = await rtb.GetPixelsAsync();
+            var pixels = pixelBuffer.ToArray();
 
-            InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
-            DataWriter datawriter = new DataWriter(stream.GetOutputStreamAt(0));
-            datawriter.WriteBuffer(pixelBuffer);
-            await datawriter.StoreAsync();
+            // Useful for rendering in the correct DPI
+            var displayInformation = DisplayInformation.GetForCurrentView();
+
+            var stream = new InMemoryRandomAccessStream();
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+            encoder.SetPixelData(BitmapPixelFormat.Bgra8,
+                                 BitmapAlphaMode.Premultiplied,
+                                 (uint)rtb.PixelWidth,
+                                 (uint)rtb.PixelHeight,
+                                 displayInformation.RawDpiX,
+                                 displayInformation.RawDpiY,
+                                 pixels);
+
+            await encoder.FlushAsync();
             stream.Seek(0);
+
             return stream;
         }
 

@@ -1,14 +1,16 @@
 ﻿using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.MessageService;
 using com.aurora.aumusic.shared.Songs;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Media.Playback;
+using Windows.Storage.Streams;
+using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,6 +64,7 @@ namespace com.aurora.aumusic
             if (e.Parameter != null)
                 CurrentSong = new Song(e.Parameter as SongModel);
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
+
             PanelIn.Begin();
             updateui();
         }
@@ -176,7 +179,6 @@ namespace com.aurora.aumusic
         internal async void updateartwork(byte[] artworkStream)
         {
             var stream = FileHelper.ToStream(artworkStream);
-            await Task.Delay(1500);
             await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async () =>
             {
                 MainColor = await BitmapHelper.New(stream);

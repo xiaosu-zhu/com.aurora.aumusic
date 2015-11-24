@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:com.aurora.aumusic"
     xmlns:converter="using:com.aurora.aumusic.shared"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -166,13 +168,36 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Rectangle x:Name="TextShadow" RelativePanel.AlignLeftWith="TextGroup" RelativePanel.AlignRightWith="TextGroup" RelativePanel.AlignTopWith="TextGroup" RelativePanel.AlignBottomWith="TextGroup" >
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="/Assets/blurfore.png" Stretch="Fill" />
-            </Rectangle.Fill>
-        </Rectangle>
+
         <RelativePanel x:Name="TextGroup">
-            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="320" Height="64">
+            <Rectangle Margin="28,8,8,8" Opacity="0.5" RelativePanel.AlignLeftWith="NowTitleScale" RelativePanel.AlignRightWith="NowTitleScale" 
+                   RelativePanel.AlignTopWith="NowTitleScale" RelativePanel.AlignBottomWith="NowTitleScale" >
+                <Rectangle.Fill>
+                    <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Margin="32,0,8,8" Opacity="0.5" RelativePanel.AlignLeftWith="NowArtist" RelativePanel.AlignRightWith="NowArtist" 
+                   RelativePanel.AlignTopWith="NowArtist" RelativePanel.AlignBottomWith="NowArtist" >
+                <Rectangle.Fill>
+                    <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Margin="32,0,8,8" Opacity="0.5" RelativePanel.AlignLeftWith="NowAlbum" RelativePanel.AlignRightWith="NowAlbum" 
+                   RelativePanel.AlignTopWith="NowAlbum" RelativePanel.AlignBottomWith="NowAlbum" >
+                <Rectangle.Fill>
+                    <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Margin="32,0,8,8" Opacity="0.5" RelativePanel.AlignLeftWith="NowDetails" RelativePanel.AlignRightWith="NowDetails" 
+                   RelativePanel.AlignTopWith="NowDetails" RelativePanel.AlignBottomWith="NowDetails" >
+                <Rectangle.Fill>
+                    <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Opacity="0.5" RelativePanel.AlignLeftWith="NowTitleScale" RelativePanel.AlignRightWith="NowTitleScale" 
+                   RelativePanel.AlignTopWith="NowTitleScale" RelativePanel.AlignBottomWith="NowTitleScale" >
+            </Rectangle>
+            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="320" Height="56">
                 <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="White" MaxWidth="320"/>
             </Viewbox>
             <TextBlock Margin="32,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White" />
