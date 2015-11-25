@@ -144,7 +144,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
             <Style x:Key="MediaSliderStyle" TargetType="Slider">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
@@ -170,7 +169,7 @@
                                         </Setter>
                                     </Style>
                                     <Style x:Key="MediaSliderProgressBarStyle" TargetType="ProgressBar">
-                                        <Setter Property="Height" Value="4"/>
+                                        <Setter Property="Height" Value="{ThemeResource SliderTrackThemeHeight}"/>
                                         <Setter Property="Minimum" Value="0"/>
                                         <Setter Property="Maximum" Value="100"/>
                                         <Setter Property="Foreground" Value="{TemplateBinding Foreground}"/>
@@ -249,8 +248,8 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="18"/>
                                         </Grid.RowDefinitions>
-                                        <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="#22777777" Height="4" Grid.Row="1"/>
-                                        <Rectangle x:Name="HorizontalDecreaseRect" Height="4" Fill="{TemplateBinding Foreground}" Grid.Row="1"/>
+                                        <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="#22777777" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
+                                        <Rectangle x:Name="HorizontalDecreaseRect" Height="{ThemeResource SliderTrackThemeHeight}" Fill="{TemplateBinding Foreground}" Grid.Row="1"/>
                                         <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="#FFF0F0F0" Foreground="{TemplateBinding Foreground}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
                                     </Grid>
                                 </Grid>
@@ -259,6 +258,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <converter:ThumbToolTipConveter x:Key="SliderConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -286,8 +286,8 @@
             <Rectangle Opacity="0.5" RelativePanel.AlignLeftWith="NowTitleScale" RelativePanel.AlignRightWith="NowTitleScale" 
                    RelativePanel.AlignTopWith="NowTitleScale" RelativePanel.AlignBottomWith="NowTitleScale" >
             </Rectangle>
-            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="320" Height="56">
-                <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="White" MaxWidth="480"/>
+            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="400" Height="56">
+                <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="White" MaxWidth="640"/>
             </Viewbox>
             <TextBlock Margin="32,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White" />
             <TextBlock Margin="32,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitleScale" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
@@ -741,7 +741,9 @@
                     <SymbolIcon x:Name="Volume" Symbol="Volume" />
                 </Button.Content>
             </Button>
-            <Slider x:Name="PositionSlider" Loaded="PositionSlider_Loaded" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" Style="{ThemeResource MediaSliderStyle}" Margin="-64,64,-64,0" RelativePanel.AlignLeftWith="VolumeButton" RelativePanel.AlignRightWith="MoreDetailsButton" RelativePanel.Below="PlayPauseButton" RelativePanel.AlignHorizontalCenterWithPanel="True" />
+            <Slider x:Name="PositionSlider" Loaded="PositionSlider_Loaded" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" Style="{ThemeResource MediaSliderStyle}" ThumbToolTipValueConverter="{StaticResource SliderConverter}" Margin="-64,64,-64,0" RelativePanel.AlignLeftWith="VolumeButton" RelativePanel.AlignRightWith="MoreDetailsButton" RelativePanel.Below="PlayPauseButton" RelativePanel.AlignHorizontalCenterWithPanel="True" />
+            <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,40,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />
+            <TextBlock x:Name="TotalTimeBlock" RelativePanel.RightOf="MoreDetailsButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="78,40,0,0" Style="{ThemeResource BodyTextBlockStyle}" Text="0:00" />
         </RelativePanel>
         
         <AppBarButton x:Name="DeDetailsButton" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" >

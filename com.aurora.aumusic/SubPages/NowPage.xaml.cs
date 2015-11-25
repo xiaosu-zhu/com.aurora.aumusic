@@ -110,6 +110,10 @@ namespace com.aurora.aumusic
             NowDetails.Text = (string)converter.Convert(CurrentSong, null, null, null);
             var con = new ArtistsConverter();
             NowArtist.Text = (string)con.Convert(CurrentSong.Artists, null, true, null);
+            var c = PositionSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
+            c.sParmeter = CurrentSong.Duration.TotalSeconds;
+            var d = new DurationValueConverter();
+            TotalTimeBlock.Text = (string)d.Convert(CurrentSong.Duration, null, null, null);
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -125,6 +129,7 @@ namespace com.aurora.aumusic
 
         private void PositionSlider_Loaded(object sender, RoutedEventArgs e)
         {
+            
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)
