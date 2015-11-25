@@ -13,8 +13,10 @@ namespace com.aurora.aumusic.shared
     {
         public async static Task<T> WebGETAsync<T>(string url, T data)
         {
-                WebRequest wrGETURL;
-                wrGETURL = WebRequest.Create(url);
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(url);
+            try
+            {
                 wrGETURL.Method = "GET";
                 Stream objStream;
                 objStream = (await wrGETURL.GetResponseAsync()).GetResponseStream();
@@ -23,16 +25,38 @@ namespace com.aurora.aumusic.shared
 
                 string sLine = "";
                 sLine = await objReader.ReadToEndAsync();
+                wrGETURL.Abort();
+                wrGETURL = null;
                 return JsonHelper.FromJson<T>(sLine);
+            }
+            catch (WebException)
+            {
+                wrGETURL.Abort();
+                wrGETURL = null;
+                throw;
+            }
+
         }
         public async static Task<Stream> WebDOWNAsync(string url)
         {
-                WebRequest wrGETURL;
-                wrGETURL = WebRequest.Create(url);
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(url);
+            try
+            {
                 wrGETURL.Method = "GET";
                 Stream objStream;
                 objStream = (await wrGETURL.GetResponseAsync()).GetResponseStream();
+                wrGETURL.Abort();
+                wrGETURL = null;
                 return objStream;
+            }
+            catch (WebException)
+            {
+                wrGETURL.Abort();
+                wrGETURL = null;
+                throw;
+            }
+
         }
     }
 

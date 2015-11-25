@@ -12,8 +12,10 @@ using Windows.Media.Playback;
 using Windows.Storage.Streams;
 using Windows.System.Threading;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -28,6 +30,7 @@ namespace com.aurora.aumusic
 
         private bool _loved = false;
         private bool _broken = false;
+        private ThreadPoolTimer wtftimer;
 
         private bool Broken
         {
@@ -53,6 +56,8 @@ namespace com.aurora.aumusic
             }
         }
 
+        public MediaPlayerState NowState = MediaPlayerState.Playing;
+
         public NowPage()
         {
             this.InitializeComponent();
@@ -71,6 +76,7 @@ namespace com.aurora.aumusic
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
+
             BackPlaybackChangedMessage message;
             if (MessageService.TryParseMessage(e.Data, out message))
             {
@@ -82,6 +88,7 @@ namespace com.aurora.aumusic
                          updateui();
                      }));
                 }
+                NowState = message.NowState;
             }
             UpdateArtworkMessage artwork;
             if (MessageService.TryParseMessage(e.Data, out artwork))
@@ -103,6 +110,49 @@ namespace com.aurora.aumusic
             NowDetails.Text = (string)converter.Convert(CurrentSong, null, null, null);
             var con = new ArtistsConverter();
             NowArtist.Text = (string)con.Convert(CurrentSong.Artists, null, true, null);
+        }
+
+        private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            wtftimer.Cancel();
+            PositionSlider.ValueChanged += PositionSlider_ValueChanged;
+        }
+
+        private void PositionSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * PositionSlider.Value) / 100.0));
+        }
+
+        private void PositionSlider_Loaded(object sender, RoutedEventArgs e)
+        {
+            wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                if (NowState == MediaPlayerState.Playing)
+                {
+                    this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        PositionSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                    });
+                }
+            },
+            TimeSpan.FromSeconds(0.16));
+        }
+
+        private void HorizontalThumb_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            PositionSlider.ValueChanged -= PositionSlider_ValueChanged;
+            wtftimer.Cancel();
+            wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
+            {
+                if (NowState == MediaPlayerState.Playing)
+                {
+                    this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                    {
+                        PositionSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                    });
+                }
+            },
+            TimeSpan.FromSeconds(0.16));
         }
 
         private void OneStarButton_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

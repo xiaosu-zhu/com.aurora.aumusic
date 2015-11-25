@@ -18,7 +18,7 @@ namespace com.aurora.aumusic.shared.Lrc
 
         public static async Task<string> Fetch(LrcRequestModel lrcresult, Song song)
         {
-            if (lrcresult.count == 0)
+            if (lrcresult == null || lrcresult.count == 0)
                 return null;
             string url = lrcresult.result[0].lrc;
 
@@ -37,14 +37,21 @@ namespace com.aurora.aumusic.shared.Lrc
 
         public static async Task<LrcRequestModel> isLrcExist(Song song)
         {
-            var url = genreqest(song);
-            var result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
-            if (result !=null && result.count == 0)
+            try
             {
-                url = genreqestthin(song);
-                result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
+                var url = genreqest(song);
+                var result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
+                if (result != null && result.count == 0)
+                {
+                    url = genreqestthin(song);
+                    result = await WebHelper.WebGETAsync(url, new LrcRequestModel());
+                }
+                return result;
             }
-            return result;
+            catch (TaskCanceledException)
+            {
+                return null;
+            }
         }
 
         private static string genreqest(Song song)

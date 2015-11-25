@@ -153,6 +153,11 @@
     <Content Include="Assets\ButtonIcon\nextsolid.scale-180.png" />
     <Content Include="Assets\ButtonIcon\nextsolid.scale-240.png" />
     <Content Include="Assets\ButtonIcon\nextsolid.scale-80.png" />
+    <Content Include="Assets\ButtonIcon\pausesolid.scale-100.png" />
+    <Content Include="Assets\ButtonIcon\pausesolid.scale-140.png" />
+    <Content Include="Assets\ButtonIcon\pausesolid.scale-180.png" />
+    <Content Include="Assets\ButtonIcon\pausesolid.scale-240.png" />
+    <Content Include="Assets\ButtonIcon\pausesolid.scale-80.png" />
     <Content Include="Assets\ButtonIcon\playsolid.scale-100.png" />
     <Content Include="Assets\ButtonIcon\playsolid.scale-140.png" />
     <Content Include="Assets\ButtonIcon\playsolid.scale-180.png" />
