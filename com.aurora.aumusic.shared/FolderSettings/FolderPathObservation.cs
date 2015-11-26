@@ -14,26 +14,26 @@ namespace com.aurora.aumusic.shared.FolderSettings
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         ObservableCollection<PathGroupList> Folders = new ObservableCollection<PathGroupList>();
-        public List<String> PathTokens = new List<string>();
+        public List<string> PathTokens = new List<string>();
 
         public async Task<List<PathGroupList>> RestorePathsfromSettings()
         {
             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
             if (composite != null)
             {
-                String TempPath;
+                string TempPath;
                 int count = (int)composite["FolderCount"];
                 Folders.Clear();
                 PathTokens.Clear();
                 List<FolderItem> folders = new List<FolderItem>();
                 for (int i = 0; i < count; i++)
                 {
-                    TempPath = (String)composite["FolderSettings" + i];
+                    TempPath = (string)composite["FolderSettings" + i];
                     StorageFolder TempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(TempPath);
                     if (TempFolder != null)
                     {
                         PathTokens.Add(TempPath);
-                        folders.Add(new FolderItem(TempFolder));
+                        folders.Add(new FolderItem(TempFolder, i));
                     }
                     else
                     {
@@ -68,6 +68,25 @@ namespace com.aurora.aumusic.shared.FolderSettings
 
         public int i = 0;
 
+        public void DeleteFolder(FolderItem folderItem)
+        {
+            foreach (var item in Folders)
+            {
+                if (item.Remove(folderItem))
+                {
+                    ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                    if (composite != null)
+                    {
+                        var TempPath = (string)composite["FolderSettings" + folderItem.i];
+                        if (PathTokens.Remove(TempPath))
+                        {
+                            StorageApplicationPermissions.FutureAccessList.Remove(TempPath);
+                            SaveFoldertoSettings();
+                        }
+                    }
+                }
+            }
+        }
 
         public ObservableCollection<PathGroupList> GetFolders()
         {
@@ -82,16 +101,16 @@ namespace com.aurora.aumusic.shared.FolderSettings
                 {
                     if ((char)item.Key == Folder.Path[0])
                     {
-                        if (item.Contains(new FolderItem(Folder)))
-                            return false;
-                        else
+                        foreach (FolderItem folder in item)
                         {
-                            ((IList)item).Add(new FolderItem(Folder));
-                            Folders[Folders.IndexOf(item)] = item;
-                            PathTokens.Add(StorageApplicationPermissions.FutureAccessList.Add(Folder));
-                            return true;
+                            if (folder.Folder == Folder)
+                                return false;
                         }
                     }
+                        ((IList)item).Add(new FolderItem(Folder));
+                    Folders[Folders.IndexOf(item)] = item;
+                    PathTokens.Add(StorageApplicationPermissions.FutureAccessList.Add(Folder));
+                    return true;
                 }
             }
             Folders.Add(new PathGroupList(Folder.Path[0], new FolderItem(Folder)));
@@ -102,7 +121,7 @@ namespace com.aurora.aumusic.shared.FolderSettings
         public void SaveFoldertoSettings()
         {
             ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
-            i = 0;
+            int i = 0;
             foreach (var item in PathTokens)
             {
                 composite["FolderSettings" + i.ToString()] = item;

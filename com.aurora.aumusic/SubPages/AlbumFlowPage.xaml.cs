@@ -36,7 +36,7 @@ namespace com.aurora.aumusic
     public sealed partial class AlbumFlowPage : Page
     {
         Grid _pageParameters;
-        
+
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
         bool IsInitialed = false;
@@ -78,13 +78,13 @@ namespace com.aurora.aumusic
         {
             base.OnNavigatedTo(e);
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                var view = ApplicationView.GetForCurrentView();
-                ApplicationViewTitleBar titleBar = view.TitleBar;
-                if (titleBar != null)
-                {
-                    titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
-                    titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
-                }
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            if (titleBar != null)
+            {
+                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+            }
             mainpage = e.Parameter as MainPage;
         }
 
@@ -300,7 +300,7 @@ async () =>
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList(),new SongModel(((sender as Button).DataContext as Song))));
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Playing, DetailedAlbum.ToSongModelList(), new SongModel(((sender as Button).DataContext as Song))));
             // _pageParameters.PlaybackControl.Clear();
             //_pageParameters.PlaybackControl.addNew(DetailedAlbum);
             // await _pageParameters.PlaybackControl.Play(index, _pageParameters.Media);

@@ -148,7 +148,7 @@ namespace com.aurora.aumusic
                         if (localSettings.Values.ContainsKey("FolderSettings"))
                         {
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
-                            if (composite != null)
+                            if (composite != null && (int)composite["FolderCount"] > 0)
                             {
                                 MainFrame.Navigate(typeof(AlbumFlowPage), this);
 
@@ -258,7 +258,7 @@ namespace com.aurora.aumusic
         {
             PlayBackGrid.PointerEntered += PlayBackGrid_PointerEntered;
             PlayBackGrid.PointerExited += PlayBackGrid_PointerExited;
-            
+
             var renderer = new RenderTargetBitmap();
             await renderer.RenderAsync(NowLrcFrame);
             var rendererr = new RenderTargetBitmap();
@@ -272,9 +272,9 @@ namespace com.aurora.aumusic
             PlaybackControlGridUnset.Begin();
             PlaybackControlGridOut.Begin();
             MainFrameIn.Begin();
-            
+
             NavigatedtoDetailPages = false;
-            
+
             await Task.Delay(1100);
             NowPlayingDetailsGrid.Visibility = Visibility.Visible;
             MediaTransportControls_Timeline_Grid.Visibility = Visibility.Visible;

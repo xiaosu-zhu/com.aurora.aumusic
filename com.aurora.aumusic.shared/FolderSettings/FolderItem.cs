@@ -27,6 +27,7 @@ namespace com.aurora.aumusic.shared.FolderSettings
             }
         }
         public char Key;
+        public int i;
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -39,6 +40,11 @@ namespace com.aurora.aumusic.shared.FolderSettings
         {
             this.Folder = folder;
             this.Key = folder.Path[0];
+        }
+
+        public FolderItem(StorageFolder folder, int i) : this(folder)
+        {
+            this.i = i;
         }
     }
 }

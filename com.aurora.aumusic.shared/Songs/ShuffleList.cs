@@ -23,6 +23,8 @@ namespace com.aurora.aumusic.shared.Songs
         }
         public List<Song> GenerateNewList(int count)
         {
+            if (AllSongs == null)
+                return null;
             Random r = new Random(Guid.NewGuid().GetHashCode());
             List<Song> shuffleList = new List<Song>();
             for (int i = 0; i < count; i++)

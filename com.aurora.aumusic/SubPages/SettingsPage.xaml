@@ -35,21 +35,21 @@
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
-                    <Button x:Name="DeleteButton" Grid.Column="1" Style="{ThemeResource TextBlockButtonStyle}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Center">
+                    <Button x:Name="DeleteButton" Click="DeleteButton_Click" Grid.Column="1" Style="{ThemeResource TextBlockButtonStyle}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Center">
                         <Button.Content>
                             <SymbolIcon Symbol="Delete" />
                         </Button.Content>
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Style="{StaticResource FlyoutPickerTitleTextBlockStyle}" Margin="4">
+                                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="4">
                                             这个文件夹将不再进入搜索范围
                                     </TextBlock>
                                     <Grid>
-                                        <Button HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,0,0">
+                                        <Button x:Name="DeleteConfirmButton" Click="DeleteConfirmButton_Click"  HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,4,0,0">
                                             确定
                                         </Button>
-                                        <Button HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,0,0">
+                                        <Button x:Name="DeleteCancelButton" Click="DeleteCancelButton_Click" HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,8,0">
                                             取消
                                         </Button>
                                     </Grid>
@@ -59,10 +59,30 @@
                     </Button>
                 </Grid>
             </DataTemplate>
+            <Style x:Key="SeetingsListItemStyle" TargetType="ListViewItem">
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="TabNavigation" Value="Local"/>
+                <Setter Property="IsHoldingEnabled" Value="True"/>
+                <Setter Property="Padding" Value="12,0,12,0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+                <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ListViewItemPresenter CheckBrush="Transparent" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="Transparent" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPressedBackground="Transparent" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedPointerOverBackground="Transparent" SelectedBackground="Transparent" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
 
     </Page.Resources>
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}">
 
 
         <VisualStateManager.VisualStateGroups>
@@ -79,80 +99,70 @@
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" MinWidth="320"/>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0" x:Name="MainSettingsPanel" Margin="12,44,12,12" ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="80" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="SettingsTitle" Text="设置" Style="{ThemeResource SubheaderTextBlockStyle}" Grid.ColumnSpan="2" />
-                <StackPanel Grid.Row="1" >
-                    <StackPanel x:Name="GeneralSettingsPanel" Background="LightGray" Margin="12">
-                        <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
-                        <StackPanel Orientation="Horizontal" Margin="16" >
-                            <TextBlock Text="语言" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
-                            <!--TODO: Localization-->
-                            <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
-                                <x:String>跟随系统</x:String>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="16">
-                            <TextBlock Text="主题" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
-                            <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
-                                <!--TODO: Get System time and set theme-->
-                                <x:String>自动</x:String>
-                                <x:String>亮</x:String>
-                                <x:String>暗</x:String>
-                            </ComboBox>
-                        </StackPanel>
+        <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
+            <TextBlock x:Name="TitleBlock" Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
+        </RelativePanel>
+        <ScrollViewer RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,80,0,0">
+            <StackPanel Grid.Row="1" >
+                <StackPanel x:Name="GeneralSettingsPanel" Margin="12">
+                    <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
+                    <StackPanel Orientation="Horizontal" Margin="16" >
+                        <TextBlock Text="语言" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <!--TODO: Localization-->
+                        <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
+                            <x:String>跟随系统</x:String>
+                        </ComboBox>
                     </StackPanel>
-                    <StackPanel x:Name="MusicSettingsPanel" Background="LightGray" Margin="12">
-                        <TextBlock Text="歌曲信息" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
-                            <TextBlock Text="自动获取专辑信息" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
-                            <ToggleSwitch Margin="88,0,0,0" OnContent="启用" OffContent="禁用"/>
-                            <!--TODO: Search and pull lyrics-->
-
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
-                            <Grid HorizontalAlignment="Stretch">
-                                <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                                <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Style="{StaticResource TextBlockButtonStyle}">
-                                    <Button.Content>
-                                        <SymbolIcon Symbol="Add"/>
-                                    </Button.Content>
-                                </Button>
-                            </Grid>
-                            <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" SelectionChanged="MusicSettingsSearchingList_SelectionChanged" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
-                  ItemTemplate="{StaticResource MusicFolderListTemplate}"
-                  SelectionMode="Single"
-                  ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch" Height="160">
-                                <ListView.GroupStyle>
-                                    <GroupStyle >
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate x:DataType="Folders:PathGroupList">
-                                                <TextBlock Text="{x:Bind Key}" 
-                                       Style="{ThemeResource TitleTextBlockStyle}"/>
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </ListView.GroupStyle>
-                            </ListView>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel x:Name="PlaybackSettingsPanel" Background="LightGray" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
-                        <TextBlock Text="播放设置" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
-
+                    <StackPanel Orientation="Horizontal" Margin="16">
+                        <TextBlock Text="主题" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
+                            <!--TODO: Get System time and set theme-->
+                            <x:String>自动</x:String>
+                            <x:String>亮</x:String>
+                            <x:String>暗</x:String>
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel x:Name="MusicSettingsPanel" Margin="12">
+                    <TextBlock Text="歌曲信息" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
 
-            </Grid>
-            <Rectangle Grid.Column="1" Fill="Red" />
-        </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
+                        <TextBlock Text="自动获取专辑信息" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="88,0,0,0" OnContent="启用" OffContent="禁用"/>
+                        <!--TODO: Search and pull lyrics-->
+
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
+                        <Grid HorizontalAlignment="Stretch">
+                            <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
+                            <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Style="{StaticResource TextBlockButtonStyle}">
+                                <Button.Content>
+                                    <SymbolIcon Symbol="Add"/>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" SelectionChanged="MusicSettingsSearchingList_SelectionChanged" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
+                  ItemTemplate="{StaticResource MusicFolderListTemplate}"
+                  SelectionMode="Single"
+                  ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch" Height="160" ItemContainerStyle="{StaticResource SeetingsListItemStyle}">
+                            <ListView.GroupStyle>
+                                <GroupStyle >
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate x:DataType="Folders:PathGroupList">
+                                            <TextBlock Text="{x:Bind Key}" 
+                                       Style="{ThemeResource TitleTextBlockStyle}"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                        </ListView>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="PlaybackSettingsPanel" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
+                    <TextBlock Text="播放设置" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
+
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </RelativePanel>
 </Page>

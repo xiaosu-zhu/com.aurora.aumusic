@@ -3,19 +3,37 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace com.aurora.aumusic
 {
     public sealed partial class SettingsPage : Page
     {
         FolderPathObservation folderPaths = new FolderPathObservation();
+        private Button deletebutton;
+
         public SettingsPage()
         {
-
             this.InitializeComponent();
             MusicFolderPathReosurces.Source = folderPaths.GetFolders();
 
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            if (titleBar != null)
+            {
+                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+            }
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -69,7 +87,32 @@ namespace com.aurora.aumusic
             }
 
             var folder = MusicSettingsSearchingList.SelectedItem as FolderItem;
-            folder.visibility = Windows.UI.Xaml.Visibility.Visible;
+            if (folder != null)
+                folder.visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private async void DeleteConfirmButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            deletebutton.Flyout.Hide();
+            folderPaths.DeleteFolder((deletebutton.DataContext as FolderItem));
+            var p = await folderPaths.RestorePathsfromSettings();
+            if (p != null)
+            {
+                foreach (var item in p)
+                {
+                    folderPaths.GetFolders().Add(item);
+                }
+            }
+        }
+
+        private void DeleteCancelButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            deletebutton.Flyout.Hide();
+        }
+
+        private void DeleteButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            deletebutton = (sender as Button);
         }
     }
 
