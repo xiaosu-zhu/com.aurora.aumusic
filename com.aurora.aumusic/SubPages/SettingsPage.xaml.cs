@@ -32,7 +32,7 @@ namespace com.aurora.aumusic
                 if (folderPaths.SaveFoldertoStorage(folder))
                 {
                     await Task.Run(() =>
-            {//folderPaths.GetFolders();
+            {
                 folderPaths.SaveFoldertoSettings();
             });
                 }
@@ -56,6 +56,20 @@ namespace com.aurora.aumusic
                 }
             }
 
+        }
+
+        private void MusicSettingsSearchingList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in (folderPaths.GetFolders()))
+            {
+                foreach (FolderItem f in item.PathList)
+                {
+                    f.visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+            }
+
+            var folder = MusicSettingsSearchingList.SelectedItem as FolderItem;
+            folder.visibility = Windows.UI.Xaml.Visibility.Visible;
         }
     }
 

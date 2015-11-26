@@ -92,17 +92,8 @@
     </Page.Transitions>
 
 
-    <RelativePanel x:Name="Root" Opacity="0">
-        <RelativePanel.Resources>
-            <Storyboard x:Name="PanelIn">
-                <DoubleAnimation Duration="0:0:1" EnableDependentAnimation="True" Storyboard.TargetName="Root" From="0" To="1" Storyboard.TargetProperty="Opacity">
-                    <DoubleAnimation.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-        </RelativePanel.Resources>
-        <Rectangle x:Name="Background" Opacity="0.5" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="280" >
+    <RelativePanel x:Name="Root">
+        <Rectangle x:Name="Background" Opacity="0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="280" >
             <Rectangle.Fill>
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/blurfore.png" />
             </Rectangle.Fill>

@@ -35,6 +35,7 @@ namespace com.aurora.aumusic
         public LrcPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,7 +43,6 @@ namespace com.aurora.aumusic
             base.OnNavigatedTo(e);
             if (e.Parameter != null)
                 this.CurrentSong = new Song(e.Parameter as SongModel);
-            PanelIn.Begin();
         }
 
 

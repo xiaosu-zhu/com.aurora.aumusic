@@ -74,7 +74,7 @@ namespace com.aurora.aumusic.shared.FolderSettings
             return Folders;
         }
 
-        public Boolean SaveFoldertoStorage(StorageFolder Folder)
+        public bool SaveFoldertoStorage(StorageFolder Folder)
         {
             if (Folders.Count > 0)
             {

@@ -70,23 +70,14 @@ namespace com.aurora.aumusic
         {
             this.InitializeComponent();
             AlbumFlowResources.Source = Albums.albumList;
-            var view = ApplicationView.GetForCurrentView();
-            ApplicationViewTitleBar titleBar = view.TitleBar;
-            if (titleBar != null)
-            {
-                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
-                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
-
-            }
             this.NavigationCacheMode = NavigationCacheMode.Required;
             AlbumFlowZoom.IsZoomedInViewActive = false;
             backgroundAudioTaskStarted = new AutoResetEvent(false);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            if (IsInitialed)
-            {
                 var view = ApplicationView.GetForCurrentView();
                 ApplicationViewTitleBar titleBar = view.TitleBar;
                 if (titleBar != null)
@@ -94,8 +85,6 @@ namespace com.aurora.aumusic
                     titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
                     titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
                 }
-                return;
-            }
             mainpage = e.Parameter as MainPage;
         }
 
@@ -383,6 +372,8 @@ async () =>
 
         private async void FavListView_Loaded(object sender, RoutedEventArgs e)
         {
+            if (IsInitialed)
+                return;
             List<Song> shuffleList = new List<Song>();
             var s = await ShuffleList.RestoreFavouriteList();
             if (s != null)

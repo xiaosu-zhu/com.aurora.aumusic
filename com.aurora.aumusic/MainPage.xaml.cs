@@ -227,6 +227,10 @@ namespace com.aurora.aumusic
                         playbackControl.setPlaybackControl(stateChangedMessage.CurrentSong);
                         this.CurrentSong = stateChangedMessage.CurrentSong;
                         nowPlayingHub.Set(stateChangedMessage.CurrentSong);
+                        if (NowLrcFrame.Content != null)
+                        {
+                            NowLrcFrame.Navigate(typeof(LrcPage), CurrentSong);
+                        }
                     }
                     NowState = stateChangedMessage.NowState;
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
@@ -248,6 +252,53 @@ namespace com.aurora.aumusic
                     PlayBackImage_ImageOpened(stream);
                 });
             }
+        }
+
+        internal async void GoBack()
+        {
+            PlayBackGrid.PointerEntered += PlayBackGrid_PointerEntered;
+            PlayBackGrid.PointerExited += PlayBackGrid_PointerExited;
+            
+            var renderer = new RenderTargetBitmap();
+            await renderer.RenderAsync(NowLrcFrame);
+            var rendererr = new RenderTargetBitmap();
+            await rendererr.RenderAsync(NowCtrlFrame);
+            NowLrcFrame.Navigate(typeof(CachePage), renderer);
+            NowCtrlFrame.Navigate(typeof(CachePage), rendererr);
+            var ani = MainFrameIn.Children[0] as DoubleAnimation;
+            ani.To = Root.ActualHeight;
+            ani = PlaybackControlGridOut.Children[0] as DoubleAnimation;
+            ani.From = Root.ActualHeight;
+            PlaybackControlGridUnset.Begin();
+            PlaybackControlGridOut.Begin();
+            MainFrameIn.Begin();
+            
+            NavigatedtoDetailPages = false;
+            
+            await Task.Delay(1100);
+            NowPlayingDetailsGrid.Visibility = Visibility.Visible;
+            MediaTransportControls_Timeline_Grid.Visibility = Visibility.Visible;
+            TimeRemainingBlock.Visibility = Visibility.Visible;
+            TimePastBlock.Visibility = Visibility.Visible;
+            LeftPanel.Visibility = Visibility.Visible;
+            MediaControlsCommandBar.Visibility = Visibility.Visible;
+            if (MenuList.SelectedIndex == -1)
+                MainFrame.Navigate(typeof(SettingsPage));
+            Splitlist s = MenuList.SelectedItem as Splitlist;
+            s.visibility = Visibility.Visible;
+            switch (s.Title)
+            {
+                case "AlbumFlow": MainFrame.Navigate(typeof(AlbumFlowPage), this); break;
+                case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
+                case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
+                case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
+            }
+            MainFrameSet.Begin();
+            NowLrcFrame.Visibility = Visibility.Collapsed;
+            NowCtrlFrame.Visibility = Visibility.Collapsed;
+            NowLrcFrame.Content = null;
+            NowCtrlFrame.Content = null;
+            Root.LayoutUpdated += Root_LayoutUpdated;
         }
 
         private void ProgressSlider_Loaded(object sender, RoutedEventArgs e)
@@ -378,13 +429,18 @@ namespace com.aurora.aumusic
 
         private async void DetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentSong != null)
+            await AccesstoNowPage();
+
+        }
+
+        private async Task AccesstoNowPage()
+        {
+            if (CurrentSong != null && NavigatedtoDetailPages == false)
             {
+                Root.LayoutUpdated -= Root_LayoutUpdated;
                 var renderer = new RenderTargetBitmap();
                 await renderer.RenderAsync(MainFrame);
                 MainFrame.Navigate(typeof(CachePage), renderer);
-
-                BorderRec.Visibility = Visibility.Visible;
                 PlayBackGrid.PointerEntered -= PlayBackGrid_PointerEntered;
                 PlayBackGrid.PointerExited -= PlayBackGrid_PointerExited;
                 NowLrcFrame.Visibility = Visibility.Visible;
@@ -400,18 +456,17 @@ namespace com.aurora.aumusic
                 TimePastBlock.Visibility = Visibility.Collapsed;
                 LeftPanel.Visibility = Visibility.Collapsed;
                 MediaControlsCommandBar.Visibility = Visibility.Collapsed;
-
+                MainFrameUnset.Begin();
                 var ani = MainFrameOut.Children[0] as DoubleAnimation;
-                ani.From = MainFrame.ActualHeight;
+                ani.From = Root.ActualHeight;
                 ani = PlaybackControlGridIn.Children[0] as DoubleAnimation;
-                ani.To = MainFrame.ActualHeight;
+                ani.To = Root.ActualHeight;
                 PlaybackControlGridIn.Begin();
                 MainFrameOut.Begin();
 
-                await Task.Delay(1600);
+                await Task.Delay(1100);
                 PlaybackControlGridSet.Begin();
             }
-
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
@@ -498,6 +553,16 @@ namespace com.aurora.aumusic
         {
             NowPlayingIn.Begin();
             CommandBarOut.Begin();
+        }
+
+        private async void PlayBackGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            await AccesstoNowPage();
+        }
+
+        private void Root_LayoutUpdated(object sender, object e)
+        {
+            MainFrame.Height = Root.ActualHeight;
         }
 
         private async void PlayBackImage_ImageOpened(IRandomAccessStream stream)

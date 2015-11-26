@@ -262,16 +262,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <RelativePanel x:Name="Root" Opacity="0">
-        <RelativePanel.Resources>
-            <Storyboard x:Name="PanelIn">
-                <DoubleAnimation Duration="0:0:1" EnableDependentAnimation="True" Storyboard.TargetName="Root" From="0" To="1" Storyboard.TargetProperty="Opacity">
-                    <DoubleAnimation.EasingFunction>
-                        <QuadraticEase EasingMode="EaseOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-        </RelativePanel.Resources>
+    <RelativePanel x:Name="Root">
         <Rectangle RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.Above="PlaybackControlPanel" >
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="1,0">
@@ -742,11 +733,11 @@
                 </Button.Content>
             </Button>
             <Slider x:Name="PositionSlider" Loaded="PositionSlider_Loaded" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" Style="{ThemeResource MediaSliderStyle}" ThumbToolTipValueConverter="{StaticResource SliderConverter}" Margin="-64,64,-64,0" RelativePanel.AlignLeftWith="VolumeButton" RelativePanel.AlignRightWith="MoreDetailsButton" RelativePanel.Below="PlayPauseButton" RelativePanel.AlignHorizontalCenterWithPanel="True" />
-            <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,40,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />
-            <TextBlock x:Name="TotalTimeBlock" RelativePanel.RightOf="MoreDetailsButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="78,40,0,0" Style="{ThemeResource BodyTextBlockStyle}" Text="0:00" />
+            <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,38,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />
+            <TextBlock x:Name="TotalTimeBlock" RelativePanel.RightOf="MoreDetailsButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="78,38,0,0" Style="{ThemeResource BodyTextBlockStyle}" Text="0:00" />
         </RelativePanel>
         
-        <AppBarButton x:Name="DeDetailsButton" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
+        <AppBarButton x:Name="DeDetailsButton"  Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Click="DeDetailsButton_Click" >
             <AppBarButton.Icon>
                 <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />
             </AppBarButton.Icon>

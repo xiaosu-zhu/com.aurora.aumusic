@@ -14,6 +14,7 @@ namespace com.aurora.aumusic
         public CachePage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

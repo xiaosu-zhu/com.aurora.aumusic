@@ -31,16 +31,32 @@
             <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="Folders:FolderItem" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-                    <Ellipse x:Name="Ellipse" Grid.Column="0" Width ="40" Height="40"
-                                                         Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                        <Ellipse.Fill>
-                            White
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <TextBlock x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="1" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    <TextBlock x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                    <Button x:Name="DeleteButton" Grid.Column="1" Style="{ThemeResource TextBlockButtonStyle}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Center">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Delete" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Style="{StaticResource FlyoutPickerTitleTextBlockStyle}" Margin="4">
+                                            这个文件夹将不再进入搜索范围
+                                    </TextBlock>
+                                    <Grid>
+                                        <Button HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,0,0">
+                                            确定
+                                        </Button>
+                                        <Button HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,0,0">
+                                            取消
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -112,7 +128,7 @@
                                     </Button.Content>
                                 </Button>
                             </Grid>
-                            <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
+                            <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" SelectionChanged="MusicSettingsSearchingList_SelectionChanged" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
                   ItemTemplate="{StaticResource MusicFolderListTemplate}"
                   SelectionMode="Single"
                   ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch" Height="160">

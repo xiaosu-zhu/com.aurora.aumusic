@@ -69,8 +69,6 @@ namespace com.aurora.aumusic
             if (e.Parameter != null)
                 CurrentSong = new Song(e.Parameter as SongModel);
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
-
-            PanelIn.Begin();
             updateui();
         }
 
@@ -239,6 +237,11 @@ namespace com.aurora.aumusic
                 MainColor = await BitmapHelper.New(stream);
                 PlayPauseButton.Background = new SolidColorBrush(MainColor);
             }));
+        }
+
+        private void DeDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).GoBack();
         }
     }
 }
