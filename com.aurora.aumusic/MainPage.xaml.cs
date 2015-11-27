@@ -61,13 +61,13 @@ namespace com.aurora.aumusic
         public ICanvasImage RenderFinal { get; private set; }
         public MediaPlayerState NowState = MediaPlayerState.Stopped;
         private PlaybackMode _playbackmode = PlaybackMode.Normal;
-        private PlaybackMode NowMode
+        public PlaybackMode NowMode
         {
             get
             {
                 return _playbackmode;
             }
-            set
+            private set
             {
                 this._playbackmode = value;
                 MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(_playbackmode));
@@ -317,16 +317,16 @@ namespace com.aurora.aumusic
             TimeSpan.FromSeconds(0.16));
         }
 
-        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        public void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Previous));
-            NowState = MediaPlayerState.Playing;
+            if (NowState != MediaPlayerState.Stopped)
+                MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Previous));
         }
 
-        private void NextButton_Click(object sender, RoutedEventArgs e)
+        public void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Next));
-            NowState = MediaPlayerState.Playing;
+            if (NowState != MediaPlayerState.Stopped)
+                MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Next));
         }
 
 
@@ -399,7 +399,7 @@ namespace com.aurora.aumusic
             TimeSpan.FromSeconds(0.16));
         }
 
-        private void PlayPauseButtonOnLeft_Click(object sender, RoutedEventArgs e)
+        public void PlayPauseButtonOnLeft_Click(object sender, RoutedEventArgs e)
         {
             switch (NowState)
             {
@@ -469,7 +469,7 @@ namespace com.aurora.aumusic
             }
         }
 
-        private void ShuffleButton_Click(object sender, RoutedEventArgs e)
+        public void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
             switch (NowMode)
             {
@@ -497,14 +497,14 @@ namespace com.aurora.aumusic
             }
         }
 
-        private void StopButton_Click(object sender, RoutedEventArgs e)
+        public void StopButton_Click(object sender, RoutedEventArgs e)
         {
             MessageService.SendMessageToBackground(new ForePlaybackChangedMessage(PlaybackState.Stopped));
             NowState = MediaPlayerState.Stopped;
             CurrentSong = null;
         }
 
-        private void RepeatButton_Checked(object sender, RoutedEventArgs e)
+        public void RepeatButton_Checked(object sender, RoutedEventArgs e)
         {
             switch (NowMode)
             {

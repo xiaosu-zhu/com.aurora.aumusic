@@ -89,6 +89,76 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Name="QuickControlButtonStyle" TargetType="Button">
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="{StaticResource Thickless}" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0.4" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Background" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Ellipse x:Name="Background" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlTranslucentBaseLowBrush}" />
+                                <ContentPresenter x:Name="ContentPresenter"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="0"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Name="QuickButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
@@ -258,7 +328,188 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="QuickToggleStyle" TargetType="ToggleButton">
+                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
+                <Setter Property="BorderThickness" Value="{ThemeResource Thickless}" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0.4" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                 Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                 Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Checked">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0.7" />
+                                                </ObjectAnimationUsingKeyFrames>
+
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckedPointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0.4" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckedPressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="CheckedDisabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Back"
+                                                 Storyboard.TargetProperty="Fill">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                 Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Indeterminate">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="IndeterminatePointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                 Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                 Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="IndeterminatePressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                 Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="IndeterminateDisabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                 Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                 Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Ellipse x:Name="Back" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlTranslucentBaseLowBrush}" />
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Foreground="{TemplateBinding Foreground}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="FlyoutStyle" TargetType="FlyoutPresenter">
+                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+            <Style x:Key="MediaTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlTranslucentAltHighBrush}"/>
+                <Setter Property="FontSize" Value="{ThemeResource MTCMediaFontSize}"/>
+                <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
+                <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
+            </Style>
             <converter:ThumbToolTipConveter x:Key="SliderConverter" />
+            <converter:MainColorConverter x:Key="ColorConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -277,12 +528,12 @@
             <Rectangle Opacity="0.5" RelativePanel.AlignLeftWith="NowTitleScale" RelativePanel.AlignRightWith="NowTitleScale" 
                    RelativePanel.AlignTopWith="NowTitleScale" RelativePanel.AlignBottomWith="NowTitleScale" >
             </Rectangle>
-            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="400" Height="56">
-                <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="White" MaxWidth="640"/>
+            <Viewbox Margin="28,8,8,8" x:Name="NowTitleScale" MaxWidth="400" Height="48">
+                <TextBlock x:Name="NowTitle" Style="{ThemeResource SubheaderTextBlockStyle}" TextTrimming="Clip" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" MaxWidth="640"/>
             </Viewbox>
-            <TextBlock Margin="32,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="White" />
-            <TextBlock Margin="32,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitleScale" Style="{ThemeResource TitleTextBlockStyle}" Foreground="White" />
-            <TextBlock Margin="32,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" />
+            <TextBlock Margin="28,0,8,8" x:Name="NowArtist" RelativePanel.Below="NowAlbum" Style="{ThemeResource SubtitleTextBlockStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" />
+            <TextBlock Margin="28,0,8,8" x:Name="NowAlbum" RelativePanel.Below="NowTitleScale" Style="{ThemeResource TitleTextBlockStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" />
+            <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" />
         </RelativePanel>
 
         <StackPanel Margin="32,0,8,8" x:Name="QuickPanel" RelativePanel.Below="TextGroup" Orientation="Horizontal">
@@ -691,46 +942,66 @@
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
-            <Button x:Name="PlayPauseButton" Style="{ThemeResource MainButtonStyle}" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
+            <Button x:Name="PlayPauseButton" Click="PlayPauseButton_Click" ToolTipService.ToolTip="Play" Style="{ThemeResource MainButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background, Converter={StaticResource ColorConverter}, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/pausesolid.png" />
                 </Button.Content>
             </Button>
-            <Button x:Name="NextButton" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="White" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
+            <Button x:Name="NextButton" Click="NextButton_Click" ToolTipService.ToolTip="Next" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/nextsolid.png" />
                 </Button.Content>
             </Button>
-            <Button x:Name="PreviousButton" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="White" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
+            <Button x:Name="PreviousButton" Click="PreviousButton_Click" ToolTipService.ToolTip="Previous" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/previoussolid.png" />
                 </Button.Content>
             </Button>
-            <Button x:Name="StopButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="StopButton" Click="StopButton_Click" ToolTipService.ToolTip="Stop" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
                 <Button.Content>
                     <SymbolIcon x:Name="StopSymbol" Symbol="Stop" />
                 </Button.Content>
             </Button>
-            <Button x:Name="ListButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="ListButton" Click="ListButton_Click" ToolTipService.ToolTip="Now-Playing List" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="ListSymbol" Symbol="List" />
             </Button>
-            <Button x:Name="MoreDetailsButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="MoreDetailsButton" ToolTipService.ToolTip="Detail" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="MoreSymbol" Symbol="More" />
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock Text="Caonima" />
+                    </Flyout>
+                </Button.Flyout>
             </Button>
-            <Button x:Name="ShuffleButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="PreviousButton" Margin="0,96,32,0" Width="36" Height="36">
-                <Button.Content>
+            <ToggleButton x:Name="ShuffleButton" Click="ShuffleButton_Click" ToolTipService.ToolTip="Shuffle" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="PreviousButton" Margin="0,96,32,0" Width="36" Height="36">
+                <ToggleButton.Content>
                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle" />
-                </Button.Content>
-            </Button>
-            <Button x:Name="RepeatButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="ShuffleButton" Margin="0,96,32,0" Width="36" Height="36">
-                <Button.Content>
+                </ToggleButton.Content>
+            </ToggleButton>
+            <ToggleButton x:Name="RepeatButton" Click="RepeatButton_Click" ToolTipService.ToolTip="Repeat" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="ShuffleButton" Margin="0,96,32,0" Width="36" Height="36">
+                <ToggleButton.Content>
                     <SymbolIcon x:Name="RepeatSymbol" Symbol="RepeatAll" />
-                </Button.Content>
-            </Button>
-            <Button x:Name="VolumeButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
+                </ToggleButton.Content>
+            </ToggleButton>
+            <Button x:Name="VolumeButton" ToolTipService.ToolTip="Volume" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
                 <Button.Content>
                     <SymbolIcon x:Name="Volume" Symbol="Volume" />
                 </Button.Content>
+                <Button.Flyout>
+                    <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource QuickControlButtonStyle}">
+                                <Button.Content>
+                                    <SymbolIcon>
+                                        <SymbolIcon.Symbol>Mute</SymbolIcon.Symbol>
+                                    </SymbolIcon>
+                                </Button.Content>
+                            </Button>
+                            <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
+                            <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
             </Button>
             <Slider x:Name="PositionSlider" Loaded="PositionSlider_Loaded" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" Style="{ThemeResource MediaSliderStyle}" ThumbToolTipValueConverter="{StaticResource SliderConverter}" Margin="-64,64,-64,0" RelativePanel.AlignLeftWith="VolumeButton" RelativePanel.AlignRightWith="MoreDetailsButton" RelativePanel.Below="PlayPauseButton" RelativePanel.AlignHorizontalCenterWithPanel="True" />
             <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,38,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />

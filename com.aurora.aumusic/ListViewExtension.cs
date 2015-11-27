@@ -71,6 +71,8 @@ namespace com.aurora.aumusic
         }
         public async static Task ScrollToIndex(this ListView listViewBase, int index)
         {
+            if (index < 0)
+                return;
             bool isVirtualizing = default(bool);
             double previousHorizontalOffset = default(double), previousVerticalOffset = default(double);
             // get the ScrollViewer withtin the ListView/GridView

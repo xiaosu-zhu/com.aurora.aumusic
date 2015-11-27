@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.Storage;
 
 namespace com.aurora.aumusic
 {
@@ -57,6 +59,8 @@ namespace com.aurora.aumusic
         }
 
         public MediaPlayerState NowState = MediaPlayerState.Playing;
+        private PlaybackMode NowMode = PlaybackMode.Normal;
+        private double volume;
 
         public NowPage()
         {
@@ -70,6 +74,18 @@ namespace com.aurora.aumusic
                 CurrentSong = new Song(e.Parameter as SongModel);
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
             updateui();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            BackgroundMediaPlayer.MessageReceivedFromBackground -= BackgroundMediaPlayer_MessageReceivedFromBackground;
+            if (wtftimer != null)
+            {
+                wtftimer.Cancel();
+                wtftimer = null;
+            }
+            CurrentSong = null;
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -127,7 +143,7 @@ namespace com.aurora.aumusic
 
         private void PositionSlider_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)
@@ -242,6 +258,136 @@ namespace com.aurora.aumusic
         private void DeDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             ((Window.Current.Content as Frame).Content as MainPage).GoBack();
+        }
+
+        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).PlayPauseButtonOnLeft_Click(null, null);
+            if (NowState == MediaPlayerState.Playing)
+            {
+                NowState = MediaPlayerState.Paused;
+                var icon = new BitmapIcon();
+                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/pausesolid.png");
+                PlayPauseButton.Content = icon;
+            }
+
+            if (NowState == MediaPlayerState.Paused || NowState == MediaPlayerState.Stopped)
+            {
+                NowState = MediaPlayerState.Playing;
+                var icon = new BitmapIcon();
+                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
+                PlayPauseButton.Content = icon;
+            }
+
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (NowState != MediaPlayerState.Stopped)
+                ((Window.Current.Content as Frame).Content as MainPage).NextButton_Click(null, null);
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (NowState != MediaPlayerState.Stopped)
+                ((Window.Current.Content as Frame).Content as MainPage).PreviousButton_Click(null, null);
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).StopButton_Click(null, null);
+        }
+
+        private void ListButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShuffleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).ShuffleButton_Click(null, null);
+            NowMode = ((Window.Current.Content as Frame).Content as MainPage).NowMode;
+            switch (NowMode)
+            {
+                case PlaybackMode.Normal:
+                    ShuffleButton.IsChecked = true;
+                    break;
+                case PlaybackMode.Repeat:
+                    ShuffleButton.IsChecked = true;
+                    break;
+                case PlaybackMode.RepeatSingle:
+                    ShuffleButton.IsChecked = false;
+                    break;
+                case PlaybackMode.Shuffle:
+                    ShuffleButton.IsChecked = false;
+                    break;
+                case PlaybackMode.ShuffleRepeat:
+                    ShuffleButton.IsChecked = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).RepeatButton_Checked(null, null);
+            NowMode = ((Window.Current.Content as Frame).Content as MainPage).NowMode;
+            switch (NowMode)
+            {
+                case PlaybackMode.Normal:
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    break;
+                case PlaybackMode.Repeat:
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    break;
+                case PlaybackMode.RepeatSingle:
+                    RepeatButton.IsChecked = false;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    break;
+                case PlaybackMode.Shuffle:
+                    RepeatButton.IsChecked = true;
+                    break;
+                case PlaybackMode.ShuffleRepeat:
+                    RepeatButton.IsChecked = true;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    ShuffleButton.IsChecked = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void FastMuteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VolumeSlider.Value > 0)
+            {
+                volume = VolumeSlider.Value;
+                VolumeSlider.Value = 0;
+            }
+            else if (volume > 0)
+            {
+                VolumeSlider.Value = volume;
+            }
+        }
+
+        private void VolumeSlider_Loaded(object sender, RoutedEventArgs e)
+        {
+            VolumeSlider.Value = BackgroundMediaPlayer.Current.Volume * 100;
+            VolumeSlider.ValueChanged += VolumeSlider_ValueChanged;
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+        }
+
+        private void VolumeFlyout_Closed(object sender, object e)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            localSettings.Values["Volume"] = VolumeSlider.Value;
         }
     }
 }

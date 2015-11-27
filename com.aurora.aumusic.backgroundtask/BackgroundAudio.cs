@@ -308,13 +308,6 @@ namespace com.aurora.aumusic.backgroundtask
             switch (args.Button)
             {
                 case SystemMediaTransportControlsButton.Play:
-                    // When the background task has been suspended and the SMTC
-                    // starts it again asynchronously, some time is needed to let
-                    // the task startup process in Run() complete.
-
-                    // Wait for task to start. 
-                    // Once started, this stays signaled until shutdown so it won't wait
-                    // again unless it needs to.
                     bool result = backgroundTaskStarted.WaitOne(5000);
                     if (!result)
                         throw new Exception("Background Task didnt initialize in time");
@@ -344,7 +337,9 @@ namespace com.aurora.aumusic.backgroundtask
             else
             {
                 playbackList.MovePrevious();
-                BackgroundMediaPlayer.Current.Play();
+                if (NowState == MediaPlayerState.Playing)
+                    BackgroundMediaPlayer.Current.Play();
+                else BackgroundMediaPlayer.Current.Pause();
             }
         }
 
@@ -352,7 +347,9 @@ namespace com.aurora.aumusic.backgroundtask
         {
             smtc.PlaybackStatus = MediaPlaybackStatus.Changing;
             playbackList.MoveNext();
-            BackgroundMediaPlayer.Current.Play();
+            if (NowState == MediaPlayerState.Playing)
+                BackgroundMediaPlayer.Current.Play();
+            else BackgroundMediaPlayer.Current.Pause();
         }
 
         private async void StartPlayback(SongModel song)
