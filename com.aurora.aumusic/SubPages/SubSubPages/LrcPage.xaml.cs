@@ -22,6 +22,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.Media.Playback;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI;
 
 namespace com.aurora.aumusic
 {
@@ -30,7 +31,9 @@ namespace com.aurora.aumusic
         Song CurrentSong;
         AutoResetEvent trigger = new AutoResetEvent(false);
         ILrcFile lyric = null;
+        List<LrcModel> lyrics;
 
+        public Brush MainColor { get; private set; }
 
         public LrcPage()
         {
@@ -65,6 +68,7 @@ namespace com.aurora.aumusic
             if (result == null)
             {
                 lyric = null;
+                lyrics = null;
                 return;
             }
             else
@@ -73,6 +77,11 @@ namespace com.aurora.aumusic
                 try
                 {
                     lyric = LrcFile.FromText(stream);
+                    lyrics = new List<LrcModel>();
+                    foreach (var item in lyric.Lyrics)
+                    {
+                        lyrics.Add(new LrcModel(item));
+                    }
                 }
                 catch (FormatException e)
                 {
@@ -103,6 +112,11 @@ namespace com.aurora.aumusic
                     s = sb.ToString();
                     await FileHelper.SaveFile(s, result);
                     lyric = LrcFile.FromText(s);
+                    lyrics = new List<LrcModel>();
+                    foreach (var item in lyric.Lyrics)
+                    {
+                        lyrics.Add(new LrcModel(item));
+                    }
                 }
 
                 trigger.Set();
@@ -115,13 +129,14 @@ namespace com.aurora.aumusic
                          async (workItem) =>
                          {
                              await FetchLrc();
+                             trigger.Set();
                              await this.Dispatcher.RunAsync(
                                                               CoreDispatcherPriority.High,
                                                               new DispatchedHandler(() =>
                                                               {
-                                                                  if (lyric == null)
+                                                                  if (lyrics == null)
                                                                       return;
-                                                                  LyricSource.Source = lyric.Lyrics;
+                                                                  LyricSource.Source = lyrics;
                                                                   LyricView.ItemsSource = LyricSource.View;
                                                                   WaitingRing.IsActive = false;
                                                                   WaitingPanel.Visibility = Visibility.Collapsed;
@@ -133,9 +148,12 @@ namespace com.aurora.aumusic
                                      var now = BackgroundMediaPlayer.Current.Position;
                                      await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
                                      {
-
-                                         LyricView.SelectedIndex = lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now));
-                                         await LyricView.ScrollToIndex(LyricView.SelectedIndex);
+                                         foreach (var item in lyrics)
+                                         {
+                                             item.MainColor = this.MainColor;
+                                         }
+                                         lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
+                                         await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
                                      }));
 
                                  }, TimeSpan.FromSeconds(1));
@@ -146,19 +164,23 @@ namespace com.aurora.aumusic
             await Task.Run(async () =>
             {
                 bool result = trigger.WaitOne(15000);
-                if (result == false)
                 {
-                    asyncAction.Cancel();
-                    asyncAction.Close();
-                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                    if (lyric == null)
                     {
-                        ErrPanel.Visibility = Visibility.Visible;
-                        WaitingRing.IsActive = false;
-                        WaitingPanel.Visibility = Visibility.Collapsed;
-                        LyricView.IsEnabled = false;
-                        LyricView.Visibility = Visibility.Collapsed;
+                        trigger.Set();
+                        asyncAction.Cancel();
+                        asyncAction.Close();
+                        await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                        {
+                            ErrPanel.Visibility = Visibility.Visible;
+                            WaitingRing.IsActive = false;
+                            WaitingPanel.Visibility = Visibility.Collapsed;
+                            LyricView.IsEnabled = false;
+                            LyricView.Visibility = Visibility.Collapsed;
 
-                    }));
+                        }));
+                    }
+
                 }
             });
         }
@@ -169,17 +191,44 @@ namespace com.aurora.aumusic
             try
             {
                 lyric = LrcFile.FromText(await FileHelper.ReadFileasString(uri));
+                lyrics = new List<LrcModel>();
+                foreach (var item in lyric.Lyrics)
+                {
+                    lyrics.Add(new LrcModel(item));
+                }
                 trigger.Set();
             }
             catch (Exception)
             {
                 await genLrc();
+                trigger.Set();
             }
         }
 
         private void LyricView_LayoutUpdated(object sender, object e)
         {
             DynamicFooter.Height = LyricView.ActualHeight;
+        }
+
+        internal void UpdateArtwork(Brush mainColor)
+        {
+            WaitingRing.Foreground = mainColor;
+            WaitingText.Foreground = mainColor;
+            ErrText.Foreground = mainColor;
+            ThreadPool.RunAsync((work) =>
+             {
+                 bool result = trigger.WaitOne(15000);
+                 if (result == true)
+                     this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                      {
+                          this.MainColor = mainColor;
+                          if (lyrics != null)
+                              foreach (var item in lyrics)
+                              {
+                                  item.MainColor = mainColor;
+                              }
+                      }));
+             });
         }
     }
 }

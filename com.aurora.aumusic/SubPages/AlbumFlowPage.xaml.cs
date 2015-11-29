@@ -35,7 +35,6 @@ namespace com.aurora.aumusic
 {
     public sealed partial class AlbumFlowPage : Page
     {
-        Grid _pageParameters;
 
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;

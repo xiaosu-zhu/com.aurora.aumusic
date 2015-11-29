@@ -16,7 +16,9 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Windows.System.Threading;
 
 namespace com.aurora.aumusic.backgroundtask
 {
@@ -84,10 +86,11 @@ namespace com.aurora.aumusic.backgroundtask
                     files.AddRange(await AlbumEnum.SearchAllinFolder(folder));
                     AllList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
                 }
+                backgroundTaskStarted.Set();
             });
 
             // Mark the background task as started to unblock SMTC Play operation (see related WaitOne on this signal)
-            backgroundTaskStarted.Set();
+
             taskInstance.Task.Completed += TaskCompleted;
             taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
         }
@@ -214,6 +217,28 @@ namespace com.aurora.aumusic.backgroundtask
             {
                 ConfirmFiles(update.Songs);
             }
+            NeedNowListMessage nowlist;
+            if (MessageService.TryParseMessage(e.Data, out nowlist))
+            {
+                MessageService.SendMessageToForeground(new NowListMessage(Songs));
+            }
+            NeedFullFileDetailsMessage detail;
+            if (MessageService.TryParseMessage(e.Data, out detail))
+            {
+                ThreadPool.RunAsync((work) =>
+                {
+                    FindCurrentFile(detail.MainKey);
+                });
+            }
+        }
+
+        private async void FindCurrentFile(string mainkey)
+        {
+            var file = FileList.Find(x => (mainkey == (((StorageFile)x).Path + ((StorageFile)x).Name)));
+            MusicProperties p = await ((StorageFile)file).Properties.GetMusicPropertiesAsync();
+            var b = await ((StorageFile)file).GetBasicPropertiesAsync();
+            var fulldetail = new FullFileDetailsMessage(file.FileType, b.Size, p.Bitrate);
+            MessageService.SendMessageToForeground(fulldetail);
         }
 
         private void ResetplaybackList()
@@ -394,27 +419,27 @@ namespace com.aurora.aumusic.backgroundtask
             // Make a new list and enable looping
 
             // Add playback items to the list
-
-
-            for (int k = AllList.Count - 1; k >= 0; k--)
-            {
-                FileList.Clear();
-                for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
+            var result = backgroundTaskStarted.WaitOne(10000);
+            if (result == true)
+                for (int k = AllList.Count - 1; k >= 0; k--)
                 {
+                    FileList.Clear();
                     FileList.AddRange(AllList[k].Value);
-                    foreach (var key in mainkeys)
+                    for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
                     {
-                        if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
+                        foreach (var key in mainkeys)
                         {
+                            if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
+                            {
 
-                            AllList[k].Value.RemoveAt(j);
-                            break;
+                                AllList[k].Value.RemoveAt(j);
+                                break;
+                            }
                         }
                     }
+                    if (AllList[k].Value.Count == 0)
+                        AllList.RemoveAt(k);
                 }
-                if (AllList[k].Value.Count == 0)
-                    AllList.RemoveAt(k);
-            }
             if (AllList.Count > 0)
                 MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));
             AllList = null;
@@ -432,12 +457,15 @@ namespace com.aurora.aumusic.backgroundtask
             var currentTrackId = item.Source.CustomProperties[TrackIdKey] as string;
             // Notify foreground of change or persist for later
             MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(NowState, Songs.Find(x => x.MainKey == currentTrackId)));
-            var bytestream = await FileHelper.FetchArtwork(FileList.Find(x => currentTrackId == ((StorageFile)x).Path + ((StorageFile)x).Name));
-            if (bytestream != null)
+            ThreadPool.RunAsync(async (work) =>
             {
-                MessageService.SendMessageToForeground(new UpdateArtworkMessage(bytestream));
-                UpdateUVCOnNewTrack(bytestream);
-            }
+                var bytestream = await FileHelper.FetchArtwork(FileList.Find(x => currentTrackId == ((StorageFile)x).Path + ((StorageFile)x).Name));
+                if (bytestream != null)
+                {
+                    MessageService.SendMessageToForeground(new UpdateArtworkMessage(bytestream));
+                    UpdateUVCOnNewTrack(bytestream);
+                }
+            });
         }
 
         private async void UpdateUVCOnNewTrack(byte[] bytestream)

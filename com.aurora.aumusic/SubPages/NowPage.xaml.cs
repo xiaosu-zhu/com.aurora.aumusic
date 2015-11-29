@@ -27,8 +27,9 @@ namespace com.aurora.aumusic
 
     public sealed partial class NowPage : Page
     {
-        Song CurrentSong;
+        SongModel CurrentSong;
         Color MainColor;
+        DetailsViewModel SongDetails;
 
         private bool _loved = false;
         private bool _broken = false;
@@ -65,13 +66,14 @@ namespace com.aurora.aumusic
         public NowPage()
         {
             this.InitializeComponent();
+            this.SongDetails = new DetailsViewModel();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             if (e.Parameter != null)
-                CurrentSong = new Song(e.Parameter as SongModel);
+                CurrentSong = e.Parameter as SongModel;
             BackgroundMediaPlayer.MessageReceivedFromBackground += BackgroundMediaPlayer_MessageReceivedFromBackground;
             updateui();
         }
@@ -98,7 +100,7 @@ namespace com.aurora.aumusic
                 {
                     await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, new Windows.UI.Core.DispatchedHandler(() =>
                      {
-                         CurrentSong = new Song(message.CurrentSong);
+                         CurrentSong = message.CurrentSong;
                          updateui();
                      }));
                 }
@@ -114,6 +116,33 @@ namespace com.aurora.aumusic
                     PlayPauseButton.Background = new SolidColorBrush(MainColor);
                 }));
             }
+            NowListMessage nowList;
+            if (MessageService.TryParseMessage(e.Data, out nowList))
+            {
+
+                this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                 {
+                     NowListSource.Source = nowList.CurrentSongs;
+                     CurrentPlayingList.ItemsSource = NowListSource.View;
+                     NowListLoadingRing.IsActive = false;
+                     NowListLoadingRing.Visibility = Visibility.Collapsed;
+                     NowListLoadingText.Visibility = Visibility.Collapsed;
+                     CurrentPlayingList.Visibility = Visibility.Visible;
+                 }));
+            }
+            FullFileDetailsMessage detail;
+            if (MessageService.TryParseMessage(e.Data, out detail))
+            {
+                updatedetail(detail);
+            }
+        }
+
+        private void updatedetail(FullFileDetailsMessage detail)
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+             {
+                 SongDetails.Update(CurrentSong, detail.BitRate, detail.Size, detail.MusicType);
+             }));
         }
 
         private void updateui()
@@ -128,6 +157,7 @@ namespace com.aurora.aumusic
             c.sParmeter = CurrentSong.Duration.TotalSeconds;
             var d = new DurationValueConverter();
             TotalTimeBlock.Text = (string)d.Convert(CurrentSong.Duration, null, null, null);
+
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -252,6 +282,7 @@ namespace com.aurora.aumusic
             {
                 MainColor = await BitmapHelper.New(stream);
                 PlayPauseButton.Background = new SolidColorBrush(MainColor);
+                ((Window.Current.Content as Frame).Content as MainPage).NotifyLrcPageArtworkChanged(PlayPauseButton.Foreground);
             }));
         }
 
@@ -300,7 +331,8 @@ namespace com.aurora.aumusic
 
         private void ListButton_Click(object sender, RoutedEventArgs e)
         {
-
+            NowListLoadingRing.IsActive = true;
+            MessageService.SendMessageToBackground(new NeedNowListMessage());
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
@@ -382,12 +414,28 @@ namespace com.aurora.aumusic
         private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+            ((Window.Current.Content as Frame).Content as MainPage).VolumeSlider_ChangeValue(VolumeSlider.Value);
         }
 
         private void VolumeFlyout_Closed(object sender, object e)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["Volume"] = VolumeSlider.Value;
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            CurrentPlayingList.Visibility = Visibility.Collapsed;
+            CurrentPlayingList.ItemsSource = null;
+            NowListSource.Source = null;
+            NowListLoadingRing.IsActive = false;
+            NowListLoadingRing.Visibility = Visibility.Visible;
+            NowListLoadingText.Visibility = Visibility.Visible;
+        }
+
+        private void MoreDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageService.SendMessageToBackground(new NeedFullFileDetailsMessage(CurrentSong.MainKey));
         }
     }
 }

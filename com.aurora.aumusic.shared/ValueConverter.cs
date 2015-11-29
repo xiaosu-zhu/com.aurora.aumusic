@@ -22,14 +22,7 @@ namespace com.aurora.aumusic.shared
             {
                 TimeSpan timeSpan = (TimeSpan)value;
                 int i = (timeSpan.Days * 24 + timeSpan.Hours) * 60 + timeSpan.Minutes;
-                if (timeSpan.Seconds >= 10)
-                {
-                    return i + ":" + timeSpan.Seconds;
-                }
-                else
-                {
-                    return i + ":0" + timeSpan.Seconds;
-                }
+                return i + ":" + timeSpan.Seconds.ToString("00");
             }
             else return null;
         }
@@ -139,7 +132,7 @@ namespace com.aurora.aumusic.shared
                 ts += item.Duration;
             }
 
-            sb.Append((((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString() + "分" + ts.Seconds.ToString() + "秒");
+            sb.Append((((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString() + "分" + ts.Seconds.ToString("00") + "秒");
             return sb.ToString();
         }
 
@@ -154,8 +147,12 @@ namespace com.aurora.aumusic.shared
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             int count = 2;
-            if (((bool)parameter) == true)
-                count = int.MaxValue;
+            if (parameter is bool)
+                if (((bool)parameter) == true)
+                    count = int.MaxValue;
+                else if (parameter is string)
+                    if ((string)parameter == "true")
+                        count = int.MaxValue;
             var artists = value as string[];
             if (artists == null)
                 return "未知创作人";
@@ -199,11 +196,7 @@ namespace com.aurora.aumusic.shared
             if (value is double)
             {
                 TimeSpan ts = TimeSpan.FromSeconds(((double)value / 100.0) * sParmeter);
-                if (ts.Seconds >= 10)
-                {
-                    return (((ts.Days) * 24 + ts.Hours) * 60 + ts.Minutes).ToString() + ":" + ts.Seconds;
-                }
-                return (((ts.Days) * 24 + ts.Hours) * 60 + ts.Minutes).ToString() + ":0" + ts.Seconds;
+                return (((ts.Days) * 24 + ts.Hours) * 60 + ts.Minutes).ToString() + ":" + ts.Seconds.ToString("00");
             }
             return "0:00";
         }
@@ -259,11 +252,11 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 127)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 191)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 }
-                else return new SolidColorBrush(Color.FromArgb(255, 15, 15, 15));
+                else return new SolidColorBrush(Color.FromArgb(255, 63, 63, 63));
             }
             return null;
         }
@@ -283,7 +276,7 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 127)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 191)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 217, 217, 217));
                 }
@@ -328,7 +321,192 @@ namespace com.aurora.aumusic.shared
         }
     }
 
-    //public class FolderImageConverter
+    public class StringPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is string)
+            {
+                return ((string)value).Replace("\\\\", "\\");
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class YearConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is uint)
+            {
+                return ((uint)value).ToString("####");
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class TotalGenresConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is string[])
+            {
+                StringBuilder sb = new StringBuilder();
+                if (((string[])value) != null && ((string[])value).Length > 0)
+                {
+                    if (((string[])value)[0] == "Unknown Genres")
+                        sb.Append("未知风格");
+                    else
+                        foreach (var item in ((string[])value))
+                        {
+                            sb.Append(item);
+                            sb.Append(", ");
+                        }
+                    if (sb[sb.Length - 1] == ' ')
+                        sb.Remove(sb.Length - 2, 2);
+                }
+                return sb.ToString();
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class TrackDiscConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is uint[])
+            {
+                var tracks = value as uint[];
+                return tracks[0].ToString("0") + "/" + tracks[1].ToString("0") + "  " + tracks[2].ToString("0") + "/" + tracks[3].ToString("0");
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class RatingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is uint)
+            {
+                switch ((uint)value)
+                {
+                    case 0: return "\xE224\xE224\xE224\xE224\xE224";
+                    case 1: return "\xE0B4\xE224\xE224\xE224\xE224";
+                    case 2: return "\xE0B4\xE0B4\xE224\xE224\xE224";
+                    case 3: return "\xE0B4\xE0B4\xE0B4\xE224\xE224";
+                    case 4: return "\xE0B4\xE0B4\xE0B4\xE0B4\xE224";
+                    case 5: return "\xE0B4\xE0B4\xE0B4\xE0B4\xE0B4";
+                    default: return null;
+                }
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class FileTypeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is string)
+            {
+                switch ((string)value)
+                {
+                    case ".mp3": return "MPEG-Layer 3";
+                    case ".m4a": return "aac/alac";
+                    case ".wav": return "WAVE";
+                    case ".flac": return "FLAC";
+                    default: return null;
+                }
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FileSizeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is ulong)
+            {
+                return ((((ulong)value) / 1024.00) / 1024.00).ToString("0.##") + "MB";
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class TotalDurationConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is TimeSpan)
+            {
+                TimeSpan timeSpan = (TimeSpan)value;
+                int i = (timeSpan.Days * 24 + timeSpan.Hours) * 60 + timeSpan.Minutes;
+                return i + ":" + timeSpan.Seconds.ToString("00") + "." + timeSpan.Milliseconds.ToString("00");
+
+            }
+            else return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class BitRateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is uint)
+            {
+                return ((uint)value / 1000.00).ToString("0.##") + "Kbps";
+            }
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
 
     public class ShuffleListArtworkConverter : IValueConverter
     {
@@ -394,7 +572,7 @@ namespace com.aurora.aumusic.shared
                     sb.Remove(sb.Length - 1, 1);
                 return sb.ToString();
             }
-            if(value is Song)
+            if (value is Song)
             {
                 StringBuilder sb = new StringBuilder();
                 if (((Song)value).Genres != null && ((Song)value).Genres.Length > 0)
@@ -413,6 +591,29 @@ namespace com.aurora.aumusic.shared
                 }
                 if (((Song)value).Year > 0)
                     sb.Append(((Song)value).Year + "年");
+                else if (sb[sb.Length - 1] == '·')
+                    sb.Remove(sb.Length - 1, 1);
+                return sb.ToString();
+            }
+            if (value is SongModel)
+            {
+                StringBuilder sb = new StringBuilder();
+                if (((SongModel)value).Genres != null && ((SongModel)value).Genres.Length > 0)
+                {
+                    if (((SongModel)value).Genres[0] == "Unknown Genres")
+                        sb.Append("未知风格");
+                    else
+                        foreach (var item in ((SongModel)value).Genres)
+                        {
+                            sb.Append(item);
+                            sb.Append(", ");
+                        }
+                    if (sb[sb.Length - 1] == ' ')
+                        sb.Remove(sb.Length - 2, 2);
+                    sb.Append("·");
+                }
+                if (((SongModel)value).Year > 0)
+                    sb.Append(((SongModel)value).Year + "年");
                 else if (sb[sb.Length - 1] == '·')
                     sb.Remove(sb.Length - 1, 1);
                 return sb.ToString();

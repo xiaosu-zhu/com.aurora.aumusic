@@ -471,7 +471,6 @@ namespace com.aurora.aumusic.shared.Songs
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-
             if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == "" || p.Artist == "各种艺术家" || p.Artist=="Various Artists"))
             {
                 this.Title = p.Title;

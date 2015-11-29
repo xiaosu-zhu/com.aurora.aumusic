@@ -112,6 +112,7 @@
     <Compile Include="SubPages\AlbumFlowPage.xaml.cs">
       <DependentUpon>AlbumFlowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\DetailsViewModel.cs" />
     <Compile Include="SubPages\NowPage.xaml.cs">
       <DependentUpon>NowPage.xaml</DependentUpon>
     </Compile>

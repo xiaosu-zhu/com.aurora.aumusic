@@ -254,6 +254,14 @@ namespace com.aurora.aumusic
             }
         }
 
+        internal void NotifyLrcPageArtworkChanged(Brush mainColor)
+        {
+            if(NowLrcFrame.Content is LrcPage)
+            {
+                (NowLrcFrame.Content as LrcPage).UpdateArtwork(mainColor);
+            }
+        }
+
         internal async void GoBack()
         {
             PlayBackGrid.PointerEntered += PlayBackGrid_PointerEntered;
@@ -340,6 +348,11 @@ namespace com.aurora.aumusic
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             localSettings.Values["Volume"] = VolumeSlider.Value;
+        }
+
+        public void VolumeSlider_ChangeValue(double value)
+        {
+            VolumeSlider.Value = value;
         }
 
         private void VolumeSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

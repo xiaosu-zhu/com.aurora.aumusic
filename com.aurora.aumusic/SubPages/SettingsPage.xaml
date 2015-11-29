@@ -82,7 +82,7 @@
         </ResourceDictionary>
 
     </Page.Resources>
-    <RelativePanel Background="{ThemeResource SystemBackgroundAltHighBrush}">
+    <RelativePanel>
 
 
         <VisualStateManager.VisualStateGroups>

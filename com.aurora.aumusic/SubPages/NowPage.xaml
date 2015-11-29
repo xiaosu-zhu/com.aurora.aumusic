@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:com.aurora.aumusic"
+    xmlns:song="using:com.aurora.aumusic.shared.Songs"
     xmlns:converter="using:com.aurora.aumusic.shared"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -508,8 +509,45 @@
                 <Setter Property="FontFamily" Value="{ThemeResource MTCMediaFontFamily}"/>
                 <Setter Property="IsTextScaleFactorEnabled" Value="False"/>
             </Style>
+            <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
+                <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+                <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlAltLowBrush}"/>
+                <Setter Property="TabNavigation" Value="Local"/>
+                <Setter Property="IsHoldingEnabled" Value="True"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+                <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListViewItem">
+                            <ListViewItemPresenter CheckBrush="{ThemeResource SystemThemeMainBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Overlay" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="Transparent" DragForeground="Transparent" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="Transparent" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="Transparent" FocusSecondaryBorderBrush="Transparent" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="Transparent" PlaceholderBackground="Transparent" PointerOverBackground="Transparent" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPressedBackground="Transparent" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemThemeMainBrush}" SelectedPointerOverBackground="Transparent" SelectedBackground="Transparent" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <converter:ThumbToolTipConveter x:Key="SliderConverter" />
             <converter:MainColorConverter x:Key="ColorConverter" />
+            <converter:StringPathConverter x:Key="pathconverter" />
+            <converter:FileSizeConverter x:Key="sizeconverter" />
+            <converter:BitRateConverter x:Key="bitrateconverter" />
+            <converter:TotalDurationConverter x:Key="durationconverter" />
+            <converter:FileTypeConverter x:Key="typeconverter" />
+            <converter:ArtistsConverter x:Key="artistsconverter" />
+            <converter:YearConverter x:Key="yearconverter" />
+            <converter:TotalDurationConverter x:Key="genresconverter" />
+            <converter:TrackDiscConverter x:Key="trackconverter" />
+            <converter:RatingConverter  x:Key="ratingconverter" />
+            <CollectionViewSource x:Name="NowListSource" />
+            <DataTemplate x:Key="NowListTemplate" x:DataType="song:SongModel" >
+                <RelativePanel>
+                    <TextBlock x:Name="Number" Text="{x:Bind SubPosition}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="4,0,4,0" Style="{ThemeResource BaseTextBlockStyle}" />
+                    <TextBlock x:Name="Title" Text="{x:Bind Title}" RelativePanel.RightOf="Number" RelativePanel.AlignRightWithPanel="True" MaxWidth="160" MaxLines="1" TextTrimming="Clip" Margin="4,0,4,0" Style="{ThemeResource BodyTextBlockStyle}" />
+                </RelativePanel>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -907,34 +945,34 @@
                     </Storyboard>
                 </RelativePanel.Resources>
                 <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                <Button x:Name="OneStarButton" Foreground="White" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="OneStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="TwoStarButton" Foreground="White" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="TwoStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="ThreeStarButton" Foreground="White" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="ThreeStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="FourStarButton" Foreground="White" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FourStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="FiveStarButton" Foreground="White" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FiveStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
             </RelativePanel>
 
-            <Button Margin="24,2,0,0" x:Name="LoveButton" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Foreground="White" Style="{ThemeResource QuickButtonStyle}" >
+            <Button Margin="24,2,0,0" x:Name="LoveButton" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" Style="{ThemeResource QuickButtonStyle}" >
                 <Button.Content>
                     &#xE006;
                 </Button.Content>
@@ -964,12 +1002,87 @@
             </Button>
             <Button x:Name="ListButton" Click="ListButton_Click" ToolTipService.ToolTip="Now-Playing List" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="ListSymbol" Symbol="List" />
+                <Button.Flyout>
+                    <Flyout Closed="Flyout_Closed">
+                        <StackPanel Orientation="Vertical" x:Name="LoadingNowListPanel">
+                            <ProgressRing x:Name="NowListLoadingRing" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Height="48" Width="48"/>
+                            <TextBlock x:Name="NowListLoadingText" Text="Loading" />
+                            <ListView x:Name="CurrentPlayingList" IsSynchronizedWithCurrentItem="False" MaxHeight="360" ItemTemplate="{StaticResource NowListTemplate}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="Collapsed" >
+                                <ScrollViewer.VerticalScrollBarVisibility>
+                                    Hidden
+                                </ScrollViewer.VerticalScrollBarVisibility>
+                            </ListView>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
             </Button>
-            <Button x:Name="MoreDetailsButton" ToolTipService.ToolTip="Detail" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="MoreDetailsButton" Click="MoreDetailsButton_Click" ToolTipService.ToolTip="Detail" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="MoreSymbol" Symbol="More" />
                 <Button.Flyout>
-                    <Flyout>
-                        <TextBlock Text="Caonima" />
+                    <Flyout Placement="Full">
+                        <Grid MaxWidth="480" x:Name="CurrentSongDetailsPanel">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="歌曲信息" Style="{ThemeResource SubtitleTextBlockStyle}" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="8" />
+                            <TextBlock Text="完整路径" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="文件大小" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="2" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="长度" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="3" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="比特率" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="4" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="编码格式" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="5" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="6" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="专辑" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="7" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="8" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="专辑表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="9" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="创作年份" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="10" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="流派" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="11" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="#" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="12" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock Text="评分" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="13" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+
+                            <TextBlock x:Name="CurrentSongMainKey" Text="{x:Bind SongDetails.MainKey, Mode=OneWay, Converter={StaticResource pathconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="1" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="{Binding ElementName=CurrentSongMainKey, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock x:Name="CurrentSongSize" Text="{x:Bind SongDetails.FileSize, Mode=OneWay, Converter={StaticResource sizeconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="2" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongDuration" Text="{x:Bind SongDetails.Duration, Mode=OneWay, Converter={StaticResource durationconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="3" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongBitRate" Text="{x:Bind SongDetails.BitRate, Mode=OneWay, Converter={StaticResource bitrateconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="4" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongType" Text="{x:Bind SongDetails.FileType, Mode=OneWay, Converter={StaticResource typeconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="5" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongTitle" Text="{x:Bind SongDetails.Title, Mode=OneWay, TargetNullValue=}" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="6" Grid.ColumnSpan="2" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="{Binding ElementName=CurrentSongTitle, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock x:Name="CurrentSongAlbum" Text="{x:Bind SongDetails.Album, Mode=OneWay, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="7" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                                <ToolTipService.ToolTip>
+                                    <TextBlock Text="{Binding ElementName=CurrentSongAlbum, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <TextBlock x:Name="CurrentSongArtists" Text="{x:Bind SongDetails.Artists, Mode=OneWay, Converter={StaticResource artistsconverter}, ConverterParameter=true, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="8" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongAlbumArtists" Text="{x:Bind SongDetails.AlbumArtists, Mode=OneWay, Converter={StaticResource artistsconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="9" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongYear" Text="{x:Bind SongDetails.Year, Mode=OneWay, Converter={StaticResource yearconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="10" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongsGenres" Text="{x:Bind SongDetails.Genres, Mode=OneWay, Converter={StaticResource genresconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="11" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongTrack" Text="{x:Bind SongDetails.Track, Mode=OneWay, Converter={StaticResource trackconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="12" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="CurrentSongRating" Text="{x:Bind SongDetails.Rating, Mode=OneWay, Converter={StaticResource ratingconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" FontFamily="{StaticResource SymbolThemeFontFamily}" Grid.Row="13" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -1007,7 +1120,7 @@
             <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,38,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />
             <TextBlock x:Name="TotalTimeBlock" RelativePanel.RightOf="MoreDetailsButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="78,38,0,0" Style="{ThemeResource BodyTextBlockStyle}" Text="0:00" />
         </RelativePanel>
-        
+
         <AppBarButton x:Name="DeDetailsButton"  Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Click="DeDetailsButton_Click" >
             <AppBarButton.Icon>
                 <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />

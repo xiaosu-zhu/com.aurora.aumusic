@@ -417,7 +417,7 @@
         </ResourceDictionary>
 
     </Page.Resources>
-    <RelativePanel x:Name="RootGrid" Background="{ThemeResource SystemControlAltHighBrush}"  >
+    <RelativePanel x:Name="RootGrid" >
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
             <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
             <TextBlock x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" Text="排序方式：" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />

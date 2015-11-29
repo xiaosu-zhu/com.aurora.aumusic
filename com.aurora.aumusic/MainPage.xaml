@@ -723,7 +723,7 @@
             </SplitView.Pane>
 
             <!-- 主视图Frame -->
-            <RelativePanel x:Name="Root" LayoutUpdated="Root_LayoutUpdated">
+            <RelativePanel x:Name="Root" Background="{ThemeResource SystemBackgroundAltHighBrush}" LayoutUpdated="Root_LayoutUpdated">
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
                     <Frame.Resources>
                         <Storyboard x:Name="MainFrameOut">

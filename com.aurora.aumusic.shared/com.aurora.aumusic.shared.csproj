@@ -118,6 +118,7 @@
     <Compile Include="ISongModelList.cs" />
     <Compile Include="ListViewItemStyleSelector.cs" />
     <Compile Include="Lrc\LrcHelper.cs" />
+    <Compile Include="Lrc\LrcModel.cs" />
     <Compile Include="Lrc\LrcRequestModel.cs" />
     <Compile Include="Lrc\LrcUrlModel.cs" />
     <Compile Include="MessageService\AppStateChangedMessage.cs" />
@@ -126,7 +127,11 @@
     <Compile Include="MessageService\BackgroundTaskState.cs" />
     <Compile Include="MessageService\ApplicationSettingsConstants.cs" />
     <Compile Include="MessageService\ForePlaybackChangedMessage.cs" />
+    <Compile Include="MessageService\FullFileDetailsMessage.cs" />
     <Compile Include="MessageService\MessageService.cs" />
+    <Compile Include="MessageService\NeedFullFileDetailsMessage.cs" />
+    <Compile Include="MessageService\NeedNowListMessage.cs" />
+    <Compile Include="MessageService\NowListMessage.cs" />
     <Compile Include="MessageService\RefreshStateMessage.cs" />
     <Compile Include="MessageService\UpdateArtworkMessage.cs" />
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />

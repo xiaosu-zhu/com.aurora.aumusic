@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 
-namespace com.aurora.aumusic.shared.Songs
+namespace com.aurora.aumusic.shared.Songs 
 {
     [DataContract]
     public class SongModel
@@ -33,6 +35,16 @@ namespace com.aurora.aumusic.shared.Songs
         public int Position;
         [DataMember]
         public int SubPosition;
+        [DataMember]
+        public uint Track;
+        [DataMember]
+        public uint TrackCount;
+        [DataMember]
+        public uint Disc;
+        [DataMember]
+        public uint DiscCount;
+        [DataMember]
+        public string[] AlbumArtists;
 
         public SongModel(Song song)
         {
@@ -47,6 +59,11 @@ namespace com.aurora.aumusic.shared.Songs
             Year = song.Year;
             Position = song.Position;
             SubPosition = song.SubPosition;
+            Track = song.Track;
+            TrackCount = song.TrackCount;
+            DiscCount = song.DiscCount;
+            Disc = song.Disc;
+            AlbumArtists = song.AlbumArtists;
         }
     }
 }
