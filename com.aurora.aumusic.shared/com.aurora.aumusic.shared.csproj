@@ -110,13 +110,14 @@
     <Compile Include="AlbumList.cs" />
     <Compile Include="Albums\AlbumEnum.cs" />
     <Compile Include="Albums\AlbumItem.cs" />
-    <Compile Include="ChineseConverter.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="BitmapHelper.cs" />
+    <Compile Include="Helpers\ChineseConverter.cs" />
+    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\BitmapHelper.cs" />
     <Compile Include="FolderSettings\FolderItem.cs" />
     <Compile Include="FolderSettings\FolderPathObservation.cs" />
+    <Compile Include="Helpers\AlphaKeyHelper.cs" />
     <Compile Include="ISongModelList.cs" />
-    <Compile Include="ListViewItemStyleSelector.cs" />
+    <Compile Include="Helpers\ListViewItemStyleSelector.cs" />
     <Compile Include="Lrc\LrcHelper.cs" />
     <Compile Include="Lrc\LrcModel.cs" />
     <Compile Include="Lrc\LrcRequestModel.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongModel.cs" />
     <Compile Include="ValueConverter.cs" />
-    <Compile Include="WebHelper.cs" />
+    <Compile Include="Helpers\WebHelper.cs" />
     <Content Include="Properties\com.aurora.aumusic.shared.rd.xml" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

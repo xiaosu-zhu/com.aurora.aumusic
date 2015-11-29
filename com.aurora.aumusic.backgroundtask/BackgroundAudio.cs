@@ -234,7 +234,7 @@ namespace com.aurora.aumusic.backgroundtask
 
         private async void FindCurrentFile(string mainkey)
         {
-            var file = FileList.Find(x => (mainkey == (((StorageFile)x).Path + ((StorageFile)x).Name)));
+            var file = FileList.Find(x => (mainkey == (((StorageFile)x).Path)));
             MusicProperties p = await ((StorageFile)file).Properties.GetMusicPropertiesAsync();
             var b = await ((StorageFile)file).GetBasicPropertiesAsync();
             var fulldetail = new FullFileDetailsMessage(file.FileType, b.Size, p.Bitrate);
@@ -277,7 +277,7 @@ namespace com.aurora.aumusic.backgroundtask
             playbackList.Items.Clear();
             foreach (var item in desiredSongs)
             {
-                var source = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(FileList.Find(x => (item.MainKey == (((StorageFile)x).Path + ((StorageFile)x).Name)))));
+                var source = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(FileList.Find(x => (item.MainKey == (((StorageFile)x).Path)))));
                 source.Source.CustomProperties[TrackIdKey] = item.MainKey;
                 source.Source.CustomProperties[AlbumArtKey] = item.AlbumArtwork;
                 source.Source.CustomProperties[TitleKey] = item.Title;
@@ -429,7 +429,7 @@ namespace com.aurora.aumusic.backgroundtask
                     {
                         foreach (var key in mainkeys)
                         {
-                            if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path + ((StorageFile)AllList[k].Value[j]).Name))
+                            if (key.MainKey == (((StorageFile)AllList[k].Value[j]).Path))
                             {
 
                                 AllList[k].Value.RemoveAt(j);
@@ -459,7 +459,7 @@ namespace com.aurora.aumusic.backgroundtask
             MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(NowState, Songs.Find(x => x.MainKey == currentTrackId)));
             ThreadPool.RunAsync(async (work) =>
             {
-                var bytestream = await FileHelper.FetchArtwork(FileList.Find(x => currentTrackId == ((StorageFile)x).Path + ((StorageFile)x).Name));
+                var bytestream = await FileHelper.FetchArtwork(FileList.Find(x => currentTrackId == ((StorageFile)x).Path));
                 if (bytestream != null)
                 {
                     MessageService.SendMessageToForeground(new UpdateArtworkMessage(bytestream));

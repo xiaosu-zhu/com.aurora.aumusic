@@ -544,7 +544,7 @@
             <CollectionViewSource x:Name="NowListSource" />
             <DataTemplate x:Key="NowListTemplate" x:DataType="song:SongModel" >
                 <RelativePanel>
-                    <TextBlock x:Name="Number" Text="{x:Bind SubPosition}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="4,0,4,0" Style="{ThemeResource BaseTextBlockStyle}" />
+                    <TextBlock x:Name="Number" Text="{x:Bind Track}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="4,0,4,0" Style="{ThemeResource BaseTextBlockStyle}" />
                     <TextBlock x:Name="Title" Text="{x:Bind Title}" RelativePanel.RightOf="Number" RelativePanel.AlignRightWithPanel="True" MaxWidth="160" MaxLines="1" TextTrimming="Clip" Margin="4,0,4,0" Style="{ThemeResource BodyTextBlockStyle}" />
                 </RelativePanel>
             </DataTemplate>
@@ -1020,7 +1020,7 @@
                 <SymbolIcon x:Name="MoreSymbol" Symbol="More" />
                 <Button.Flyout>
                     <Flyout Placement="Full">
-                        <Grid MaxWidth="480" x:Name="CurrentSongDetailsPanel">
+                        <Grid MaxWidth="420" x:Name="CurrentSongDetailsPanel">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="2*" />
                                 <RowDefinition Height="*" />
@@ -1047,7 +1047,6 @@
                             <TextBlock Text="长度" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="3" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="比特率" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="4" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="编码格式" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="5" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="6" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="专辑" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="7" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="8" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="专辑表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="9" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
@@ -1056,25 +1055,20 @@
                             <TextBlock Text="#" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="12" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="评分" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="13" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
+                            <Line Stroke="Gray" StrokeThickness="1" X1="0" X2="420" Grid.Row="1" Grid.ColumnSpan="2" />
+                            <Line Stroke="Gray" StrokeThickness="1" X1="0" X2="420" Grid.Row="6" Grid.ColumnSpan="2" />
+                            <TextBlock x:Name="CurrentSongMainKey" Text="{x:Bind SongDetails.MainKey, Mode=OneWay, Converter={StaticResource pathconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="1" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
 
-                            <TextBlock x:Name="CurrentSongMainKey" Text="{x:Bind SongDetails.MainKey, Mode=OneWay, Converter={StaticResource pathconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="1" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" >
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="{Binding ElementName=CurrentSongMainKey, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
-                                </ToolTipService.ToolTip>
                             </TextBlock>
                             <TextBlock x:Name="CurrentSongSize" Text="{x:Bind SongDetails.FileSize, Mode=OneWay, Converter={StaticResource sizeconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="2" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock x:Name="CurrentSongDuration" Text="{x:Bind SongDetails.Duration, Mode=OneWay, Converter={StaticResource durationconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="3" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock x:Name="CurrentSongBitRate" Text="{x:Bind SongDetails.BitRate, Mode=OneWay, Converter={StaticResource bitrateconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="4" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock x:Name="CurrentSongType" Text="{x:Bind SongDetails.FileType, Mode=OneWay, Converter={StaticResource typeconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="5" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock x:Name="CurrentSongTitle" Text="{x:Bind SongDetails.Title, Mode=OneWay, TargetNullValue=}" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="6" Grid.ColumnSpan="2" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="{Binding ElementName=CurrentSongTitle, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
-                                </ToolTipService.ToolTip>
+                            <TextBlock x:Name="CurrentSongTitle" Text="{x:Bind SongDetails.Title, Mode=OneWay, TargetNullValue=}" Style="{ThemeResource BaseTextBlockStyle}" FontSize="18" Grid.Row="6" Grid.ColumnSpan="2" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+
                             </TextBlock>
                             <TextBlock x:Name="CurrentSongAlbum" Text="{x:Bind SongDetails.Album, Mode=OneWay, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="7" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                                <ToolTipService.ToolTip>
-                                    <TextBlock Text="{Binding ElementName=CurrentSongAlbum, Path=Text}" Style="{StaticResource BodyTextBlockStyle}" />
-                                </ToolTipService.ToolTip>
+
                             </TextBlock>
                             <TextBlock x:Name="CurrentSongArtists" Text="{x:Bind SongDetails.Artists, Mode=OneWay, Converter={StaticResource artistsconverter}, ConverterParameter=true, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="8" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <TextBlock x:Name="CurrentSongAlbumArtists" Text="{x:Bind SongDetails.AlbumArtists, Mode=OneWay, Converter={StaticResource artistsconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="9" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />

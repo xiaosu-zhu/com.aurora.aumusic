@@ -157,7 +157,13 @@ namespace com.aurora.aumusic
                         }
                         MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
                     case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
-                    case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
+                    case "Songs":
+                        if (MainFrame.Content is AlbumFlowPage)
+                        {
+                            var allsongs = (MainFrame.Content as AlbumFlowPage).GetAllSongs();
+                            MainFrame.Navigate(typeof(SongsPage), allsongs);
+                        }
+                        break;
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
             }
@@ -256,7 +262,7 @@ namespace com.aurora.aumusic
 
         internal void NotifyLrcPageArtworkChanged(Brush mainColor)
         {
-            if(NowLrcFrame.Content is LrcPage)
+            if (NowLrcFrame.Content is LrcPage)
             {
                 (NowLrcFrame.Content as LrcPage).UpdateArtwork(mainColor);
             }

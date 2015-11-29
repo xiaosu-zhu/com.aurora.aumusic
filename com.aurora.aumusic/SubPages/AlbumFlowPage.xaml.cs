@@ -38,6 +38,7 @@ namespace com.aurora.aumusic
 
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
+        List<Song> AllSongs = new List<Song>();
         bool IsInitialed = false;
         private ScrollViewer DetailsScrollViewer;
         public Grid AlbumDetailsHeader { get; private set; }
@@ -119,12 +120,6 @@ namespace com.aurora.aumusic
             }
         }
 
-
-
-
-
-
-
         private void StartBackgroundAudioTask()
         {
             AddMediaPlayerEventHandlers();
@@ -151,6 +146,11 @@ namespace com.aurora.aumusic
                 if (Albums.albumList.Count > 0)
                     MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
             }
+        }
+
+        internal object GetAllSongs()
+        {
+            return this.AllSongs;
         }
 
         private async void WaitingBar_Loaded(object sender, RoutedEventArgs e)
@@ -182,6 +182,16 @@ namespace com.aurora.aumusic
             StartBackgroundAudioTask();
             Application.Current.Suspending += SaveLists;
             TimeSpan period = TimeSpan.FromSeconds(5);
+            ThreadPool.RunAsync((work) =>
+             {
+                 foreach (var album in Albums.albums)
+                 {
+                     foreach (var song in album.Songs)
+                     {
+                         this.AllSongs.Add(song);
+                     }
+                 }
+             });
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
             {
                 if (!IsShuffleListInitialed)

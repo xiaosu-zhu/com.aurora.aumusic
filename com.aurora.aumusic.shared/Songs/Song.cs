@@ -212,7 +212,7 @@ namespace com.aurora.aumusic.shared.Songs
                     {
                         for (int i = allList.Count - 1; i >= 0; i--)
                         {
-                            if (albums[k].Songs[j].MainKey == ((StorageFile)allList[i]).Path + ((StorageFile)allList[i]).Name)
+                            if (albums[k].Songs[j].MainKey == ((StorageFile)allList[i]).Path)
                             {
                                 albums[k].Songs[j].AudioFile = (StorageFile)allList[i];
                                 allList.RemoveAt(i);
@@ -323,7 +323,7 @@ namespace com.aurora.aumusic.shared.Songs
 
         public async Task<Tag> SetTags()
         {
-            this.MainKey = AudioFile.Path + AudioFile.Name;
+            this.MainKey = AudioFile.Path;
             MusicProperties p = await AudioFile.Properties.GetMusicPropertiesAsync();
             TimeSpan D = p.Duration;
             if (D.Milliseconds > 500)

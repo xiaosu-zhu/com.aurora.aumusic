@@ -102,6 +102,7 @@
     <Compile Include="ListViewExtension.cs" />
     <Compile Include="NowPlayingHub.cs" />
     <Compile Include="PlaybackControl.cs" />
+    <Compile Include="SongsGroupViewModel.cs" />
     <Compile Include="SplitListView.cs" />
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>

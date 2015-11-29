@@ -535,7 +535,7 @@
         </Grid>
 
         <Grid x:Name="SemanticGrid" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="MymusicSubGrid" Margin="12,0,0,0">
-            <ProgressBar x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
+            <ProgressBar Canvas.ZIndex="1" x:Name="WaitingBar" IsIndeterminate="True" Loaded="WaitingBar_Loaded" />
             <SemanticZoom x:Name="AlbumFlowZoom">
                 <SemanticZoom.ZoomedOutView>
                     <ListView x:Name="AlbumsFlowControls" Style="{StaticResource AlbumFlowStyle}" ItemsSource="{x:Bind AlbumFlowResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumFlowTemplate}" IsItemClickEnabled="True" >

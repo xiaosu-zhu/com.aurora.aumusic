@@ -142,6 +142,15 @@ namespace com.aurora.aumusic
             this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
              {
                  SongDetails.Update(CurrentSong, detail.BitRate, detail.Size, detail.MusicType);
+                 ToolTip t1 = new ToolTip();
+                 t1.Content = SongDetails.MainKey;
+                 ToolTipService.SetToolTip(CurrentSongMainKey, t1);
+                 ToolTip t2 = new ToolTip();
+                 t2.Content = SongDetails.Album;
+                 ToolTipService.SetToolTip(CurrentSongAlbum, t2);
+                 ToolTip t3 = new ToolTip();
+                 t3.Content = SongDetails.Title;
+                 ToolTipService.SetToolTip(CurrentSongTitle, t3);
              }));
         }
 
@@ -298,16 +307,18 @@ namespace com.aurora.aumusic
             {
                 NowState = MediaPlayerState.Paused;
                 var icon = new BitmapIcon();
-                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/pausesolid.png");
+                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
                 PlayPauseButton.Content = icon;
+                return;
             }
 
             if (NowState == MediaPlayerState.Paused || NowState == MediaPlayerState.Stopped)
             {
                 NowState = MediaPlayerState.Playing;
                 var icon = new BitmapIcon();
-                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
+                icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/pausesolid.png");
                 PlayPauseButton.Content = icon;
+                return;
             }
 
         }
@@ -327,6 +338,10 @@ namespace com.aurora.aumusic
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             ((Window.Current.Content as Frame).Content as MainPage).StopButton_Click(null, null);
+            NowState = MediaPlayerState.Stopped;
+            var icon = new BitmapIcon();
+            icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
+            PlayPauseButton.Content = icon;
         }
 
         private void ListButton_Click(object sender, RoutedEventArgs e)
