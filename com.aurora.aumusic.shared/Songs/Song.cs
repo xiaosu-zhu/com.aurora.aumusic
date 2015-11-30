@@ -145,7 +145,7 @@ namespace com.aurora.aumusic.shared.Songs
         private uint track = 1;
         public uint TrackCount = 1;
         public uint Year = 0;
-
+        public bool Loved = false;
         public string Album
         {
             get
@@ -194,6 +194,15 @@ namespace com.aurora.aumusic.shared.Songs
             tempSong.Genres = (((string)triContainer.Values["Genres"]) != null ? ((string)triContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Duration = (TimeSpan)triContainer.Values["Duration"];
             tempSong.ArtWorkSize = new Size((double)triContainer.Values["Width"], (double)triContainer.Values["Height"]);
+            try
+            {
+                tempSong.Loved = (bool)triContainer.Values["Loved"];
+            }
+            catch (Exception)
+            {
+                tempSong.Loved = false;
+            }
+
             return tempSong;
         }
 
@@ -471,20 +480,10 @@ namespace com.aurora.aumusic.shared.Songs
             var tagFile = TagLib.File.Create(new StreamFileAbstraction(AudioFile.Name,
                              fileStream, fileStream));
             var tags = tagFile.GetTag(TagTypes.Id3v2);
-            if (!(p.Title.Contains("?") || p.Title == null || p.Title == "" || p.Album.Contains("?") || p.Album == "" || p.Artist == "各种艺术家" || p.Artist=="Various Artists"))
-            {
-                this.Title = p.Title;
-                this.Album = p.Album;
-                this.AlbumArtists = new[] { p.AlbumArtist };
-                this.Artists = new[] { p.Artist };
-            }
-            else
-            {
-                this.Title = tags.Title;
-                this.Album = tags.Album;
-                this.AlbumArtists = tags.AlbumArtists;
-                this.Artists = tags.Performers;
-            }
+            this.Title = tags.Title;
+            this.Album = tags.Album;
+            this.AlbumArtists = tags.AlbumArtists;
+            this.Artists = tags.Performers;
             this.Year = tags.Year;
             this.Genres = tags.Genres;
             this.Disc = tags.Disc;
@@ -493,8 +492,6 @@ namespace com.aurora.aumusic.shared.Songs
             this.TrackCount = tags.TrackCount;
             return tags;
         }
-
-
 
         public void PlayOnce()
         {

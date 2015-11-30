@@ -156,6 +156,7 @@ namespace com.aurora.aumusic
 
         private void updateui()
         {
+            Loved = CurrentSong.Loved;
             NowTitle.Text = CurrentSong.Title;
             NowAlbum.Text = CurrentSong.Album;
             GenresDetailsConverter converter = new GenresDetailsConverter();
@@ -166,7 +167,25 @@ namespace com.aurora.aumusic
             c.sParmeter = CurrentSong.Duration.TotalSeconds;
             var d = new DurationValueConverter();
             TotalTimeBlock.Text = (string)d.Convert(CurrentSong.Duration, null, null, null);
-
+            switch (CurrentSong.Rating)
+            {
+                case 0: NoStar.Begin(); break;
+                case 1: OneStarSet.Begin(); break;
+                case 2: TwoStarSet.Begin(); break;
+                case 3: ThreeStarSet.Begin(); break;
+                case 4: FourStarSet.Begin(); break;
+                case 5: FiveStarSet.Begin(); break;
+                default:
+                    break;
+            }
+            if (Loved)
+            {
+                LoveButtonLove.Begin();
+            }
+            else
+            {
+                LoveButtonNormal.Begin();
+            }
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -242,11 +261,11 @@ namespace com.aurora.aumusic
         {
             switch ((sender as Button).Name)
             {
-                case "OneStarButton": OneStarSet.Begin(); CurrentSong.Rating = 1; break;
-                case "TwoStarButton": TwoStarSet.Begin(); CurrentSong.Rating = 2; break;
-                case "ThreeStarButton": ThreeStarSet.Begin(); CurrentSong.Rating = 3; break;
-                case "FourStarButton": FourStarSet.Begin(); CurrentSong.Rating = 4; break;
-                case "FiveStarButton": FiveStarSet.Begin(); CurrentSong.Rating = 5; break;
+                case "OneStarButton": OneStarSet.Begin(); CurrentSong.Rating = 1; ShuffleList.Rate(CurrentSong, 1); break;
+                case "TwoStarButton": TwoStarSet.Begin(); CurrentSong.Rating = 2; ShuffleList.Rate(CurrentSong, 2); break;
+                case "ThreeStarButton": ThreeStarSet.Begin(); CurrentSong.Rating = 3; ShuffleList.Rate(CurrentSong, 3); break;
+                case "FourStarButton": FourStarSet.Begin(); CurrentSong.Rating = 4; ShuffleList.Rate(CurrentSong, 4); break;
+                case "FiveStarButton": FiveStarSet.Begin(); CurrentSong.Rating = 5; ShuffleList.Rate(CurrentSong, 5); break;
             }
         }
 
@@ -282,6 +301,7 @@ namespace com.aurora.aumusic
             {
                 LoveButtonBreak.Begin();
             }
+            ShuffleList.Love(CurrentSong, Loved);
         }
 
         internal async void updateartwork(byte[] artworkStream)

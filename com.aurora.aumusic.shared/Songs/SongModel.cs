@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 
-namespace com.aurora.aumusic.shared.Songs 
+namespace com.aurora.aumusic.shared.Songs
 {
     [DataContract]
     public class SongModel
@@ -45,6 +45,12 @@ namespace com.aurora.aumusic.shared.Songs
         public uint DiscCount;
         [DataMember]
         public string[] AlbumArtists;
+        [DataMember]
+        public string FolderToken;
+        [DataMember]
+        public int PlayTimes;
+        [DataMember]
+        public bool Loved;
 
         public SongModel(Song song)
         {
@@ -64,6 +70,9 @@ namespace com.aurora.aumusic.shared.Songs
             DiscCount = song.DiscCount;
             Disc = song.Disc;
             AlbumArtists = song.AlbumArtists;
+            FolderToken = song.FolderToken;
+            PlayTimes = song.PlayTimes;
+            Loved = song.Loved;
         }
     }
 }

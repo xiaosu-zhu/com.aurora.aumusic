@@ -158,11 +158,7 @@ namespace com.aurora.aumusic
                         MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
                     case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
                     case "Songs":
-                        if (MainFrame.Content is AlbumFlowPage)
-                        {
-                            var allsongs = (MainFrame.Content as AlbumFlowPage).GetAllSongs();
-                            MainFrame.Navigate(typeof(SongsPage), allsongs);
-                        }
+                        MainFrame.Navigate(typeof(SongsPage));
                         break;
                     case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
                 }
@@ -456,6 +452,7 @@ namespace com.aurora.aumusic
         {
             if (CurrentSong != null && NavigatedtoDetailPages == false)
             {
+                AlbumArtWorkOut.Begin();
                 Root.LayoutUpdated -= Root_LayoutUpdated;
                 var renderer = new RenderTargetBitmap();
                 await renderer.RenderAsync(MainFrame);
@@ -577,6 +574,7 @@ namespace com.aurora.aumusic
         private async void PlayBackGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             await AccesstoNowPage();
+
         }
 
         private void Root_LayoutUpdated(object sender, object e)

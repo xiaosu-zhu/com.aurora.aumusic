@@ -13,6 +13,6 @@
         </TransitionCollection>
     </Page.Transitions>
     <RelativePanel>
-        <Rectangle Fill="Blue" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+       
     </RelativePanel>
 </Page>

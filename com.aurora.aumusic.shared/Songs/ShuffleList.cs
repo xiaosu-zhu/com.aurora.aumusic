@@ -57,7 +57,7 @@ namespace com.aurora.aumusic.shared.Songs
             return list;
         }
 
-        internal static void Save(Song song)
+        public static void Save(Song song)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
@@ -67,6 +67,44 @@ namespace com.aurora.aumusic.shared.Songs
             ApplicationDataContainer triContainer =
     SubContainer.CreateContainer("Song" + song.SubPosition, ApplicationDataCreateDisposition.Always);
             triContainer.Values["PlayTimes"] = song.PlayTimes;
+        }
+
+        public static void Save(SongModel song)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(song.FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + song.Position, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer triContainer =
+    SubContainer.CreateContainer("Song" + song.SubPosition, ApplicationDataCreateDisposition.Always);
+            triContainer.Values["PlayTimes"] = song.PlayTimes;
+        }
+
+        public static void Rate(SongModel song, uint Rating)
+        {
+            song.Rating = Rating;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(song.FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + song.Position, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer triContainer =
+    SubContainer.CreateContainer("Song" + song.SubPosition, ApplicationDataCreateDisposition.Always);
+            triContainer.Values["Rating"] = song.Rating;
+        }
+
+        public static void Rate(Song song, uint Rating)
+        {
+            song.Rating = Rating;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(song.FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + song.Position, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer triContainer =
+    SubContainer.CreateContainer("Song" + song.SubPosition, ApplicationDataCreateDisposition.Always);
+            triContainer.Values["Rating"] = song.Rating;
         }
 
         public static void SaveFavouriteList(List<Song> favList)
@@ -151,7 +189,7 @@ namespace com.aurora.aumusic.shared.Songs
             MainContainer.Values["ShuSongsCount"] = i;
         }
 
-        public static async Task<List<Song>> RestoreShuffleList()
+        public static List<Song> RestoreShuffleList()
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             try
@@ -209,6 +247,19 @@ namespace com.aurora.aumusic.shared.Songs
                 shuffleList.RemoveAt(s);
             }
             return ts;
+        }
+
+        public static void Love(SongModel currentSong, bool loved)
+        {
+            currentSong.Loved = loved;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer MainContainer =
+    localSettings.CreateContainer(currentSong.FolderToken, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer SubContainer =
+    MainContainer.CreateContainer("Album" + currentSong.Position, ApplicationDataCreateDisposition.Always);
+            ApplicationDataContainer triContainer =
+    SubContainer.CreateContainer("Song" + currentSong.SubPosition, ApplicationDataCreateDisposition.Always);
+            triContainer.Values["Loved"] = currentSong.Loved;
         }
     }
 }

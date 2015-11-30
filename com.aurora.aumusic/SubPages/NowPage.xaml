@@ -574,7 +574,7 @@
             <TextBlock Margin="28,0,8,8" x:Name="NowDetails" RelativePanel.Below="NowArtist" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" />
         </RelativePanel>
 
-        <StackPanel Margin="32,0,8,8" x:Name="QuickPanel" RelativePanel.Below="TextGroup" Orientation="Horizontal">
+        <StackPanel Margin="28,0,8,8" x:Name="QuickPanel" RelativePanel.Below="TextGroup" Orientation="Horizontal">
             <RelativePanel PointerExited="OneStarButton_PointerExited" x:Name="RatingPanel">
                 <RelativePanel.Resources>
                     <Storyboard x:Name="NoStar">
@@ -945,34 +945,34 @@
                     </Storyboard>
                 </RelativePanel.Resources>
                 <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                <Button x:Name="OneStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="TwoStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="TwoStarButton" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="ThreeStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="ThreeStarButton" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="FourStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FourStarButton" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
-                <Button x:Name="FiveStarButton" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                <Button x:Name="FiveStarButton" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
                     <Button.Content>
                         &#xE224;
                     </Button.Content>
                 </Button>
             </RelativePanel>
 
-            <Button Margin="24,2,0,0" x:Name="LoveButton" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" Style="{ThemeResource QuickButtonStyle}" >
+            <Button Margin="24,2,0,0" x:Name="LoveButton" Foreground="White" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Style="{ThemeResource QuickButtonStyle}" >
                 <Button.Content>
                     &#xE006;
                 </Button.Content>
@@ -1055,8 +1055,24 @@
                             <TextBlock Text="#" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="12" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="评分" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="13" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
-                            <Line Stroke="Gray" StrokeThickness="1" X1="0" X2="420" Grid.Row="1" Grid.ColumnSpan="2" />
-                            <Line Stroke="Gray" StrokeThickness="1" X1="0" X2="420" Grid.Row="6" Grid.ColumnSpan="2" />
+                            <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2" >
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="1,0">
+                                        <GradientStop Color="White" Offset="0.5"/>
+                                        <GradientStop Color="Transparent"/>
+                                        <GradientStop Color="Transparent" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="6" Grid.ColumnSpan="2" >
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="1,0">
+                                        <GradientStop Color="White" Offset="0.5"/>
+                                        <GradientStop Color="Transparent"/>
+                                        <GradientStop Color="Transparent" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
                             <TextBlock x:Name="CurrentSongMainKey" Text="{x:Bind SongDetails.MainKey, Mode=OneWay, Converter={StaticResource pathconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" Grid.Row="1" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" >
 
                             </TextBlock>

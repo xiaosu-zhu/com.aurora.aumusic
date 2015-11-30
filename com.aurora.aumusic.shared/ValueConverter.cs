@@ -93,6 +93,23 @@ namespace com.aurora.aumusic.shared
         }
     }
 
+    public class UriConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is string)
+            {
+                return new Uri((string)value);
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class AlbumDetailsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -564,12 +581,12 @@ namespace com.aurora.aumusic.shared
                         }
                     if (sb[sb.Length - 1] == ' ')
                         sb.Remove(sb.Length - 2, 2);
-                    sb.Append("·");
+                    sb.Append(" · ");
                 }
                 if (((AlbumItem)value).Year > 0)
                     sb.Append(((AlbumItem)value).Year + "年");
-                else if (sb[sb.Length - 1] == '·')
-                    sb.Remove(sb.Length - 1, 1);
+                else
+                    sb.Remove(sb.Length-3, 3);
                 return sb.ToString();
             }
             if (value is Song)
@@ -587,12 +604,12 @@ namespace com.aurora.aumusic.shared
                         }
                     if (sb[sb.Length - 1] == ' ')
                         sb.Remove(sb.Length - 2, 2);
-                    sb.Append("·");
+                    sb.Append(" · ");
                 }
                 if (((Song)value).Year > 0)
                     sb.Append(((Song)value).Year + "年");
-                else if (sb[sb.Length - 1] == '·')
-                    sb.Remove(sb.Length - 1, 1);
+                else
+                    sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
             }
             if (value is SongModel)
@@ -610,12 +627,12 @@ namespace com.aurora.aumusic.shared
                         }
                     if (sb[sb.Length - 1] == ' ')
                         sb.Remove(sb.Length - 2, 2);
-                    sb.Append("·");
+                    sb.Append(" · ");
                 }
                 if (((SongModel)value).Year > 0)
                     sb.Append(((SongModel)value).Year + "年");
-                else if (sb[sb.Length - 1] == '·')
-                    sb.Remove(sb.Length - 1, 1);
+                else
+                    sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
             }
             return null;

@@ -190,6 +190,7 @@ namespace com.aurora.aumusic
                      {
                          this.AllSongs.Add(song);
                      }
+                     SongsPage.AllSongs = this.AllSongs;
                  }
              });
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
@@ -389,7 +390,7 @@ async () =>
             {
                 shuffleList.AddRange(s);
             }
-            var v = await ShuffleList.RestoreShuffleList();
+            var v = ShuffleList.RestoreShuffleList();
             if (v != null)
             {
                 shuffleList.AddRange(v);
