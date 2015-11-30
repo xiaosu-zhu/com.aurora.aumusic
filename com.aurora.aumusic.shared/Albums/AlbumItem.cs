@@ -298,8 +298,6 @@ namespace com.aurora.aumusic.shared.Albums
             }
         }
 
-
-
         public void getYear()
         {
             if (Songs.Count != 0)

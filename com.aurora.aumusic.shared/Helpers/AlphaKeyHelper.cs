@@ -57,4 +57,15 @@ namespace com.aurora.aumusic.shared.Helpers
             return list;
         }
     }
+
+    public class ArtistsKeyGroup<T> : List<T>
+    {
+        const string GlobeGroupKey = "?";
+        public string[] Key { get; private set; }
+        //public List<T> this { get; private set; }
+        public ArtistsKeyGroup(string[] key)
+        {
+            Key = key;
+        }
+    }
 }

@@ -191,6 +191,7 @@ namespace com.aurora.aumusic
                          this.AllSongs.Add(song);
                      }
                      SongsPage.AllSongs = this.AllSongs;
+                     ArtistPage.AllSongs = this.Albums.albumList.ToList();
                  }
              });
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
