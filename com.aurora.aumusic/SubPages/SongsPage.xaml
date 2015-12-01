@@ -173,7 +173,7 @@
         </RelativePanel>
         <SemanticZoom x:Name="SemanticZoom" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" >
             <SemanticZoom.ZoomedInView>
-                <ListView x:Name="AllSongsList" ItemsSource="{x:Bind SongListSource.View, Mode=OneWay}" ItemTemplate="{StaticResource SongListItemStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}" >
+                <ListView x:Name="AllSongsList" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind SongListSource.View, Mode=OneWay}" ItemTemplate="{StaticResource SongListItemStyle}" ItemContainerStyle="{StaticResource ListViewItemStyle}" >
                     <ListView.GroupStyle>
                         <GroupStyle HidesIfEmpty="True" ContainerStyle="{StaticResource GroupItemStyle}" HeaderContainerStyle="{StaticResource ListViewHeaderItemStyle}">
                             <GroupStyle.HeaderTemplate>
@@ -189,7 +189,7 @@
                 </ListView>
             </SemanticZoom.ZoomedInView>
             <SemanticZoom.ZoomedOutView>
-                <GridView x:Name="AllSongsGroup" ItemsSource="{x:Bind SongListSource.View.CollectionGroups, Mode=OneWay}" MaxWidth="420" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <GridView x:Name="AllSongsGroup" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind SongListSource.View.CollectionGroups, Mode=OneWay}" MaxWidth="420" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <GridView.ItemTemplate>
                         <DataTemplate >
                             <Border Background="{ThemeResource SystemThemeMainBrush}" Width="64" Height="64">

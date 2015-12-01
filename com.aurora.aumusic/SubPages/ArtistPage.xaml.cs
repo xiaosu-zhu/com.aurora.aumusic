@@ -31,19 +31,25 @@ namespace com.aurora.aumusic
             ArtistsGroupViewModel.Clear();
             if (AllSongs != null)
             {
-                var query = from item in AllSongs
-                            group item by item.AlbumArtists into g
-                            orderby g.Key[0]
-                            select new { GroupName = g.Key, Items = g };
+                var query = ArtistsKeyGroup<AlbumItem>.CreateGroups(AllSongs, album => album.AlbumArtists, true);
                 foreach (var g in query)
                 {
-                    ArtistsKeyGroup<AlbumItem> albums = new ArtistsKeyGroup<AlbumItem>(g.GroupName);
-                    albums.AddRange(g.Items);
-                    ArtistsGroupViewModel.Add(albums);
+                    List<string> artworks = new List<string>();
+                    foreach (var item in g)
+                    {
+                        artworks.Add(item.AlbumArtWork);
+                    }
+                    g.SetArtworks(artworks.ToArray());
+                    ArtistsGroupViewModel.Add(g);
                 }
             }
             LoadingRing.IsActive = false;
             LoadingRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
         }
     }
 }

@@ -257,6 +257,7 @@ namespace com.aurora.aumusic.shared.Albums
                     triContainer.Values["PlayTimes"] = song.PlayTimes;
                     triContainer.Values["Width"] = song.ArtWorkSize.Width;
                     triContainer.Values["Height"] = song.ArtWorkSize.Height;
+                    triContainer.Values["Loved"] = song.Loved;
                     j++;
                 }
                 SubContainer.Values["SongsCount"] = item.Songs.Count;

@@ -62,10 +62,54 @@ namespace com.aurora.aumusic.shared.Helpers
     {
         const string GlobeGroupKey = "?";
         public string[] Key { get; private set; }
+        public string[] Artworks { get; private set; }
         //public List<T> this { get; private set; }
         public ArtistsKeyGroup(string[] key)
         {
             Key = key;
         }
+        public void SetArtworks(string[] artworks)
+        {
+            Artworks = artworks;
+        }
+
+        public static List<ArtistsKeyGroup<T>> CreateGroups(IEnumerable<T> items, Func<T, string[]> keySelector, bool sort)
+        {
+            List<ArtistsKeyGroup<T>> list = new List<ArtistsKeyGroup<T>>();
+            foreach (T item in items)
+            {
+                int index = 0;
+                string[] label = keySelector(item);
+                index = list.FindIndex(group =>
+                {
+                    int i = 0;
+                    if (group.Key.Length != label.Length)
+                        return false;
+                    foreach (var artist in group.Key)
+                    {
+                        if (artist != label[i])
+                            return false;
+                        i++;
+                    }
+                    return true;
+                });
+                if (index == -1)
+                {
+                    list.Add(new ArtistsKeyGroup<T>(label));
+                    list[list.Count - 1].Add(item);
+                }
+                else if (index < list.Count)
+                    list[index].Add(item);
+            }
+            if (sort)
+            {
+                foreach (ArtistsKeyGroup<T> group in list)
+                {
+                    group.Sort((c0, c1) => { return keySelector(c0)[0].CompareTo(keySelector(c1)[0]); });
+                }
+            }
+            return list;
+        }
+
     }
 }

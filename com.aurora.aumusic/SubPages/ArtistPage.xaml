@@ -20,6 +20,7 @@
             </ResourceDictionary.ThemeDictionaries>
             <CollectionViewSource x:Name="ArtistsSource" IsSourceGrouped="True" />
             <converter:ArtistsConverter x:Name="artistsconverter" />
+            <converter:ArtworkConverter x:Name="artworkconverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -34,11 +35,24 @@
         </RelativePanel>
         <SemanticZoom RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
             <SemanticZoom.ZoomedInView>
-                <GridView ItemsSource="{x:Bind ArtistsSource.View.CollectionGroups,Mode=OneWay}">
+                <GridView Margin="12,48,12,80" IsSynchronizedWithCurrentItem="False" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick" ItemsSource="{x:Bind ArtistsSource.View.CollectionGroups,Mode=OneWay}">
                     <GridView.ItemTemplate>
                         <DataTemplate >
-                            <Grid Background="{ThemeResource SystemThemeMainBrush}">
-                                <TextBlock Text="{Binding Group.Key, Converter={StaticResource artistsconverter}}" Style="{ThemeResource BodyTextBlockStyle}" Padding="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="144" />
+                                    <RowDefinition Height="144" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="144" />
+                                    <ColumnDefinition Width="144" />
+                                </Grid.ColumnDefinitions>
+                                <Image Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Group.Artworks[0]}" />
+                                <Image Margin="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Group.Artworks[1], FallbackValue=/Assets/unknown.png}" />
+                                <Image Margin="2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Group.Artworks[2], FallbackValue=/Assets/unknown.png}" />
+                                <Image Margin="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Group.Artworks[3], FallbackValue=/Assets/unknown.png}" />
+                                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Text="{Binding Group.Key, Converter={StaticResource artistsconverter}}" Style="{ThemeResource BodyTextBlockStyle}" Padding="6"/>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>

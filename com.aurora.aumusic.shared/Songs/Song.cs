@@ -194,15 +194,7 @@ namespace com.aurora.aumusic.shared.Songs
             tempSong.Genres = (((string)triContainer.Values["Genres"]) != null ? ((string)triContainer.Values["Genres"]).Split(new char[3] { '|', ':', '|' }) : null);
             tempSong.Duration = (TimeSpan)triContainer.Values["Duration"];
             tempSong.ArtWorkSize = new Size((double)triContainer.Values["Width"], (double)triContainer.Values["Height"]);
-            try
-            {
-                tempSong.Loved = (bool)triContainer.Values["Loved"];
-            }
-            catch (Exception)
-            {
-                tempSong.Loved = false;
-            }
-
+            tempSong.Loved = (bool)triContainer.Values["Loved"];
             return tempSong;
         }
 

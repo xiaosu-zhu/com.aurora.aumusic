@@ -110,6 +110,23 @@ namespace com.aurora.aumusic.shared
         }
     }
 
+    public class ArtworkConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is string[])
+            {
+
+            }
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class AlbumDetailsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
