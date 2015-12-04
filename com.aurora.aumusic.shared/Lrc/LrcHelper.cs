@@ -65,17 +65,21 @@ namespace com.aurora.aumusic.shared.Lrc
                     break;
                 }
             }
-            string title;
+            string title = null;
+#if DEBUG
             if (!isNippon)
                 title = ChineseConverter.ToSimplified(song.Title);
             else
+#endif
                 title = song.Title;
 
             string artist = null;
             if (song.Artists[0] != "Unknown Artists")
+#if DEBUG
                 if (!isNippon)
                     artist = ChineseConverter.ToSimplified(song.Artists[0]);
                 else
+#endif
                     artist = song.Artists[0];
             return artist != null ? "http://geci.me/api/lyric/" + title + '/' + artist : "http://geci.me/api/lyric/" + title;
         }

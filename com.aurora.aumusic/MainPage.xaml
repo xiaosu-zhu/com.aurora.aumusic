@@ -817,7 +817,7 @@
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1" To="1" EnableDependentAnimation="True">
+                            <DoubleAnimation Storyboard.TargetName="BackRec" Storyboard.TargetProperty="Opacity" Duration="0:0:1" To="0.8" EnableDependentAnimation="True">
                                 <DoubleAnimation.EasingFunction>
                                     <QuadraticEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
@@ -974,6 +974,7 @@
                             </AppBarButton>
                         </StackPanel>
                         <Frame Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="2" x:Name="NowLrcFrame" Opacity="0" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />
+                        <ProgressBar x:Name="LoadingFilesBar" Canvas.ZIndex="2" Foreground="White" IsIndeterminate="True" Visibility="Visible" Grid.ColumnSpan="6" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="16" />
                     </Grid>
 
                 </RelativePanel>

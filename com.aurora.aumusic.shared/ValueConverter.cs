@@ -1,4 +1,5 @@
 ﻿using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Helpers;
 using com.aurora.aumusic.shared.Songs;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,6 @@ namespace com.aurora.aumusic.shared
         {
             string s = value.ToString() + "首曲目";
             return s;
-            throw new NotImplementedException();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -97,7 +97,7 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is string)
+            if (value is string)
             {
                 return new Uri((string)value);
             }
@@ -114,7 +114,7 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is string[])
+            if (value is string[])
             {
 
             }
@@ -168,6 +168,28 @@ namespace com.aurora.aumusic.shared
 
             sb.Append((((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString() + "分" + ts.Seconds.ToString("00") + "秒");
             return sb.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class ArtistDetailsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is List<AlbumSongsGroup>)
+            {
+                int i = 0;
+                foreach (var item in (List<AlbumSongsGroup>)value)
+                {
+                    i += item.SongsCount;
+                }
+                return ((List<AlbumSongsGroup>)value).Count.ToString("0") + "张专辑" + "    " + i.ToString("0") + "首曲目";
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -269,6 +291,40 @@ namespace com.aurora.aumusic.shared
                 return (double)value * factor;
             }
             return 0.0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class FrameParallaxConverterTwo : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double)
+            {
+                return 528 - (double)value * 0.5 > 0 ? 528 - (double)value * 0.5 : 0.0;
+            }
+            return 0.0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
+        }
+    }
+
+    public class ColortoBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is Color)
+            {
+                return new SolidColorBrush((Color)value);
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -603,7 +659,7 @@ namespace com.aurora.aumusic.shared
                 if (((AlbumItem)value).Year > 0)
                     sb.Append(((AlbumItem)value).Year + "年");
                 else
-                    sb.Remove(sb.Length-3, 3);
+                    sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
             }
             if (value is Song)

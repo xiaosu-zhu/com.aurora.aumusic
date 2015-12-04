@@ -45,6 +45,55 @@ namespace com.aurora.aumusic
             return stream;
         }
 
+        public static List<Image> GetImages(this DependencyObject element)
+        {
+            List<Image> list = new List<Image>();
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i);
+                if(child is Image)
+                {
+                    list.Add(child as Image);
+                    continue;
+                }
+                var result = GetImages(child);
+                if (result == null)
+                    continue;
+                else
+                {
+                    list.AddRange(result);
+                }
+            }
+            return list;
+        }
+
+        public static DependencyObject FindChildControl<T>(this DependencyObject control, string ctrlName)
+        {
+            int childNumber = VisualTreeHelper.GetChildrenCount(control);
+            for (int i = 0; i < childNumber; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(control, i);
+                FrameworkElement fe = child as FrameworkElement;
+                // Not a framework element or is null
+                if (fe == null) return null;
+
+                if (child is T && fe.Name == ctrlName)
+                {
+                    // Found the control so return
+                    return child;
+                }
+                else
+                {
+                    // Not found it - search children
+                    DependencyObject nextLevel = FindChildControl<T>(child, ctrlName);
+                    if (nextLevel != null)
+                        return nextLevel;
+                }
+            }
+            return null;
+        }
+
         public static ScrollViewer GetScrollViewer(this DependencyObject element)
         {
             if (element is ScrollViewer)

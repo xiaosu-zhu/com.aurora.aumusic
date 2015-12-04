@@ -68,8 +68,7 @@ namespace com.aurora.aumusic.backgroundtask
             ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Running.ToString());
 
             deferral = taskInstance.GetDeferral(); // This must be retrieved prior to subscribing to events below which use it
-
-            Task.Run(async () =>
+            ThreadPool.RunAsync(async (work) =>
             {
                 if (!(bool)localSettings.Values["isCreated"])
                 {
@@ -87,6 +86,7 @@ namespace com.aurora.aumusic.backgroundtask
                     AllList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
                 }
                 backgroundTaskStarted.Set();
+                MessageService.SendMessageToForeground(new BackgroundConfirmFilesMessage());
             });
 
             // Mark the background task as started to unblock SMTC Play operation (see related WaitOne on this signal)
@@ -417,7 +417,7 @@ namespace com.aurora.aumusic.backgroundtask
         async void ConfirmFiles(IEnumerable<SongModel> mainkeys)
         {
             // Make a new list and enable looping
-
+            
             // Add playback items to the list
             var result = backgroundTaskStarted.WaitOne(10000);
             if (result == true)

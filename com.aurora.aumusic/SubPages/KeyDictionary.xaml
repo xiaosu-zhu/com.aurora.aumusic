@@ -6,7 +6,7 @@
     <Thickness x:Key="Thickless">0</Thickness>
     <x:Double x:Key='CMTCMediaButtonHeight'>64</x:Double>
     <x:Double x:Key='CMTCMediaButtonWidth'>48</x:Double>
-    <x:Double x:Key="DetailsGridHeigt">464</x:Double>
+    <x:Double x:Key="DetailsGridHeigt">528</x:Double>
     <x:Double x:Key='NowMainFontSize'>16</x:Double>
     <x:Double x:Key='NowSubFontSize'>12</x:Double>
 </ResourceDictionary>

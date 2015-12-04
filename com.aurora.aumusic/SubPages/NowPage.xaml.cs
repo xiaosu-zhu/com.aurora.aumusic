@@ -119,22 +119,27 @@ namespace com.aurora.aumusic
             NowListMessage nowList;
             if (MessageService.TryParseMessage(e.Data, out nowList))
             {
-
-                this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
-                 {
-                     NowListSource.Source = nowList.CurrentSongs;
-                     CurrentPlayingList.ItemsSource = NowListSource.View;
-                     NowListLoadingRing.IsActive = false;
-                     NowListLoadingRing.Visibility = Visibility.Collapsed;
-                     NowListLoadingText.Visibility = Visibility.Collapsed;
-                     CurrentPlayingList.Visibility = Visibility.Visible;
-                 }));
+                UpdateNowList(nowList);
             }
             FullFileDetailsMessage detail;
             if (MessageService.TryParseMessage(e.Data, out detail))
             {
                 updatedetail(detail);
             }
+        }
+
+        private void UpdateNowList(NowListMessage nowList)
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+            {
+                NowListSource.Source = nowList.CurrentSongs;
+                CurrentPlayingList.ItemsSource = NowListSource.View;
+                NowListLoadingRing.IsActive = false;
+                NowListLoadingRing.Visibility = Visibility.Collapsed;
+                NowListLoadingText.Visibility = Visibility.Collapsed;
+                CurrentPlayingList.Visibility = Visibility.Visible;
+                CurrentPlayingList.SelectedItem = nowList.CurrentSongs.Find(x => x.MainKey == CurrentSong.MainKey);
+            }));
         }
 
         private void updatedetail(FullFileDetailsMessage detail)
@@ -199,9 +204,9 @@ namespace com.aurora.aumusic
             BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * PositionSlider.Value) / 100.0));
         }
 
-        private void PositionSlider_Loaded(object sender, RoutedEventArgs e)
+        private async void PositionSlider_Loaded(object sender, RoutedEventArgs e)
         {
-
+            await Task.Delay(1000);
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)
@@ -306,6 +311,7 @@ namespace com.aurora.aumusic
 
         internal async void updateartwork(byte[] artworkStream)
         {
+            await Task.Delay(1100);
             var stream = FileHelper.ToStream(artworkStream);
             await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async () =>
             {

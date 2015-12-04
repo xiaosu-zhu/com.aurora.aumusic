@@ -6,36 +6,17 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Shapes;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Windows.Graphics.DirectX;
-using Windows.Graphics.Effects;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.UI;
-
-using Windows.UI.Popups;
-using Lumia.Imaging.Adjustments;
-
 using Windows.Storage.Streams;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Graphics.Canvas.UI.Xaml;
-using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media;
 using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.Songs;
 using Windows.Media.Playback;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.UI.Xaml.Media.Animation;
-using Lumia.Imaging;
-using Windows.Graphics.Display;
+using Windows.UI.Xaml.Navigation;
 
 
 
@@ -99,6 +80,11 @@ namespace com.aurora.aumusic
             vol_no.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/volume-no.png");
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            App.ResetTitleBar();
+        }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
         {
@@ -213,11 +199,21 @@ namespace com.aurora.aumusic
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
+            BackgroundConfirmFilesMessage confirming;
+            if (MessageService.TryParseMessage(e.Data, out confirming))
+            {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    LoadingFilesBar.IsIndeterminate = false;
+                    LoadingFilesBar.Visibility = Visibility.Collapsed;
+                });
+            }
             BackPlaybackChangedMessage stateChangedMessage;
             if (MessageService.TryParseMessage(e.Data, out stateChangedMessage))
             {
                 await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
+
                     // If playback stopped then clear the UI
                     if (stateChangedMessage.CurrentSong == null)
                     {
@@ -298,7 +294,7 @@ namespace com.aurora.aumusic
             s.visibility = Visibility.Visible;
             switch (s.Title)
             {
-                case "AlbumFlow": MainFrame.Navigate(typeof(AlbumFlowPage), this); break;
+                case "AlbumFlow": MainFrame.Navigate(typeof(AlbumFlowPage)); break;
                 case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
                 case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
                 case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
@@ -626,6 +622,10 @@ namespace com.aurora.aumusic
             if (localSettings.Values.ContainsKey("Volume"))
             {
                 VolumeSlider.Value = (double)(localSettings.Values["Volume"]);
+            }
+            else
+            {
+                VolumeSlider.Value = 100;
             }
 
             if (VolumeSlider.Value == 0)

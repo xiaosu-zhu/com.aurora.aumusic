@@ -34,6 +34,7 @@ namespace com.aurora.aumusic
         List<LrcModel> lyrics;
 
         public Brush MainColor { get; private set; }
+        public ThreadPoolTimer LyricTimer { get; private set; }
 
         public LrcPage()
         {
@@ -125,6 +126,7 @@ namespace com.aurora.aumusic
 
         private async void WaitingRing_Loaded(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(1200);
             IAsyncAction asyncAction = ThreadPool.RunAsync(
                          async (workItem) =>
                          {
@@ -143,7 +145,7 @@ namespace com.aurora.aumusic
                                                               }));
                              if (lyric != null)
                              {
-                                 ThreadPoolTimer timer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+                                 LyricTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
                                  {
                                      var now = BackgroundMediaPlayer.Current.Position;
                                      await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
@@ -152,11 +154,18 @@ namespace com.aurora.aumusic
                                          {
                                              item.MainColor = this.MainColor;
                                          }
-                                         lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
-                                         await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
-                                     }));
+                                         try
+                                         {
+                                             lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
+                                             await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
+                                         }
+                                         catch (Exception)
+                                         {
+                                             TimerOver();
+                                         }
 
-                                 }, TimeSpan.FromSeconds(1));
+                                     }));
+                                 }, TimeSpan.FromSeconds(0.16));
 
                              }
                          });
@@ -183,6 +192,14 @@ namespace com.aurora.aumusic
 
                 }
             });
+        }
+
+        private void TimerOver()
+        {
+            if (LyricTimer != null)
+            {
+                LyricTimer.Cancel();
+            }
         }
 
         private async Task FetchLrc()

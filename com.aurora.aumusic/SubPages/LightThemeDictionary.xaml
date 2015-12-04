@@ -21,4 +21,5 @@
     <SolidColorBrush x:Key="SystemControlTranslucentBaseLightBrush" Color="#44232323" />
     <SolidColorBrush x:Key="SystemThemeMainBrush" Color="{ThemeResource SystemAccentColor}" />
     <SolidColorBrush x:Key="SystemTransparentBrush" Color="Transparent" />
+    <Color x:Key="SystemBackgroundAltHighColor" >#FFF0F0F0</Color>
 </ResourceDictionary>

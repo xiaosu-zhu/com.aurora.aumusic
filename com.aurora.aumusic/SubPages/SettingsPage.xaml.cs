@@ -26,14 +26,7 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            var view = ApplicationView.GetForCurrentView();
-            ApplicationViewTitleBar titleBar = view.TitleBar;
-            if (titleBar != null)
-            {
-                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
-                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
-            }
+            App.ResetTitleBar();
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

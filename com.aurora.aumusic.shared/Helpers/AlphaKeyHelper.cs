@@ -1,9 +1,13 @@
-﻿using System;
+﻿using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Songs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Globalization.Collation;
+using Windows.UI;
 
 namespace com.aurora.aumusic.shared.Helpers
 {
@@ -107,6 +111,57 @@ namespace com.aurora.aumusic.shared.Helpers
                 {
                     group.Sort((c0, c1) => { return keySelector(c0)[0].CompareTo(keySelector(c1)[0]); });
                 }
+            }
+            return list;
+        }
+
+    }
+
+    public class AlbumSongsGroup : List<Song>
+    {
+        public string AlbumName { get; private set; }
+        public string AlbumArtWork { get; private set; }
+        public string[] AlbumArtists { get; private set; }
+        public uint Year { get; private set; }
+        public AlbumItem Album { get; private set; }
+        public int SongsCount { get; private set; }
+        public TimeSpan TotalDuration { get; private set; }
+        public Color Palette { get; private set; }
+
+        public AlbumSongsGroup(AlbumItem album)
+        {
+            this.AlbumArtists = album.AlbumArtists;
+            this.AlbumName = album.AlbumName;
+            this.AlbumArtWork = album.AlbumArtWork;
+            this.Year = album.Year;
+            this.Album = album;
+            this.AddRange(album.Songs);
+            this.SongsCount = album.SongsCount;
+            this.Palette = album.Palette;
+            double totalms = 0;
+            foreach (var item in album.Songs)
+            {
+                totalms += item.Duration.TotalMilliseconds;
+            }
+            this.TotalDuration = TimeSpan.FromMilliseconds(totalms);
+        }
+
+        public static List<AlbumSongsGroup> CreateGroup(IEnumerable<AlbumItem> albums,bool sort)
+        {
+            if (albums == null)
+                return null;
+            List<AlbumSongsGroup> list = new List<AlbumSongsGroup>();
+            foreach (var item in albums)
+            {
+                AlbumSongsGroup album = new AlbumSongsGroup(item);
+                list.Add(album);
+            }
+            if (sort)
+            {
+                list.Sort((a, b) =>
+                {
+                    return a.Year.CompareTo(b.Year);
+                });
             }
             return list;
         }

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Windows.Media.Core;
+﻿using System.Linq;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,23 +8,16 @@ using System.Threading;
 using System;
 using Windows.Foundation;
 using System.Collections.Generic;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Input;
 using Windows.UI.Xaml.Shapes;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.System.Threading;
 using Windows.ApplicationModel;
-using Windows.UI.Xaml.Data;
 using com.aurora.aumusic.shared.Albums;
 using com.aurora.aumusic.shared.Songs;
 using com.aurora.aumusic.shared;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Text;
 using com.aurora.aumusic.backgroundtask;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.ApplicationModel.Background;
@@ -77,21 +68,18 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            var view = ApplicationView.GetForCurrentView();
-            ApplicationViewTitleBar titleBar = view.TitleBar;
-            if (titleBar != null)
+            App.ResetTitleBar();
+            if (AlbumFlowZoom.IsZoomedInViewActive)
             {
-                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
-                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
-            mainpage = e.Parameter as MainPage;
         }
 
         private void AddMediaPlayerEventHandlers()
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
-            mainpage.AddMediaHandler();
+            ((Window.Current.Content as Frame).Content as MainPage).AddMediaHandler();
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -271,11 +259,7 @@ async () =>
         private void Zoom_BackRequested(object sender, BackRequestedEventArgs e)
         {
             AlbumFlowZoom.IsZoomedInViewActive = false;
-            var view = ApplicationView.GetForCurrentView();
-            ApplicationViewTitleBar titleBar = view.TitleBar;
-            titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
-            titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            App.ResetTitleBar();
             SystemNavigationManager.GetForCurrentView().BackRequested -= Zoom_BackRequested;
             DetailedAlbum = null;
         }

@@ -9,7 +9,6 @@ using Windows.Storage;
 using Windows.Foundation;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using System.Diagnostics;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml;
 using Windows.UI;
@@ -20,7 +19,7 @@ namespace com.aurora.aumusic.shared.Albums
     public class AlbumItem : INotifyPropertyChanged, ISongModelList
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        public string AlbumName;
+        public string AlbumName { get; set; }
         private string _albumartwork;
         public string AlbumArtWork
         {

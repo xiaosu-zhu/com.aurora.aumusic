@@ -123,6 +123,7 @@
     <Compile Include="Lrc\LrcRequestModel.cs" />
     <Compile Include="Lrc\LrcUrlModel.cs" />
     <Compile Include="MessageService\AppStateChangedMessage.cs" />
+    <Compile Include="MessageService\BackgroundConfirmFilesMessage.cs" />
     <Compile Include="MessageService\BackgroundTaskStateChangedMessage.cs" />
     <Compile Include="MessageService\BackPlaybackChangedMessage.cs" />
     <Compile Include="MessageService\BackgroundTaskState.cs" />

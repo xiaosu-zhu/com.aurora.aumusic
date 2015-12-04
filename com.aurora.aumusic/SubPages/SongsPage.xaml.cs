@@ -1,12 +1,14 @@
-﻿using com.aurora.aumusic.shared.Helpers;
-using com.aurora.aumusic.shared.MessageService;
+﻿using com.aurora.aumusic.shared.Albums;
+using com.aurora.aumusic.shared.Helpers;
 using com.aurora.aumusic.shared.Songs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using Windows.System.Threading;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
+using Windows.System.Threading;
+using com.aurora.aumusic.shared.MessageService;
 
 namespace com.aurora.aumusic
 {
@@ -19,6 +21,7 @@ namespace com.aurora.aumusic
         public SongsPage()
         {
             this.InitializeComponent();
+            App.ResetTitleBar();
             SongListSource.Source = AllSongsViewModel;
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
@@ -40,19 +43,26 @@ namespace com.aurora.aumusic
             });
         }
 
-        private void LadingRing_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void LadingRing_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (AllSongs != null)
-            {
-                AllSongsViewModel.Clear();
-                var grouplist = (AlphaKeyGroup<Song>.CreateGroups(AllSongs, song => { return song.Title; }, true));
-                foreach (var item in grouplist)
-                {
-                    if (item.Count == 0)
-                        continue;
-                    AllSongsViewModel.Add(item);
-                }
-            }
+            await ThreadPool.RunAsync((work) =>
+             {
+                 if (AllSongs != null)
+                 {
+
+                     var grouplist = (AlphaKeyGroup<Song>.CreateGroups(AllSongs, song => { return song.Title; }, true));
+                     this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, new Windows.UI.Core.DispatchedHandler(() =>
+                      {
+                          AllSongsViewModel.Clear();
+                          foreach (var item in grouplist)
+                          {
+                              if (item.Count == 0)
+                                  continue;
+                              AllSongsViewModel.Add(item);
+                          }
+                      }));
+                 }
+             });
             LadingRing.IsActive = false;
             LadingRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }

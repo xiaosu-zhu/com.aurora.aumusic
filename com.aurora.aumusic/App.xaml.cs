@@ -2,6 +2,7 @@
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,20 +35,6 @@ namespace com.aurora.aumusic
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
-            /*************设置标题栏及按钮透明************/
-            var view = ApplicationView.GetForCurrentView();
-            ApplicationViewTitleBar titleBar = view.TitleBar;
-            if (titleBar != null)
-            {
-               titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
-                titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
-                titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(255, 255, 255, 255);
-                titleBar.InactiveBackgroundColor = Color.FromArgb(255, 255, 255, 255);
-            }
-           // Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
-
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -109,6 +96,18 @@ namespace com.aurora.aumusic
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        public static void ResetTitleBar()
+        {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            var view = ApplicationView.GetForCurrentView();
+            ApplicationViewTitleBar titleBar = view.TitleBar;
+            if (titleBar != null)
+            {
+                titleBar.BackgroundColor = Color.FromArgb(255, 240, 240, 240);
+                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 240, 240, 240);
+            }
         }
 
     }
