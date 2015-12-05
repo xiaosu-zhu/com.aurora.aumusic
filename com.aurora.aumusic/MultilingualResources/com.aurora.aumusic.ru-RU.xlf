@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="zh-CN" target-language="ru-RU" original="COM.AURORA.AUMUSIC/STRINGS/ZH-CN/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1466.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="COM.AURORA.AUMUSIC/STRINGS/ZH-CN/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="AlbumArtists" translate="yes" xml:space="preserve">
+          <source>{0}个创作人</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} является создатель</target>
+        </trans-unit>
+        <trans-unit id="AlbumArtistsSingle" translate="yes" xml:space="preserve">
+          <source>{0}个创作人</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} является создатель</target>
+        </trans-unit>
+        <trans-unit id="AlbumDetailsArtistsLongEnd" translate="yes" xml:space="preserve">
+          <source>创作 </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Создание </target>
+        </trans-unit>
+        <trans-unit id="AlbumDetailsArtistsLongStart" translate="yes" xml:space="preserve">
+          <source>由</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">НА ПЛАТФОРМЕ</target>
+        </trans-unit>
+        <trans-unit id="AlbumDetailsArtistsShort" translate="yes" xml:space="preserve">
+          <source>由{0}, {1} 等创作 </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0}, {1} творения </target>
+        </trans-unit>
+        <trans-unit id="AlbumDetailsTotalDuration" translate="yes" xml:space="preserve">
+          <source>{0}分{1}秒</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0}-{1} секунд</target>
+        </trans-unit>
+        <trans-unit id="AlbumFlowSortButton.Text" translate="yes" xml:space="preserve">
+          <source>排序方式: </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Сортировать по: </target>
+          <note from="MultilingualBuild" annotates="source" priority="2">albumflow 页的排序按钮提示</note>
+        </trans-unit>
+        <trans-unit id="AlbumFlowTitle.Text" translate="yes" xml:space="preserve">
+          <source>专辑流</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Поток альбома</target>
+        </trans-unit>
+        <trans-unit id="ArtistDetailsConverterAlbum" translate="yes" xml:space="preserve">
+          <source>{0}张专辑  </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} альбом  </target>
+        </trans-unit>
+        <trans-unit id="ArtistDetailsConverterAlbumSingle" translate="yes" xml:space="preserve">
+          <source>{0}张专辑  </source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} альбом  </target>
+        </trans-unit>
+        <trans-unit id="ArtistDetailsConverterSongs" translate="yes" xml:space="preserve">
+          <source>{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} трек</target>
+        </trans-unit>
+        <trans-unit id="ArtistDetailsConverterSongsSingle" translate="yes" xml:space="preserve">
+          <source>{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} трек</target>
+        </trans-unit>
+        <trans-unit id="ArtistTitle.Text" translate="yes" xml:space="preserve">
+          <source>所有表演者</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Все исполнители</target>
+        </trans-unit>
+        <trans-unit id="AutoSearchLrcButton.OffContent" translate="yes" xml:space="preserve">
+          <source>禁用</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">запретить</target>
+        </trans-unit>
+        <trans-unit id="AutoSearchLrcButton.OnContent" translate="yes" xml:space="preserve">
+          <source>启用</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">разрешить</target>
+        </trans-unit>
+        <trans-unit id="AutoSearchLrcText.Text" translate="yes" xml:space="preserve">
+          <source>自动获取歌词</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Автоматическое песен</target>
+        </trans-unit>
+        <trans-unit id="ChangePathButton.Content" translate="yes" xml:space="preserve">
+          <source>更改查找位置</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Изменить расположение</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">更改位置按钮</note>
+        </trans-unit>
+        <trans-unit id="DetailsButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>跳转</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">перейти</target>
+        </trans-unit>
+        <trans-unit id="FeelingLuckText.Text" translate="yes" xml:space="preserve">
+          <source>手气不错</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Я чувствую себя счастливым</target>
+        </trans-unit>
+        <trans-unit id="GeneralSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>通用</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Обобщенный</target>
+        </trans-unit>
+        <trans-unit id="LanguageSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>语言</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">язык</target>
+        </trans-unit>
+        <trans-unit id="LikeListTitle.Text" translate="yes" xml:space="preserve">
+          <source>我的最爱</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Я люблю</target>
+        </trans-unit>
+        <trans-unit id="ListButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>正在播放</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">проигрывается</target>
+        </trans-unit>
+        <trans-unit id="LoadingLrcText.Text" translate="yes" xml:space="preserve">
+          <source>查找歌词中…</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Найти слова песни...</target>
+        </trans-unit>
+        <trans-unit id="LocationSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>查找位置</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Найти местоположение</target>
+        </trans-unit>
+        <trans-unit id="LrcErrText.Text" translate="yes" xml:space="preserve">
+          <source>没有匹配结果</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Нет подходящих результатов</target>
+        </trans-unit>
+        <trans-unit id="NextButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>下一首</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Следующая песня</target>
+        </trans-unit>
+        <trans-unit id="NowListLoadingText.Text" translate="yes" xml:space="preserve">
+          <source>正在加载</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Загрузка</target>
+        </trans-unit>
+        <trans-unit id="PauseTip.Text" translate="yes" xml:space="preserve">
+          <source>暂停</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">пауза</target>
+        </trans-unit>
+        <trans-unit id="PlaybackSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>播放设置</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Параметры воспроизведения</target>
+        </trans-unit>
+        <trans-unit id="PlayTip.Text" translate="yes" xml:space="preserve">
+          <source>播放</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">Воспроизвести</target>
+        </trans-unit>
+        <trans-unit id="PreviousButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>上一首</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Назад</target>
+        </trans-unit>
+        <trans-unit id="RepeatAllTip.Text" translate="yes" xml:space="preserve">
+          <source>全部循环</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Все циклы</target>
+        </trans-unit>
+        <trans-unit id="RepeatButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>循环</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">повторять</target>
+        </trans-unit>
+        <trans-unit id="RepeatOnceTip.Text" translate="yes" xml:space="preserve">
+          <source>单曲循环</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Один цикл</target>
+        </trans-unit>
+        <trans-unit id="SettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>设置</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">параметры</target>
+        </trans-unit>
+        <trans-unit id="ShuffleButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>随机</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Случайным образом</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>详细信息</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Для получения дополнительной информации</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutAlbum.Text" translate="yes" xml:space="preserve">
+          <source>专辑</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Альбомы</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutAlbumArtists.Text" translate="yes" xml:space="preserve">
+          <source>专辑表演者</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Исполнители альбома</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutArtists.Text" translate="yes" xml:space="preserve">
+          <source>表演者</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Исполнители</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutBitrate.Text" translate="yes" xml:space="preserve">
+          <source>比特率</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">скорость</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutDecoder.Text" translate="yes" xml:space="preserve">
+          <source>编码格式</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Кодированные форматы</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutDuration.Text" translate="yes" xml:space="preserve">
+          <source>总长度</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Общая длина</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutGenres.Text" translate="yes" xml:space="preserve">
+          <source>流派</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">жанр</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutPath.Text" translate="yes" xml:space="preserve">
+          <source>文件路径</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">путь к файлу</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutRating.Text" translate="yes" xml:space="preserve">
+          <source>评分</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">оценка</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutSize.Text" translate="yes" xml:space="preserve">
+          <source>文件大小</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">размер файла</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutTitle.Text" translate="yes" xml:space="preserve">
+          <source>歌曲信息</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Информация о песне</target>
+        </trans-unit>
+        <trans-unit id="SongDetailsFlyoutYear.Text" translate="yes" xml:space="preserve">
+          <source>发行年份</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Год выпуска</target>
+        </trans-unit>
+        <trans-unit id="SongsCountConverter" translate="yes" xml:space="preserve">
+          <source>{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} трек</target>
+        </trans-unit>
+        <trans-unit id="SongsCountConverterSingle" translate="yes" xml:space="preserve">
+          <source>{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} трек</target>
+        </trans-unit>
+        <trans-unit id="SongsDetailsConverter" translate="yes" xml:space="preserve">
+          <source>播放{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Игра куски, {0}</target>
+        </trans-unit>
+        <trans-unit id="SongsDetailsConverterSingle" translate="yes" xml:space="preserve">
+          <source>播放{0}首曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Игра куски, {0}</target>
+        </trans-unit>
+        <trans-unit id="SongsPageTitle.Text" translate="yes" xml:space="preserve">
+          <source>所有歌曲</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Все песни</target>
+        </trans-unit>
+        <trans-unit id="SongsSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>歌曲信息</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Информация о песне</target>
+        </trans-unit>
+        <trans-unit id="SortbyAlbumText" translate="yes" xml:space="preserve">
+          <source>按专辑</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">По альбому</target>
+        </trans-unit>
+        <trans-unit id="SortbyArtistText" translate="yes" xml:space="preserve">
+          <source>按表演者</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">По исполнителю</target>
+        </trans-unit>
+        <trans-unit id="SortbyGenresText" translate="yes" xml:space="preserve">
+          <source>按曲风</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">По жанрам</target>
+        </trans-unit>
+        <trans-unit id="SortbyNameText" translate="yes" xml:space="preserve">
+          <source>按标题</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">по названию</target>
+        </trans-unit>
+        <trans-unit id="SplitDrawerSettingsButton.Text" translate="yes" xml:space="preserve">
+          <source>设置</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">параметры</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">汉堡菜单中的设置按钮</note>
+        </trans-unit>
+        <trans-unit id="StopButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>停止</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">остановить</target>
+        </trans-unit>
+        <trans-unit id="ThemeSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>主题</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">тема</target>
+        </trans-unit>
+        <trans-unit id="UnknownAlbumArtists" translate="yes" xml:space="preserve">
+          <source>未知创作人</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Неизвестный композитор</target>
+        </trans-unit>
+        <trans-unit id="UnknownGenres" translate="yes" xml:space="preserve">
+          <source>未知流派</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Неизвестный жанр</target>
+        </trans-unit>
+        <trans-unit id="VolumeButtonTip.Text" translate="yes" xml:space="preserve">
+          <source>音量</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">громкость</target>
+        </trans-unit>
+        <trans-unit id="YearConverter" translate="yes" xml:space="preserve">
+          <source>{0}年</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} год</target>
+        </trans-unit>
+        <trans-unit id="FileErrText.Text" translate="yes" xml:space="preserve">
+          <source>存在无法播放的曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Нельзя играть треки</target>
+        </trans-unit>
+        <trans-unit id="ThemeSetAutoText.Text" translate="yes" xml:space="preserve">
+          <source>自动</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">автоматический</target>
+        </trans-unit>
+        <trans-unit id="ThemeSetDarkText.Text" translate="yes" xml:space="preserve">
+          <source>暗</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Приглушенное</target>
+        </trans-unit>
+        <trans-unit id="ThemeSetLightText.Text" translate="yes" xml:space="preserve">
+          <source>亮</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Яркое</target>
+        </trans-unit>
+        <trans-unit id="DeleteConfirmText.Text" translate="yes" xml:space="preserve">
+          <source>此位置将不再搜索</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Это место больше не будет искать</target>
+        </trans-unit>
+        <trans-unit id="DeleteCancelText.Content" translate="yes" xml:space="preserve">
+          <source>取消</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">отменить</target>
+        </trans-unit>
+        <trans-unit id="DeleteOkText.Content" translate="yes" xml:space="preserve">
+          <source>确定</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Определить</target>
+        </trans-unit>
+        <trans-unit id="WelcomeTitle.Text" translate="yes" xml:space="preserve">
+          <source>极光音乐  在这里发现美好</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Аврора музыки, здесь хорошо</target>
+        </trans-unit>
+        <trans-unit id="WelcomeSettingTitle.Text" translate="yes" xml:space="preserve">
+          <source>让我们来添加你的音乐库吧</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Давайте добавим вашей музыкальной библиотеки</target>
+        </trans-unit>
+        <trans-unit id="AlbumFlowText" translate="yes" xml:space="preserve">
+          <source>专辑流</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Поток альбома</target>
+        </trans-unit>
+        <trans-unit id="ArtistText" translate="yes" xml:space="preserve">
+          <source>表演者</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Исполнители</target>
+        </trans-unit>
+        <trans-unit id="LikeListText" translate="yes" xml:space="preserve">
+          <source>我的最爱</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Я люблю</target>
+        </trans-unit>
+        <trans-unit id="SongsPageText" translate="yes" xml:space="preserve">
+          <source>所有曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Все треки</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

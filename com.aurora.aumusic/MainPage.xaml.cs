@@ -30,6 +30,7 @@ namespace com.aurora.aumusic
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public CurrentTheme Theme = new CurrentTheme();
         PlaybackControl playbackControl;
         SplitListView splitlistview;
         private static int BUTTON_CLICKED = 0;
@@ -83,7 +84,9 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            
             App.ResetTitleBar();
+            
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -128,25 +131,24 @@ namespace com.aurora.aumusic
                 Splitlist s = l.SelectedItem as Splitlist;
                 s.visibility = Visibility.Visible;
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                switch (s.Title)
+                switch (l.SelectedIndex)
                 {
-                    case "AlbumFlow":
+                    case 0:
                         if (localSettings.Values.ContainsKey("FolderSettings"))
                         {
                             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
                             if (composite != null && (int)composite["FolderCount"] > 0)
                             {
                                 MainFrame.Navigate(typeof(AlbumFlowPage), this);
-
                                 break;
                             }
                         }
-                        MainFrame.Navigate(typeof(SettingsPage)); l.SelectedIndex = -1; break;
-                    case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
-                    case "Songs":
+                       (Window.Current.Content as Frame).Navigate(typeof(SettingsPage)); break;
+                    case 1: MainFrame.Navigate(typeof(ArtistPage)); break;
+                    case 2:
                         MainFrame.Navigate(typeof(SongsPage));
                         break;
-                    case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
+                    case 3: MainFrame.Navigate(typeof(ListPage)); break;
                 }
             }
         }
@@ -237,6 +239,24 @@ namespace com.aurora.aumusic
 
                 });
             }
+            FileNotFindMessage notfind;
+            if (MessageService.TryParseMessage(e.Data, out notfind))
+            {
+                this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                 {
+                     FileErrPanel.Visibility = Visibility.Visible;
+                     ErrPanelIn.Begin();
+                     ThreadPoolTimer.CreateTimer((a) =>
+                    {
+                        this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
+                        {
+                            ErrPanelOut.Begin();
+                            await Task.Delay(256);
+                            FileErrPanel.Visibility = Visibility.Collapsed;
+                        }));
+                    }, TimeSpan.FromSeconds(3));
+                 }));
+            }
             UpdateArtworkMessage updateartwork;
             if (MessageService.TryParseMessage(e.Data, out updateartwork))
             {
@@ -292,12 +312,12 @@ namespace com.aurora.aumusic
                 MainFrame.Navigate(typeof(SettingsPage));
             Splitlist s = MenuList.SelectedItem as Splitlist;
             s.visibility = Visibility.Visible;
-            switch (s.Title)
+            switch (MenuList.SelectedIndex)
             {
-                case "AlbumFlow": MainFrame.Navigate(typeof(AlbumFlowPage)); break;
-                case "Artists": MainFrame.Navigate(typeof(ArtistPage)); break;
-                case "Songs": MainFrame.Navigate(typeof(SongsPage)); break;
-                case "Song Lists": MainFrame.Navigate(typeof(ListPage)); break;
+                case 0: MainFrame.Navigate(typeof(AlbumFlowPage)); break;
+                case 1: MainFrame.Navigate(typeof(ArtistPage)); break;
+                case 2: MainFrame.Navigate(typeof(SongsPage)); break;
+                case 3: MainFrame.Navigate(typeof(ListPage)); break;
             }
             MainFrameSet.Begin();
             NowLrcFrame.Visibility = Visibility.Collapsed;
@@ -620,7 +640,13 @@ namespace com.aurora.aumusic
 
         internal void NavigatetoSettings()
         {
-            MainFrame.Navigate(typeof(SettingsPage));
+            if (BUTTON_CLICKED == 0)
+            {
+                BUTTON_CLICKED = 1;
+                this.MainFrame.Navigate(typeof(SettingsPage));
+                SettingsButton.IsEnabled = false;
+                MenuList.SelectedItem = null;
+            }
         }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)

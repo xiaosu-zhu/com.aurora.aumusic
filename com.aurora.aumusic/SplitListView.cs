@@ -13,10 +13,11 @@ namespace com.aurora.aumusic
     {
         public SplitListView()
         {
-            Add(new Splitlist("AlbumFlow", "Bookmarks"));
-            Add(new Splitlist("Artists", "Contact"));
-            Add(new Splitlist("Songs", "Rotate"));
-            Add(new Splitlist("Song Lists", "Bookmarks"));
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            Add(new Splitlist(loader.GetString("AlbumFlowText"), new Uri("ms-appx:///Assets/ButtonIcon/albumflowbutton.png")));
+            Add(new Splitlist(loader.GetString("ArtistText"), "\xE77B"));
+            Add(new Splitlist(loader.GetString("SongsPageText"), "\xE8D6"));
+            Add(new Splitlist(loader.GetString("LikeListText"), "\xE8A4"));
         }
     }
 
@@ -25,6 +26,7 @@ namespace com.aurora.aumusic
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string Title { get; set; }
         public string IconSymbol { get; set; }
+        public Uri Bitmap { get; set; }
         private Windows.UI.Xaml.Visibility _visibility;
         public Windows.UI.Xaml.Visibility visibility
         {
@@ -42,6 +44,12 @@ namespace com.aurora.aumusic
         {
             this.Title = title;
             this.IconSymbol = iconsymbol;
+            this.visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+        public Splitlist(string title, Uri bitmap)
+        {
+            this.Title = title;
+            this.Bitmap = bitmap;
             this.visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)

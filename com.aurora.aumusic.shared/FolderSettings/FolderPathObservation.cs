@@ -103,14 +103,14 @@ namespace com.aurora.aumusic.shared.FolderSettings
                     {
                         foreach (FolderItem folder in item)
                         {
-                            if (folder.Folder == Folder)
+                            if (folder.Folder.Path == Folder.Path)
                                 return false;
                         }
-                    }
                         ((IList)item).Add(new FolderItem(Folder));
-                    Folders[Folders.IndexOf(item)] = item;
-                    PathTokens.Add(StorageApplicationPermissions.FutureAccessList.Add(Folder));
-                    return true;
+                        Folders[Folders.IndexOf(item)] = item;
+                        PathTokens.Add(StorageApplicationPermissions.FutureAccessList.Add(Folder));
+                        return true;
+                    }
                 }
             }
             Folders.Add(new PathGroupList(Folder.Path[0], new FolderItem(Folder)));

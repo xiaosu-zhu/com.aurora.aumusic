@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Navigation;
 using System;
 using Windows.System.Threading;
 using com.aurora.aumusic.shared.MessageService;
+using com.aurora.aumusic.shared;
+using Windows.UI.Xaml;
 
 namespace com.aurora.aumusic
 {
@@ -17,6 +19,7 @@ namespace com.aurora.aumusic
         public static List<Song> AllSongs;
         ObservableCollection<AlphaKeyGroup<Song>> AllSongsViewModel = new ObservableCollection<AlphaKeyGroup<Song>>();
         List<SongModel> SongModels;
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
 
         public SongsPage()
         {
@@ -45,11 +48,10 @@ namespace com.aurora.aumusic
 
         private async void LadingRing_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            if (AllSongs == null || AllSongs.Count == 0)
+                return;
             await ThreadPool.RunAsync((work) =>
              {
-                 if (AllSongs != null)
-                 {
-
                      var grouplist = (AlphaKeyGroup<Song>.CreateGroups(AllSongs, song => { return song.Title; }, true));
                      this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, new Windows.UI.Core.DispatchedHandler(() =>
                       {
@@ -61,7 +63,6 @@ namespace com.aurora.aumusic
                               AllSongsViewModel.Add(item);
                           }
                       }));
-                 }
              });
             LadingRing.IsActive = false;
             LadingRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;

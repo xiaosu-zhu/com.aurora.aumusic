@@ -321,4 +321,43 @@
   <data name="YearConverter" xml:space="preserve">
     <value>{0}年</value>
   </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>存在无法播放的曲目</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value>此位置将不再搜索</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>暗</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>亮</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>极光音乐  在这里发现美好</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>专辑流</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>表演者</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>我的最爱</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>所有曲目</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>让我们来添加你的音乐库吧</value>
+  </data>
 </root>

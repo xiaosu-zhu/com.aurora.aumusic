@@ -112,7 +112,7 @@ namespace com.aurora.aumusic.shared.Songs
             }
             set
             {
-                _artWork = (value == null) ? "ms-appx:///Assets/unknown.png" : value;
+                _artWork = (value == null) ? "ms-appx:///Assets/placeholder.png" : value;
             }
         }
 

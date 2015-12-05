@@ -128,6 +128,7 @@
     <Compile Include="MessageService\BackPlaybackChangedMessage.cs" />
     <Compile Include="MessageService\BackgroundTaskState.cs" />
     <Compile Include="MessageService\ApplicationSettingsConstants.cs" />
+    <Compile Include="MessageService\FileNotFindMessage.cs" />
     <Compile Include="MessageService\ForePlaybackChangedMessage.cs" />
     <Compile Include="MessageService\FullFileDetailsMessage.cs" />
     <Compile Include="MessageService\MessageService.cs" />

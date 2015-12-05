@@ -21,7 +21,7 @@ namespace com.aurora.aumusic
     {
         public static List<AlbumItem> AllSongs;
         ObservableCollection<ArtistsKeyGroup<AlbumItem>> ArtistsGroupViewModel = new ObservableCollection<ArtistsKeyGroup<AlbumItem>>();
-
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
         public ArtistPage()
         {
             this.InitializeComponent();
@@ -33,16 +33,25 @@ namespace com.aurora.aumusic
             App.ResetTitleBar();
             ArtistsSource.Source = ArtistsGroupViewModel;
             ArtistDetailsSource.Source = null;
+            SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested -= this.Zoom_BackRequested;
+            SemanticZoom.ViewChangeStarted -= SemanticZoom_ViewChangeStarted;
         }
 
 
 
         private async void LoadingRing_Loaded(object sender, RoutedEventArgs e)
         {
+            if (AllSongs == null || AllSongs.Count == 0)
+                return;
             await ThreadPool.RunAsync((work) =>
             {
-                if (AllSongs != null)
-                {
                     var query = ArtistsKeyGroup<AlbumItem>.CreateGroups(AllSongs, album => album.AlbumArtists, true);
                     this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
                      {
@@ -58,8 +67,6 @@ namespace com.aurora.aumusic
                              ArtistsGroupViewModel.Add(g);
                          }
                      }));
-
-                }
             });
             LoadingRing.IsActive = false;
             LoadingRing.Visibility = Visibility.Collapsed;
@@ -86,6 +93,7 @@ namespace com.aurora.aumusic
                 var ArtistArtworkGroups = ArtistDetailedView.FindChildControl<RelativePanel>("ArtistArtworkGroups") as RelativePanel;
                 var ArtistArtworkGroup0 = ArtistDetailedView.FindChildControl<RelativePanel>("ArtistArtworkGroup0") as RelativePanel;
                 var ArtistArtworkGroup1 = ArtistDetailedView.FindChildControl<RelativePanel>("ArtistArtworkGroup1") as RelativePanel;
+                var ArtistArtworkGroup2 = ArtistDetailedView.FindChildControl<RelativePanel>("ArtistArtworkGroup2") as RelativePanel;
 
                 var ArtistName = ArtistDetailedView.FindChildControl<TextBlock>("ArtistName") as TextBlock;
                 var ArtistDetails = ArtistDetailedView.FindChildControl<TextBlock>("ArtistDetails") as TextBlock;
@@ -101,19 +109,34 @@ namespace com.aurora.aumusic
                 {
                     image.Source = null;
                 }
-                int i = 0;
+                
+
                 if (list.Count < 5)
-                    ArtistArtworkGroup0.Height = 420;
+                {
+                    ArtistArtworkGroup0.Height = 400;
+                    ArtistArtworkGroup1.Height = 400;
+                    ArtistArtworkGroup2.Height = 400;
+                }
                 else if (list.Count < 9)
+                {
+                    ArtistArtworkGroup0.Height = 320;
+                    ArtistArtworkGroup1.Height = 320;
+                    ArtistArtworkGroup2.Height = 320;
+                }
+                else
                 {
                     ArtistArtworkGroup0.Height = 240;
                     ArtistArtworkGroup1.Height = 240;
+                    ArtistArtworkGroup2.Height = 240;
                 }
-                foreach (var album in list)
+                int i = 0;
+                var placeholder = new BitmapImage(new Uri("ms-appx:///Assets/placeholder_back.png"));
+                foreach (var image in imagelist)
                 {
-                    if (imagelist.Count == i)
-                        break;
-                    imagelist[i].Source = new BitmapImage(new Uri(album.AlbumArtWork));
+                    if (list.Count < i + 1)
+                        image.Source = placeholder;
+                    else
+                        image.Source = new BitmapImage(new Uri(list[i].AlbumArtWork));
                     i++;
                 }
             }
@@ -125,6 +148,7 @@ namespace com.aurora.aumusic
             SemanticZoom.IsZoomedInViewActive = false;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= Zoom_BackRequested;
+            e.Handled = true;
         }
 
         private void GroupPlayButton_Click(object sender, RoutedEventArgs e)

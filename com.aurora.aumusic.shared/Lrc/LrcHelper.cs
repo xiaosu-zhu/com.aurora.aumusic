@@ -56,6 +56,7 @@ namespace com.aurora.aumusic.shared.Lrc
 
         private static string genreqest(Song song)
         {
+#if DEBUG
             bool isNippon = false;
             foreach (var item in NipponChar)
             {
@@ -65,27 +66,29 @@ namespace com.aurora.aumusic.shared.Lrc
                     break;
                 }
             }
+#endif
             string title = null;
 #if DEBUG
             if (!isNippon)
                 title = ChineseConverter.ToSimplified(song.Title);
             else
 #endif
-                title = song.Title;
+            title = song.Title;
 
             string artist = null;
-            if (song.Artists[0] != "Unknown Artists")
+            if (song.Artists != null && song.Artists.Length > 0 && song.Artists[0] != "Unknown Artists")
 #if DEBUG
                 if (!isNippon)
                     artist = ChineseConverter.ToSimplified(song.Artists[0]);
                 else
 #endif
-                    artist = song.Artists[0];
+                artist = song.Artists[0];
             return artist != null ? "http://geci.me/api/lyric/" + title + '/' + artist : "http://geci.me/api/lyric/" + title;
         }
 
         private static string genreqestthin(Song song)
         {
+#if DEBUG
             bool isNippon = false;
             foreach (var item in NipponChar)
             {
@@ -95,11 +98,14 @@ namespace com.aurora.aumusic.shared.Lrc
                     break;
                 }
             }
+#endif
             string title;
+#if DEBUG
             if (!isNippon)
                 title = ChineseConverter.ToSimplified(song.Title);
             else
-                title = song.Title;
+#endif
+            title = song.Title;
 
             return "http://geci.me/api/lyric/" + title;
         }

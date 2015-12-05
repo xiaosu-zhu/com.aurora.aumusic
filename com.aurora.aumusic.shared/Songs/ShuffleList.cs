@@ -23,7 +23,7 @@ namespace com.aurora.aumusic.shared.Songs
         }
         public List<Song> GenerateNewList(int count)
         {
-            if (AllSongs == null)
+            if (AllSongs == null || AllSongs.Count == 0)
                 return null;
             Random r = new Random(Guid.NewGuid().GetHashCode());
             List<Song> shuffleList = new List<Song>();
@@ -172,6 +172,10 @@ namespace com.aurora.aumusic.shared.Songs
 
         public void SaveShuffleList(List<Song> songs)
         {
+            if(songs == null)
+            {
+                return;
+            }
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             ApplicationDataContainer MainContainer =
     localSettings.CreateContainer("ShuffleList", ApplicationDataCreateDisposition.Always);

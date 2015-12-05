@@ -32,9 +32,10 @@ namespace com.aurora.aumusic
         AutoResetEvent trigger = new AutoResetEvent(false);
         ILrcFile lyric = null;
         List<LrcModel> lyrics;
-
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
         public Brush MainColor { get; private set; }
         public ThreadPoolTimer LyricTimer { get; private set; }
+        public bool DoSearch = true;
 
         public LrcPage()
         {
@@ -45,6 +46,11 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            var str = (string)ApplicationSettingsHelper.ReadSettingsValue("AutoLyric");
+            if (str == "false")
+            {
+                DoSearch = false;
+            }
             if (e.Parameter != null)
                 this.CurrentSong = new Song(e.Parameter as SongModel);
         }
@@ -86,46 +92,59 @@ namespace com.aurora.aumusic
                 }
                 catch (FormatException e)
                 {
-                    var strings = e.Message.Split('\'');
-                    string s = strings[1].Substring(strings[1].IndexOf(':') + 1);
-                    s = s.TrimEnd('0');
-                    int j = stream.IndexOf(s);
-                    int start, end;
-                    for (int i = j; ; i--)
+                    try
                     {
-                        if (stream[i] == '\n')
+                        var strings = e.Message.Split('\'');
+                        string s = strings[1].Substring(strings[1].IndexOf(':') + 1);
+                        s = s.TrimEnd('0');
+                        int j = stream.IndexOf(s);
+                        int start, end;
+                        for (int i = j; ; i--)
                         {
-                            start = i;
-                            for (j = stream.IndexOf(s); ; j++)
+                            if (i <= 0 || stream[i] == '\n')
                             {
-                                if (stream[j] == '\n')
+                                start = i;
+                                for (j = stream.IndexOf(s); ; j++)
                                 {
-                                    end = j;
-                                    break;
+                                    if (j >= stream.Length || stream[j] == '\n')
+                                    {
+                                        end = j;
+                                        break;
+                                    }
                                 }
+                                break;
                             }
-                            break;
-                        }
 
+                        }
+                        StringBuilder sb = new StringBuilder(stream.Substring(0, start));
+                        sb.Append(stream.Substring(end));
+                        s = sb.ToString();
+                        await FileHelper.SaveFile(s, result);
+                        lyric = LrcFile.FromText(s);
+                        lyrics = new List<LrcModel>();
+                        foreach (var item in lyric.Lyrics)
+                        {
+                            lyrics.Add(new LrcModel(item));
+                        }
                     }
-                    StringBuilder sb = new StringBuilder(stream.Substring(0, start));
-                    sb.Append(stream.Substring(end));
-                    s = sb.ToString();
-                    await FileHelper.SaveFile(s, result);
-                    lyric = LrcFile.FromText(s);
-                    lyrics = new List<LrcModel>();
-                    foreach (var item in lyric.Lyrics)
+                    catch (Exception)
                     {
-                        lyrics.Add(new LrcModel(item));
+                        lyric = null;
+                        lyrics = null;
                     }
                 }
-
                 trigger.Set();
             }
         }
 
         private async void WaitingRing_Loaded(object sender, RoutedEventArgs e)
         {
+            if (!DoSearch)
+            {
+                WaitingRing.IsActive = false;
+                WaitingPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
             await Task.Delay(1200);
             IAsyncAction asyncAction = ThreadPool.RunAsync(
                          async (workItem) =>

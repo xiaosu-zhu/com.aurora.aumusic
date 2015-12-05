@@ -8,7 +8,8 @@
     xmlns:converter="using:com.aurora.aumusic.shared"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    RequestedTheme="{x:Bind Theme.Theme, Mode=OneWay}">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -87,7 +88,7 @@
                                         <VisualState x:Name="Pressed">
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ContentPresenter">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemThemeMainBrush}"/>
@@ -124,7 +125,7 @@
                 <Setter Property="TabNavigation" Value="Once"/>
                 <Setter Property="IsSwipeEnabled" Value="True"/>
                 <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
                 <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
                 <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
                 <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
@@ -159,27 +160,30 @@
                                             <RelativePanel Height="{StaticResource DetailsGridHeigt}" >
                                                 <Rectangle Fill="Black" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
                                                 </Rectangle>
-                                                <RelativePanel RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                                <RelativePanel RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"
                                                                x:Name="ArtistArtworkGroups" Height="{Binding ElementName=ScrollViewer, Path=VerticalOffset, Converter={StaticResource ScrollConverter}}" Padding="0,48,0,0" >
-                                                    <RelativePanel x:Name="ArtistArtworkGroup0" Height="192" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
-                                                        <Image x:Name="ArtistArtwork0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+                                                    <RelativePanel Canvas.ZIndex="2" x:Name="ArtistArtworkGroup0" Height="240" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                                                        <Image x:Name="ArtistArtwork0" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
                                                         <Image x:Name="ArtistArtwork1" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork0" />
-                                                        <Image x:Name="ArtistArtwork2" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork1" />
-                                                        <Image x:Name="ArtistArtwork3" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork2" />
+                                                        <Image x:Name="ArtistArtwork2" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork0" />
+                                                        <Image x:Name="ArtistArtwork3" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork1" />
+                                                        <Image x:Name="ArtistArtwork4" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork2" />
                                                     </RelativePanel>
-                                                    <RelativePanel x:Name="ArtistArtworkGroup1" Height="192" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Above="ArtistArtworkGroup0">
-                                                        <Image x:Name="ArtistArtwork4" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                                                        <Image x:Name="ArtistArtwork5" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork4" />
+                                                    <RelativePanel x:Name="ArtistArtworkGroup1" Height="240" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+                                                        <Image x:Name="ArtistArtwork5" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
                                                         <Image x:Name="ArtistArtwork6" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork5" />
-                                                        <Image x:Name="ArtistArtwork7" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork6" />
+                                                        <Image x:Name="ArtistArtwork7" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork5" />
+                                                        <Image x:Name="ArtistArtwork8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork6" />
+                                                        <Image x:Name="ArtistArtwork9" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork7" />
                                                     </RelativePanel>
-                                                    <RelativePanel x:Name="ArtistArtworkGroup2" Height="192" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="ArtistArtworkGroup0">
-                                                        <Image x:Name="ArtistArtwork8" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                                                        <Image x:Name="ArtistArtwork9" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork8" />
-                                                        <Image x:Name="ArtistArtwork10" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork9" />
+                                                    <RelativePanel Canvas.ZIndex="1" x:Name="ArtistArtworkGroup2" Height="240" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+                                                        <Image x:Name="ArtistArtwork10" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
                                                         <Image x:Name="ArtistArtwork11" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork10" />
+                                                        <Image x:Name="ArtistArtwork12" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork10" />
+                                                        <Image x:Name="ArtistArtwork13" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="ArtistArtwork11" />
+                                                        <Image x:Name="ArtistArtwork14" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.LeftOf="ArtistArtwork12" />
                                                     </RelativePanel>
-                                                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+                                                    <Rectangle Canvas.ZIndex="3" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
                                                         <Rectangle.Fill>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                                                 <GradientStop Color="Black"/>
@@ -189,7 +193,7 @@
                                                             </LinearGradientBrush>
                                                         </Rectangle.Fill>
                                                     </Rectangle>
-                                                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+                                                    <Rectangle Canvas.ZIndex="3" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
                                                         <Rectangle.Fill>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                                                 <GradientStop Color="Black"/>
@@ -199,9 +203,9 @@
                                                             </LinearGradientBrush>
                                                         </Rectangle.Fill>
                                                     </Rectangle>
-                                                    <TextBlock x:Name="ArtistName" Foreground="White" RelativePanel.Above="ArtistDetails" RelativePanel.AlignRightWithPanel="True" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,8,8" />
-                                                    <TextBlock x:Name="ArtistDetails" Foreground="White" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,0,8,8" />
-                                                    <Button x:Name="ArtistPlayButton" Click="ArtistPlayButton_Click" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Style="{ThemeResource DetailsButtonStyle}" Content="&#xE768;" Width="48" Height="48" Margin="8" />
+                                                    <TextBlock Canvas.ZIndex="3" x:Name="ArtistName" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" RelativePanel.Above="ArtistDetails" RelativePanel.AlignRightWithPanel="True" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,20,8" />
+                                                    <TextBlock Canvas.ZIndex="3" x:Name="ArtistDetails" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,0,20,8" />
+                                                    <Button Canvas.ZIndex="3" x:Name="ArtistPlayButton" Click="ArtistPlayButton_Click" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Style="{ThemeResource DetailsButtonStyle}" Content="&#xE768;" Width="48" Height="48" Margin="8" />
                                                 </RelativePanel>
                                             </RelativePanel>
 
@@ -235,11 +239,11 @@
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
                                     <RelativePanel Margin="0,48,0,0" PointerReleased="RelativePanel_PointerReleased" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                                        <Image x:Name="AlbumArtwork" Source="{Binding AlbumArtWork, FallbackValue=/Assets/unknown.png}" MaxHeight="144" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                                        <TextBlock x:Name="AlbumName" Text="{Binding AlbumName}" Margin="12,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="AlbumArtwork"/>
-                                        <TextBlock x:Name="SongsCount" Text="{Binding SongsCount, Converter={StaticResource SongsCountConverter}}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,256,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
+                                        <Image x:Name="AlbumArtwork" Source="{Binding AlbumArtWork, FallbackValue=/Assets/placeholder_rev.png}" MaxHeight="144" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+                                        <TextBlock x:Name="AlbumName" Text="{Binding AlbumName}" Margin="12,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" MaxLines="1" TextTrimming="Clip" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="AlbumArtwork" RelativePanel.LeftOf="TotalDuration"/>
+                                        <TextBlock x:Name="SongsCount" Text="{Binding SongsCount, Converter={StaticResource SongsCountConverter}}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,24,0" RelativePanel.LeftOf="AlbumYear" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
                                         <TextBlock x:Name="TotalDuration" Text="{Binding TotalDuration, Converter={StaticResource DurationConverter}}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongsCount" />
-                                        <TextBlock x:Name="AlbumYear" Text="{Binding Year, Converter={StaticResource YearConverter}}" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+                                        <TextBlock x:Name="AlbumYear" Width="144" Text="{Binding Year, Converter={StaticResource YearConverter}}" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
                                     </RelativePanel>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>
@@ -256,19 +260,18 @@
                         <DataTemplate >
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="144" />
-                                    <RowDefinition Height="144" />
+                                    <RowDefinition Height="120" />
+                                    <RowDefinition Height="120" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="144" />
-                                    <ColumnDefinition Width="144" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="120" />
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Fill="{ThemeResource SystemThemeMainBrush}" Grid.ColumnSpan="2" Grid.RowSpan="3" Opacity="0.5" />
-                                <Image Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[0]}" />
-                                <Image Margin="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[1], FallbackValue=/Assets/unknown.png}" />
-                                <Image Margin="2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[2], FallbackValue=/Assets/unknown.png}" />
-                                <Image Margin="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[3], FallbackValue=/Assets/unknown.png}" />
+                                <Image Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[0], FallbackValue=/Assets/placeholder_rev.png}" />
+                                <Image Margin="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[1], FallbackValue=/Assets/placeholder_rev.png}" />
+                                <Image Margin="2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[2], FallbackValue=/Assets/placeholder_rev.png}" />
+                                <Image Margin="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[3], FallbackValue=/Assets/placeholder_rev.png}" />
                                 <RelativePanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                     <TextBlock Grid.Row="2" Grid.ColumnSpan="2" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{Binding Key, Converter={StaticResource ArtistsConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Padding="6"/>
                                     <Button Style="{ThemeResource TextBlockButtonStyle}" Click="GroupPlayButton_Click" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">

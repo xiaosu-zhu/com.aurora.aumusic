@@ -8,7 +8,8 @@
     xmlns:local="using:com.aurora.aumusic"
     xmlns:songs="using:com.aurora.aumusic.shared.Songs"
     xmlns:albums="using:com.aurora.aumusic.shared.Albums"
-    xmlns:converter="using:com.aurora.aumusic.shared">
+    xmlns:converter="using:com.aurora.aumusic.shared"
+    RequestedTheme="{x:Bind Theme.Theme, Mode=OneWay}">
     <!--必须定义local 才能在下面引用自定义布局-->
 
     <Page.Transitions>
@@ -153,13 +154,23 @@
            
             <converter:SongsCountConverter x:Key="CountConverter"/>
             <converter:ArtistsCountConverter x:Key="ArtistsConverter" />
-            <converter:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <converter:AlbumDetailsConverter x:Key="AlbumConverter" />
-            <converter:ScrollParallaxConverter x:Key="ScrollConverter" />
+            <converter:FrameParallaxConverterTwo x:Key="ScrollConverter" />
             <converter:ShuffleListArtworkConverter x:Key="ShuffleConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="songs:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">
+                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Height="1" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Offset="0" Color="Transparent"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.25"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.75"/>
+                                <GradientStop Color="White" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <Grid Height="44" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                         <Grid.ColumnDefinitions>
@@ -231,6 +242,17 @@
             <CollectionViewSource x:Name="ShuffleListResources" />
             <DataTemplate x:DataType="songs:Song" x:Key="ShuffleListTemplate">
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_2" PointerExited="RelativePanel_PointerExited_2">
+                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Height="1" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Offset="0" Color="Transparent"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.25"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.75"/>
+                                <GradientStop Color="White" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" MaxLines="1" TextTrimming="Clip" RelativePanel.LeftOf="PlayButton" RelativePanel.AlignVerticalCenterWithPanel="True" />
                     <Button x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource ButtonStyle2}" Content="&#xE768;" Click="ShufflePlayButton_Click" />
@@ -259,7 +281,7 @@
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Vertical"/>
+                            <ItemsStackPanel Canvas.ZIndex="1" Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </Setter.Value>
                 </Setter>
@@ -270,16 +292,15 @@
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}" Loaded="ScrollViewer_Loaded">
                                     <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}">
                                         <ItemsPresenter.Header>
-                                            <Grid Loaded="AlbumDetailsHeader_Loaded" x:Name="AlbumDetailsHeader" Height="{StaticResource DetailsGridHeigt}" Width="auto" HorizontalAlignment="Stretch">
+                                            <RelativePanel Height="{StaticResource DetailsGridHeigt}" Width="auto" HorizontalAlignment="Stretch">
+
+                                                <Grid Loaded="AlbumDetailsHeader_Loaded" x:Name="AlbumDetailsHeader" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Height="{Binding ElementName=ScrollViewer, Path=VerticalOffset, Converter={StaticResource ScrollConverter}}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0,40,0,0" Height="420" Stretch="Uniform">
-                                                    <Viewbox.RenderTransform>
-                                                        <CompositeTransform TranslateY="{Binding ElementName=ScrollViewer, Path=VerticalOffset, Converter={StaticResource ScrollConverter}}" />
-                                                    </Viewbox.RenderTransform>
-                                                    <Image Loaded="AlbumArtWork_Loaded" x:Name="AlbumArtWork" />
+                                                    <Viewbox x:Name="DetailsViewbox" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0,40,0,0" Height="420" Stretch="Uniform">
+                                                        <Image Loaded="AlbumArtWork_Loaded" x:Name="AlbumArtWork" />
                                                 </Viewbox>
                                                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                                     <Viewbox Stretch="Uniform" MaxHeight="80" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,0">
@@ -297,6 +318,8 @@
                                                     <TextBlock FontSize="12" Margin="4,4,0,0" Loaded="GenresDetailsBlock_Loaded"  x:Name="GenresDetailsBlock" />
                                                 </StackPanel>
                                             </Grid>
+                                            </RelativePanel>
+
                                         </ItemsPresenter.Header>
                                     </ItemsPresenter>
                                 </ScrollViewer>
@@ -358,9 +381,9 @@
     <RelativePanel x:Name="RootGrid" >
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
             <TextBlock x:Name="TitleBlock" x:Uid="AlbumFlowTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
-            <TextBlock x:Uid="AlbumFlowSortButton" x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
+            <!--TextBlock x:Uid="AlbumFlowSortButton" x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
             <ComboBox x:Name="MusicArrangeList" RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignBottomWithPanel="True" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
-            </ComboBox>
+            </ComboBox-->
             <Button x:Name="ChangePathButton" x:Uid="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Click="ChangePathButton_Click" FontSize="13.333" Margin="0,0,8,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
         </RelativePanel>
 
@@ -373,7 +396,7 @@
                 <TextBlock Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" VerticalAlignment="Center" />
                 <TextBlock x:Uid="FeelingLuckText" VerticalAlignment="Center" Margin="4,0,0,0"/>
             </StackPanel>
-            <ListView x:Name="FavListView" Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+            <ListView x:Name="FavListView" Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyle="{StaticResource CommonListViewItemStyle}"
                       ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="FavListView_Loaded" IsItemClickEnabled="True" ItemClick="FavListView_ItemClick">
                 <ListView.Resources>
                     <Storyboard x:Name="ArtworkInStoryboardAll">
@@ -426,7 +449,7 @@
                     </Storyboard>
                 </ListView.Resources>
                 <ListView.Header>
-                    <Grid Background="{ThemeResource SystemControlAltHighBrush}" Width="240" Height="240">
+                    <Grid Width="240" Height="240">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
@@ -492,7 +515,7 @@
                     </ListView>
                 </SemanticZoom.ZoomedOutView>
                 <SemanticZoom.ZoomedInView>
-                    <ListView x:Name="DetailsListView" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
+                    <ListView x:Name="DetailsListView" RelativePanel.AlignTopWithPanel="True" ItemsSource="{x:Bind AlbumSongsResources.View, Mode=OneWay}" ItemTemplate="{StaticResource AlbumSongsTemplate}" ItemContainerStyle="{StaticResource CommonListViewItemStyle}"
                   IsSynchronizedWithCurrentItem="False" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <ListView.Style>
                             <StaticResource ResourceKey="DetailsListViewStyle"/>

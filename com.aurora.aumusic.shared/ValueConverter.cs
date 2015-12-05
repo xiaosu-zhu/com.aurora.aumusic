@@ -172,7 +172,7 @@ namespace com.aurora.aumusic.shared
             {
                 ts += item.Duration;
             }
-            sb.AppendFormat(loader.GetString("AlbumDetailsTotalDuration"), (((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString("0"), ts.Seconds.ToString("00"));
+            sb.AppendFormat(loader.GetString("AlbumDetailsTotalDuration"), (((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString("0"), ts.Seconds.ToString("#0"));
             return sb.ToString();
         }
 
@@ -308,23 +308,7 @@ namespace com.aurora.aumusic.shared
         }
     }
 
-    public class FrameParallaxConverter : IValueConverter
-    {
-        private const double factor = 0.5;
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is double)
-            {
-                return (double)value * factor;
-            }
-            return 0.0;
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
-        }
-    }
 
     public class FrameParallaxConverterTwo : IValueConverter
     {
@@ -616,7 +600,6 @@ namespace com.aurora.aumusic.shared
                 TimeSpan timeSpan = (TimeSpan)value;
                 int i = (timeSpan.Days * 24 + timeSpan.Hours) * 60 + timeSpan.Minutes;
                 return i + ":" + timeSpan.Seconds.ToString("00") + "." + timeSpan.Milliseconds.ToString("00");
-
             }
             else return null;
         }
@@ -828,11 +811,11 @@ namespace com.aurora.aumusic.shared
                 listView.IndexFromContainer(container);
             if (index % 2 == 0)
             {
-                backGroundSetter.Value = Color.FromArgb(255, 240, 240, 240);
+                backGroundSetter.Value = (Color)Application.Current.Resources["SystemBackgroundAltHighColor"];
             }
             else
             {
-                backGroundSetter.Value = Color.FromArgb(255, 255, 255, 255);
+                backGroundSetter.Value = (Color)Application.Current.Resources["SystemAltHighColor"];
             }
             st.Setters.Add(backGroundSetter);
             Setter paddingSetter = new Setter();

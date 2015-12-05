@@ -12,7 +12,7 @@
     <SolidColorBrush x:Key="SystemControlAltHighBrush" Color="#FF333333" />
     <SolidColorBrush x:Key="SystemControlTranslucentLowBrush" Color="#771A1C37" />
     <SolidColorBrush x:Key="SystemControlTranslucentHighLightBrush" Color="#441A1C37" />
-    <SolidColorBrush x:Key="SystemThemeMainBrush" Color="{ThemeResource SystemAccentColor}" />
+    <SolidColorBrush x:Key="SystemThemeMainBrush" Color="#FF0074CE" />
     <SolidColorBrush x:Key="SystemTransparentBrush" Color="Transparent" />
     <SolidColorBrush x:Key="SystemBackgroundBaseHighBrush" Color="#FFDFDFDF"/>
     <SolidColorBrush x:Key="SystemControlTranslucentAltHighBrush" Color="#CC000000" />
@@ -22,4 +22,12 @@
     <SolidColorBrush x:Key="SystemControlTranslucentBaseLowBrush" Color="#33F0F0F0" />
     <SolidColorBrush x:Key="SystemControlTranslucentBaseLightBrush" Color="#44DFDFDF" />
     <Color x:Key="SystemBackgroundAltHighColor" >#FF1A1C37</Color>
+    <Color x:Key="SystemAltHighColor">#FF000000</Color>
+    <Color x:Key="SystemTranslucentHighColor">#DD000000</Color>
+    <Color x:Key="SystemTranslucentLowColor">#44000000</Color>
+    <Color x:Key="SystemTranslucentMediumColor">#99000000</Color>
+    <Color x:Key="SystemTranslucentMediumHighColor">#BB000000</Color>
+    <Color x:Key="SystemTranslucentBaseMediumColor">#DDFFFFFF</Color>
+    <Color x:Key="SystemTranslucentBaseLowColor">#44FFFFFF</Color>
+    <Color x:Key="SystemTranslucentBaseHighColor">#FFFFFFFF</Color>
 </ResourceDictionary>

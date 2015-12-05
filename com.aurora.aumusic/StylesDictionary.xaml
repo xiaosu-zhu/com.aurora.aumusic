@@ -41,7 +41,7 @@
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -50,12 +50,12 @@
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ColorAnimation To="#44FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentLowColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#FFFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemAltHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -68,7 +68,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#99FFFFFF"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemTranslucentMediumColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -84,7 +84,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemAccentColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ColorAnimation To="#99FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentMediumColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -93,7 +93,7 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
                                     <Storyboard>
-                                        <ColorAnimation To="#BBFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentMediumHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -162,7 +162,7 @@
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#DDFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -171,12 +171,12 @@
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ColorAnimation To="#44FFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentLowColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#FFFFFFFF" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemAltHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -245,7 +245,7 @@
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#DD000000" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentBaseMediumColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -254,12 +254,12 @@
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ColorAnimation To="#44000000" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentBaseLowColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Root">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
                                         </ColorAnimation>
-                                        <ColorAnimation To="#FF000000" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
+                                        <ColorAnimation To="{ThemeResource SystemTranslucentBaseHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content">
                                             <ColorAnimation.EasingFunction>
                                                 <CircleEase />
                                             </ColorAnimation.EasingFunction>
@@ -360,7 +360,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemThemeMainBrush}"/>

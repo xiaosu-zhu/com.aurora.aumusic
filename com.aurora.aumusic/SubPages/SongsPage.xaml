@@ -7,7 +7,8 @@
     xmlns:converter="using:com.aurora.aumusic.shared"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    RequestedTheme="{x:Bind Theme.Theme, Mode=OneWay}">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -26,7 +27,6 @@
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
             <converter:DurationValueConverter x:Key="DurationConverter" />
-            <converter:ListViewItemStyleSelector x:Key="ListStyleSelector" />
             <converter:UriConverter x:Key="ArtworkConverter" />
             <CollectionViewSource x:Name="SongListSource" IsSourceGrouped="True" />
 

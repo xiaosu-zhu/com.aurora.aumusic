@@ -1,4 +1,5 @@
-﻿using com.aurora.aumusic.shared.FolderSettings;
+﻿using com.aurora.aumusic.shared;
+using com.aurora.aumusic.shared.FolderSettings;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -15,6 +17,7 @@ namespace com.aurora.aumusic
     {
         FolderPathObservation folderPaths = new FolderPathObservation();
         private Button deletebutton;
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
 
         public SettingsPage()
         {
@@ -106,6 +109,76 @@ namespace com.aurora.aumusic
         private void DeleteButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             deletebutton = (sender as Button);
+        }
+
+        private void ThemeSettingsBox_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var str = (string)ApplicationSettingsHelper.ReadSettingsValue("ThemeSettings");
+            if (str == null)
+            {
+                ThemeSettingsBox.SelectedIndex = 0;
+            }
+            else if (str == "auto")
+            {
+                ThemeSettingsBox.SelectedIndex = 0;
+            }
+            else if (str == "Light")
+            {
+                ThemeSettingsBox.SelectedIndex = 1;
+            }
+            else if (str == "Dark")
+            {
+                ThemeSettingsBox.SelectedIndex = 2;
+            }
+            ThemeSettingsBox.SelectionChanged += ThemeSettingsBox_SelectionChanged;
+        }
+
+        private void ThemeSettingsBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ThemeSettingsBox.SelectedIndex == 0)
+            {
+                ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings","auto");
+                ApplicationSettingsHelper.SetAutoTheme(Theme);
+            }
+            else if(ThemeSettingsBox.SelectedIndex ==1)
+            {
+                ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings", "Light");
+                Theme.Theme = ElementTheme.Light;
+            }
+            else if (ThemeSettingsBox.SelectedIndex == 2)
+            {
+                ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings", "Dark");
+                Theme.Theme = ElementTheme.Dark;
+            }
+        }
+
+        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
+        {
+            var str = (string)ApplicationSettingsHelper.ReadSettingsValue("AutoLyric");
+            if (str == null)
+            {
+                AutoLyricSwitch.IsOn = true;
+            }
+            else if(str == "true")
+            {
+                AutoLyricSwitch.IsOn = true;
+            }
+            else if (str == "false")
+            {
+                AutoLyricSwitch.IsOn = false;
+            }
+            AutoLyricSwitch.Toggled += AutoLyricSwitch_Toggled;
+        }
+
+        private void AutoLyricSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            switch (AutoLyricSwitch.IsOn)
+            {
+                case true:ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "true"); break;
+                case false:ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "false"); break;
+                default:
+                    break;
+            }
         }
     }
 

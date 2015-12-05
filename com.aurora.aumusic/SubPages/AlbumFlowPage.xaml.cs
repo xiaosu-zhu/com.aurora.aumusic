@@ -26,7 +26,7 @@ namespace com.aurora.aumusic
 {
     public sealed partial class AlbumFlowPage : Page
     {
-
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
         AlbumEnum Albums = new AlbumEnum();
         AlbumItem DetailedAlbum;
         List<Song> AllSongs = new List<Song>();
@@ -51,6 +51,9 @@ namespace com.aurora.aumusic
             }
         }
 
+        public ThreadPoolTimer DelayTimer { get; private set; }
+        public ThreadPoolTimer PeriodicTimer { get; private set; }
+
         public BackgroundTaskState BackgroundState = BackgroundTaskState.Stopped;
 
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
@@ -68,13 +71,16 @@ namespace com.aurora.aumusic
         {
             base.OnNavigatedTo(e);
             App.ResetTitleBar();
-            if (AlbumFlowZoom.IsZoomedInViewActive)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested += Zoom_BackRequested;
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
+            AlbumFlowZoom.IsZoomedInViewActive = false;
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            SystemNavigationManager.GetForCurrentView().BackRequested -= this.Zoom_BackRequested;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+
+        }
         private void AddMediaPlayerEventHandlers()
         {
             BackgroundMediaPlayer.MessageReceivedFromBackground += this.BackgroundMediaPlayer_MessageReceivedFromBackground;
@@ -179,9 +185,10 @@ namespace com.aurora.aumusic
                      }
                      SongsPage.AllSongs = this.AllSongs;
                      ArtistPage.AllSongs = this.Albums.albumList.ToList();
+                     ListPage.AllSongs = this.AllSongs;
                  }
              });
-            ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
+            PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
             {
                 if (!IsShuffleListInitialed)
                 {
@@ -261,6 +268,7 @@ async () =>
             App.ResetTitleBar();
             SystemNavigationManager.GetForCurrentView().BackRequested -= Zoom_BackRequested;
             DetailedAlbum = null;
+            e.Handled = true;
         }
 
         private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
@@ -281,14 +289,14 @@ async () =>
         private void RelativePanel_PointerEntered_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             RelativePanel r = sender as RelativePanel;
-            Button b = ((Button)r.Children[3]);
+            Button b = ((Button)r.Children[4]);
             b.Visibility = Visibility.Visible;
         }
 
         private void RelativePanel_PointerExited_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             RelativePanel r = sender as RelativePanel;
-            Button b = ((Button)r.Children[3]);
+            Button b = ((Button)r.Children[4]);
             b.Visibility = Visibility.Collapsed;
         }
 
@@ -397,7 +405,7 @@ async () =>
 
         private bool PlayShuffleArtwork(TimeSpan delay, bool completed)
         {
-            ThreadPoolTimer DelayTimer = ThreadPoolTimer.CreateTimer(
+            DelayTimer = ThreadPoolTimer.CreateTimer(
                 (source) =>
                 {
                     bool[] bools = ShuffleArtworkState.ToArray();
@@ -550,23 +558,26 @@ async () =>
         private void RelativePanel_PointerEntered_2(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             RelativePanel r = sender as RelativePanel;
-            Button b = ((Button)r.Children[2]);
+            Button b = ((Button)r.Children[3]);
             b.Visibility = Visibility.Visible;
         }
 
         private void RelativePanel_PointerExited_2(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             RelativePanel r = sender as RelativePanel;
-            Button b = ((Button)r.Children[2]);
+            Button b = ((Button)r.Children[3]);
             b.Visibility = Visibility.Collapsed;
         }
 
-        private async void ShufflePlayButton_Click(object sender, RoutedEventArgs e)
+        private void ShufflePlayButton_Click(object sender, RoutedEventArgs e)
         {
-            Song song = (Song)(sender as Button).DataContext;
-            List<Song> source = (List<Song>)ShuffleListResources.Source;
-            // _pageParameters.PlaybackControl.addNew(source);
-            // await _pageParameters.PlaybackControl.Play(source.IndexOf(song), _pageParameters.Media);
+            SongModel song = new SongModel((Song)(sender as Button).DataContext);
+            var list = new List<SongModel>();
+            foreach (var item in (List<Song>)ShuffleListResources.Source)
+            {
+                list.Add(new SongModel(item));
+            }
+            MessageService.SendMessageToBackground(new ForePlaybackChangedMessage((PlaybackState.Playing), list, song));
         }
 
         private void FavListView_ItemClick(object sender, ItemClickEventArgs e)

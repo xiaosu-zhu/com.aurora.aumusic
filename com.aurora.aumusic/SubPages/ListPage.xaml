@@ -5,7 +5,10 @@
     xmlns:local="using:com.aurora.aumusic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:song="using:com.aurora.aumusic.shared.Songs"
+    xmlns:converter="using:com.aurora.aumusic.shared"
+    mc:Ignorable="d"
+    RequestedTheme="{x:Bind Theme.Theme, Mode=OneWay}">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -23,6 +26,32 @@
                 <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
+            <converter:DurationValueConverter x:Key="DurationConverter" />
+            <converter:UriConverter x:Key="ArtworkConverter" />
+            <CollectionViewSource x:Name="SongListSource" />
+            <DataTemplate x:Key="SongListItemStyle" x:DataType="song:Song" >
+                <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Height="1" >
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                <GradientStop Offset="0" Color="Transparent"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.25"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                                <GradientStop Color="#CCFFFFFF" Offset="0.75"/>
+                                <GradientStop Color="White" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock x:Name="SongTitle" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Text="{x:Bind Title, Mode=OneWay}" />
+                    <TextBlock x:Name="SongDuration" MaxWidth="120" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,240,0"  RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Duration, Mode=OneWay,Converter={StaticResource DurationConverter}}" />
+                    <TextBlock x:Name="SongAlbum" MaxWidth="240" Margin="0,0,16,0" MaxLines="1" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
+                    <Button x:Name="PlayButton" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,12,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Click="PlayButton_Click">
+                        <Button.Content>
+                            <SymbolIcon Symbol="Play"/>
+                        </Button.Content>
+                    </Button>
+                </RelativePanel>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
     
@@ -30,5 +59,14 @@
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
             <TextBlock x:Name="TitleBlock" x:Uid="LikeListTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
         </RelativePanel>
+        <ListView x:Name="AllSongsList" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind SongListSource.View, Mode=OneWay}" ItemTemplate="{StaticResource SongListItemStyle}" ItemContainerStyle="{StaticResource CommonListViewItemStyle}" >
+            <ListView.Header>
+                <Grid Height="48" />
+            </ListView.Header>
+            <ListView.Footer>
+                <Grid Height="80" />
+            </ListView.Footer>
+        </ListView>
+        <ProgressRing x:Name="LadingRing" Loaded="LadingRing_Loaded" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Height="48" Width="48" />
     </RelativePanel>
 </Page>

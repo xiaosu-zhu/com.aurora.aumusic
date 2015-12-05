@@ -7,7 +7,8 @@
     xmlns:Converter="using:com.aurora.aumusic.shared"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+        RequestedTheme="{x:Bind Theme.Theme, Mode=OneWay}">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -42,15 +43,12 @@
                         <Button.Flyout>
                             <Flyout>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="4">
-                                            这个文件夹将不再进入搜索范围
+                                    <TextBlock x:Uid="DeleteConfirmText" Style="{ThemeResource BodyTextBlockStyle}" Margin="4">
                                     </TextBlock>
                                     <Grid>
-                                        <Button x:Name="DeleteConfirmButton" Click="DeleteConfirmButton_Click"  HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,4,0,0">
-                                            确定
+                                        <Button x:Name="DeleteConfirmButton" x:Uid="DeleteOkText" Click="DeleteConfirmButton_Click"  HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,4,0,0">
                                         </Button>
-                                        <Button x:Name="DeleteCancelButton" Click="DeleteCancelButton_Click" HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,8,0">
-                                            取消
+                                        <Button x:Name="DeleteCancelButton" x:Uid="DeleteCancelText" Click="DeleteCancelButton_Click" HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,8,0">
                                         </Button>
                                     </Grid>
                                 </StackPanel>
@@ -106,20 +104,13 @@
             <StackPanel Grid.Row="1" >
                 <StackPanel x:Name="GeneralSettingsPanel" Margin="12">
                     <TextBlock x:Uid="GeneralSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
-                    <StackPanel Orientation="Horizontal" Margin="16" >
-                        <TextBlock x:Uid="LanguageSettingsTitle" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
-                        <!--TODO: Localization-->
-                        <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
-                            <x:String>跟随系统</x:String>
-                        </ComboBox>
-                    </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="16">
                         <TextBlock x:Uid="ThemeSettingsTitle" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
+                        <ComboBox x:Name="ThemeSettingsBox" Loaded="ThemeSettingsBox_Loaded" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
                             <!--TODO: Get System time and set theme-->
-                            <x:String>自动</x:String>
-                            <x:String>亮</x:String>
-                            <x:String>暗</x:String>
+                            <TextBlock x:Uid="ThemeSetAutoText" />
+                            <TextBlock x:Uid="ThemeSetLightText" />
+                            <TextBlock x:Uid="ThemeSetDarkText" />
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
@@ -128,7 +119,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
                         <TextBlock x:Uid="AutoSearchLrcText" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="88,0,0,0" x:Uid="AutoSearchLrcButton"/>
+                        <ToggleSwitch x:Name="AutoLyricSwitch" Loaded="ToggleSwitch_Loaded" Margin="88,0,0,0" x:Uid="AutoSearchLrcButton"/>
                         <!--TODO: Search and pull lyrics-->
 
                     </StackPanel>

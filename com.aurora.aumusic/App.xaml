@@ -7,7 +7,10 @@
     <Application.Resources>
 
         <ResourceDictionary>
-            
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="/SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="/SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

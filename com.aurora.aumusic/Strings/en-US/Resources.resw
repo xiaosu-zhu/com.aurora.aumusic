@@ -324,4 +324,43 @@
   <data name="YearConverter" xml:space="preserve">
     <value>Year {0}</value>
   </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>Some Songs can't play</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value> This location won't search any more</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>Welcome to Aurora Music</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>Album Flow</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>Artists</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>My Favorites</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>All Songs</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>Let's find where is your music world</value>
+  </data>
 </root>

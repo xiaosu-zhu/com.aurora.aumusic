@@ -30,6 +30,7 @@ namespace com.aurora.aumusic
         SongModel CurrentSong;
         Color MainColor;
         DetailsViewModel SongDetails;
+        CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
 
         private bool _loved = false;
         private bool _broken = false;

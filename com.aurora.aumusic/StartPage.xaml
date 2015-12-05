@@ -1,0 +1,69 @@
+﻿<Page
+    x:Class="com.aurora.aumusic.StartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:com.aurora.aumusic"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Folders="using:com.aurora.aumusic.shared.FolderSettings"
+    xmlns:Converter="using:com.aurora.aumusic.shared"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StylesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary Source="/SubPages/LightThemeDictionary.xaml" x:Key="Light"/>
+                <ResourceDictionary Source="/SubPages/DarkThemeDictionary.xaml" x:Key="Dark"/>
+            </ResourceDictionary.ThemeDictionaries>
+            <Converter:FolderPathConverter x:Key="PathConverter"/>
+            <CollectionViewSource x:Name="MusicFolderPathReosurces" IsSourceGrouped="True" />
+            <DataTemplate x:Name="MusicFolderListTemplate" x:DataType="Folders:FolderItem" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="White" x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <RelativePanel Background="{ThemeResource SystemThemeMainBrush}">
+        <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
+        <TextBlock x:Name="WelcomeTitle" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" x:Uid="WelcomeTitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
+        <TextBlock x:Name="WelcomeSettingsTitle" Foreground="White" RelativePanel.Below="WelcomeTitle" x:Uid="WelcomeSettingTitle" RelativePanel.AlignHorizontalCenterWithPanel="True" Style="{ThemeResource BodyTextBlockStyle}" />
+        <StackPanel RelativePanel.Below="WelcomeSettingsTitle" RelativePanel.Above="FinishStartButton" RelativePanel.AlignHorizontalCenterWithPanel="True" Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
+            <Grid HorizontalAlignment="Stretch">
+                <TextBlock x:Name="LocationTextBlock" Foreground="White" x:Uid="LocationSettingsTitle" Margin="12,0,0,0" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
+                <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Foreground="White" Style="{StaticResource TextBlockButtonStyle}">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Add"/>
+                    </Button.Content>
+                </Button>
+            </Grid>
+            <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
+                  ItemTemplate="{StaticResource MusicFolderListTemplate}"
+                  SelectionMode="Single"
+                  ShowsScrollingPlaceholders="True" VerticalAlignment="Stretch">
+                <ListView.GroupStyle>
+                    <GroupStyle >
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="Folders:PathGroupList">
+                                <TextBlock Foreground="White" Text="{x:Bind Key}" 
+                                       Style="{ThemeResource TitleTextBlockStyle}"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+        </StackPanel>
+        <Button x:Name="FinishStartButton" Click="FinishStartButton_Click" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" FontSize="40" Margin="24" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White">
+            <Button.Content>
+                <SymbolIcon Symbol="Forward" />
+            </Button.Content>
+        </Button>
+    </RelativePanel>
+</Page>

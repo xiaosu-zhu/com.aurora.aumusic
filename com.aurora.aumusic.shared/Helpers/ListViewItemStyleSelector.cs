@@ -25,11 +25,11 @@ namespace com.aurora.aumusic
                 listView.IndexFromContainer(container);
             if (index % 2 == 0)
             {
-                backGroundSetter.Value = Color.FromArgb(255,240,240,240);
+                backGroundSetter.Value = (Color)Application.Current.Resources["SystemBackgroundAltHighColor"];
             }
             else
             {
-                backGroundSetter.Value = Color.FromArgb(255, 255, 255, 255);
+                backGroundSetter.Value = (Color)Application.Current.Resources["SystemAltHighColor"];
             }
             st.Setters.Add(backGroundSetter);
             Setter paddingSetter = new Setter();

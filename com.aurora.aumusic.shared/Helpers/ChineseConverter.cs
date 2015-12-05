@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace com.aurora.aumusic.shared
 {
+#if DEBUG
     public static class ChineseConverter
     {
         private const int LocaleSystemDefault = 0x0800;
@@ -32,4 +33,5 @@ namespace com.aurora.aumusic.shared
             return t;
         }
     }
+#endif
 }

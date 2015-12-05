@@ -90,11 +90,23 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>zh-CN</MultilingualFallbackLanguage>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PRIResource Include="Strings\es-ES\Resources.resw" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw" />
+    <PRIResource Include="Strings\it-IT\Resources.resw" />
+    <PRIResource Include="Strings\de-DE\Resources.resw" />
+    <PRIResource Include="Strings\ru-RU\Resources.resw" />
+    <PRIResource Include="Strings\zh-TW\Resources.resw" />
+    <PRIResource Include="Strings\fr-FR\Resources.resw" />
+    <PRIResource Include="Strings\qps-ploc\Resources.resw" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <None Include="project.json" />
@@ -109,6 +121,9 @@
     <Compile Include="PlaybackControl.cs" />
     <Compile Include="SongsGroupViewModel.cs" />
     <Compile Include="SplitListView.cs" />
+    <Compile Include="StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ArtistPage.xaml.cs">
       <DependentUpon>ArtistPage.xaml</DependentUpon>
     </Compile>
@@ -128,7 +143,6 @@
     <Compile Include="SubPages\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SubPages\ListViewItemStyleSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubPages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -147,11 +161,21 @@
     <None Include="com.aurora.aumusic_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\blurfore.scale-100.png" />
     <Content Include="Assets\blurfore.scale-140.png" />
     <Content Include="Assets\blurfore.scale-180.png" />
     <Content Include="Assets\blurfore.scale-240.png" />
     <Content Include="Assets\blurfore.scale-80.png" />
+    <Content Include="Assets\ButtonIcon\albumflowbutton.scale-100.png" />
+    <Content Include="Assets\ButtonIcon\albumflowbutton.scale-140.png" />
+    <Content Include="Assets\ButtonIcon\albumflowbutton.scale-180.png" />
+    <Content Include="Assets\ButtonIcon\albumflowbutton.scale-240.png" />
+    <Content Include="Assets\ButtonIcon\albumflowbutton.scale-80.png" />
     <Content Include="Assets\ButtonIcon\nextsolid.scale-100.png" />
     <Content Include="Assets\ButtonIcon\nextsolid.scale-140.png" />
     <Content Include="Assets\ButtonIcon\nextsolid.scale-180.png" />
@@ -202,29 +226,68 @@
     <Content Include="Assets\ButtonIcon\Volume-no.scale-180.png" />
     <Content Include="Assets\ButtonIcon\Volume-no.scale-240.png" />
     <Content Include="Assets\ButtonIcon\Volume-no.scale-80.png" />
-    <Content Include="Assets\C.png" />
-    <Content Include="Assets\D.png" />
-    <Content Include="Assets\E.png" />
-    <Content Include="Assets\F.png" />
-    <Content Include="Assets\G.png" />
-    <Content Include="Assets\H.png" />
-    <Content Include="Assets\I.png" />
-    <Content Include="Assets\J.png" />
-    <Content Include="Assets\K.png" />
-    <Content Include="Assets\L.png" />
-    <Content Include="Assets\unknown.png" />
+    <Content Include="Assets\placeholder.scale-100.png" />
+    <Content Include="Assets\placeholder.scale-140.png" />
+    <Content Include="Assets\placeholder.scale-180.png" />
+    <Content Include="Assets\placeholder.scale-240.png" />
+    <Content Include="Assets\placeholder.scale-80.png" />
+    <Content Include="Assets\placeholder_back.scale-100.png" />
+    <Content Include="Assets\placeholder_back.scale-140.png" />
+    <Content Include="Assets\placeholder_back.scale-180.png" />
+    <Content Include="Assets\placeholder_back.scale-240.png" />
+    <Content Include="Assets\placeholder_back.scale-80.png" />
+    <Content Include="Assets\placeholder_rev.scale-100.png" />
+    <Content Include="Assets\placeholder_rev.scale-140.png" />
+    <Content Include="Assets\placeholder_rev.scale-180.png" />
+    <Content Include="Assets\placeholder_rev.scale-240.png" />
+    <Content Include="Assets\placeholder_rev.scale-80.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square310x310Logo.scale-100.png" />
+    <Content Include="Assets\Square310x310Logo.scale-125.png" />
+    <Content Include="Assets\Square310x310Logo.scale-150.png" />
+    <Content Include="Assets\Square310x310Logo.scale-200.png" />
+    <Content Include="Assets\Square310x310Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\Square71x71Logo.scale-100.png" />
+    <Content Include="Assets\Square71x71Logo.scale-125.png" />
+    <Content Include="Assets\Square71x71Logo.scale-150.png" />
+    <Content Include="Assets\Square71x71Logo.scale-200.png" />
+    <Content Include="Assets\Square71x71Logo.scale-400.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\uptodownshadow.scale-100.png" />
     <Content Include="Assets\uptodownshadow.scale-140.png" />
     <Content Include="Assets\uptodownshadow.scale-180.png" />
     <Content Include="Assets\uptodownshadow.scale-240.png" />
     <Content Include="Assets\uptodownshadow.scale-80.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +295,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StylesDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -299,11 +366,24 @@
       <Name>com.aurora.aumusic.shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.de-DE.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.es-ES.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.fr-FR.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.it-IT.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.ja-JP.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.qps-ploc.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.ru-RU.xlf" />
+    <XliffResource Include="MultilingualResources\com.aurora.aumusic.zh-TW.xlf" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

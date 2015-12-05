@@ -277,14 +277,26 @@ namespace com.aurora.aumusic.backgroundtask
         {
             playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
             playbackList.Items.Clear();
-            foreach (var item in desiredSongs)
+            int i = 0;
+            while(true)
             {
-                var source = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(FileList.Find(x => (item.MainKey == (((StorageFile)x).Path)))));
-                source.Source.CustomProperties[TrackIdKey] = item.MainKey;
-                source.Source.CustomProperties[AlbumArtKey] = item.AlbumArtwork;
-                source.Source.CustomProperties[TitleKey] = item.Title;
-                source.Source.CustomProperties[AlbumKey] = item.Album;
+                if (i >= desiredSongs.Count)
+                    break;
+                var file = FileList.Find(x => (desiredSongs[i].MainKey == (((StorageFile)x).Path)));
+                if (file == null)
+                {
+                    MessageService.SendMessageToForeground(new FileNotFindMessage(desiredSongs[i].MainKey));
+                    desiredSongs.RemoveAt(i);
+                    i++;
+                    continue;
+                }
+                var source = new MediaPlaybackItem(MediaSource.CreateFromStorageFile(file));
+                source.Source.CustomProperties[TrackIdKey] = desiredSongs[i].MainKey;
+                source.Source.CustomProperties[AlbumArtKey] = desiredSongs[i].AlbumArtwork;
+                source.Source.CustomProperties[TitleKey] = desiredSongs[i].Title;
+                source.Source.CustomProperties[AlbumKey] = desiredSongs[i].Album;
                 playbackList.Items.Add(source);
+                i++;
             }
             this.Songs = desiredSongs;
             playbackList.AutoRepeatEnabled = false;
