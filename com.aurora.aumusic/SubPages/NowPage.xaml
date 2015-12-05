@@ -980,33 +980,48 @@
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
-            <Button x:Name="PlayPauseButton" Click="PlayPauseButton_Click" ToolTipService.ToolTip="Play" Style="{ThemeResource MainButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background, Converter={StaticResource ColorConverter}, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
+            <Button x:Name="PlayPauseButton" Loaded="PlayPauseButton_Loaded" Click="PlayPauseButton_Click" Style="{ThemeResource MainButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background, Converter={StaticResource ColorConverter}, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/pausesolid.png" />
                 </Button.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="PlayTip.Text" />
+                </ToolTipService.ToolTip>
             </Button>
-            <Button x:Name="NextButton" Click="NextButton_Click" ToolTipService.ToolTip="Next" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
+            <Button x:Name="NextButton" Click="NextButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/nextsolid.png" />
                 </Button.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="NextButtonTip" />
+                </ToolTipService.ToolTip>
             </Button>
-            <Button x:Name="PreviousButton" Click="PreviousButton_Click" ToolTipService.ToolTip="Previous" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
+            <Button x:Name="PreviousButton" Click="PreviousButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
                 <Button.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/previoussolid.png" />
                 </Button.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="PreviousButtonTip" />
+                </ToolTipService.ToolTip>
             </Button>
-            <Button x:Name="StopButton" Click="StopButton_Click" ToolTipService.ToolTip="Stop" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="StopButton" Click="StopButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
                 <Button.Content>
                     <SymbolIcon x:Name="StopSymbol" Symbol="Stop" />
                 </Button.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="StopButtonTip" />
+                </ToolTipService.ToolTip>
             </Button>
-            <Button x:Name="ListButton" Click="ListButton_Click" ToolTipService.ToolTip="Now-Playing List" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="ListButton" Click="ListButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="ListSymbol" Symbol="List" />
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="ListButtonTip" />
+                </ToolTipService.ToolTip>
                 <Button.Flyout>
                     <Flyout Closed="Flyout_Closed">
                         <StackPanel Orientation="Vertical" x:Name="LoadingNowListPanel">
                             <ProgressRing x:Name="NowListLoadingRing" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Height="48" Width="48"/>
-                            <TextBlock x:Name="NowListLoadingText" Text="Loading" />
+                            <TextBlock x:Name="NowListLoadingText" x:Uid="NowListLoadingText" />
                             <ListView x:Name="CurrentPlayingList" IsSynchronizedWithCurrentItem="False" MaxHeight="360" ItemTemplate="{StaticResource NowListTemplate}" ItemContainerStyle="{StaticResource ListViewItemStyle}" Visibility="Collapsed" >
                                 <ScrollViewer.VerticalScrollBarVisibility>
                                     Hidden
@@ -1016,8 +1031,11 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <Button x:Name="MoreDetailsButton" Click="MoreDetailsButton_Click" ToolTipService.ToolTip="Detail" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
+            <Button x:Name="MoreDetailsButton" Click="MoreDetailsButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="MoreSymbol" Symbol="More" />
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="SongDetailsButtonTip" />
+                </ToolTipService.ToolTip>
                 <Button.Flyout>
                     <Flyout Placement="Full">
                         <Grid MaxWidth="420" x:Name="CurrentSongDetailsPanel">
@@ -1041,19 +1059,19 @@
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="歌曲信息" Style="{ThemeResource SubtitleTextBlockStyle}" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="8" />
-                            <TextBlock Text="完整路径" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="文件大小" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="2" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="长度" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="3" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="比特率" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="4" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="编码格式" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="5" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="专辑" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="7" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="8" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="专辑表演者" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="9" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="创作年份" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="10" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="流派" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="11" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutTitle"  Style="{ThemeResource SubtitleTextBlockStyle}" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="8" />
+                            <TextBlock x:Uid="SongDetailsFlyoutPath"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="1" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutSize"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="2" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutDuration"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="3" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutBitrate"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="4" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutDecoder" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="5" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutAlbum"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="7" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutArtists"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="8" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutAlbumArtists"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="9" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutYear"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="10" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutGenres"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="11" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
                             <TextBlock Text="#" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="12" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
-                            <TextBlock Text="评分" Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="13" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBlock x:Uid="SongDetailsFlyoutRating"  Style="{ThemeResource BaseTextBlockStyle}" Grid.Row="13" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
                             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2" >
                                 <Rectangle.Fill>
@@ -1096,20 +1114,29 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <ToggleButton x:Name="ShuffleButton" Click="ShuffleButton_Click" ToolTipService.ToolTip="Shuffle" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="PreviousButton" Margin="0,96,32,0" Width="36" Height="36">
+            <ToggleButton x:Name="ShuffleButton" Click="ShuffleButton_Click" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="PreviousButton" Margin="0,96,32,0" Width="36" Height="36">
                 <ToggleButton.Content>
                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle" />
                 </ToggleButton.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="ShuffleButtonTip" />
+                </ToolTipService.ToolTip>
             </ToggleButton>
-            <ToggleButton x:Name="RepeatButton" Click="RepeatButton_Click" ToolTipService.ToolTip="Repeat" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="ShuffleButton" Margin="0,96,32,0" Width="36" Height="36">
+            <ToggleButton x:Name="RepeatButton" Click="RepeatButton_Click" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="ShuffleButton" Margin="0,96,32,0" Width="36" Height="36">
                 <ToggleButton.Content>
                     <SymbolIcon x:Name="RepeatSymbol" Symbol="RepeatAll" />
                 </ToggleButton.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="RepeatButtonTip" />
+                </ToolTipService.ToolTip>
             </ToggleButton>
-            <Button x:Name="VolumeButton" ToolTipService.ToolTip="Volume" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
+            <Button x:Name="VolumeButton" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
                 <Button.Content>
                     <SymbolIcon x:Name="Volume" Symbol="Volume" />
                 </Button.Content>
+                <ToolTipService.ToolTip>
+                    <TextBlock x:Uid="VolumeButtonTip" />
+                </ToolTipService.ToolTip>
                 <Button.Flyout>
                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                         <StackPanel Orientation="Horizontal">

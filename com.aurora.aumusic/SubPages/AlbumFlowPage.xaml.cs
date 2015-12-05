@@ -55,7 +55,6 @@ namespace com.aurora.aumusic
 
         private bool[] ShuffleArtworkState = new bool[4];//"true" means the first image is Showed.
         List<string> ShuffleArts = new List<string>();
-        private MainPage mainpage;
 
         public AlbumFlowPage()
         {
@@ -584,6 +583,11 @@ async () =>
         private void GenresDetailsBlock_Loaded(object sender, RoutedEventArgs e)
         {
             GenresDetailsBlock = sender as TextBlock;
+        }
+
+        private void ChangePathButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).NavigatetoSettings();
         }
     }
 

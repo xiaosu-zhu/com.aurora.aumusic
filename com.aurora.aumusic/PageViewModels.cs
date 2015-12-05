@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace com.aurora.aumusic.SubPages
+namespace com.aurora.aumusic
 {
-    class PlayBackDetails
+    public class MainPageViewModel
     {
-        
+
     }
 }

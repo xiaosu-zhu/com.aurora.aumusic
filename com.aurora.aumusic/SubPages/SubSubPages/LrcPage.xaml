@@ -112,10 +112,10 @@
         </Rectangle>
         <StackPanel x:Name="WaitingPanel" Orientation="Vertical" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,100,0,0" >
             <ProgressRing x:Name="WaitingRing" Loaded="WaitingRing_Loaded"  Foreground="White" IsActive="True" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="64" Height="64" />
-            <TextBlock x:Name="WaitingText" Text="加载歌词中" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
+            <TextBlock x:Name="WaitingText" x:Uid="LoadingLrcText" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
         </StackPanel>
         <StackPanel x:Name="ErrPanel" Visibility="Collapsed" Orientation="Vertical" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,136,0,0" >
-            <TextBlock x:Name="ErrText" Text="搜索无结果" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
+            <TextBlock x:Name="ErrText" x:Uid="LrcErrText" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Margin="12" />
         </StackPanel>
         
     </RelativePanel>

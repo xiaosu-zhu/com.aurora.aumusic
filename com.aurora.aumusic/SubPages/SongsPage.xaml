@@ -45,7 +45,7 @@
                     </Rectangle>
                     <TextBlock x:Name="SongTitle" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Text="{x:Bind Title, Mode=OneWay}" />
                     <TextBlock x:Name="SongDuration" MaxWidth="120" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,240,0"  RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Duration, Mode=OneWay,Converter={StaticResource DurationConverter}}" />
-                    <TextBlock x:Name="SongAlbum" MaxWidth="240" MaxLines="1" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
+                    <TextBlock x:Name="SongAlbum" MaxWidth="240" Margin="0,0,16,0" MaxLines="1" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
                     <Button x:Name="PlayButton" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,12,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Click="PlayButton_Click">
                         <Button.Content>
                             <SymbolIcon Symbol="Play"/>
@@ -86,7 +86,7 @@
 
     <RelativePanel>
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
-            <TextBlock x:Name="TitleBlock" Text="所有歌曲" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
+            <TextBlock x:Name="TitleBlock" x:Uid="SongsPageTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
         </RelativePanel>
         <SemanticZoom x:Name="SemanticZoom" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="MymusicSubPanel" >
             <SemanticZoom.ZoomedInView>

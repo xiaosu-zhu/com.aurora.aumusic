@@ -193,7 +193,7 @@
                         </TransitionCollection>
                     </RelativePanel.Transitions>
                     <Viewbox x:Name="AlbumViewBox" Stretch="Uniform" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" >
-                        <Image x:Name="AlbumArtWork" Source="{Binding AlbumArtWork, Mode=OneWay,TargetNullValue=/Assets/C.png}" Stretch="UniformToFill" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" >
+                        <Image x:Name="AlbumArtWork" Source="{Binding AlbumArtWork, Mode=OneWay}" Stretch="UniformToFill" Width="{x:Bind ArtWorkSize.Width, Mode=OneWay}" Height="{x:Bind ArtWorkSize.Height, Mode=OneWay}" Margin="{StaticResource Thickless}" >
                         </Image>
                     </Viewbox>
                     <ScrollViewer x:Name="AlbumViewer" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -357,15 +357,11 @@
     </Page.Resources>
     <RelativePanel x:Name="RootGrid" >
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
-            <TextBlock x:Name="TitleBlock" Text="AlbumFlow" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
-            <TextBlock x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" Text="排序方式：" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
+            <TextBlock x:Name="TitleBlock" x:Uid="AlbumFlowTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
+            <TextBlock x:Uid="AlbumFlowSortButton" x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
             <ComboBox x:Name="MusicArrangeList" RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignBottomWithPanel="True" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
-                <x:String>按专辑</x:String>
-                <x:String>按表演者</x:String>
-                <x:String>按名称</x:String>
-                <x:String>按歌曲类型</x:String>
             </ComboBox>
-            <Button x:Name="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Content="更改查找位置" FontSize="13.333" RelativePanel.RightOf="MusicArrangeList" RelativePanel.AlignBottomWithPanel="True"/>
+            <Button x:Name="ChangePathButton" x:Uid="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Click="ChangePathButton_Click" FontSize="13.333" Margin="0,0,8,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
         </RelativePanel>
 
         <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.AlignBottomWithPanel="True" Margin="8,52,0,0" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" >
@@ -375,7 +371,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4,0,0,0">
                 <TextBlock Text="&#xE19F;" FontFamily="{ThemeResource SymbolThemeFontFamily}" VerticalAlignment="Center" />
-                <TextBlock Text="手气不错" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                <TextBlock x:Uid="FeelingLuckText" VerticalAlignment="Center" Margin="4,0,0,0"/>
             </StackPanel>
             <ListView x:Name="FavListView" Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemContainerStyleSelector="{StaticResource ListStyleSelector}"
                       ItemsSource="{x:Bind ShuffleListResources.View, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" ItemTemplate="{StaticResource ShuffleListTemplate}" Loaded="FavListView_Loaded" IsItemClickEnabled="True" ItemClick="FavListView_ItemClick">

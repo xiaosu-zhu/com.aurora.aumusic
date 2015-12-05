@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>{0}个创作人</value>
+  </data>
+  <data name="AlbumArtistsSingle" xml:space="preserve">
+    <value>{0}个创作人</value>
+  </data>
+  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
+    <value>创作 </value>
+  </data>
+  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
+    <value>由</value>
+  </data>
+  <data name="AlbumDetailsArtistsShort" xml:space="preserve">
+    <value>由{0}, {1} 等创作 </value>
+  </data>
+  <data name="AlbumDetailsTotalDuration" xml:space="preserve">
+    <value>{0}分{1}秒</value>
+  </data>
+  <data name="AlbumFlowSortButton.Text" xml:space="preserve">
+    <value>排序方式: </value>
+    <comment>albumflow 页的排序按钮提示</comment>
+  </data>
+  <data name="AlbumFlowTitle.Text" xml:space="preserve">
+    <value>专辑流</value>
+  </data>
+  <data name="ArtistDetailsConverterAlbum" xml:space="preserve">
+    <value>{0}张专辑  </value>
+  </data>
+  <data name="ArtistDetailsConverterAlbumSingle" xml:space="preserve">
+    <value>{0}张专辑  </value>
+  </data>
+  <data name="ArtistDetailsConverterSongs" xml:space="preserve">
+    <value>{0}首曲目</value>
+  </data>
+  <data name="ArtistDetailsConverterSongsSingle" xml:space="preserve">
+    <value>{0}首曲目</value>
+  </data>
+  <data name="ArtistTitle.Text" xml:space="preserve">
+    <value>所有表演者</value>
+  </data>
+  <data name="AutoSearchLrcButton.OffContent" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="AutoSearchLrcButton.OnContent" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="AutoSearchLrcText.Text" xml:space="preserve">
+    <value>自动获取歌词</value>
+  </data>
+  <data name="ChangePathButton.Content" xml:space="preserve">
+    <value>更改查找位置</value>
+    <comment>更改位置按钮</comment>
+  </data>
+  <data name="DetailsButtonTip.Text" xml:space="preserve">
+    <value>跳转</value>
+  </data>
+  <data name="FeelingLuckText.Text" xml:space="preserve">
+    <value>手气不错</value>
+  </data>
+  <data name="GeneralSettingsTitle.Text" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="LanguageSettingsTitle.Text" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="LikeListTitle.Text" xml:space="preserve">
+    <value>我的最爱</value>
+  </data>
+  <data name="ListButtonTip.Text" xml:space="preserve">
+    <value>正在播放</value>
+  </data>
+  <data name="LoadingLrcText.Text" xml:space="preserve">
+    <value>查找歌词中…</value>
+  </data>
+  <data name="LocationSettingsTitle.Text" xml:space="preserve">
+    <value>查找位置</value>
+  </data>
+  <data name="LrcErrText.Text" xml:space="preserve">
+    <value>没有匹配结果</value>
+  </data>
+  <data name="NextButtonTip.Text" xml:space="preserve">
+    <value>下一首</value>
+  </data>
+  <data name="NowListLoadingText.Text" xml:space="preserve">
+    <value>正在加载</value>
+  </data>
+  <data name="PauseTip.Text" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="PlaybackSettingsTitle.Text" xml:space="preserve">
+    <value>播放设置</value>
+  </data>
+  <data name="PlayTip.Text" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="PreviousButtonTip.Text" xml:space="preserve">
+    <value>上一首</value>
+  </data>
+  <data name="RepeatAllTip.Text" xml:space="preserve">
+    <value>全部循环</value>
+  </data>
+  <data name="RepeatButtonTip.Text" xml:space="preserve">
+    <value>循环</value>
+  </data>
+  <data name="RepeatOnceTip.Text" xml:space="preserve">
+    <value>单曲循环</value>
+  </data>
+  <data name="SettingsTitle.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="ShuffleButtonTip.Text" xml:space="preserve">
+    <value>随机</value>
+  </data>
+  <data name="SongDetailsButtonTip.Text" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbum.Text" xml:space="preserve">
+    <value>专辑</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbumArtists.Text" xml:space="preserve">
+    <value>专辑表演者</value>
+  </data>
+  <data name="SongDetailsFlyoutArtists.Text" xml:space="preserve">
+    <value>表演者</value>
+  </data>
+  <data name="SongDetailsFlyoutBitrate.Text" xml:space="preserve">
+    <value>比特率</value>
+  </data>
+  <data name="SongDetailsFlyoutDecoder.Text" xml:space="preserve">
+    <value>编码格式</value>
+  </data>
+  <data name="SongDetailsFlyoutDuration.Text" xml:space="preserve">
+    <value>总长度</value>
+  </data>
+  <data name="SongDetailsFlyoutGenres.Text" xml:space="preserve">
+    <value>流派</value>
+  </data>
+  <data name="SongDetailsFlyoutPath.Text" xml:space="preserve">
+    <value>文件路径</value>
+  </data>
+  <data name="SongDetailsFlyoutRating.Text" xml:space="preserve">
+    <value>评分</value>
+  </data>
+  <data name="SongDetailsFlyoutSize.Text" xml:space="preserve">
+    <value>文件大小</value>
+  </data>
+  <data name="SongDetailsFlyoutTitle.Text" xml:space="preserve">
+    <value>歌曲信息</value>
+  </data>
+  <data name="SongDetailsFlyoutYear.Text" xml:space="preserve">
+    <value>发行年份</value>
+  </data>
+  <data name="SongsCountConverter" xml:space="preserve">
+    <value>{0}首曲目</value>
+  </data>
+  <data name="SongsCountConverterSingle" xml:space="preserve">
+    <value>{0}首曲目</value>
+  </data>
+  <data name="SongsDetailsConverter" xml:space="preserve">
+    <value>播放{0}首曲目</value>
+  </data>
+  <data name="SongsDetailsConverterSingle" xml:space="preserve">
+    <value>播放{0}首曲目</value>
+  </data>
+  <data name="SongsPageTitle.Text" xml:space="preserve">
+    <value>所有歌曲</value>
+  </data>
+  <data name="SongsSettingsTitle.Text" xml:space="preserve">
+    <value>歌曲信息</value>
+  </data>
+  <data name="SortbyAlbumText" xml:space="preserve">
+    <value>按专辑</value>
+  </data>
+  <data name="SortbyArtistText" xml:space="preserve">
+    <value>按表演者</value>
+  </data>
+  <data name="SortbyGenresText" xml:space="preserve">
+    <value>按曲风</value>
+  </data>
+  <data name="SortbyNameText" xml:space="preserve">
+    <value>按标题</value>
+  </data>
+  <data name="SplitDrawerSettingsButton.Text" xml:space="preserve">
+    <value>设置</value>
+    <comment>汉堡菜单中的设置按钮</comment>
+  </data>
+  <data name="StopButtonTip.Text" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="ThemeSettingsTitle.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="UnknownAlbumArtists" xml:space="preserve">
+    <value>未知创作人</value>
+  </data>
+  <data name="UnknownGenres" xml:space="preserve">
+    <value>未知流派</value>
+  </data>
+  <data name="VolumeButtonTip.Text" xml:space="preserve">
+    <value>音量</value>
+  </data>
+  <data name="YearConverter" xml:space="preserve">
+    <value>{0}年</value>
+  </data>
+</root>

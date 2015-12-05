@@ -45,6 +45,8 @@ namespace com.aurora.aumusic.backgroundtask
         private List<IStorageFile> FileList = new List<IStorageFile>();
         private PlaybackMode NowMode;
 
+        private TimeSpan CurrentPosition = TimeSpan.Zero;
+
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             smtc = BackgroundMediaPlayer.Current.SystemMediaTransportControls;
@@ -301,11 +303,13 @@ namespace com.aurora.aumusic.backgroundtask
         {
             BackgroundMediaPlayer.Current.Pause();
             BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
+            CurrentPosition = TimeSpan.Zero;
             NowState = MediaPlayerState.Stopped;
         }
 
         private void PausePlayback()
         {
+            CurrentPosition = BackgroundMediaPlayer.Current.Position;
             BackgroundMediaPlayer.Current.Pause();
             NowState = MediaPlayerState.Paused;
         }
@@ -357,6 +361,7 @@ namespace com.aurora.aumusic.backgroundtask
             if (BackgroundMediaPlayer.Current.Position.TotalMilliseconds >= BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds / 50)
             {
                 BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
+                CurrentPosition = TimeSpan.Zero;
                 BackgroundMediaPlayer.Current.Play();
             }
             else
@@ -395,6 +400,7 @@ namespace com.aurora.aumusic.backgroundtask
 
             }
             BackgroundMediaPlayer.Current.Play();
+            BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
             NowState = MediaPlayerState.Playing;
         }
 
@@ -417,7 +423,7 @@ namespace com.aurora.aumusic.backgroundtask
         async void ConfirmFiles(IEnumerable<SongModel> mainkeys)
         {
             // Make a new list and enable looping
-            
+
             // Add playback items to the list
             var result = backgroundTaskStarted.WaitOne(10000);
             if (result == true)

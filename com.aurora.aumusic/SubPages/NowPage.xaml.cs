@@ -328,10 +328,12 @@ namespace com.aurora.aumusic
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
             ((Window.Current.Content as Frame).Content as MainPage).PlayPauseButtonOnLeft_Click(null, null);
             if (NowState == MediaPlayerState.Playing)
             {
                 NowState = MediaPlayerState.Paused;
+                ToolTipService.SetToolTip(PlayPauseButton, loader.GetString("PauseTip.Text"));
                 var icon = new BitmapIcon();
                 icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
                 PlayPauseButton.Content = icon;
@@ -341,6 +343,7 @@ namespace com.aurora.aumusic
             if (NowState == MediaPlayerState.Paused || NowState == MediaPlayerState.Stopped)
             {
                 NowState = MediaPlayerState.Playing;
+                ToolTipService.SetToolTip(PlayPauseButton, loader.GetString("PlayTip.Text"));
                 var icon = new BitmapIcon();
                 icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/pausesolid.png");
                 PlayPauseButton.Content = icon;
@@ -404,6 +407,8 @@ namespace com.aurora.aumusic
 
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            var t = (TextBlock)ToolTipService.GetToolTip(PlayPauseButton);
             ((Window.Current.Content as Frame).Content as MainPage).RepeatButton_Checked(null, null);
             NowMode = ((Window.Current.Content as Frame).Content as MainPage).NowMode;
             switch (NowMode)
@@ -411,22 +416,32 @@ namespace com.aurora.aumusic
                 case PlaybackMode.Normal:
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    t.Text = loader.GetString("RepeatAllTip.Text");
+
                     break;
                 case PlaybackMode.Repeat:
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
+                    t.Text = loader.GetString("RepeatOnceTip.Text");
+
                     break;
                 case PlaybackMode.RepeatSingle:
                     RepeatButton.IsChecked = false;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
+                    t.Text = loader.GetString("RepeatButtonTip.Text");
+
                     break;
                 case PlaybackMode.Shuffle:
                     RepeatButton.IsChecked = true;
+                    t.Text = loader.GetString("RepeatAllTip.Text");
+
                     break;
                 case PlaybackMode.ShuffleRepeat:
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
                     ShuffleButton.IsChecked = false;
+                    t.Text = loader.GetString("RepeatOnceTip.Text");
+
                     break;
                 default:
                     break;
@@ -477,6 +492,38 @@ namespace com.aurora.aumusic
         private void MoreDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             MessageService.SendMessageToBackground(new NeedFullFileDetailsMessage(CurrentSong.MainKey));
+        }
+
+        private void PlayPauseButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            var t = (TextBlock)ToolTipService.GetToolTip(PlayPauseButton);
+            NowState = BackgroundMediaPlayer.Current.CurrentState;
+            switch (NowState)
+            {
+                case MediaPlayerState.Closed:
+                    break;
+                case MediaPlayerState.Opening:
+                    break;
+                case MediaPlayerState.Buffering:
+                    break;
+                case MediaPlayerState.Playing:
+                    t.Text = loader.GetString("PlayTip.Text");
+                    var icon = new BitmapIcon();
+                    icon.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/pausesolid.png");
+                    PlayPauseButton.Content = icon;
+                    break;
+                case MediaPlayerState.Paused:
+                    t.Text = loader.GetString("PauseTip.Text");
+                    var noci = new BitmapIcon();
+                    noci.UriSource = new Uri("ms-appx:///Assets/ButtonIcon/playsolid.png");
+                    PlayPauseButton.Content = noci;
+                    break;
+                case MediaPlayerState.Stopped:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

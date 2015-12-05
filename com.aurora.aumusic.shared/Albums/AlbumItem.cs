@@ -290,11 +290,10 @@ namespace com.aurora.aumusic.shared.Albums
 
         public void GenerateTextColor()
         {
-            if ((Palette.R * 0.299 + Palette.G * 0.587 + Palette.B * 0.114) < 203)
-            {
-                TextMainColor = Color.FromArgb(255, 255, 255, 255);
-                TextSubColor = Color.FromArgb(255, 190, 190, 190);
-            }
+            MainColorConverter converter = new MainColorConverter();
+            SubColorConverter subconverter = new SubColorConverter();
+            TextMainColor = (Color)converter.Convert(Palette, null, null, null);
+            TextSubColor = (Color)subconverter.Convert(Palette, null, null, null);
         }
 
         public void getYear()

@@ -518,37 +518,40 @@ namespace com.aurora.aumusic
 
         public void RepeatButton_Checked(object sender, RoutedEventArgs e)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            TextBlock text = (TextBlock)ToolTipService.GetToolTip(RepeatButton);
             switch (NowMode)
             {
                 case PlaybackMode.Normal:
-                    NowMode = PlaybackMode.Repeat;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
                     NowMode = PlaybackMode.Repeat;
+                    text.Text = loader.GetString("RepeatAllTip.Text");
                     break;
                 case PlaybackMode.Repeat:
-                    NowMode = PlaybackMode.RepeatSingle;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
                     NowMode = PlaybackMode.RepeatSingle;
+                    text.Text = loader.GetString("RepeatOnceTip.Text");
                     break;
                 case PlaybackMode.RepeatSingle:
-                    NowMode = PlaybackMode.Normal;
                     RepeatButton.IsChecked = false;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
                     NowMode = PlaybackMode.Normal;
+                    text.Text = loader.GetString("RepeatButtonTip.Text");
                     break;
                 case PlaybackMode.Shuffle:
-                    NowMode = PlaybackMode.ShuffleRepeat;
+                    (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatAll;
                     RepeatButton.IsChecked = true;
-                    NowMode = PlaybackMode.Repeat;
+                    NowMode = PlaybackMode.ShuffleRepeat;
+                    text.Text = loader.GetString("RepeatAllTip.Text");
                     break;
                 case PlaybackMode.ShuffleRepeat:
-                    NowMode = PlaybackMode.RepeatSingle;
                     RepeatButton.IsChecked = true;
                     (RepeatButton.FindName("RepeatSymbol") as SymbolIcon).Symbol = Symbol.RepeatOne;
                     ShuffleButton.IsChecked = false;
                     NowMode = PlaybackMode.RepeatSingle;
+                    text.Text = loader.GetString("RepeatOnceTip.Text");
                     break;
                 default:
                     break;
@@ -615,6 +618,10 @@ namespace com.aurora.aumusic
             }
         }
 
+        internal void NavigatetoSettings()
+        {
+            MainFrame.Navigate(typeof(SettingsPage));
+        }
 
         private void PlayBackControl_Loaded(object sender, RoutedEventArgs e)
         {

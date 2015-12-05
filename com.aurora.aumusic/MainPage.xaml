@@ -714,7 +714,7 @@
                             <Grid Width="48" Height="48">
                                 <SymbolIcon Symbol="Setting" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
-                            <TextBlock Text="Settings"
+                            <TextBlock x:Uid="SplitDrawerSettingsButton"
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667"/>
                         </StackPanel>
@@ -910,7 +910,10 @@
                         <TextBlock x:Name="TimeRemainingBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,22,4,0" Grid.Column="4" Text="0:00" Foreground="White"/>
                         <TextBlock x:Name="TimePastBlock" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="4,22,4,0"  Grid.Column="2" Text="{Binding ElementName=ProgressSlider, Path=Value, Converter={StaticResource ThumbConverter}}" Foreground="White"/>
                         <StackPanel x:Name="LeftPanel" Orientation="Horizontal" Grid.Column="5" VerticalAlignment="Stretch" HorizontalAlignment="Center" >
-                            <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Previous" Click="PreviousButton_Click">
+                            <AppBarButton x:Name="PreviousButton" Style="{StaticResource AppBarButtonStyleFull}" Click="PreviousButton_Click">
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="PreviousButtonTip" />
+                                </ToolTipService.ToolTip>
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PreviousSymbol" Symbol="Previous" />
                                 </AppBarButton.Icon>
@@ -919,17 +922,26 @@
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="PlayPauseSymbolLeft" Symbol="Play"/>
                                 </AppBarButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="PlayTip.Text" />
+                                </ToolTipService.ToolTip>
                             </AppBarButton>
-                            <AppBarButton x:Name="NextButton" Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Next" Click="NextButton_Click">
+                            <AppBarButton x:Name="NextButton" Style="{StaticResource AppBarButtonStyleFull}" Click="NextButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="NextSymbol" Symbol="Next" />
                                 </AppBarButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="NextButtonTip" />
+                                </ToolTipService.ToolTip>
                             </AppBarButton>
-                            <AppBarButton x:Name="DetailsButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Details" Click="DetailsButton_Click">
+                            <AppBarButton x:Name="DetailsButton"  Style="{StaticResource AppBarButtonStyleFull}" Click="DetailsButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="DetailsSymbol" Symbol="FullScreen"/>
                                 </AppBarButton.Icon>
                             </AppBarButton>
+                            <ToolTipService.ToolTip>
+                                <TextBlock x:Uid="DetailsButtonTip" />
+                            </ToolTipService.ToolTip>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Canvas.ZIndex="1" x:Name="MediaControlsCommandBar" VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Center" >
                             <StackPanel.Resources>
@@ -950,6 +962,9 @@
                                                         <SymbolIcon.Symbol>Mute</SymbolIcon.Symbol>
                                                     </SymbolIcon>
                                                 </Button.Content>
+                                                <ToolTipService.ToolTip>
+                                                    <TextBlock x:Uid="VolumeButtonTip" />
+                                                </ToolTipService.ToolTip>
                                             </Button>
                                             <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
                                             <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
@@ -957,20 +972,29 @@
                                     </Flyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>
-                            <AppBarToggleButton x:Name="RepeatButton" Style="{StaticResource AppBarToggleButtonFull}" Click="RepeatButton_Checked" ToolTipService.ToolTip="Repeat" >
+                            <AppBarToggleButton x:Name="RepeatButton" Style="{StaticResource AppBarToggleButtonFull}" Click="RepeatButton_Checked" >
                                 <AppBarToggleButton.Icon>
                                     <SymbolIcon x:Name="RepeatSymbol" Symbol="RepeatAll"/>
                                 </AppBarToggleButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="RepeatButtonTip" />
+                                </ToolTipService.ToolTip>
                             </AppBarToggleButton>
-                            <AppBarToggleButton x:Name="ShuffleButton"  Style="{StaticResource AppBarToggleButtonFull}" Click="ShuffleButton_Click" ToolTipService.ToolTip="Shuffle">
+                            <AppBarToggleButton x:Name="ShuffleButton"  Style="{StaticResource AppBarToggleButtonFull}" Click="ShuffleButton_Click">
                                 <AppBarToggleButton.Icon>
                                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle"/>
                                 </AppBarToggleButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="ShuffleButtonTip" />
+                                </ToolTipService.ToolTip>
                             </AppBarToggleButton>
-                            <AppBarButton x:Name="StopButton"  Style="{StaticResource AppBarButtonStyleFull}" ToolTipService.ToolTip="Stop" Click="StopButton_Click">
+                            <AppBarButton x:Name="StopButton"  Style="{StaticResource AppBarButtonStyleFull}" Click="StopButton_Click">
                                 <AppBarButton.Icon>
                                     <SymbolIcon x:Name="StopSymbol" Symbol="Stop"/>
                                 </AppBarButton.Icon>
+                                <ToolTipService.ToolTip>
+                                    <TextBlock x:Uid="StopButtonTip" />
+                                </ToolTipService.ToolTip>
                             </AppBarButton>
                         </StackPanel>
                         <Frame Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="2" x:Name="NowLrcFrame" Opacity="0" Padding="24,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="Collapsed" />

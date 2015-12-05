@@ -43,6 +43,9 @@ namespace com.aurora.aumusic
         public void setPlaybackControlDefault()
         {
             PlayPauseButton.Icon = new SymbolIcon(Symbol.Play);
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            var t = (TextBlock)ToolTipService.GetToolTip(PlayPauseButton);
+            t.Text = loader.GetString("PlayTip.Text");
             TimePastBlock.Text = "0:00";
             TimeRemainingBlock.Text = "0:00";
             AlbumArtwork.Source = null;
@@ -50,6 +53,8 @@ namespace com.aurora.aumusic
 
         public void setPlaybackControl(MediaPlayerState state)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            var t = (TextBlock)ToolTipService.GetToolTip(PlayPauseButton);
             switch (state)
             {
                 case MediaPlayerState.Closed:
@@ -61,13 +66,16 @@ namespace com.aurora.aumusic
                 case MediaPlayerState.Playing:
                     ProgressSlider.IsEnabled = true;
                     (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Pause;
+                    t.Text = loader.GetString("PauseTip.Text");
                     break;
                 case MediaPlayerState.Paused:
                     (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Play;
+                    t.Text = loader.GetString("PlayTip.Text");
                     break;
                 case MediaPlayerState.Stopped:
                     ProgressSlider.IsEnabled = false;
                     (PlayPauseButton.FindName("PlayPauseSymbolLeft") as SymbolIcon).Symbol = Symbol.Play;
+                    t.Text = loader.GetString("PlayTip.Text");
                     break;
                 default:
                     break;

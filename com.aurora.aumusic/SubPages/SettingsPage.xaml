@@ -100,21 +100,21 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
-            <TextBlock x:Name="TitleBlock" Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
+            <TextBlock x:Name="TitleBlock" x:Uid="SettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
         </RelativePanel>
-        <ScrollViewer RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,80,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,80,0,0">
             <StackPanel Grid.Row="1" >
                 <StackPanel x:Name="GeneralSettingsPanel" Margin="12">
-                    <TextBlock Text="通用" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
+                    <TextBlock x:Uid="GeneralSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16" >
-                        <TextBlock Text="语言" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="LanguageSettingsTitle" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                         <!--TODO: Localization-->
                         <ComboBox x:Name="LanguageSettingsBox" Width="120" SelectedIndex="0" Margin="80,0,0,0">
                             <x:String>跟随系统</x:String>
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="16">
-                        <TextBlock Text="主题" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="ThemeSettingsTitle" Width="160" Style="{ThemeResource BodyTextBlockStyle}" VerticalAlignment="Center"/>
                         <ComboBox x:Name="ThemeSettingsBox" Width="120" Margin="80,0,0,0" SelectedIndex="0" >
                             <!--TODO: Get System time and set theme-->
                             <x:String>自动</x:String>
@@ -124,17 +124,17 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="MusicSettingsPanel" Margin="12">
-                    <TextBlock Text="歌曲信息" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                    <TextBlock x:Uid="SongsSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
-                        <TextBlock Text="自动获取专辑信息" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="88,0,0,0" OnContent="启用" OffContent="禁用"/>
+                        <TextBlock x:Uid="AutoSearchLrcText" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="88,0,0,0" x:Uid="AutoSearchLrcButton"/>
                         <!--TODO: Search and pull lyrics-->
 
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
                         <Grid HorizontalAlignment="Stretch">
-                            <TextBlock x:Name="LocationTextBlock" Margin="12,0,0,0" Text="当前搜索位置" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="LocationTextBlock" x:Uid="LocationSettingsTitle" Margin="12,0,0,0" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
                             <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Style="{StaticResource TextBlockButtonStyle}">
                                 <Button.Content>
                                     <SymbolIcon Symbol="Add"/>
@@ -159,7 +159,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="PlaybackSettingsPanel" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
-                    <TextBlock Text="播放设置" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                    <TextBlock x:Uid="PlaybackSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
 
                 </StackPanel>
             </StackPanel>

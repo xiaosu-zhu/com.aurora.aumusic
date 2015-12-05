@@ -62,7 +62,18 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            string s = value.ToString() + "首曲目";
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            string str;
+            if ((int)value == 1)
+            {
+                str = loader.GetString("SongsCountConverterSingle");
+            }
+            else
+            {
+                str = loader.GetString("SongsCountConverter");
+            }
+
+            string s = string.Format(str, value);
             return s;
         }
 
@@ -76,14 +87,25 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
             string[] s = (string[])value;
             if (s[0] == "Unknown AlbumArtists")
             {
-                return "未知创作人";
+                var str = loader.GetString("UnknownAlbumArtists");
+                return str;
             }
             else
             {
-                return s.Length + "位创作人";
+                if (s.Length == 1)
+                {
+                    var str = loader.GetString("AlbumArtistsSingle");
+                    return string.Format(str, s.Length);
+                }
+                else
+                {
+                    var str = loader.GetString("AlbumArtists");
+                    return string.Format(str, s.Length);
+                }
             }
         }
 
@@ -110,63 +132,47 @@ namespace com.aurora.aumusic.shared
         }
     }
 
-    public class ArtworkConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is string[])
-            {
-
-            }
-            return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class AlbumDetailsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
             AlbumItem album = (AlbumItem)value;
             if (album == null)
                 return null;
-            StringBuilder sb = new StringBuilder("由");
+            StringBuilder sb = new StringBuilder();
             if (album.AlbumArtists[0] == "Unknown AlbumArtists")
             {
                 sb.Clear();
-                sb.Append("未知创作人");
+                sb.Append(loader.GetString("UnknownAlbumArtists"));
             }
             else
             {
-                int i = 0;
-                foreach (var item in album.AlbumArtists)
+                if (album.AlbumArtists.Length > 2)
                 {
-                    i++;
-                    if (i > 2)
-                    {
-                        sb.Remove(sb.Length - 2, 2);
-                        sb.Append("等");
-                        break;
-                    }
-                    sb.Append(item);
-                    sb.Append(", ");
+                    sb.Clear();
+                    sb.AppendFormat(loader.GetString("AlbumDetailsArtistsShort"), album.AlbumArtists[0], album.AlbumArtists[1]);
                 }
-                if (sb[sb.Length - 1] == ' ')
+                else
+                {
+                    sb.Clear();
+                    sb.Append(loader.GetString("AlbumDetailsArtistsLongStart"));
+                    foreach (var artist in album.AlbumArtists)
+                    {
+                        sb.Append(artist);
+                        sb.Append(", ");
+                    }
                     sb.Remove(sb.Length - 2, 2);
-                sb.Append("创作");
+                    sb.Append(loader.GetString("AlbumDetailsArtistsLongEnd"));
+                }
             }
-            sb.Append("   ");
+            sb.Append(" ");
             TimeSpan ts = new TimeSpan();
             foreach (var item in album.Songs)
             {
                 ts += item.Duration;
             }
-
-            sb.Append((((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString() + "分" + ts.Seconds.ToString("00") + "秒");
+            sb.AppendFormat(loader.GetString("AlbumDetailsTotalDuration"), (((ts.Days) * 24 + ts.Hours * 60) + ts.Minutes).ToString("0"), ts.Seconds.ToString("00"));
             return sb.ToString();
         }
 
@@ -180,14 +186,33 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is List<AlbumSongsGroup>)
+
+            if (value is List<AlbumSongsGroup>)
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                StringBuilder sb = new StringBuilder();
                 int i = 0;
                 foreach (var item in (List<AlbumSongsGroup>)value)
                 {
                     i += item.SongsCount;
                 }
-                return ((List<AlbumSongsGroup>)value).Count.ToString("0") + "张专辑" + "    " + i.ToString("0") + "首曲目";
+                if (((List<AlbumSongsGroup>)value).Count == 1)
+                {
+                    sb.AppendFormat(loader.GetString("ArtistDetailsConverterAlbumSingle"), ((List<AlbumSongsGroup>)value).Count.ToString("0"));
+                }
+                else
+                {
+                    sb.AppendFormat(loader.GetString("ArtistDetailsConverterAlbum"), ((List<AlbumSongsGroup>)value).Count.ToString("0"));
+                }
+                if (i == 1)
+                {
+                    sb.AppendFormat(loader.GetString("ArtistDetailsConverterSongsSingle"), i.ToString("0"));
+                }
+                else
+                {
+                    sb.AppendFormat(loader.GetString("ArtistDetailsConverterSongs"), i.ToString("0"));
+                }
+                return sb.ToString();
             }
             return null;
         }
@@ -202,38 +227,40 @@ namespace com.aurora.aumusic.shared
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            int count = 2;
+            bool shortcount = true;
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
             if (parameter is bool)
                 if (((bool)parameter) == true)
-                    count = int.MaxValue;
+                    shortcount = false;
                 else if (parameter is string)
                     if ((string)parameter == "true")
-                        count = int.MaxValue;
+                        shortcount = false;
             var artists = value as string[];
-            if (artists == null)
-                return "未知创作人";
             StringBuilder sb = new StringBuilder();
-            if (artists[0] == "Unknown Artists")
+            if (artists == null || artists[0] == "Unknown AlbumArtists")
             {
-                return "未知创作人";
+                sb.Clear();
+                sb.Append(loader.GetString("UnknownAlbumArtists"));
             }
             else
             {
-                int i = 0;
-                foreach (var item in artists)
+                if (artists.Length > 2 && shortcount)
                 {
-                    i++;
-                    if (i > count)
-                    {
-                        sb.Remove(sb.Length - 2, 2);
-                        sb.Append("等");
-                        break;
-                    }
-                    sb.Append(item);
-                    sb.Append(", ");
+                    sb.Clear();
+                    sb.AppendFormat(loader.GetString("AlbumDetailsArtistsShort"), artists[0], artists[1]);
                 }
-                if (sb[sb.Length - 1] == ' ')
+                else
+                {
+                    sb.Clear();
+                    sb.Append(loader.GetString("AlbumDetailsArtistsLongStart"));
+                    foreach (var artist in artists)
+                    {
+                        sb.Append(artist);
+                        sb.Append(", ");
+                    }
                     sb.Remove(sb.Length - 2, 2);
+                    sb.Append(loader.GetString("AlbumDetailsArtistsLongEnd"));
+                }
             }
             return sb.ToString();
         }
@@ -342,11 +369,20 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 203)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
                 {
-                    return new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
+                    return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                 }
-                else return new SolidColorBrush(Color.FromArgb(255, 63, 63, 63));
+                else return new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+            }
+            if (value is Color)
+            {
+                var c = (Color)value;
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                {
+                    return Color.FromArgb(255, 255, 255, 255);
+                }
+                else return Color.FromArgb(255, 0, 0, 0);
             }
             return null;
         }
@@ -366,11 +402,20 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 203)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
                 {
-                    return new SolidColorBrush(Color.FromArgb(255, 217, 217, 217));
+                    return new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 }
-                else return new SolidColorBrush(Color.FromArgb(255, 95, 95, 95));
+                else return new SolidColorBrush(Color.FromArgb(255, 35, 35, 35));
+            }
+            if (value is Color)
+            {
+                var c = (Color)value;
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                {
+                    return Color.FromArgb(255, 240, 240, 240);
+                }
+                else return Color.FromArgb(255, 35, 35, 35);
             }
             return null;
         }
@@ -451,11 +496,12 @@ namespace com.aurora.aumusic.shared
         {
             if (value is string[])
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
                 StringBuilder sb = new StringBuilder();
                 if (((string[])value) != null && ((string[])value).Length > 0)
                 {
                     if (((string[])value)[0] == "Unknown Genres")
-                        sb.Append("未知风格");
+                        sb.Append(loader.GetString("UnknownGenres"));
                     else
                         foreach (var item in ((string[])value))
                         {
@@ -622,8 +668,14 @@ namespace com.aurora.aumusic.shared
         {
             if (value is AlbumItem)
             {
-                StringBuilder sb = new StringBuilder("播放" + ((AlbumItem)value).Songs.Count);
-                sb.Append("首曲目");
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                StringBuilder sb = new StringBuilder();
+                if (((AlbumItem)value).SongsCount == 1)
+                {
+                    sb.AppendFormat(loader.GetString("SongsDetailsConverterSingle"), ((AlbumItem)value).SongsCount);
+                }
+                else
+                    sb.AppendFormat(loader.GetString("SongsDetailsConverter"), ((AlbumItem)value).SongsCount);
                 return sb.ToString();
             }
             return null;
@@ -631,7 +683,7 @@ namespace com.aurora.aumusic.shared
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 
@@ -641,11 +693,12 @@ namespace com.aurora.aumusic.shared
         {
             if (value is AlbumItem)
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
                 StringBuilder sb = new StringBuilder();
                 if (((AlbumItem)value).Genres != null && ((AlbumItem)value).Genres.Length > 0)
                 {
                     if (((AlbumItem)value).Genres[0] == "Unknown Genres")
-                        sb.Append("未知风格");
+                        sb.Append(loader.GetString("UnknownGenres"));
                     else
                         foreach (var item in ((AlbumItem)value).Genres)
                         {
@@ -657,18 +710,19 @@ namespace com.aurora.aumusic.shared
                     sb.Append(" · ");
                 }
                 if (((AlbumItem)value).Year > 0)
-                    sb.Append(((AlbumItem)value).Year + "年");
+                    sb.AppendFormat(loader.GetString("YearConverter"), ((AlbumItem)value).Year);
                 else
                     sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
             }
             if (value is Song)
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
                 StringBuilder sb = new StringBuilder();
                 if (((Song)value).Genres != null && ((Song)value).Genres.Length > 0)
                 {
                     if (((Song)value).Genres[0] == "Unknown Genres")
-                        sb.Append("未知风格");
+                        sb.Append(loader.GetString("UnknownGenres"));
                     else
                         foreach (var item in ((Song)value).Genres)
                         {
@@ -680,18 +734,19 @@ namespace com.aurora.aumusic.shared
                     sb.Append(" · ");
                 }
                 if (((Song)value).Year > 0)
-                    sb.Append(((Song)value).Year + "年");
+                    sb.AppendFormat(loader.GetString("YearConverter"), ((Song)value).Year);
                 else
                     sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
             }
             if (value is SongModel)
             {
+                var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
                 StringBuilder sb = new StringBuilder();
                 if (((SongModel)value).Genres != null && ((SongModel)value).Genres.Length > 0)
                 {
                     if (((SongModel)value).Genres[0] == "Unknown Genres")
-                        sb.Append("未知风格");
+                        sb.Append(loader.GetString("UnknownGenres"));
                     else
                         foreach (var item in ((SongModel)value).Genres)
                         {
@@ -703,7 +758,7 @@ namespace com.aurora.aumusic.shared
                     sb.Append(" · ");
                 }
                 if (((SongModel)value).Year > 0)
-                    sb.Append(((SongModel)value).Year + "年");
+                    sb.AppendFormat(loader.GetString("YearConverter"), ((SongModel)value).Year);
                 else
                     sb.Remove(sb.Length - 3, 3);
                 return sb.ToString();
