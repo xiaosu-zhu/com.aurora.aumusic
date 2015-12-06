@@ -1,0 +1,17 @@
+MainPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\bin\ARM\Release\Upload\com.aurora.aumusic_1.0.0.1206_ARM.appx
+SymbolPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\AppPackages\com.aurora.aumusic_1.0.0.1206\com.aurora.aumusic_1.0.0.1206_ARM.appxsym
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-de.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-en.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-es.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-fr.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-it.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-ja.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-ru.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_language-zh-hant.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-100.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-125.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-140.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-150.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-180.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-240.appx
+ResourcePack=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\_scale-400.appx
