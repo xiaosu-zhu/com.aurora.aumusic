@@ -40,7 +40,7 @@ namespace com.aurora.aumusic.shared
         {
             Color color = (Color)value;
 
-            if ((color.R * 0.299 + color.G * 0.587 + color.B * 0.114) < 85)
+            if ((color.R * 0.299 + color.G * 0.587 + color.B * 0.114) < 144)
             {
                 byte b = (byte)(255 - (int)parameter);
                 return Color.FromArgb(255, b, b, b);
@@ -353,7 +353,7 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 144)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                 }
@@ -362,7 +362,7 @@ namespace com.aurora.aumusic.shared
             if (value is Color)
             {
                 var c = (Color)value;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 144)
                 {
                     return Color.FromArgb(255, 255, 255, 255);
                 }
@@ -386,7 +386,7 @@ namespace com.aurora.aumusic.shared
             {
                 SolidColorBrush brush = (SolidColorBrush)value;
                 Color c = brush.Color;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 144)
                 {
                     return new SolidColorBrush(Color.FromArgb(255, 240, 240, 240));
                 }
@@ -395,7 +395,7 @@ namespace com.aurora.aumusic.shared
             if (value is Color)
             {
                 var c = (Color)value;
-                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 85)
+                if ((c.R * r_factor + c.G * g_factor + c.B * b_factor) < 144)
                 {
                     return Color.FromArgb(255, 240, 240, 240);
                 }

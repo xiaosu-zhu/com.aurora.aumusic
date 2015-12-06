@@ -310,8 +310,6 @@ namespace com.aurora.aumusic
             MediaControlsCommandBar.Visibility = Visibility.Visible;
             if (MenuList.SelectedIndex == -1)
                 MainFrame.Navigate(typeof(SettingsPage));
-            Splitlist s = MenuList.SelectedItem as Splitlist;
-            s.visibility = Visibility.Visible;
             switch (MenuList.SelectedIndex)
             {
                 case 0: MainFrame.Navigate(typeof(AlbumFlowPage)); break;

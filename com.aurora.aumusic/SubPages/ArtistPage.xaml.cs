@@ -130,7 +130,7 @@ namespace com.aurora.aumusic
                     ArtistArtworkGroup2.Height = 240;
                 }
                 int i = 0;
-                var placeholder = new BitmapImage(new Uri("ms-appx:///Assets/placeholder_back.png"));
+                var placeholder = new BitmapImage();
                 foreach (var image in imagelist)
                 {
                     if (list.Count < i + 1)
