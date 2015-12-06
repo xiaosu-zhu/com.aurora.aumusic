@@ -216,4 +216,58 @@
   <data name="YearConverter" xml:space="preserve">
     <value>[C90DE][!!_{0}年_!!]</value>
   </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>[83300][!!_存在无法播放的曲目_!!]</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>[9C0DC][!!_自动_!!]</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>[A70C1][!!_暗_!!]</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>[F15EF][!!_亮_!!]</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value>[61916][!!_此位置将不再搜索_!!]</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>[5397E][!!_取消_!!]</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>[2D111][!!_确定_!!]</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>[B21E0][!!_极光音乐  在这里发现美好_!!]</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>[EC9D9][!!_让我们来添加你的音乐库吧_!!]</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>[3AAB9][!!_专辑流_!!]</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>[868BD][!!_表演者_!!]</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>[B8C53][!!_我的最爱_!!]</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>[10B54][!!_所有曲目_!!]</value>
+  </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>[13A36][!!_极光音乐_!!]</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>[61723][!!_本应用所有代码均已在 Ġíτнûв 上开源_!!]</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>[AB765][!!_版权信息_!!]</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>[B39BC][!!_版本_!!]</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>[F9915][!!_仍在开发…_!!]</value>
+  </data>
 </root>

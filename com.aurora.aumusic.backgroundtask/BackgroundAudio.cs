@@ -83,9 +83,16 @@ namespace com.aurora.aumusic.backgroundtask
                 {
                     List<IStorageFile> files = new List<IStorageFile>();
                     string tempPath = (string)composite["FolderSettings" + i.ToString()];
-                    StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
-                    files.AddRange(await AlbumEnum.SearchAllinFolder(folder));
-                    AllList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
+                    try
+                    {
+                        StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+                        files.AddRange(await AlbumEnum.SearchAllinFolder(folder));
+                        AllList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                 }
                 backgroundTaskStarted.Set();
                 MessageService.SendMessageToForeground(new BackgroundConfirmFilesMessage());
@@ -278,7 +285,7 @@ namespace com.aurora.aumusic.backgroundtask
             playbackList.CurrentItemChanged -= PlaybackList_CurrentItemChanged;
             playbackList.Items.Clear();
             int i = 0;
-            while(true)
+            while (true)
             {
                 if (i >= desiredSongs.Count)
                     break;

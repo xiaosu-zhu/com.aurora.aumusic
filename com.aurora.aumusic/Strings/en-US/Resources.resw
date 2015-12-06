@@ -363,4 +363,19 @@
   <data name="WelcomeSettingTitle.Text" xml:space="preserve">
     <value>Let's find where is your music world</value>
   </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>Aurora Music</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>This app is totally open source on the github</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>License and open source</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>Still Developing...</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
 </root>

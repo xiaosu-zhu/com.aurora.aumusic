@@ -154,7 +154,7 @@ namespace com.aurora.aumusic
                 return;
             }
             RefreshState v = RefreshState.Normal;
-            v = await Albums.RestoreAlbums();
+            v = Albums.RestoreAlbums();
             Albums.CopytoAlbumList();
             switch (v)
             {

@@ -255,4 +255,19 @@
   <data name="SongsPageText" xml:space="preserve">
     <value>所有曲目</value>
   </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>極光音樂</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>本應用所有代碼均已在 Github 上開源</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>著作權資訊</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>仍在開發...</value>
+  </data>
 </root>

@@ -255,4 +255,19 @@
   <data name="SongsPageText" xml:space="preserve">
     <value>Alle tracks</value>
   </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>Aurora-Musik</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>Der Anwendungscode liegt auf Github, open-source</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>Copyrightinformationen</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>Noch in der Entwicklung...</value>
+  </data>
 </root>

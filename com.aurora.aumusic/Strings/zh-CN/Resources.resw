@@ -343,7 +343,7 @@
     <value>亮</value>
   </data>
   <data name="WelcomeTitle.Text" xml:space="preserve">
-    <value>极光音乐  在这里发现美好</value>
+    <value>欢迎!</value>
   </data>
   <data name="AlbumFlowText" xml:space="preserve">
     <value>专辑流</value>
@@ -359,5 +359,20 @@
   </data>
   <data name="WelcomeSettingTitle.Text" xml:space="preserve">
     <value>让我们来添加你的音乐库吧</value>
+  </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>极光音乐</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>本应用所有代码均已在 Github 上开源</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>版权信息</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>仍在开发…</value>
   </data>
 </root>

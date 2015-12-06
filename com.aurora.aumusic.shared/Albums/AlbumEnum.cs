@@ -21,13 +21,12 @@ namespace com.aurora.aumusic.shared.Albums
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private static readonly string[] tempTypeStrings = new[] { ".mp3", ".m4a", ".flac", ".wav" };
-        private List<KeyValuePair<string, List<IStorageFile>>> RefreshList = new List<KeyValuePair<string, List<IStorageFile>>>();
         public AlbumList albumList = new AlbumList();
         public List<AlbumItem> albums = new List<AlbumItem>();
-
+        private List<KeyValuePair<string, List<IStorageFile>>> refreshList;
         public List<IStorageFile> AllList = new List<IStorageFile>();
 
-        public async Task<RefreshState> RestoreAlbums()
+        public RefreshState RestoreAlbums()
         {
             RefreshState State = RefreshState.Normal;
             try
@@ -54,7 +53,43 @@ namespace com.aurora.aumusic.shared.Albums
 
         public async Task Refresh()
         {
-            foreach (var item in RefreshList)
+            refreshList = new List<KeyValuePair<string, List<IStorageFile>>>();
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+            int count = (int)composite["FolderCount"];
+            for (int i = 0; i < count; i++)
+            {
+                List<IStorageFile> files = new List<IStorageFile>();
+                string tempPath = (string)composite["FolderSettings" + i.ToString()];
+                try
+                {
+                    StorageFolder folder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
+                    files.AddRange(await AlbumEnum.SearchAllinFolder(folder));
+                    refreshList.Add(new KeyValuePair<string, List<IStorageFile>>(tempPath, files));
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+            }
+            for (int k = refreshList.Count - 1; k >= 0; k--)
+            {
+                for (int j = refreshList[k].Value.Count - 1; j >= 0; j--)
+                {
+                    foreach (var key in albumList.ToSongModelList())
+                    {
+                        if (key.MainKey == (((StorageFile)refreshList[k].Value[j]).Path))
+                        {
+
+                            refreshList[k].Value.RemoveAt(j);
+                            break;
+                        }
+                    }
+                }
+                if (refreshList[k].Value.Count == 0)
+                    refreshList.RemoveAt(k);
+            }
+            foreach (var item in refreshList)
             {
                 int index = albums.Count;
                 string tempPath = item.Key;

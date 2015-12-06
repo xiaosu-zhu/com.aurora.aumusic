@@ -306,8 +306,9 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Determinar</target>
         </trans-unit>
         <trans-unit id="WelcomeTitle.Text" translate="yes" xml:space="preserve">
-          <source>极光音乐  在这里发现美好</source>
+          <source>欢迎!</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Música de Aurora aquí encontrado buena</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeSettingTitle.Text" translate="yes" xml:space="preserve">
           <source>让我们来添加你的音乐库吧</source>
@@ -328,6 +329,26 @@
         <trans-unit id="SongsPageText" translate="yes" xml:space="preserve">
           <source>所有曲目</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Todas las pistas</target>
+        </trans-unit>
+        <trans-unit id="AuroraTitle.Text" translate="yes" xml:space="preserve">
+          <source>极光音乐</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Música de Aurora</target>
+        </trans-unit>
+        <trans-unit id="LicenseContent.Text" translate="yes" xml:space="preserve">
+          <source>本应用所有代码均已在 Github 上开源</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Todo el código de la aplicación está en Github, código abierto</target>
+        </trans-unit>
+        <trans-unit id="LicenseText.Text" translate="yes" xml:space="preserve">
+          <source>版权信息</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Información de Copyright</target>
+        </trans-unit>
+        <trans-unit id="VersionText.Text" translate="yes" xml:space="preserve">
+          <source>版本</source>
+          <target state="needs-review-translation" state-qualifier="exact-match">versión</target>
+        </trans-unit>
+        <trans-unit id="PlaybackSettingsContent.Text" translate="yes" xml:space="preserve">
+          <source>仍在开发…</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Todavía en desarrollo...</target>
         </trans-unit>
       </group>
     </body>

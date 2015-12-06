@@ -175,12 +175,12 @@
                                                         <CircleEase />
                                                     </DoubleAnimation.EasingFunction>
                                                 </DoubleAnimation>
-                                                <ColorAnimation To="{ThemeResource SystemAccentColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
+                                                <ColorAnimation To="{ThemeResource SystemThemeMainColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Thumb.Background).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalThumb">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
                                                 </ColorAnimation>
-                                                <ColorAnimation To="#77F0F0F0" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
+                                                <ColorAnimation To="{ThemeResource SystemBackgroundTranslucentHighColor}" Duration="0:0:0.5" EnableDependentAnimation="True" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="HorizontalTrackRect">
                                                     <ColorAnimation.EasingFunction>
                                                         <CircleEase />
                                                     </ColorAnimation.EasingFunction>
@@ -265,7 +265,7 @@
                                         </Grid.RowDefinitions>
                                         <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="{ThemeResource SystemControlTranslucentHighBrush}" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
                                         <Rectangle x:Name="HorizontalDecreaseRect" Fill="{ThemeResource SystemControlForegroundAltHighBrush}" Grid.Row="1"/>
-                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="{ThemeResource SystemAccentColor}" Foreground="{ThemeResource SystemControlTranslucentAltHighBrush}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
+                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="{ThemeResource SystemThemeMainBrush}" Foreground="{ThemeResource SystemControlTranslucentAltHighBrush}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -456,8 +456,8 @@
                 <RelativePanel VerticalAlignment="Stretch">
                     <Rectangle x:Name="ListItemRec" Fill="{ThemeResource SystemThemeMainBrush}" Visibility="{x:Bind visibility, Mode=OneWay}" Height="48" Width="4" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
                     <Grid x:Name="ListItemIcon" Width="48" Height="48" RelativePanel.AlignLeftWithPanel="True">
-                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="20" Text="{x:Bind IconSymbol}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <BitmapIcon Foreground="White" UriSource="{x:Bind Bitmap, TargetNullValue=}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="20" Text="{x:Bind IconSymbol}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <BitmapIcon Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" UriSource="{x:Bind Bitmap, TargetNullValue=}" Width="24" Height="24" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Grid>
                     <TextBlock Text="{x:Bind Title}" RelativePanel.RightOf="ListItemIcon" RelativePanel.AlignVerticalCenterWithPanel="True"
                                        Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18.667" />

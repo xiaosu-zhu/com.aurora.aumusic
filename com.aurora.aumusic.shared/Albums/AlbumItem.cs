@@ -160,7 +160,7 @@ namespace com.aurora.aumusic.shared.Albums
         {
             foreach (var item in Songs)
             {
-                if (item.ArtWork != "ms-appx:///Assets/placeholder.png")
+                if (item.ArtWork != "ms-appx:///Assets/placeholder.scale-240.png")
                 {
                     AlbumArtWork = item.ArtWork;
                     ArtWorkSize = item.ArtWorkSize;
@@ -169,7 +169,7 @@ namespace com.aurora.aumusic.shared.Albums
             }
             if (AlbumArtWork == null)
             {
-                AlbumArtWork = "ms-appx:///Assets/placeholder.png";
+                AlbumArtWork = "ms-appx:///Assets/placeholder.scale-240.png";
                 ArtWorkSize = new Size(400, 400);
             }
         }
@@ -345,7 +345,7 @@ namespace com.aurora.aumusic.shared.Albums
             bool b = false;
             foreach (var item in Songs)
             {
-                if (this.AlbumArtWork != item.ArtWork && item.ArtWork != "ms-appx:///Assets/placeholder.png")
+                if (this.AlbumArtWork != item.ArtWork && item.ArtWork != "ms-appx:///Assets/placeholder.scale-240.png")
                 {
                     this.AlbumArtWork = item.ArtWork;
                     this.ArtWorkSize = item.ArtWorkSize;

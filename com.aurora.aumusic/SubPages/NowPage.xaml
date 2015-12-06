@@ -322,7 +322,7 @@
                                         </Grid.RowDefinitions>
                                         <Rectangle x:Name="HorizontalTrackRect" Grid.ColumnSpan="3" Fill="#22777777" Height="{ThemeResource SliderTrackThemeHeight}" Grid.Row="1"/>
                                         <Rectangle x:Name="HorizontalDecreaseRect" Height="{ThemeResource SliderTrackThemeHeight}" Fill="{TemplateBinding Foreground}" Grid.Row="1"/>
-                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="#FFF0F0F0" Foreground="{TemplateBinding Foreground}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
+                                        <Thumb x:Name="HorizontalThumb" Canvas.ZIndex="1" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Background="{ThemeResource SystemBackgroundAltHighBrush}" Foreground="{TemplateBinding Foreground}" DataContext="{TemplateBinding Value}" Height="24" Grid.Row="0" Grid.RowSpan="3" Style="{StaticResource SliderThumbStyle}" Width="24" PointerReleased="HorizontalThumb_PointerReleased"/>
                                     </Grid>
                                 </Grid>
                             </Grid>

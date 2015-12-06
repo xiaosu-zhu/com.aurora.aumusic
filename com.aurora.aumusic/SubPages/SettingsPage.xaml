@@ -100,7 +100,7 @@
         <RelativePanel x:Name="MymusicSubPanel" Canvas.ZIndex="1" Width="auto" Background="{ThemeResource SystemControlTranslucentHighBrush}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Height="36" >
             <TextBlock x:Name="TitleBlock" x:Uid="SettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
         </RelativePanel>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,80,0,0">
+        <ScrollViewer x:Name="SettingScroll" MaxWidth="420" VerticalScrollBarVisibility="Hidden" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,48,0,0">
             <StackPanel Grid.Row="1" >
                 <StackPanel x:Name="GeneralSettingsPanel" Margin="12">
                     <TextBlock x:Uid="GeneralSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
@@ -151,9 +151,17 @@
                 </StackPanel>
                 <StackPanel x:Name="PlaybackSettingsPanel" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
                     <TextBlock x:Uid="PlaybackSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
-
+                    <TextBlock x:Uid="PlaybackSettingsContent" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,12,12" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+        <StackPanel MaxWidth="320" Orientation="Vertical" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.RightOf="SettingScroll" >
+            <TextBlock Margin="0,64,16,0" Style="{ThemeResource SubheaderTextBlockStyle}" x:Uid="AuroraTitle"/>
+            <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="VersionText" />
+            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" Text="1.0.1206" />
+            <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="LicenseText" />
+            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="LicenseContent" />
+            <HyperlinkButton Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Content="Github.com" NavigateUri="https://github.com/aurora-lzzp/com.aurora.aumusic"/>
+        </StackPanel>
     </RelativePanel>
 </Page>
