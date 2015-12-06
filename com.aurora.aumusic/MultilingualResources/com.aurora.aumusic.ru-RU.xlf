@@ -350,6 +350,10 @@
           <source>仍在开发…</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Все еще в разработке...</target>
         </trans-unit>
+        <trans-unit id="WebExceptionText" translate="yes" xml:space="preserve">
+          <source>无网络连接</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Нет сетевых подключений</target>
+        </trans-unit>
       </group>
     </body>
   </file>

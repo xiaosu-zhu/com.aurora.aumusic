@@ -378,4 +378,7 @@
   <data name="VersionText.Text" xml:space="preserve">
     <value>Version</value>
   </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>Connection failed</value>
+  </data>
 </root>

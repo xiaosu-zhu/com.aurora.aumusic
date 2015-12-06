@@ -270,4 +270,7 @@
   <data name="PlaybackSettingsContent.Text" xml:space="preserve">
     <value>Todavía en desarrollo...</value>
   </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>No hay ninguna conexión de red</value>
+  </data>
 </root>

@@ -67,6 +67,8 @@ namespace com.aurora.aumusic
             {
                 this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(() =>
                 {
+                    var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+                    loader.GetString("WebExceptionText");
                     ErrText.Text = "没有网络连接";
                 }));
 

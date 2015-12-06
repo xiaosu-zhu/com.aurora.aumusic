@@ -350,6 +350,10 @@
           <source>仍在开发…</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">仍在開發...</target>
         </trans-unit>
+        <trans-unit id="WebExceptionText" translate="yes" xml:space="preserve">
+          <source>无网络连接</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">無網路連線</target>
+        </trans-unit>
       </group>
     </body>
   </file>

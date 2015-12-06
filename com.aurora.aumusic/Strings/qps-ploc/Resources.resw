@@ -270,4 +270,7 @@
   <data name="PlaybackSettingsContent.Text" xml:space="preserve">
     <value>[F9915][!!_仍在开发…_!!]</value>
   </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>[69736][!!_无网络连接_!!]</value>
+  </data>
 </root>
