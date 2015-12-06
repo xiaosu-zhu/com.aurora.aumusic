@@ -858,6 +858,19 @@
                 </RelativePanel>
             </RelativePanel>
         </SplitView>
+        <Grid Background="{ThemeResource SystemThemeMainColor}" x:Name="CreateRing" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+            <TextBlock Margin="48" x:Uid="FirstCreateText" Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="White" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Margin="108" x:Uid="CreateWarningText" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" HorizontalAlignment="Center" />
+            <Grid Width="420" Height="420">
+                <Ellipse VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Gray" StrokeThickness="8"/>
+                <Ellipse x:Name="ProgressRoll" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="White" StrokeThickness="8" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <RotateTransform Angle="-90"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <TextBlock x:Name="CreateProgressText" Foreground="White" FontSize="80" Style="{ThemeResource HeaderTextBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            </Grid>
+        </Grid>
     </RelativePanel>
 
 </Page>

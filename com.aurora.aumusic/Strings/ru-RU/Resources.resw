@@ -273,4 +273,10 @@
   <data name="WebExceptionText" xml:space="preserve">
     <value>Нет сетевых подключений</value>
   </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>Мы добавляем музыку</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>Не свернуть или закрыть приложение</value>
+  </data>
 </root>

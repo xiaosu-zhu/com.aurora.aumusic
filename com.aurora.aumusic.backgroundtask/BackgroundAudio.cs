@@ -33,7 +33,6 @@ namespace com.aurora.aumusic.backgroundtask
         private BackgroundTaskDeferral deferral;
         private ManualResetEvent backgroundTaskStarted = new ManualResetEvent(false);
         private MediaPlaybackList playbackList = new MediaPlaybackList();
-        private bool playbackStartedPreviously = false;
         private AppState foregroundAppState;
         private MediaPlayerState NowState = MediaPlayerState.Stopped;
         private MediaPlaybackList templist;
@@ -43,7 +42,6 @@ namespace com.aurora.aumusic.backgroundtask
         private List<SongModel> Songs;
 
         private List<IStorageFile> FileList = new List<IStorageFile>();
-        private PlaybackMode NowMode;
 
         private TimeSpan CurrentPosition = TimeSpan.Zero;
 
@@ -445,10 +443,11 @@ namespace com.aurora.aumusic.backgroundtask
 
             // Add playback items to the list
             var result = backgroundTaskStarted.WaitOne(10000);
+            FileList.Clear();
             if (result == true)
                 for (int k = AllList.Count - 1; k >= 0; k--)
                 {
-                    FileList.Clear();
+                    
                     FileList.AddRange(AllList[k].Value);
                     for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
                     {

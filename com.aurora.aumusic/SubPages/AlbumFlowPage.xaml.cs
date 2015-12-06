@@ -21,6 +21,7 @@ using com.aurora.aumusic.shared;
 using com.aurora.aumusic.backgroundtask;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.ApplicationModel.Background;
+using Windows.Storage;
 
 namespace com.aurora.aumusic
 {
@@ -71,6 +72,11 @@ namespace com.aurora.aumusic
         {
             base.OnNavigatedTo(e);
             App.ResetTitleBar();
+            var str = ApplicationSettingsHelper.ReadSettingsValue("isCreated");
+            if (str == null)
+            {
+                ((Window.Current.Content as Frame).Content as MainPage).FirstCreate();
+            }
             AlbumFlowZoom.IsZoomedInViewActive = false;
         }
 
@@ -93,10 +99,11 @@ namespace com.aurora.aumusic
             if (MessageService.TryParseMessage(e.Data, out refresh))
             {
                 if (refresh.Refresh == RefreshState.NeedRefresh)
-                    await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await Albums.Refresh();
-                    });
+                {
+                    Albums.notifyrefresh += Albums_notifyrefresh;
+                    await Albums.Refresh();
+                }
+                Albums.notifyrefresh -= Albums_notifyrefresh;
             }
 
             BackgroundTaskStateChangedMessage backgroundTaskMessage;
@@ -111,6 +118,16 @@ namespace com.aurora.aumusic
                 }
                 return;
             }
+        }
+
+        private void Albums_notifyrefresh(object sender, NotifyRefreshEventArgs e)
+        {
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Albums.RefreshtoList(e.item);
+            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
         }
 
         private void StartBackgroundAudioTask()
@@ -156,6 +173,7 @@ namespace com.aurora.aumusic
             RefreshState v = RefreshState.Normal;
             v = Albums.RestoreAlbums();
             Albums.CopytoAlbumList();
+            Albums.progresschanged += Albums_progresschanged;
             switch (v)
             {
                 case RefreshState.NeedCreate: await Albums.FirstCreate(); break;
@@ -163,6 +181,7 @@ namespace com.aurora.aumusic
                 case RefreshState.Normal: break;
             }
             HideBar(WaitingBar);
+            ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
             IsInitialed = true;
             foreach (var task in BackgroundTaskRegistration.AllTasks)
             {
@@ -175,6 +194,7 @@ namespace com.aurora.aumusic
             StartBackgroundAudioTask();
             Application.Current.Suspending += SaveLists;
             TimeSpan period = TimeSpan.FromSeconds(5);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             ThreadPool.RunAsync((work) =>
              {
                  foreach (var album in Albums.albums)
@@ -188,6 +208,7 @@ namespace com.aurora.aumusic
                      ListPage.AllSongs = this.AllSongs;
                  }
              });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
             {
                 if (!IsShuffleListInitialed)
@@ -195,6 +216,7 @@ namespace com.aurora.aumusic
                     ShuffleList shuffleList = new ShuffleList(Albums.albumList.ToList());
                     var list = shuffleList.GenerateNewList(ShuffleList.FAV_LIST_CAPACITY);
                     list = ShuffleList.ShuffleIt(list);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Dispatcher.RunAsync(CoreDispatcherPriority.High,
 async () =>
                     {
@@ -202,10 +224,15 @@ async () =>
                         await ShowShuffleArtwork(list);
                         HideBar(FavWaitingBar);
                     });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 }
             }, period);
         }
 
+        private void Albums_progresschanged(object sender, AlbumProgressChangedEventArgs e)
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).UpdateProgress(e.CurrentPercent, e.TotalPercent);
+        }
 
         private void SaveLists(object sender, SuspendingEventArgs e)
         {
@@ -421,6 +448,7 @@ async () =>
                         ShuffleArtworkState[m] = !ShuffleArtworkState[m];
                     }
 
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Dispatcher.RunAsync(
                                             CoreDispatcherPriority.High,
                                             () =>
@@ -433,12 +461,14 @@ async () =>
                                                     }
                                                 }
                                             });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
 
                     completed = true;
                 },
                 delay,
                 (source) =>
                 {
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Dispatcher.RunAsync(
             CoreDispatcherPriority.High,
             () =>
@@ -459,6 +489,7 @@ async () =>
                 }
 
             });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 });
 
             return completed;

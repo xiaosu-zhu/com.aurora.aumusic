@@ -354,6 +354,14 @@
           <source>无网络连接</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">無網路連線</target>
         </trans-unit>
+        <trans-unit id="FirstCreateText.Text" translate="yes" xml:space="preserve">
+          <source>我们正在添加你的音乐</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">我們正在添加你的音樂</target>
+        </trans-unit>
+        <trans-unit id="CreateWarningText.Text" translate="yes" xml:space="preserve">
+          <source>请勿最小化或关闭应用</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">請勿最小化或關閉應用</target>
+        </trans-unit>
       </group>
     </body>
   </file>

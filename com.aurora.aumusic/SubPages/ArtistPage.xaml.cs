@@ -53,7 +53,8 @@ namespace com.aurora.aumusic
             await ThreadPool.RunAsync((work) =>
             {
                     var query = ArtistsKeyGroup<AlbumItem>.CreateGroups(AllSongs, album => album.AlbumArtists, true);
-                    this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+                this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
                      {
                          ArtistsGroupViewModel.Clear();
                          foreach (var g in query)
@@ -67,6 +68,7 @@ namespace com.aurora.aumusic
                              ArtistsGroupViewModel.Add(g);
                          }
                      }));
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             });
             LoadingRing.IsActive = false;
             LoadingRing.Visibility = Visibility.Collapsed;

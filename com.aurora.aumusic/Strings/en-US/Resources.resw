@@ -381,4 +381,10 @@
   <data name="WebExceptionText" xml:space="preserve">
     <value>Connection failed</value>
   </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>Please do not close or minimize this app</value>
+  </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>We are searching your music...</value>
+  </data>
 </root>

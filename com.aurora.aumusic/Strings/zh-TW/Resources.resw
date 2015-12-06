@@ -273,4 +273,10 @@
   <data name="WebExceptionText" xml:space="preserve">
     <value>無網路連線</value>
   </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>我們正在添加你的音樂</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>請勿最小化或關閉應用</value>
+  </data>
 </root>

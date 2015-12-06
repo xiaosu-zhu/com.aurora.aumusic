@@ -25,6 +25,10 @@ namespace com.aurora.aumusic.shared.Albums
         public List<AlbumItem> albums = new List<AlbumItem>();
         private List<KeyValuePair<string, List<IStorageFile>>> refreshList;
         public List<IStorageFile> AllList = new List<IStorageFile>();
+        public event AlbumCreateProgressChangeHandler progresschanged = delegate { };
+        public delegate void AlbumCreateProgressChangeHandler(object sender, AlbumProgressChangedEventArgs e);
+        public event NotifyRefreshHandler notifyrefresh = delegate { };
+        public delegate void NotifyRefreshHandler(object sender, NotifyRefreshEventArgs e);
 
         public RefreshState RestoreAlbums()
         {
@@ -91,29 +95,42 @@ namespace com.aurora.aumusic.shared.Albums
             }
             foreach (var item in refreshList)
             {
-                int index = albums.Count;
-                string tempPath = item.Key;
-                foreach (IStorageFile tempFile in item.Value)
-                {
-                    if (tempTypeStrings.Contains(tempFile.FileType))
-                    {
-                        Song song = new Song((StorageFile)tempFile, tempPath);
-                        await song.initial();
-                        await AddtoAlbum_first(song);
-                    }
-                }
-                foreach (AlbumItem album in albums)
-                {
-                    await album.Refresh();
-                }
-                List<AlbumItem> afterList = albums.ToList();
-                afterList.RemoveRange(0, index);
-                albums.AddRange(afterList);
-                Task.Run(() =>
-                {
-                    RefreshAlbumstoStorage(afterList, tempPath);
-                });
+                this.OnNotifyRefresh(item);
             }
+        }
+
+        private void OnNotifyRefresh(KeyValuePair<string, List<IStorageFile>> item)
+        {
+            NotifyRefreshEventArgs e = new NotifyRefreshEventArgs(item);
+            this.notifyrefresh(this, e);
+        }
+
+        public async Task RefreshtoList(KeyValuePair<string, List<IStorageFile>> item)
+        {
+            int index = albums.Count;
+            string tempPath = item.Key;
+            foreach (IStorageFile tempFile in item.Value)
+            {
+                if (tempTypeStrings.Contains(tempFile.FileType))
+                {
+                    Song song = new Song((StorageFile)tempFile, tempPath);
+                    await song.initial();
+                    await AddtoAlbum_first(song);
+                }
+            }
+            foreach (AlbumItem album in albums)
+            {
+                await album.Refresh();
+            }
+            List<AlbumItem> afterList = albums.ToList();
+            afterList.RemoveRange(0, index);
+            albums.AddRange(afterList);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+            Task.Run(() =>
+            {
+                RefreshAlbumstoStorage(afterList, tempPath);
+            });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
         }
 
         public void CopytoAlbumList()
@@ -136,11 +153,12 @@ namespace com.aurora.aumusic.shared.Albums
                 int Songscount = 0;
                 if (composite != null)
                 {
+
                     int count = (int)composite["FolderCount"];
                     for (int i = 0; i < count; i++)
                     {
                         String tempPath = (String)composite["FolderSettings" + i.ToString()];
-                        Songscount += await GetSongs(tempPath);
+                        Songscount += await GetSongs(tempPath, (double)i / (double)count, count);
                     }
                     localSettings.Values["AlbumsCount"] = albums.Count;
                     localSettings.Values["isCreated"] = true;
@@ -149,12 +167,13 @@ namespace com.aurora.aumusic.shared.Albums
             albums.AddRange(albumList.Enumerable());
         }
 
-        private async Task<int> GetSongs(string tempPath)
+        private async Task<int> GetSongs(string tempPath, double percent, int total)
         {
             StorageFolder tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync(tempPath);
             IReadOnlyList<IStorageFile> AllList = await SearchAllinFolder(tempFolder);
             int count = AllList.Count;
             int index = albumList.Count;
+            int progress = 0;
             foreach (StorageFile tempFile in AllList)
             {
                 if (tempTypeStrings.Contains(tempFile.FileType))
@@ -163,19 +182,28 @@ namespace com.aurora.aumusic.shared.Albums
                     await song.initial();
                     await AddtoAlbum_first(song);
                 }
+                progress++;
+                OnProgressChanged((double)progress / ((double)count * total), percent);
             }
             foreach (AlbumItem item in albumList)
             {
                 await item.Refresh();
-
             }
             List<AlbumItem> afterList = albumList.ToList();
             afterList.RemoveRange(0, index);
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             Task.Run(() =>
              {
                  saveAlbumstoStorage(afterList, tempPath);
              });
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             return count;
+        }
+
+        private void OnProgressChanged(double current, double total)
+        {
+            AlbumProgressChangedEventArgs e = new AlbumProgressChangedEventArgs(current, total);
+            this.progresschanged(this, e);
         }
 
         private async Task AddtoAlbum_first(Song song)
@@ -392,4 +420,5 @@ namespace com.aurora.aumusic.shared.Albums
         }
 
     }
+
 }

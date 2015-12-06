@@ -110,6 +110,8 @@
     <Compile Include="AlbumList.cs" />
     <Compile Include="Albums\AlbumEnum.cs" />
     <Compile Include="Albums\AlbumItem.cs" />
+    <Compile Include="Albums\AlbumProgressChangedEventArgs.cs" />
+    <Compile Include="Albums\NotifyRefreshEventArgs.cs" />
     <Compile Include="Helpers\ChineseConverter.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Helpers\BitmapHelper.cs" />

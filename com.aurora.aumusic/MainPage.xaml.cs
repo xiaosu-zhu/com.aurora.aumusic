@@ -84,9 +84,9 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            
+
             App.ResetTitleBar();
-            
+
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -199,6 +199,11 @@ namespace com.aurora.aumusic
 
         }
 
+        internal void FinishCreate()
+        {
+            CreateRing.Visibility = Visibility.Collapsed;
+        }
+
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
         {
             BackgroundConfirmFilesMessage confirming;
@@ -270,6 +275,21 @@ namespace com.aurora.aumusic
                     PlayBackImage_ImageOpened(stream);
                 });
             }
+        }
+
+        internal void UpdateProgress(double v, double count)
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                var cole = new DoubleCollection();
+                var progress = v + count;
+                CreateProgressText.Text = string.Format("{0}%", (progress * 100).ToString("0"));
+                progress *= 161.7924;
+                cole.Add(progress);
+                cole.Add(1470);
+                ProgressRoll.StrokeDashArray = cole;
+
+            });
         }
 
         internal void NotifyLrcPageArtworkChanged(Brush mainColor)
@@ -426,6 +446,20 @@ namespace com.aurora.aumusic
                 }
             },
             TimeSpan.FromSeconds(0.16));
+        }
+
+        public void FirstCreate()
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+             {
+                 CreateRing.Visibility = Visibility.Visible;
+                 var cole = new DoubleCollection();
+                 cole.Add(0);
+                 cole.Add(1470);
+                 ProgressRoll.StrokeDashArray = cole;
+                 CreateProgressText.Text = string.Format("{0}%", 0);
+             });
+
         }
 
         public void PlayPauseButtonOnLeft_Click(object sender, RoutedEventArgs e)

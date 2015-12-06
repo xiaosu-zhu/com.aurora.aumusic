@@ -273,4 +273,10 @@
   <data name="WebExceptionText" xml:space="preserve">
     <value>Nessuna connessione di rete</value>
   </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>Stiamo aggiungendo la tua musica</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>Non minimizzare o chiudere l'applicazione</value>
+  </data>
 </root>
