@@ -282,4 +282,7 @@
   <data name="RefreshPanelText.Text" xml:space="preserve">
     <value>Мы добавляем новые треки вы</value>
   </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Аврора-музыка</value>
+  </data>
 </root>

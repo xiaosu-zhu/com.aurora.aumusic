@@ -390,4 +390,7 @@
   <data name="RefreshPanelText.Text" xml:space="preserve">
     <value>We are searching for your new songs</value>
   </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Aurora Music</value>
+  </data>
 </root>

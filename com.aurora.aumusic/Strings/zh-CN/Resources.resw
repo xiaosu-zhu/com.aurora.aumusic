@@ -387,4 +387,7 @@
   <data name="RefreshPanelText.Text" xml:space="preserve">
     <value>我们正在添加你的新曲目</value>
   </data>
+  <data name="AppName" xml:space="preserve">
+    <value>极光音乐</value>
+  </data>
 </root>

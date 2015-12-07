@@ -366,6 +366,10 @@
           <source>我们正在添加你的新曲目</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Estamos añadiendo nuevo las pistas</target>
         </trans-unit>
+        <trans-unit id="AppName" translate="yes" xml:space="preserve">
+          <source>极光音乐</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Música de Aurora</target>
+        </trans-unit>
       </group>
     </body>
   </file>

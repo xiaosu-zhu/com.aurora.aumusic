@@ -1,2 +1,2 @@
-MainPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\bin\x64\Release\Upload\com.aurora.aumusic_1.0.0.1206_x64.appx
-SymbolPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\AppPackages\com.aurora.aumusic_1.0.0.1206\com.aurora.aumusic_1.0.0.1206_x64.appxsym
+MainPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\bin\x64\Release\Upload\com.aurora.aumusic_1.0.1207.0_x64.appx
+SymbolPackage=D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\AppPackages\com.aurora.aumusic_1.0.1207.0\com.aurora.aumusic_1.0.1207.0_x64.appxsym

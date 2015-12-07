@@ -282,4 +282,7 @@
   <data name="RefreshPanelText.Text" xml:space="preserve">
     <value>私達は、新しいを追加するトラック</value>
   </data>
+  <data name="AppName" xml:space="preserve">
+    <value>オーロラ音楽</value>
+  </data>
 </root>
