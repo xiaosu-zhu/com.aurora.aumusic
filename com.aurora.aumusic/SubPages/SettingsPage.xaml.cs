@@ -56,6 +56,7 @@ namespace com.aurora.aumusic
             {
                 if (folderPaths.SaveFoldertoStorage(folder))
                 {
+                    ApplicationSettingsHelper.SaveSettingsValue("NewAdded","yes");
                     await Task.Run(() =>
             {
                 folderPaths.SaveFoldertoSettings();

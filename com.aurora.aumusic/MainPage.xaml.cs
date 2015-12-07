@@ -32,6 +32,8 @@ using Windows.Media.Playback;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 
 
 
@@ -80,6 +82,7 @@ namespace com.aurora.aumusic
         public bool Frame_Updated = false;
         private NowPlayingHub nowPlayingHub;
         private double volume = 0;
+        private ThreadPoolTimer periodtimer;
 
         public MainPage()
         {
@@ -119,6 +122,22 @@ namespace com.aurora.aumusic
                 SettingsButton.IsEnabled = false;
                 MenuList.SelectedItem = null;
             }
+        }
+
+        internal void ShowRefresh()
+        {
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                RefreshPanel.Visibility = Visibility.Visible;
+                RefreshPanelIn.Begin();
+                periodtimer = ThreadPoolTimer.CreatePeriodicTimer((t) =>
+                {
+                    this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        RotateTrans.Angle += 6;
+                    });
+                }, TimeSpan.FromMilliseconds(16));
+            });
         }
 
         private void ellipse_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -216,7 +235,19 @@ namespace com.aurora.aumusic
 
         internal void FinishCreate()
         {
-            CreateRing.Visibility = Visibility.Collapsed;
+            this.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            {
+                CreateRing.Visibility = Visibility.Collapsed;
+                App.ResetTitleBar();
+                RefreshPanelOut.Begin();
+                if (periodtimer != null)
+                {
+                    periodtimer.Cancel();
+                }
+                await Task.Delay(1100);
+                RefreshPanel.Visibility = Visibility.Collapsed;
+            });
+
         }
 
         private async void BackgroundMediaPlayer_MessageReceivedFromBackground(object sender, MediaPlayerDataReceivedEventArgs e)
@@ -369,7 +400,14 @@ namespace com.aurora.aumusic
                 {
                     this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
                     {
-                        ProgressSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                        try
+                        {
+                            ProgressSlider.Value = ((BackgroundMediaPlayer.Current.Position.TotalSeconds) / (BackgroundMediaPlayer.Current.NaturalDuration.TotalSeconds)) * 100.0;
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                     });
                 }
             },
@@ -467,6 +505,13 @@ namespace com.aurora.aumusic
         {
             this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
              {
+                 var view = ApplicationView.GetForCurrentView();
+                 ApplicationViewTitleBar titleBar = view.TitleBar;
+                 if (titleBar != null)
+                 {
+                     titleBar.BackgroundColor = Color.FromArgb(255, 0, 116, 206);
+                     titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 116, 206);
+                 }
                  CreateRing.Visibility = Visibility.Visible;
                  var cole = new DoubleCollection();
                  cole.Add(0);

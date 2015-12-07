@@ -379,7 +379,6 @@
     <XliffResource Include="MultilingualResources\com.aurora.aumusic.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\com.aurora.aumusic.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\com.aurora.aumusic.ja-JP.xlf" />
-    <XliffResource Include="MultilingualResources\com.aurora.aumusic.qps-ploc.xlf" />
     <XliffResource Include="MultilingualResources\com.aurora.aumusic.ru-RU.xlf" />
     <XliffResource Include="MultilingualResources\com.aurora.aumusic.zh-TW.xlf" />
   </ItemGroup>

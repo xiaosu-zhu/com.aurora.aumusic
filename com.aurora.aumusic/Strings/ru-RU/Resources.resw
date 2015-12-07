@@ -279,4 +279,7 @@
   <data name="CreateWarningText.Text" xml:space="preserve">
     <value>Не свернуть или закрыть приложение</value>
   </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>Мы добавляем новые треки вы</value>
+  </data>
 </root>

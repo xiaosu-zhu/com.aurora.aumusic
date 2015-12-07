@@ -83,8 +83,20 @@ namespace com.aurora.aumusic.backgroundtask
             ApplicationSettingsHelper.SaveSettingsValue(ApplicationSettingsConstants.BackgroundTaskState, BackgroundTaskState.Running.ToString());
 
             deferral = taskInstance.GetDeferral(); // This must be retrieved prior to subscribing to events below which use it
+            ReadytoConfirmFiles();
+
+            // Mark the background task as started to unblock SMTC Play operation (see related WaitOne on this signal)
+
+            taskInstance.Task.Completed += TaskCompleted;
+            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
+        }
+
+        private void ReadytoConfirmFiles()
+        {
             ThreadPool.RunAsync(async (work) =>
             {
+                backgroundTaskStarted.Reset();
+                AllList.Clear();
                 if (!(bool)localSettings.Values["isCreated"])
                 {
                     MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));
@@ -110,11 +122,6 @@ namespace com.aurora.aumusic.backgroundtask
                 backgroundTaskStarted.Set();
                 MessageService.SendMessageToForeground(new BackgroundConfirmFilesMessage());
             });
-
-            // Mark the background task as started to unblock SMTC Play operation (see related WaitOne on this signal)
-
-            taskInstance.Task.Completed += TaskCompleted;
-            taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
         }
 
         private void Smtc_PropertyChanged(SystemMediaTransportControls sender, SystemMediaTransportControlsPropertyChangedEventArgs args)
@@ -233,6 +240,11 @@ namespace com.aurora.aumusic.backgroundtask
                     default:
                         break;
                 }
+            }
+            RefreshPlaybackMessage refm;
+            if (MessageService.TryParseMessage(e.Data,out refm))
+            {
+
             }
             UpdatePlaybackMessage update;
             if (MessageService.TryParseMessage(e.Data, out update))
@@ -369,7 +381,7 @@ namespace com.aurora.aumusic.backgroundtask
             switch (args.Button)
             {
                 case SystemMediaTransportControlsButton.Play:
-                    bool result = backgroundTaskStarted.WaitOne(5000);
+                    bool result = backgroundTaskStarted.WaitOne(10000);
                     if (!result)
                         throw new Exception("Background Task didnt initialize in time");
 
@@ -457,7 +469,7 @@ namespace com.aurora.aumusic.backgroundtask
             // Make a new list and enable looping
 
             // Add playback items to the list
-            var result = backgroundTaskStarted.WaitOne(10000);
+            var result = backgroundTaskStarted.WaitOne(15000);
             FileList.Clear();
             if (result == true)
                 for (int k = AllList.Count - 1; k >= 0; k--)

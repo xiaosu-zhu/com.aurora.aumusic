@@ -575,8 +575,32 @@
                             </DoubleAnimation>
                         </Storyboard>
                     </RelativePanel.Resources>
-                    <TextBlock x:Name="ErrSymbol" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="8,8,0,8" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" Text="&#xE894;"/>
-                    <TextBlock RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="ErrSymbol" Margin="8,8,0,8" Style="{ThemeResource SubheaderTextBlockStyle}" x:Uid="FileErrText" Foreground="{ThemeResource SystemControlForegroundAltHighBrush}" />
+                    <TextBlock x:Name="ErrSymbol" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="16,16,0,16" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" Text="&#xE894;"/>
+                    <TextBlock RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="ErrSymbol" Margin="16" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="FileErrText" Foreground="White" />
+                </RelativePanel>
+                <RelativePanel x:Name="RefreshPanel" Opacity="0" Visibility="Collapsed" Canvas.ZIndex="1" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="0,54,36,0" Background="{ThemeResource SystemBackgroundAltHighBrush}">
+                    <RelativePanel.Resources>
+                        <Storyboard x:Name="RefreshPanelIn">
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0.75" Duration="0:0:0.25" Storyboard.TargetName="RefreshPanel" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                        <Storyboard x:Name="RefreshPanelOut">
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.75" To="0" Duration="0:0:0.25" Storyboard.TargetName="RefreshPanel" EnableDependentAnimation="True">
+                                <DoubleAnimation.EasingFunction>
+                                    <CircleEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </RelativePanel.Resources>
+                    <SymbolIcon Foreground="{ThemeResource SystemThemeMainBrush}" Width="20" Height="20" Symbol="Refresh" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="RefreshPanelText" RelativePanel.AlignLeftWithPanel="True" Margin="16,16,0,16">
+                        <SymbolIcon.RenderTransform>
+                            <RotateTransform x:Name="RotateTrans" CenterX="10" CenterY="10" />
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                    <TextBlock x:Name="RefreshPanelText" x:Uid="RefreshPanelText" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True" Margin="16" />
                 </RelativePanel>
                 <Frame x:Name="MainFrame" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" >
                     <Frame.Resources>
@@ -858,7 +882,7 @@
                 </RelativePanel>
             </RelativePanel>
         </SplitView>
-        <Grid Background="{ThemeResource SystemThemeMainColor}" x:Name="CreateRing" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+        <Grid Background="{ThemeResource SystemThemeMainBrush}" x:Name="CreateRing" Visibility="Collapsed" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
             <TextBlock Margin="48" x:Uid="FirstCreateText" Style="{ThemeResource SubheaderTextBlockStyle}" Foreground="White" HorizontalAlignment="Center"></TextBlock>
             <TextBlock Margin="108" x:Uid="CreateWarningText" Style="{ThemeResource BodyTextBlockStyle}" Foreground="White" HorizontalAlignment="Center" />
             <Grid Width="420" Height="420">

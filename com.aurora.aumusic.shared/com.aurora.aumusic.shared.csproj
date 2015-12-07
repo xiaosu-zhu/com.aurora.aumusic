@@ -137,6 +137,7 @@
     <Compile Include="MessageService\NeedFullFileDetailsMessage.cs" />
     <Compile Include="MessageService\NeedNowListMessage.cs" />
     <Compile Include="MessageService\NowListMessage.cs" />
+    <Compile Include="MessageService\RefreshPlaybackMessage.cs" />
     <Compile Include="MessageService\RefreshStateMessage.cs" />
     <Compile Include="MessageService\UpdateArtworkMessage.cs" />
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />

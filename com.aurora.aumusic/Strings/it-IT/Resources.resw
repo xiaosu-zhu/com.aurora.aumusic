@@ -279,4 +279,7 @@
   <data name="CreateWarningText.Text" xml:space="preserve">
     <value>Non minimizzare o chiudere l'applicazione</value>
   </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>Siamo l'aggiunta di nuove canzoni si</value>
+  </data>
 </root>

@@ -279,4 +279,7 @@
   <data name="CreateWarningText.Text" xml:space="preserve">
     <value>最小化またはアプリケーションを終了しないでください。</value>
   </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>私達は、新しいを追加するトラック</value>
+  </data>
 </root>

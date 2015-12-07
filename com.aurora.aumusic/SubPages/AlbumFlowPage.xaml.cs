@@ -95,12 +95,17 @@ namespace com.aurora.aumusic
             {
                 ((Window.Current.Content as Frame).Content as MainPage).FirstCreate();
             }
-            str = ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
-            if(str != null)
+            str = ApplicationSettingsHelper.ReadSettingsValue("NewAdded");
+            if (str != null)
             {
-                //notify to refresh
+                this.OnNotifyMainPageRefresh();
             }
             AlbumFlowZoom.IsZoomedInViewActive = false;
+        }
+
+        private void OnNotifyMainPageRefresh()
+        {
+            ((Window.Current.Content as Frame).Content as MainPage).ShowRefresh();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -125,6 +130,7 @@ namespace com.aurora.aumusic
                 {
                     Albums.notifyrefresh += Albums_notifyrefresh;
                     await Albums.Refresh();
+                    ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
                 }
                 Albums.notifyrefresh -= Albums_notifyrefresh;
             }
@@ -191,6 +197,22 @@ namespace com.aurora.aumusic
             if (IsInitialed)
             {
                 HideBar(WaitingBar);
+                var str = ApplicationSettingsHelper.ReadSettingsValue("NewAdded");
+                if (str != null)
+                {
+                    MessageService.SendMessageToBackground(new RefreshPlaybackMessage());
+                    Albums.notifyrefresh += Albums_notifyrefresh;
+                    await Albums.Refresh();
+                    SetOtherPages();
+                    ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
+                    ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
+                }
+                if (Albums.albumList.Count > 0)
+                {
+                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
+                }
+                
+                Albums.notifyrefresh -= Albums_notifyrefresh;
                 return;
             }
             RefreshState v = RefreshState.Normal;
@@ -218,19 +240,7 @@ namespace com.aurora.aumusic
             Application.Current.Suspending += SaveLists;
             TimeSpan period = TimeSpan.FromSeconds(5);
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
-            ThreadPool.RunAsync((work) =>
-             {
-                 foreach (var album in Albums.albums)
-                 {
-                     foreach (var song in album.Songs)
-                     {
-                         this.AllSongs.Add(song);
-                     }
-                     SongsPage.AllSongs = this.AllSongs;
-                     ArtistPage.AllSongs = this.Albums.albumList.ToList();
-                     ListPage.AllSongs = this.AllSongs;
-                 }
-             });
+            SetOtherPages();
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             PeriodicTimer = ThreadPoolTimer.CreateTimer((source) =>
             {
@@ -242,14 +252,31 @@ namespace com.aurora.aumusic
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Dispatcher.RunAsync(CoreDispatcherPriority.High,
 async () =>
-                    {
-                        ShuffleListResources.Source = list;
-                        await ShowShuffleArtwork(list);
-                        HideBar(FavWaitingBar);
-                    });
+{
+    ShuffleListResources.Source = list;
+    await ShowShuffleArtwork(list);
+    HideBar(FavWaitingBar);
+});
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 }
             }, period);
+        }
+
+        private void SetOtherPages()
+        {
+            ThreadPool.RunAsync((work) =>
+            {
+                foreach (var album in Albums.albums)
+                {
+                    foreach (var song in album.Songs)
+                    {
+                        this.AllSongs.Add(song);
+                    }
+                    SongsPage.AllSongs = this.AllSongs;
+                    ArtistPage.AllSongs = this.Albums.albumList.ToList();
+                    ListPage.AllSongs = this.AllSongs;
+                }
+            });
         }
 
         private void Albums_progresschanged(object sender, AlbumProgressChangedEventArgs e)

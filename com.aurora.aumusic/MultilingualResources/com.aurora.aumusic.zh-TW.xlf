@@ -362,6 +362,10 @@
           <source>请勿最小化或关闭应用</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">請勿最小化或關閉應用</target>
         </trans-unit>
+        <trans-unit id="RefreshPanelText.Text" translate="yes" xml:space="preserve">
+          <source>我们正在添加你的新曲目</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">我們正在添加你的新曲目</target>
+        </trans-unit>
       </group>
     </body>
   </file>

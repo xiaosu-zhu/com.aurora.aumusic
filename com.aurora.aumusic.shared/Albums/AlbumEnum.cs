@@ -54,7 +54,14 @@ namespace com.aurora.aumusic.shared.Albums
                 for (int i = 0; i < count; i++)
                 {
                     string tempPath = (string)composite["FolderSettings" + i.ToString()];
-                    RestoreAlbumsfromStorage(tempPath);
+                    try
+                    {
+                        RestoreAlbumsfromStorage(tempPath);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                 }
                 return State;
             }
@@ -415,23 +422,33 @@ namespace com.aurora.aumusic.shared.Albums
 
         public static async Task<List<IStorageFile>> SearchAllinFolder(StorageFolder tempFolder)
         {
-            IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
-            List<IStorageFile> finalList = new List<IStorageFile>();
-            foreach (var item in tempList)
+            try
             {
-                if (item is StorageFolder)
+                IReadOnlyList<IStorageItem> tempList = await tempFolder.GetItemsAsync();
+                List<IStorageFile> finalList = new List<IStorageFile>();
+                if (tempList.Count == 0)
+                    return finalList;
+                foreach (var item in tempList)
                 {
-                    finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
-                }
-                if (item is StorageFile)
-                {
-                    if (tempTypeStrings.Contains(((StorageFile)item).FileType))
+                    if (item is StorageFolder)
                     {
-                        finalList.Add((StorageFile)item);
+                        finalList.AddRange(await SearchAllinFolder((StorageFolder)item));
+                    }
+                    if (item is StorageFile)
+                    {
+                        if (tempTypeStrings.Contains(((StorageFile)item).FileType))
+                        {
+                            finalList.Add((StorageFile)item);
+                        }
                     }
                 }
+                return finalList;
             }
-            return finalList;
+            catch (Exception)
+            {
+                return new List<IStorageFile>();
+            }
+
         }
 
     }

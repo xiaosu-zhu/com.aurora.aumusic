@@ -387,4 +387,7 @@
   <data name="FirstCreateText.Text" xml:space="preserve">
     <value>We are searching your music...</value>
   </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>We are searching for your new songs</value>
+  </data>
 </root>
