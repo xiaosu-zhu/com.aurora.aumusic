@@ -19,7 +19,7 @@
     <value>{0} est un créateur</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>Par {0}, {1} créations </value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0}-{1} secondes</value>
@@ -280,6 +280,6 @@
     <value>Musique de Aurora</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>Créé par : {0}</value>
+    <value>{0}</value>
   </data>
 </root>

@@ -273,8 +273,8 @@
                                 <Image Margin="2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[2], FallbackValue=/Assets/placeholder_rev.png}" />
                                 <Image Margin="2" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Artworks[3], FallbackValue=/Assets/placeholder_rev.png}" />
                                 <RelativePanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{Binding Key, Converter={StaticResource ArtistsConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Padding="6"/>
-                                    <Button Style="{ThemeResource TextBlockButtonStyle}" Click="GroupPlayButton_Click" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                                    <TextBlock RelativePanel.LeftOf="GroupPlayButton" MaxLines="1" TextTrimming="Clip" Grid.Row="2" Grid.ColumnSpan="2" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{Binding Key, Converter={StaticResource ArtistsConverter}}" Style="{ThemeResource BodyTextBlockStyle}" Padding="6"/>
+                                    <Button x:Name="GroupPlayButton" Style="{ThemeResource TextBlockButtonStyle}" Click="GroupPlayButton_Click" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
                                         <Button.Content>
                                             <SymbolIcon Symbol="Play" />
                                         </Button.Content>

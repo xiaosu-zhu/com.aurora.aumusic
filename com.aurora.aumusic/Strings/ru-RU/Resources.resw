@@ -19,7 +19,7 @@
     <value>{0} является создатель</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>{0}, {1} творения </value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0}-{1} секунд</value>
@@ -280,6 +280,6 @@
     <value>Аврора-музыка</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>Создан: {0}</value>
+    <value>{0}</value>
   </data>
 </root>

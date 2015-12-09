@@ -118,7 +118,7 @@
                     <TextBlock x:Uid="SongsSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
-                        <TextBlock x:Uid="AutoSearchLrcText" Width="160" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="AutoSearchLrcText" Margin="12,0,0,0"  VerticalAlignment="Center"/>
                         <ToggleSwitch x:Name="AutoLyricSwitch" Loaded="ToggleSwitch_Loaded" Margin="88,0,0,0" x:Uid="AutoSearchLrcButton"/>
                         <!--TODO: Search and pull lyrics-->
 
@@ -158,7 +158,7 @@
         <StackPanel MaxWidth="320" Orientation="Vertical" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.RightOf="SettingScroll" >
             <TextBlock Margin="0,64,16,0" Style="{ThemeResource SubheaderTextBlockStyle}" x:Uid="AuroraTitle"/>
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="VersionText" />
-            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" Text="1.0.1207" />
+            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" Text="1.0.1209" />
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="LicenseText" />
             <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="LicenseContent" />
             <Button Foreground="{ThemeResource SystemThemeMainBrush}" Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Content="License">

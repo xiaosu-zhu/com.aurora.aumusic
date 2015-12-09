@@ -1,1 +1,1 @@
-D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\AppPackages\com.aurora.aumusic_1.0.1207.0\com.aurora.aumusic_1.0.1207.0_x86_x64_arm.appxbundle
+D:\Onedrive\vs\Git\Repos\com.aurora.aumusic2\com.aurora.aumusic\AppPackages\com.aurora.aumusic_1.0.1209.0\com.aurora.aumusic_1.0.1209.0_x86_x64_arm.appxbundle

@@ -124,10 +124,10 @@
     <value>{0}个创作人</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>由{0}创作</value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>由{0}等创作 </value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0}分{1}秒</value>

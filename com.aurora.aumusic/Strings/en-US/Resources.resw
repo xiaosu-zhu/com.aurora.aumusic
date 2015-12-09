@@ -124,10 +124,10 @@
     <value>{0} AlbumArtist</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>Created by {0}</value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>Created by {0}...</value>
+    <value>{0}...</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0} minutes and {1} seconds</value>

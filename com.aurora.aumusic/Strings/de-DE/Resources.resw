@@ -19,7 +19,7 @@
     <value>{0} ist ein Schöpfer</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>Von {0}, {1} Kreationen </value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0}-{1} Sekunden</value>
@@ -280,6 +280,6 @@
     <value>Aurora-Musik</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>Erstellt von: {0}</value>
+    <value>{0}</value>
   </data>
 </root>

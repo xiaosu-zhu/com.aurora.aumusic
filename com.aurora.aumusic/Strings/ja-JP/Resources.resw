@@ -19,7 +19,7 @@
     <value>クリエイター{0}人</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>{0}、{1} の作品 </value>
+    <value>{0}</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0}-{1} 秒</value>
@@ -280,6 +280,6 @@
     <value>オーロラ音楽</value>
   </data>
   <data name="AlbumDetailsArtistsLong" xml:space="preserve">
-    <value>作成者: {0}</value>
+    <value>{0}</value>
   </data>
 </root>
