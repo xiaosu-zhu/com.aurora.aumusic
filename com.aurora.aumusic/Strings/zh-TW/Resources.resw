@@ -279,4 +279,7 @@
   <data name="AppName" xml:space="preserve">
     <value>極光音樂</value>
   </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>由{0}創作</value>
+  </data>
 </root>

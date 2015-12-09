@@ -279,4 +279,7 @@
   <data name="AppName" xml:space="preserve">
     <value>Musica di Aurora</value>
   </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>Creato da: {0}</value>
+  </data>
 </root>

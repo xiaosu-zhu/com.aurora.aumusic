@@ -279,4 +279,7 @@
   <data name="AppName" xml:space="preserve">
     <value>オーロラ音楽</value>
   </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>作成者: {0}</value>
+  </data>
 </root>

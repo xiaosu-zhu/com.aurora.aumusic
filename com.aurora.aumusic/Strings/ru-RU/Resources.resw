@@ -279,4 +279,7 @@
   <data name="AppName" xml:space="preserve">
     <value>Аврора-музыка</value>
   </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>Создан: {0}</value>
+  </data>
 </root>
