@@ -286,7 +286,7 @@ namespace com.aurora.aumusic
                     NowState = stateChangedMessage.NowState;
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
                     var converter = ProgressSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
-                    converter.sParmeter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
+                    converter.sParameter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
 
                 });
             }

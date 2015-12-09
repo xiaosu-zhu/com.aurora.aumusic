@@ -14,17 +14,10 @@
           <source>{0}个创作人</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} ist ein Schöpfer</target>
         </trans-unit>
-        <trans-unit id="AlbumDetailsArtistsLongEnd" translate="yes" xml:space="preserve">
-          <source>创作 </source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">(Dokument)erstellung</target>
-        </trans-unit>
-        <trans-unit id="AlbumDetailsArtistsLongStart" translate="yes" xml:space="preserve">
-          <source>由</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">BEREITGESTELLT VON</target>
-        </trans-unit>
         <trans-unit id="AlbumDetailsArtistsShort" translate="yes" xml:space="preserve">
-          <source>由{0}, {1} 等创作 </source>
+          <source>由{0}等创作 </source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Von {0}, {1} Kreationen </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="AlbumDetailsTotalDuration" translate="yes" xml:space="preserve">
           <source>{0}分{1}秒</source>
@@ -369,6 +362,10 @@
         <trans-unit id="AppName" translate="yes" xml:space="preserve">
           <source>极光音乐</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Aurora-Musik</target>
+        </trans-unit>
+        <trans-unit id="AlbumDetailsArtistsLong" translate="yes" xml:space="preserve">
+          <source>由{0}创作</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Erstellt von: {0}</target>
         </trans-unit>
       </group>
     </body>

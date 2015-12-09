@@ -206,12 +206,11 @@ namespace com.aurora.aumusic
                     SetOtherPages();
                     ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
                     ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
+                    if (Albums.albumList.Count > 0)
+                    {
+                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
+                    }
                 }
-                if (Albums.albumList.Count > 0)
-                {
-                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
-                }
-                
                 Albums.notifyrefresh -= Albums_notifyrefresh;
                 return;
             }

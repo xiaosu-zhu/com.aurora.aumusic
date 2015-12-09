@@ -18,12 +18,6 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>{0} è un creatore</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value>Creazione </value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value>CON TECNOLOGIA</value>
-  </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
     <value>Da {0}, {1} creazioni </value>
   </data>

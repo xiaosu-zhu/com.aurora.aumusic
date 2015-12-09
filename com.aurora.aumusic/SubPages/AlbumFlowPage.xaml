@@ -155,8 +155,7 @@
             <converter:SongsCountConverter x:Key="CountConverter"/>
             <converter:ArtistsCountConverter x:Key="ArtistsConverter" />
             <converter:AlbumDetailsConverter x:Key="AlbumConverter" />
-            <converter:FrameParallaxConverterTwo x:Key="ScrollConverter" />
-            <converter:ShuffleListArtworkConverter x:Key="ShuffleConverter" />
+            <converter:FrameParallaxConverter x:Key="ScrollConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
             <DataTemplate x:Name="AlbumSongsTemplate" x:DataType="songs:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" PointerEntered="RelativePanel_PointerEntered_1" PointerExited="RelativePanel_PointerExited_1">

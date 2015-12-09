@@ -123,14 +123,11 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>{0} AlbumArtist</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value> </value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value>Created by </value>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>Created by {0}</value>
   </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
-    <value>Created by {0}, {1}...</value>
+    <value>Created by {0}...</value>
   </data>
   <data name="AlbumDetailsTotalDuration" xml:space="preserve">
     <value>{0} minutes and {1} seconds</value>

@@ -18,12 +18,6 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>{0}個創作人</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value>的創作 </value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value>來自</value>
-  </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
     <value>由{0}, {1} 等創作 </value>
   </data>

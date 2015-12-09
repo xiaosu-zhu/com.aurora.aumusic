@@ -178,7 +178,7 @@ namespace com.aurora.aumusic
             var con = new ArtistsConverter();
             NowArtist.Text = (string)con.Convert(CurrentSong.Artists, null, true, null);
             var c = PositionSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
-            c.sParmeter = CurrentSong.Duration.TotalSeconds;
+            c.sParameter = CurrentSong.Duration.TotalSeconds;
             var d = new DurationValueConverter();
             TotalTimeBlock.Text = (string)d.Convert(CurrentSong.Duration, null, null, null);
             switch (CurrentSong.Rating)

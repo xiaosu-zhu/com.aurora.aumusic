@@ -28,7 +28,7 @@
             <converter:YearConverter x:Name="YearConverter" />
             <converter:SongsCountConverter x:Name="SongsCountConverter" />
             <converter:ColortoBrushConverter x:Name="BrushConverter" />
-            <converter:FrameParallaxConverterTwo x:Name="ScrollConverter" />
+            <converter:FrameParallaxConverter x:Name="ScrollConverter" />
 
             <DataTemplate x:Key="SongListItemStyle" x:DataType="song:Song" >
                 <RelativePanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -44,8 +44,8 @@
                         </Rectangle.Fill>
                     </Rectangle>
                     <TextBlock x:Name="SongTitle" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Text="{x:Bind Title, Mode=OneWay}" />
-                    <TextBlock x:Name="SongDuration" MaxWidth="120" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,240,0"  RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Duration, Mode=OneWay,Converter={StaticResource DurationConverter}}" />
-                    <TextBlock x:Name="SongAlbum" MaxWidth="240" MaxLines="1" Margin="0,0,16,0" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
+                    <TextBlock x:Name="SongDuration" MaxWidth="120" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,384,0"  RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Duration, Mode=OneWay,Converter={StaticResource DurationConverter}}" />
+                    <TextBlock x:Name="SongAlbum" MaxWidth="360" MaxLines="1" Margin="0,0,16,0" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
                     <Button x:Name="PlayButton" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,12,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Click="PlayButton_Click">
                         <Button.Content>
                             <SymbolIcon Symbol="Play"/>
@@ -243,7 +243,7 @@
                                         <TextBlock x:Name="AlbumName" Text="{Binding AlbumName}" Margin="12,0,0,0" Style="{ThemeResource SubheaderTextBlockStyle}" MaxLines="1" TextTrimming="Clip" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="AlbumArtwork" RelativePanel.LeftOf="TotalDuration"/>
                                         <TextBlock x:Name="SongsCount" Text="{Binding SongsCount, Converter={StaticResource SongsCountConverter}}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,24,0" RelativePanel.LeftOf="AlbumYear" RelativePanel.AlignVerticalCenterWithPanel="True" />
                                         <TextBlock x:Name="TotalDuration" Text="{Binding TotalDuration, Converter={StaticResource DurationConverter}}" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongsCount" />
-                                        <TextBlock x:Name="AlbumYear" Width="144" Text="{Binding Year, Converter={StaticResource YearConverter}}" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+                                        <TextBlock x:Name="AlbumYear" Width="72" Text="{Binding Year, Converter={StaticResource YearConverter}}" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,0,24,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
                                     </RelativePanel>
                                 </DataTemplate>
                             </GroupStyle.HeaderTemplate>

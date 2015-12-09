@@ -18,12 +18,6 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>{0} ist ein Schöpfer</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value>(Dokument)erstellung</value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value>BEREITGESTELLT VON</value>
-  </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
     <value>Von {0}, {1} Kreationen </value>
   </data>

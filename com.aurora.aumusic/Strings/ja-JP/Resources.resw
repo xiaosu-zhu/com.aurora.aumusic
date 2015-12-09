@@ -18,12 +18,6 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>クリエイター{0}人</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value>の作品 </value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
     <value>{0}、{1} の作品 </value>
   </data>

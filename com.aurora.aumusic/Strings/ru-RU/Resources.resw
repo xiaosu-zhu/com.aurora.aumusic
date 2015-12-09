@@ -18,12 +18,6 @@
   <data name="AlbumArtistsSingle" xml:space="preserve">
     <value>{0} является создатель</value>
   </data>
-  <data name="AlbumDetailsArtistsLongEnd" xml:space="preserve">
-    <value>Создание </value>
-  </data>
-  <data name="AlbumDetailsArtistsLongStart" xml:space="preserve">
-    <value>НА ПЛАТФОРМЕ</value>
-  </data>
   <data name="AlbumDetailsArtistsShort" xml:space="preserve">
     <value>{0}, {1} творения </value>
   </data>

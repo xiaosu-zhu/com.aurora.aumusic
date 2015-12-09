@@ -62,6 +62,18 @@ namespace com.aurora.aumusic
                 this.CurrentSong = new Song(e.Parameter as SongModel);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if(LyricTimer != null)
+            {
+                LyricTimer.Cancel();
+            }
+            trigger = null;
+            CurrentSong = null;
+            lyric = null;
+            lyrics = null;
+        }
 
         public async Task genLrc()
         {
@@ -224,17 +236,13 @@ namespace com.aurora.aumusic
 
         private void TimerOver()
         {
-            if (LyricTimer != null)
-            {
-                LyricTimer.Cancel();
-            }
         }
 
         private async Task FetchLrc()
         {
-            var uri = CurrentSong.Title + "-" + CurrentSong.Artists[0] + "-" + CurrentSong.Album + ".lrc";
             try
             {
+                var uri = CurrentSong.Title + "-" + CurrentSong.Artists[0] + "-" + CurrentSong.Album + ".lrc";
                 lyric = LrcFile.FromText(await FileHelper.ReadFileasString(uri));
                 lyrics = new List<LrcModel>();
                 foreach (var item in lyric.Lyrics)

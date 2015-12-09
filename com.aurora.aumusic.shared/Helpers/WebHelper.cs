@@ -10,6 +10,7 @@
 
 
 
+using System;
 /// <summary>
 /// Usings
 /// </summary>
@@ -39,7 +40,7 @@ namespace com.aurora.aumusic.shared
                 wrGETURL = null;
                 return JsonHelper.FromJson<T>(sLine);
             }
-            catch (WebException)
+            catch (Exception)
             {
                 wrGETURL.Abort();
                 wrGETURL = null;
@@ -60,7 +61,7 @@ namespace com.aurora.aumusic.shared
                 wrGETURL = null;
                 return objStream;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 wrGETURL.Abort();
                 wrGETURL = null;

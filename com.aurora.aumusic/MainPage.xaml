@@ -26,7 +26,6 @@
             <Converter:DurationValueConverter x:Key="PositionConverter" />
             <Converter:MainColorConverter x:Key="ColorConverter" />
             <Converter:VolumeButtonConverter x:Key="VolumeConverter" />
-            <Converter:TranslateYConverter x:Key="YConverter" />
             <Style x:Key="CircleButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
