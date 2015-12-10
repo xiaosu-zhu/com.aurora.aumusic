@@ -241,12 +241,12 @@ namespace com.aurora.aumusic.backgroundtask
                         break;
                 }
             }
-            RefreshPlaybackMessage refm;
-            if (MessageService.TryParseMessage(e.Data,out refm))
+            RefreshFilesMessage refm;
+            if (MessageService.TryParseMessage(e.Data, out refm))
             {
-
+                ReadytoConfirmFiles();
             }
-            UpdatePlaybackMessage update;
+            UpdateFilesMessage update;
             if (MessageService.TryParseMessage(e.Data, out update))
             {
                 ConfirmFiles(update.Songs);
@@ -474,7 +474,7 @@ namespace com.aurora.aumusic.backgroundtask
             if (result == true)
                 for (int k = AllList.Count - 1; k >= 0; k--)
                 {
-                    
+
                     FileList.AddRange(AllList[k].Value);
                     for (int j = AllList[k].Value.Count - 1; j >= 0; j--)
                     {

@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from background to foreground to notify that can't find current song's audiofile
+    /// </summary>
     [DataContract]
     public class FileNotFindMessage
     {

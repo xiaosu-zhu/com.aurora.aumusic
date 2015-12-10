@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from background to foreground to trans stream of current song's artwork
+    /// </summary>
     [DataContract]
     public class UpdateArtworkMessage
     {

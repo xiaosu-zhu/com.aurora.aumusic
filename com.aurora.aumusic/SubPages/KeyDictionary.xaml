@@ -9,4 +9,5 @@
     <x:Double x:Key="DetailsGridHeigt">528</x:Double>
     <x:Double x:Key='NowMainFontSize'>16</x:Double>
     <x:Double x:Key='NowSubFontSize'>12</x:Double>
+    <Duration x:Key="PlaybackMainAni">0:0:0.5</Duration>
 </ResourceDictionary>

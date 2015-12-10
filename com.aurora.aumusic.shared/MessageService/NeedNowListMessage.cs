@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from foreground to background to fetch now-playing list
+    /// </summary>
     [DataContract]
     public class NeedNowListMessage
     {

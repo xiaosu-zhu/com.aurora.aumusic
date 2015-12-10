@@ -1,372 +1,369 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="ru-RU" original="COM.AURORA.AUMUSIC/STRINGS/ZH-CN/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  <file datatype="xml" source-language="zh-CN" target-language="ru-RU" original="COM.AURORA.AUMUSIC/STRINGS/ZH-CN/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1466.0" tool-company="Microsoft" />
     </header>
     <body>
-      <group id="COM.AURORA.AUMUSIC/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+      <group id="COM.AURORA.AUMUSIC/STRINGS/ZH-CN/RESOURCES.RESW" datatype="resx">
         <trans-unit id="AlbumArtists" translate="yes" xml:space="preserve">
-          <source>{0} AlbumArtists</source>
-          <target state="new">{0} AlbumArtists</target>
+          <source>{0}个创作人</source>
+          <target state="new">{0}个创作人</target>
         </trans-unit>
         <trans-unit id="AlbumArtistsSingle" translate="yes" xml:space="preserve">
-          <source>{0} AlbumArtist</source>
-          <target state="new">{0} AlbumArtist</target>
+          <source>{0}个创作人</source>
+          <target state="new">{0}个创作人</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsArtistsLong" translate="yes" xml:space="preserve">
           <source>{0}</source>
           <target state="new">{0}</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsArtistsShort" translate="yes" xml:space="preserve">
-          <source>{0}...</source>
-          <target state="new">{0}...</target>
+          <source>{0}</source>
+          <target state="new">{0}</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsTotalDuration" translate="yes" xml:space="preserve">
-          <source>{0} minutes and {1} seconds</source>
-          <target state="new">{0} minutes and {1} seconds</target>
+          <source>{0}分{1}秒</source>
+          <target state="new">{0}分{1}秒</target>
         </trans-unit>
         <trans-unit id="AlbumFlowSortButton.Text" translate="yes" xml:space="preserve">
-          <source>Sort By: </source>
-          <target state="new">Sort By: </target>
-          <note from="MultilingualBuild" annotates="source" priority="2">Sort Button in AlbumFlow Page.</note>
+          <source>排序方式: </source>
+          <target state="new">排序方式: </target>
+          <note from="MultilingualBuild" annotates="source" priority="2">albumflow 页的排序按钮提示</note>
         </trans-unit>
         <trans-unit id="AlbumFlowTitle.Text" translate="yes" xml:space="preserve">
-          <source>Album Flow</source>
-          <target state="new">Album Flow</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">AlbumFlowPage Title</note>
+          <source>专辑流</source>
+          <target state="new">专辑流</target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterAlbum" translate="yes" xml:space="preserve">
-          <source>{0} Albums and </source>
-          <target state="new">{0} Albums and </target>
+          <source>{0}张专辑  </source>
+          <target state="new">{0}张专辑  </target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterAlbumSingle" translate="yes" xml:space="preserve">
-          <source>{0} Album and </source>
-          <target state="new">{0} Album and </target>
+          <source>{0}张专辑  </source>
+          <target state="new">{0}张专辑  </target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterSongs" translate="yes" xml:space="preserve">
-          <source>{0} Songs</source>
-          <target state="new">{0} Songs</target>
+          <source>{0}首曲目</source>
+          <target state="new">{0}首曲目</target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterSongsSingle" translate="yes" xml:space="preserve">
-          <source>{0} Song</source>
-          <target state="new">{0} Song</target>
+          <source>{0}首曲目</source>
+          <target state="new">{0}首曲目</target>
         </trans-unit>
         <trans-unit id="ArtistTitle.Text" translate="yes" xml:space="preserve">
-          <source>Artists</source>
-          <target state="new">Artists</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">ArtistsPage Title</note>
+          <source>所有表演者</source>
+          <target state="new">所有表演者</target>
         </trans-unit>
         <trans-unit id="AutoSearchLrcButton.OffContent" translate="yes" xml:space="preserve">
-          <source>Off</source>
-          <target state="new">Off</target>
+          <source>禁用</source>
+          <target state="new">禁用</target>
         </trans-unit>
         <trans-unit id="AutoSearchLrcButton.OnContent" translate="yes" xml:space="preserve">
-          <source>On</source>
-          <target state="new">On</target>
+          <source>启用</source>
+          <target state="new">启用</target>
         </trans-unit>
         <trans-unit id="AutoSearchLrcText.Text" translate="yes" xml:space="preserve">
-          <source>Search Lyrics Automatically</source>
-          <target state="new">Search Lyrics Automatically</target>
+          <source>自动获取歌词</source>
+          <target state="new">自动获取歌词</target>
         </trans-unit>
         <trans-unit id="ChangePathButton.Content" translate="yes" xml:space="preserve">
-          <source>Change where we search</source>
-          <target state="new">Change where we search</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">change path text</note>
+          <source>更改查找位置</source>
+          <target state="new">更改查找位置</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">更改位置按钮</note>
         </trans-unit>
         <trans-unit id="DetailsButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Details</source>
-          <target state="new">Details</target>
+          <source>跳转</source>
+          <target state="new">跳转</target>
         </trans-unit>
         <trans-unit id="FeelingLuckText.Text" translate="yes" xml:space="preserve">
-          <source>Feeling Lucky!</source>
-          <target state="new">Feeling Lucky!</target>
+          <source>手气不错</source>
+          <target state="new">手气不错</target>
         </trans-unit>
         <trans-unit id="GeneralSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>General</source>
-          <target state="new">General</target>
+          <source>通用</source>
+          <target state="new">通用</target>
         </trans-unit>
         <trans-unit id="LanguageSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Language</source>
-          <target state="new">Language</target>
+          <source>语言</source>
+          <target state="new">语言</target>
         </trans-unit>
         <trans-unit id="LikeListTitle.Text" translate="yes" xml:space="preserve">
-          <source>My Favorites</source>
-          <target state="new">My Favorites</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">ListPage Title</note>
+          <source>我的最爱</source>
+          <target state="new">我的最爱</target>
         </trans-unit>
         <trans-unit id="ListButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Now-Playing List</source>
-          <target state="new">Now-Playing List</target>
+          <source>正在播放</source>
+          <target state="new">正在播放</target>
         </trans-unit>
         <trans-unit id="LoadingLrcText.Text" translate="yes" xml:space="preserve">
-          <source>Searching Lyrics...</source>
-          <target state="new">Searching Lyrics...</target>
+          <source>查找歌词中…</source>
+          <target state="new">查找歌词中…</target>
         </trans-unit>
         <trans-unit id="LocationSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Searching From...</source>
-          <target state="new">Searching From...</target>
+          <source>查找位置</source>
+          <target state="new">查找位置</target>
         </trans-unit>
         <trans-unit id="LrcErrText.Text" translate="yes" xml:space="preserve">
-          <source>No matching results.</source>
-          <target state="new">No matching results.</target>
+          <source>没有匹配结果</source>
+          <target state="new">没有匹配结果</target>
         </trans-unit>
         <trans-unit id="NextButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Next</source>
-          <target state="new">Next</target>
+          <source>下一首</source>
+          <target state="new">下一首</target>
         </trans-unit>
         <trans-unit id="NowListLoadingText.Text" translate="yes" xml:space="preserve">
-          <source>Loading</source>
-          <target state="new">Loading</target>
+          <source>正在加载</source>
+          <target state="new">正在加载</target>
         </trans-unit>
         <trans-unit id="PauseTip.Text" translate="yes" xml:space="preserve">
-          <source>Pause</source>
-          <target state="new">Pause</target>
+          <source>暂停</source>
+          <target state="new">暂停</target>
         </trans-unit>
         <trans-unit id="PlaybackSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Playback Settings</source>
-          <target state="new">Playback Settings</target>
+          <source>播放设置</source>
+          <target state="new">播放设置</target>
         </trans-unit>
         <trans-unit id="PlayTip.Text" translate="yes" xml:space="preserve">
-          <source>Play</source>
-          <target state="new">Play</target>
+          <source>播放</source>
+          <target state="new">播放</target>
         </trans-unit>
         <trans-unit id="PreviousButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Previous</source>
-          <target state="new">Previous</target>
+          <source>上一首</source>
+          <target state="new">上一首</target>
         </trans-unit>
         <trans-unit id="RepeatAllTip.Text" translate="yes" xml:space="preserve">
-          <source>Repeat All</source>
-          <target state="new">Repeat All</target>
+          <source>全部循环</source>
+          <target state="new">全部循环</target>
         </trans-unit>
         <trans-unit id="RepeatButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Repeat</source>
-          <target state="new">Repeat</target>
+          <source>循环</source>
+          <target state="new">循环</target>
         </trans-unit>
         <trans-unit id="RepeatOnceTip.Text" translate="yes" xml:space="preserve">
-          <source>Repeat This</source>
-          <target state="new">Repeat This</target>
+          <source>单曲循环</source>
+          <target state="new">单曲循环</target>
         </trans-unit>
         <trans-unit id="SettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="new">Settings</target>
+          <source>设置</source>
+          <target state="new">设置</target>
         </trans-unit>
         <trans-unit id="ShuffleButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Shuffle</source>
-          <target state="new">Shuffle</target>
+          <source>随机</source>
+          <target state="new">随机</target>
         </trans-unit>
         <trans-unit id="SongDetailsButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Song's Details</source>
-          <target state="new">Song's Details</target>
+          <source>详细信息</source>
+          <target state="new">详细信息</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutAlbum.Text" translate="yes" xml:space="preserve">
-          <source>Album</source>
-          <target state="new">Album</target>
+          <source>专辑</source>
+          <target state="new">专辑</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutAlbumArtists.Text" translate="yes" xml:space="preserve">
-          <source>Album Artist</source>
-          <target state="new">Album Artist</target>
+          <source>专辑表演者</source>
+          <target state="new">专辑表演者</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutArtists.Text" translate="yes" xml:space="preserve">
-          <source>Artist</source>
-          <target state="new">Artist</target>
+          <source>表演者</source>
+          <target state="new">表演者</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutBitrate.Text" translate="yes" xml:space="preserve">
-          <source>Bit Rate</source>
-          <target state="new">Bit Rate</target>
+          <source>比特率</source>
+          <target state="new">比特率</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutDecoder.Text" translate="yes" xml:space="preserve">
-          <source>Encoder</source>
-          <target state="new">Encoder</target>
+          <source>编码格式</source>
+          <target state="new">编码格式</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutDuration.Text" translate="yes" xml:space="preserve">
-          <source>Duration</source>
-          <target state="new">Duration</target>
+          <source>总长度</source>
+          <target state="new">总长度</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutGenres.Text" translate="yes" xml:space="preserve">
-          <source>Genres</source>
-          <target state="new">Genres</target>
+          <source>流派</source>
+          <target state="new">流派</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutPath.Text" translate="yes" xml:space="preserve">
-          <source>Location Path</source>
-          <target state="new">Location Path</target>
+          <source>文件路径</source>
+          <target state="new">文件路径</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutRating.Text" translate="yes" xml:space="preserve">
-          <source>Rating</source>
-          <target state="new">Rating</target>
+          <source>评分</source>
+          <target state="new">评分</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutSize.Text" translate="yes" xml:space="preserve">
-          <source>File Size</source>
-          <target state="new">File Size</target>
+          <source>文件大小</source>
+          <target state="new">文件大小</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutTitle.Text" translate="yes" xml:space="preserve">
-          <source>Metadata</source>
-          <target state="new">Metadata</target>
+          <source>歌曲信息</source>
+          <target state="new">歌曲信息</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutYear.Text" translate="yes" xml:space="preserve">
-          <source>Release Year</source>
-          <target state="new">Release Year</target>
+          <source>发行年份</source>
+          <target state="new">发行年份</target>
         </trans-unit>
         <trans-unit id="SongsCountConverter" translate="yes" xml:space="preserve">
-          <source>{0} Songs</source>
-          <target state="new">{0} Songs</target>
+          <source>{0}首曲目</source>
+          <target state="new">{0}首曲目</target>
         </trans-unit>
         <trans-unit id="SongsCountConverterSingle" translate="yes" xml:space="preserve">
-          <source>{0} Song</source>
-          <target state="new">{0} Song</target>
+          <source>{0}首曲目</source>
+          <target state="new">{0}首曲目</target>
         </trans-unit>
         <trans-unit id="SongsDetailsConverter" translate="yes" xml:space="preserve">
-          <source>Play {0} Songs</source>
-          <target state="new">Play {0} Songs</target>
+          <source>播放{0}首曲目</source>
+          <target state="new">播放{0}首曲目</target>
         </trans-unit>
         <trans-unit id="SongsDetailsConverterSingle" translate="yes" xml:space="preserve">
-          <source>Play {0} Song</source>
-          <target state="new">Play {0} Song</target>
+          <source>播放{0}首曲目</source>
+          <target state="new">播放{0}首曲目</target>
         </trans-unit>
         <trans-unit id="SongsPageTitle.Text" translate="yes" xml:space="preserve">
-          <source>All Songs</source>
-          <target state="new">All Songs</target>
+          <source>所有歌曲</source>
+          <target state="new">所有歌曲</target>
         </trans-unit>
         <trans-unit id="SongsSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Songs' Settings</source>
-          <target state="new">Songs' Settings</target>
+          <source>歌曲信息</source>
+          <target state="new">歌曲信息</target>
         </trans-unit>
         <trans-unit id="SortbyAlbumText" translate="yes" xml:space="preserve">
-          <source>Album</source>
-          <target state="new">Album</target>
+          <source>按专辑</source>
+          <target state="new">按专辑</target>
         </trans-unit>
         <trans-unit id="SortbyArtistText" translate="yes" xml:space="preserve">
-          <source>Artists</source>
-          <target state="new">Artists</target>
+          <source>按表演者</source>
+          <target state="new">按表演者</target>
         </trans-unit>
         <trans-unit id="SortbyGenresText" translate="yes" xml:space="preserve">
-          <source>Genres</source>
-          <target state="new">Genres</target>
+          <source>按曲风</source>
+          <target state="new">按曲风</target>
         </trans-unit>
         <trans-unit id="SortbyNameText" translate="yes" xml:space="preserve">
-          <source>Title</source>
-          <target state="new">Title</target>
+          <source>按标题</source>
+          <target state="new">按标题</target>
         </trans-unit>
         <trans-unit id="SplitDrawerSettingsButton.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="new">Settings</target>
-          <note from="MultilingualBuild" annotates="source" priority="2">Settings button in the drawer</note>
+          <source>设置</source>
+          <target state="new">设置</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">汉堡菜单中的设置按钮</note>
         </trans-unit>
         <trans-unit id="StopButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Stop</source>
-          <target state="new">Stop</target>
+          <source>停止</source>
+          <target state="new">停止</target>
         </trans-unit>
         <trans-unit id="ThemeSettingsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Theme</source>
-          <target state="new">Theme</target>
+          <source>主题</source>
+          <target state="new">主题</target>
         </trans-unit>
         <trans-unit id="UnknownAlbumArtists" translate="yes" xml:space="preserve">
-          <source>Unknown AlbumArtists</source>
-          <target state="new">Unknown AlbumArtists</target>
+          <source>未知创作人</source>
+          <target state="new">未知创作人</target>
         </trans-unit>
         <trans-unit id="UnknownGenres" translate="yes" xml:space="preserve">
-          <source>Unknown Genres</source>
-          <target state="new">Unknown Genres</target>
+          <source>未知流派</source>
+          <target state="new">未知流派</target>
         </trans-unit>
         <trans-unit id="VolumeButtonTip.Text" translate="yes" xml:space="preserve">
-          <source>Volume</source>
-          <target state="new">Volume</target>
+          <source>音量</source>
+          <target state="new">音量</target>
         </trans-unit>
         <trans-unit id="YearConverter" translate="yes" xml:space="preserve">
-          <source>Year {0}</source>
-          <target state="new">Year {0}</target>
+          <source>{0}年</source>
+          <target state="new">{0}年</target>
         </trans-unit>
         <trans-unit id="FileErrText.Text" translate="yes" xml:space="preserve">
-          <source>Some Songs can't play</source>
-          <target state="new">Some Songs can't play</target>
+          <source>存在无法播放的曲目</source>
+          <target state="new">存在无法播放的曲目</target>
         </trans-unit>
         <trans-unit id="DeleteCancelText.Content" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <source>取消</source>
+          <target state="new">取消</target>
         </trans-unit>
         <trans-unit id="DeleteConfirmText.Text" translate="yes" xml:space="preserve">
-          <source> This location won't search any more</source>
-          <target state="new"> This location won't search any more</target>
+          <source>此位置将不再搜索</source>
+          <target state="new">此位置将不再搜索</target>
         </trans-unit>
         <trans-unit id="DeleteOkText.Content" translate="yes" xml:space="preserve">
-          <source>Ok</source>
-          <target state="new">Ok</target>
+          <source>确定</source>
+          <target state="new">确定</target>
         </trans-unit>
         <trans-unit id="ThemeSetAutoText.Text" translate="yes" xml:space="preserve">
-          <source>Auto</source>
-          <target state="new">Auto</target>
+          <source>自动</source>
+          <target state="new">自动</target>
         </trans-unit>
         <trans-unit id="ThemeSetDarkText.Text" translate="yes" xml:space="preserve">
-          <source>Dark</source>
-          <target state="new">Dark</target>
+          <source>暗</source>
+          <target state="new">暗</target>
         </trans-unit>
         <trans-unit id="ThemeSetLightText.Text" translate="yes" xml:space="preserve">
-          <source>Light</source>
-          <target state="new">Light</target>
+          <source>亮</source>
+          <target state="new">亮</target>
         </trans-unit>
         <trans-unit id="WelcomeTitle.Text" translate="yes" xml:space="preserve">
-          <source>Welcome to Aurora Music</source>
-          <target state="new">Welcome to Aurora Music</target>
+          <source>欢迎!</source>
+          <target state="new">欢迎!</target>
         </trans-unit>
         <trans-unit id="AlbumFlowText" translate="yes" xml:space="preserve">
-          <source>Album Flow</source>
-          <target state="new">Album Flow</target>
+          <source>专辑流</source>
+          <target state="new">专辑流</target>
         </trans-unit>
         <trans-unit id="ArtistText" translate="yes" xml:space="preserve">
-          <source>Artists</source>
-          <target state="new">Artists</target>
+          <source>表演者</source>
+          <target state="new">表演者</target>
         </trans-unit>
         <trans-unit id="LikeListText" translate="yes" xml:space="preserve">
-          <source>My Favorites</source>
-          <target state="new">My Favorites</target>
+          <source>我的最爱</source>
+          <target state="new">我的最爱</target>
         </trans-unit>
         <trans-unit id="SongsPageText" translate="yes" xml:space="preserve">
-          <source>All Songs</source>
-          <target state="new">All Songs</target>
+          <source>所有曲目</source>
+          <target state="new">所有曲目</target>
         </trans-unit>
         <trans-unit id="WelcomeSettingTitle.Text" translate="yes" xml:space="preserve">
-          <source>Let's find where is your music world</source>
-          <target state="new">Let's find where is your music world</target>
+          <source>让我们来添加你的音乐库吧</source>
+          <target state="new">让我们来添加你的音乐库吧</target>
         </trans-unit>
         <trans-unit id="AuroraTitle.Text" translate="yes" xml:space="preserve">
-          <source>Aurora Music</source>
-          <target state="new">Aurora Music</target>
+          <source>极光音乐</source>
+          <target state="new">极光音乐</target>
         </trans-unit>
         <trans-unit id="LicenseContent.Text" translate="yes" xml:space="preserve">
-          <source>This app is totally open source on the github</source>
-          <target state="new">This app is totally open source on the github</target>
+          <source>本应用所有代码均已在 Github 上开源</source>
+          <target state="new">本应用所有代码均已在 Github 上开源</target>
         </trans-unit>
         <trans-unit id="LicenseText.Text" translate="yes" xml:space="preserve">
-          <source>License and open source</source>
-          <target state="new">License and open source</target>
-        </trans-unit>
-        <trans-unit id="PlaybackSettingsContent.Text" translate="yes" xml:space="preserve">
-          <source>Still Developing...</source>
-          <target state="new">Still Developing...</target>
+          <source>版权信息</source>
+          <target state="new">版权信息</target>
         </trans-unit>
         <trans-unit id="VersionText.Text" translate="yes" xml:space="preserve">
-          <source>Version</source>
-          <target state="new">Version</target>
+          <source>版本</source>
+          <target state="new">版本</target>
+        </trans-unit>
+        <trans-unit id="PlaybackSettingsContent.Text" translate="yes" xml:space="preserve">
+          <source>仍在开发…</source>
+          <target state="new">仍在开发…</target>
         </trans-unit>
         <trans-unit id="WebExceptionText" translate="yes" xml:space="preserve">
-          <source>Connection failed</source>
-          <target state="new">Connection failed</target>
+          <source>无网络连接</source>
+          <target state="new">无网络连接</target>
         </trans-unit>
         <trans-unit id="CreateWarningText.Text" translate="yes" xml:space="preserve">
-          <source>Please do not close or minimize this app</source>
-          <target state="new">Please do not close or minimize this app</target>
+          <source>请勿最小化或关闭应用</source>
+          <target state="new">请勿最小化或关闭应用</target>
         </trans-unit>
         <trans-unit id="FirstCreateText.Text" translate="yes" xml:space="preserve">
-          <source>We are searching your music...</source>
-          <target state="new">We are searching your music...</target>
+          <source>我们正在添加你的音乐</source>
+          <target state="new">我们正在添加你的音乐</target>
         </trans-unit>
         <trans-unit id="RefreshPanelText.Text" translate="yes" xml:space="preserve">
-          <source>We are searching for your new songs</source>
-          <target state="new">We are searching for your new songs</target>
+          <source>我们正在添加你的新曲目</source>
+          <target state="new">我们正在添加你的新曲目</target>
         </trans-unit>
         <trans-unit id="AppName" translate="yes" xml:space="preserve">
-          <source>Aurora Music</source>
-          <target state="new">Aurora Music</target>
+          <source>极光音乐</source>
+          <target state="new">极光音乐</target>
         </trans-unit>
       </group>
     </body>

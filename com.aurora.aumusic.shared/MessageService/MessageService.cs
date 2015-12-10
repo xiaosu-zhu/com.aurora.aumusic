@@ -18,6 +18,9 @@ using Windows.Foundation.Collections;
 namespace com.aurora.aumusic.shared.MessageService
 {
 
+    /// <summary>
+    /// Main Class of Message Service, it uses Json to transmit messages
+    /// </summary>
     public static class MessageService
     {
         // The underlying BMP methods can pass a ValueSet. MessageService
@@ -25,6 +28,11 @@ namespace com.aurora.aumusic.shared.MessageService
         public const string MessageType = "MessageType";
         public const string MessageBody = "MessageBody";
 
+        /// <summary>
+        /// a generic method to send message to foreground via BackgroundMediaPlayer
+        /// </summary>
+        /// <typeparam name="T">a class that has the DataContract attribute</typeparam>
+        /// <param name="message">message that need to be transmitted</param>
         public static void SendMessageToForeground<T>(T message)
         {
             ValueSet p = new ValueSet();
@@ -33,6 +41,11 @@ namespace com.aurora.aumusic.shared.MessageService
             Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToForeground(p);
         }
 
+        /// <summary>
+        /// a generic method to send message to background via BackgroundMediaPlayer
+        /// </summary>
+        /// <typeparam name="T">a class that has the DataContract attribute</typeparam>
+        /// <param name="message">message that need to be transmitted</param>
         public static void SendMessageToBackground<T>(T message)
         {
             ValueSet p = new ValueSet();
@@ -41,6 +54,13 @@ namespace com.aurora.aumusic.shared.MessageService
             Windows.Media.Playback.BackgroundMediaPlayer.SendMessageToBackground(p);
         }
 
+        /// <summary>
+        /// when received message from the MessageReceivedFromXXX event, this method used to parse message
+        /// </summary>
+        /// <typeparam name="T">a class that has the DataContract attribute</typeparam>
+        /// <param name="valueSet">Data from MediaPlayerDataReceivedEventArgs</param>
+        /// <param name="message">target message class</param>
+        /// <returns>when true, means message is correctly can be parsed</returns>
         public static bool TryParseMessage<T>(ValueSet valueSet, out T message)
         {
             object messageTypeValue;
@@ -63,11 +83,6 @@ namespace com.aurora.aumusic.shared.MessageService
             }
 
             return false;
-        }
-
-        public static PlaybackState GetDesiredState(ForePlaybackChangedMessage Message)
-        {
-            return PlaybackState.Unknown;
         }
     }
 }

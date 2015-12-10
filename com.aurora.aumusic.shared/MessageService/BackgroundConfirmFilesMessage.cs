@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class used to confirm music files from foreground to background
+    /// </summary>
     [DataContract]
     public class BackgroundConfirmFilesMessage
     {

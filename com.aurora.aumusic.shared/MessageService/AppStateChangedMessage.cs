@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class includes App state change message and can transmit
+    /// </summary>
     [DataContract]
     public class AppStateChangedMessage
     {

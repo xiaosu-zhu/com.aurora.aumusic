@@ -143,9 +143,11 @@
     <Compile Include="MessageService\UpdatePlaybackMessage.cs" />
     <Compile Include="PlayBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Songs\ISong.cs" />
     <Compile Include="Songs\ShuffleList.cs" />
     <Compile Include="Songs\Song.cs" />
     <Compile Include="Songs\SongModel.cs" />
+    <Compile Include="Songs\SongViewModel.cs" />
     <Compile Include="ValueConverter.cs" />
     <Compile Include="Helpers\WebHelper.cs" />
     <Content Include="Properties\com.aurora.aumusic.shared.rd.xml" />

@@ -18,6 +18,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.Songs
 {
+    /// <summary>
+    /// This Class used to pass data of Song between fore and back 
+    /// </summary>
     [DataContract]
     public class SongModel
     {

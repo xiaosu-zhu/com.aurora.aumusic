@@ -597,7 +597,7 @@ namespace com.aurora.aumusic.shared
             return await FileIO.ReadTextAsync(sFile);
         }
 
-        public static async Task<IRandomAccessStream> ReadFileasStream(string path)
+        public static async Task<IRandomAccessStream> ReadFileasStreamFromLocalFolder(string path)
         {
             var stream = await LoadBitmap(path);
             stream.Seek(0);
@@ -696,5 +696,6 @@ namespace com.aurora.aumusic.shared
             Stream stream = new MemoryStream(byteStream);
             return stream;
         }
+
     }
 }

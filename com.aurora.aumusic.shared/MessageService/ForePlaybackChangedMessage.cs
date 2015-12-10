@@ -19,6 +19,9 @@ using com.aurora.aumusic.shared.Songs;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from foreground to background to notify foreground playback state changed
+    /// </summary>
     [DataContract]
     public class ForePlaybackChangedMessage
     {

@@ -154,6 +154,10 @@ namespace com.aurora.aumusic
         private void MenuList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListView l = sender as ListView;
+            if (NowPlayingDetailsGrid.Visibility == Visibility.Collapsed)
+            {
+                GoBack();
+            }
             foreach (var item in splitlistview)
             {
                 item.visibility = Visibility.Collapsed;
@@ -244,7 +248,7 @@ namespace com.aurora.aumusic
                 {
                     periodtimer.Cancel();
                 }
-                await Task.Delay(1100);
+                await Task.Delay(700);
                 RefreshPanel.Visibility = Visibility.Collapsed;
             });
 
@@ -311,7 +315,8 @@ namespace com.aurora.aumusic
             UpdateArtworkMessage updateartwork;
             if (MessageService.TryParseMessage(e.Data, out updateartwork))
             {
-                var stream = await FileHelper.ToRandomAccessStream(updateartwork.ByteStream);
+                IRandomAccessStream stream;
+                stream = await FileHelper.ToRandomAccessStream(updateartwork.ByteStream);
                 this.ArtworkStream = updateartwork.ByteStream;
                 this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -367,7 +372,7 @@ namespace com.aurora.aumusic
 
             NavigatedtoDetailPages = false;
 
-            await Task.Delay(1100);
+            await Task.Delay(700);
             NowPlayingDetailsGrid.Visibility = Visibility.Visible;
             MediaTransportControls_Timeline_Grid.Visibility = Visibility.Visible;
             TimeRemainingBlock.Visibility = Visibility.Visible;
@@ -588,7 +593,7 @@ namespace com.aurora.aumusic
                 PlaybackControlGridIn.Begin();
                 MainFrameOut.Begin();
 
-                await Task.Delay(1100);
+                await Task.Delay(700);
                 PlaybackControlGridSet.Begin();
             }
         }

@@ -215,7 +215,7 @@ namespace com.aurora.aumusic
 
         private async void PositionSlider_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(1000);
+            await Task.Delay(700);
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)
@@ -320,9 +320,9 @@ namespace com.aurora.aumusic
 
         internal async void updateartwork(byte[] artworkStream)
         {
-            await Task.Delay(1100);
+            await Task.Delay(700);
             var stream = FileHelper.ToStream(artworkStream);
-            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async () =>
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async () =>
             {
                 MainColor = await BitmapHelper.New(stream);
                 PlayPauseButton.Background = new SolidColorBrush(MainColor);

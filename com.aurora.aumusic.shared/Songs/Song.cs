@@ -119,7 +119,7 @@ namespace com.aurora.aumusic.shared.Songs
             }
             set
             {
-                _artWork = (value == null) ? "ms-appx:///Assets/placeholder.scale-240.png" : value;
+                _artWork = (value == null) ? "ms-appx:///Assets/ArtworkPlaceholder.png" : value;
             }
         }
 

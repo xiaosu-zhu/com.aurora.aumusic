@@ -12,6 +12,9 @@
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class includes some string to save storagesettings easily
+    /// </summary>
     public static class ApplicationSettingsConstants
     {
         // Data keys

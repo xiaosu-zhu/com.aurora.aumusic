@@ -65,7 +65,7 @@ namespace com.aurora.aumusic
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if(LyricTimer != null)
+            if (LyricTimer != null)
             {
                 LyricTimer.Cancel();
             }
@@ -160,78 +160,87 @@ namespace com.aurora.aumusic
 
         private async void WaitingRing_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!DoSearch)
+            try
             {
-                WaitingRing.IsActive = false;
-                WaitingPanel.Visibility = Visibility.Collapsed;
+                if (!DoSearch)
+                {
+                    WaitingRing.IsActive = false;
+                    WaitingPanel.Visibility = Visibility.Collapsed;
+                    return;
+                }
+                await Task.Delay(700);
+                IAsyncAction asyncAction = ThreadPool.RunAsync(
+                             async (workItem) =>
+                             {
+                                 await FetchLrc();
+                                 trigger.Set();
+                                 await this.Dispatcher.RunAsync(
+                                                                  CoreDispatcherPriority.High,
+                                                                  new DispatchedHandler(() =>
+                                                                  {
+                                                                      if (lyrics == null)
+                                                                          return;
+                                                                      LyricSource.Source = lyrics;
+                                                                      LyricView.ItemsSource = LyricSource.View;
+                                                                      WaitingRing.IsActive = false;
+                                                                      WaitingPanel.Visibility = Visibility.Collapsed;
+                                                                  }));
+                                 if (lyric != null)
+                                 {
+                                     LyricTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+                                     {
+                                         var now = BackgroundMediaPlayer.Current.Position;
+                                         await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
+                                         {
+                                             foreach (var item in lyrics)
+                                             {
+                                                 item.MainColor = this.MainColor;
+                                             }
+                                             try
+                                             {
+                                                 lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
+                                                 await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
+                                             }
+                                             catch (Exception)
+                                             {
+                                                 TimerOver();
+                                             }
+
+                                         }));
+                                     }, TimeSpan.FromSeconds(0.16));
+
+                                 }
+                             });
+
+                await Task.Run(async () =>
+                {
+                    bool result = trigger.WaitOne(15000);
+                    {
+                        if (lyric == null)
+                        {
+                            trigger.Set();
+                            asyncAction.Cancel();
+                            asyncAction.Close();
+                            await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
+                            {
+                                ErrPanel.Visibility = Visibility.Visible;
+                                WaitingRing.IsActive = false;
+                                WaitingPanel.Visibility = Visibility.Collapsed;
+                                LyricView.IsEnabled = false;
+                                LyricView.Visibility = Visibility.Collapsed;
+
+                            }));
+                        }
+
+                    }
+                });
+
+            }
+            catch (Exception)
+            {
                 return;
             }
-            await Task.Delay(1200);
-            IAsyncAction asyncAction = ThreadPool.RunAsync(
-                         async (workItem) =>
-                         {
-                             await FetchLrc();
-                             trigger.Set();
-                             await this.Dispatcher.RunAsync(
-                                                              CoreDispatcherPriority.High,
-                                                              new DispatchedHandler(() =>
-                                                              {
-                                                                  if (lyrics == null)
-                                                                      return;
-                                                                  LyricSource.Source = lyrics;
-                                                                  LyricView.ItemsSource = LyricSource.View;
-                                                                  WaitingRing.IsActive = false;
-                                                                  WaitingPanel.Visibility = Visibility.Collapsed;
-                                                              }));
-                             if (lyric != null)
-                             {
-                                 LyricTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
-                                 {
-                                     var now = BackgroundMediaPlayer.Current.Position;
-                                     await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
-                                     {
-                                         foreach (var item in lyrics)
-                                         {
-                                             item.MainColor = this.MainColor;
-                                         }
-                                         try
-                                         {
-                                             lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
-                                             await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
-                                         }
-                                         catch (Exception)
-                                         {
-                                             TimerOver();
-                                         }
 
-                                     }));
-                                 }, TimeSpan.FromSeconds(0.16));
-
-                             }
-                         });
-
-            await Task.Run(async () =>
-            {
-                bool result = trigger.WaitOne(15000);
-                {
-                    if (lyric == null)
-                    {
-                        trigger.Set();
-                        asyncAction.Cancel();
-                        asyncAction.Close();
-                        await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
-                        {
-                            ErrPanel.Visibility = Visibility.Visible;
-                            WaitingRing.IsActive = false;
-                            WaitingPanel.Visibility = Visibility.Collapsed;
-                            LyricView.IsEnabled = false;
-                            LyricView.Visibility = Visibility.Collapsed;
-
-                        }));
-                    }
-
-                }
-            });
         }
 
         private void TimerOver()

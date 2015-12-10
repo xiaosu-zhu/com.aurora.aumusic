@@ -101,6 +101,25 @@ namespace com.aurora.aumusic
                 this.OnNotifyMainPageRefresh();
             }
             AlbumFlowZoom.IsZoomedInViewActive = false;
+            _resizeTimer.Tick += _resizeTimer_Tick;
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void _resizeTimer_Tick(object sender, object e)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(Window.Current.Content.RenderSize.Height + " " + Window.Current.Content.RenderSize.Width);
+#endif
+            _resizeTimer.Stop();
+        }
+
+        DispatcherTimer _resizeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 640) };
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            _resizeTimer.Stop();
+            _resizeTimer.Interval = TimeSpan.FromMilliseconds(640);
+            _resizeTimer.Start();
         }
 
         private void OnNotifyMainPageRefresh()
@@ -171,7 +190,7 @@ namespace com.aurora.aumusic
                                 if (result == true)
                                 {
                                     if (Albums.albumList.Count > 0)
-                                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
+                                        MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
                                 }
                                 else
                                 {
@@ -183,7 +202,7 @@ namespace com.aurora.aumusic
             else
             {
                 if (Albums.albumList.Count > 0)
-                    MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
+                    MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
             }
         }
 
@@ -200,7 +219,7 @@ namespace com.aurora.aumusic
                 var str = ApplicationSettingsHelper.ReadSettingsValue("NewAdded");
                 if (str != null)
                 {
-                    MessageService.SendMessageToBackground(new RefreshPlaybackMessage());
+                    MessageService.SendMessageToBackground(new RefreshFilesMessage());
                     Albums.notifyrefresh += Albums_notifyrefresh;
                     await Albums.Refresh();
                     SetOtherPages();
@@ -208,7 +227,7 @@ namespace com.aurora.aumusic
                     ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
                     if (Albums.albumList.Count > 0)
                     {
-                        MessageService.SendMessageToBackground(new UpdatePlaybackMessage(Albums.albumList.ToSongModelList()));
+                        MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
                     }
                 }
                 Albums.notifyrefresh -= Albums_notifyrefresh;
@@ -686,19 +705,21 @@ async () =>
 
     public sealed class AlbumFlowPanel : Panel
     {
+        private static int groupcount = 3;
         protected override Size MeasureOverride(Size availableSize)
         {
             //横向瀑布流
 
+            groupcount = (int)availableSize.Width / 256 >= 3 ? (int)availableSize.Width / 256 : 3;
             //三组流长度记录
-            KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[3];
-            foreach (int index in Enumerable.Range(0, 3))
+            KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[groupcount];
+            foreach (int index in Enumerable.Range(0, groupcount))
             {
                 flowLength[index] = new KeyValuePair<double, int>(0.0, index);
             }
 
             //每组长度为总长度1/3
-            double flowWidth = availableSize.Width / 3;
+            double flowWidth = availableSize.Width / groupcount;
 
             //子控件宽为组宽，长无限制
             Size childMeasureSize = new Size(flowWidth, double.PositiveInfinity);
@@ -723,10 +744,10 @@ async () =>
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[3];
-            double flowWidth = finalSize.Width / 3;
-            double[] xWidth = new double[3];
-            foreach (int index in Enumerable.Range(0, 3))
+            KeyValuePair<double, int>[] flowLength = new KeyValuePair<double, int>[groupcount];
+            double flowWidth = finalSize.Width / groupcount;
+            double[] xWidth = new double[groupcount];
+            foreach (int index in Enumerable.Range(0, groupcount))
             {
                 flowLength[index] = new KeyValuePair<double, int>(0.0, index);
                 xWidth[index] = index * flowWidth;

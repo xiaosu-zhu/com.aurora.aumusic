@@ -19,10 +19,13 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from foreground to background to update all the files and confirm them
+    /// </summary>
     [DataContract]
-    public class UpdatePlaybackMessage
+    public class UpdateFilesMessage
     {
-        public UpdatePlaybackMessage(List<SongModel> songs)
+        public UpdateFilesMessage(List<SongModel> songs)
         {
             Songs = songs;
         }

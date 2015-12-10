@@ -19,6 +19,9 @@ using Windows.Media.Playback;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from background to foreground to notify background playback state changed
+    /// </summary>
     [DataContract]
     public class BackPlaybackChangedMessage
     {

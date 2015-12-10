@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class Passed from background to foreground to notify background task changed(started) 
+    /// </summary>
     [DataContract]
     public class BackgroundTaskStateChangedMessage
     {

@@ -13,9 +13,11 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from background to foreground to refresh the files in storage
+    /// </summary>
     [DataContract]
-    public class RefreshPlaybackMessage
+    public class RefreshFilesMessage
     {
-
     }
 }

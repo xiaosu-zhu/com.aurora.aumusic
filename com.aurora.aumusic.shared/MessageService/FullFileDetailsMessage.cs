@@ -17,6 +17,9 @@ using System.Runtime.Serialization;
 
 namespace com.aurora.aumusic.shared.MessageService
 {
+    /// <summary>
+    /// This Class passed from background to foreground that sends current song's details
+    /// </summary>
     [DataContract]
     public class FullFileDetailsMessage
     {
