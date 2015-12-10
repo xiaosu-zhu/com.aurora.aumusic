@@ -12,4 +12,274 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>クリエイター{0}人</value>
+  </data>
+  <data name="AlbumArtistsSingle" xml:space="preserve">
+    <value>クリエイター{0}人</value>
+  </data>
+  <data name="AlbumDetailsArtistsShort" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AlbumDetailsTotalDuration" xml:space="preserve">
+    <value>{0}-{1} 秒</value>
+  </data>
+  <data name="AlbumFlowSortButton.Text" xml:space="preserve">
+    <value>並べ替え順: </value>
+    <comment>albumflow 页的排序按钮提示</comment>
+  </data>
+  <data name="AlbumFlowTitle.Text" xml:space="preserve">
+    <value>アルバム ストリーム</value>
+  </data>
+  <data name="ArtistDetailsConverterAlbum" xml:space="preserve">
+    <value>アルバム{0}枚</value>
+  </data>
+  <data name="ArtistDetailsConverterAlbumSingle" xml:space="preserve">
+    <value>アルバム{0}枚</value>
+  </data>
+  <data name="ArtistDetailsConverterSongs" xml:space="preserve">
+    <value>トラック{0}首</value>
+  </data>
+  <data name="ArtistDetailsConverterSongsSingle" xml:space="preserve">
+    <value>トラック{0}首</value>
+  </data>
+  <data name="ArtistTitle.Text" xml:space="preserve">
+    <value>すべての実行者</value>
+  </data>
+  <data name="AutoSearchLrcButton.OffContent" xml:space="preserve">
+    <value>ON</value>
+  </data>
+  <data name="AutoSearchLrcButton.OnContent" xml:space="preserve">
+    <value>OFF</value>
+  </data>
+  <data name="AutoSearchLrcText.Text" xml:space="preserve">
+    <value>自動歌詞</value>
+  </data>
+  <data name="ChangePathButton.Content" xml:space="preserve">
+    <value>位置の変更</value>
+    <comment>更改位置按钮</comment>
+  </data>
+  <data name="DetailsButtonTip.Text" xml:space="preserve">
+    <value>切り替え</value>
+  </data>
+  <data name="FeelingLuckText.Text" xml:space="preserve">
+    <value>運試し</value>
+  </data>
+  <data name="GeneralSettingsTitle.Text" xml:space="preserve">
+    <value>汎用</value>
+  </data>
+  <data name="LanguageSettingsTitle.Text" xml:space="preserve">
+    <value>言葉づかい</value>
+  </data>
+  <data name="LikeListTitle.Text" xml:space="preserve">
+    <value>私は大好き</value>
+  </data>
+  <data name="ListButtonTip.Text" xml:space="preserve">
+    <value>プレイ ビュー</value>
+  </data>
+  <data name="LoadingLrcText.Text" xml:space="preserve">
+    <value>歌詞を見つける.</value>
+  </data>
+  <data name="LocationSettingsTitle.Text" xml:space="preserve">
+    <value>位置を見つける</value>
+  </data>
+  <data name="LrcErrText.Text" xml:space="preserve">
+    <value>一致する結果がありません。</value>
+  </data>
+  <data name="NextButtonTip.Text" xml:space="preserve">
+    <value>次の曲</value>
+  </data>
+  <data name="NowListLoadingText.Text" xml:space="preserve">
+    <value>読み込み</value>
+  </data>
+  <data name="PauseTip.Text" xml:space="preserve">
+    <value>一時停止</value>
+  </data>
+  <data name="PlaybackSettingsTitle.Text" xml:space="preserve">
+    <value>再生設定</value>
+  </data>
+  <data name="PlayTip.Text" xml:space="preserve">
+    <value>再生</value>
+  </data>
+  <data name="PreviousButtonTip.Text" xml:space="preserve">
+    <value>前へ</value>
+  </data>
+  <data name="RepeatAllTip.Text" xml:space="preserve">
+    <value>すべてのサイクル</value>
+  </data>
+  <data name="RepeatButtonTip.Text" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="RepeatOnceTip.Text" xml:space="preserve">
+    <value>1 サイクル</value>
+  </data>
+  <data name="SettingsTitle.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="ShuffleButtonTip.Text" xml:space="preserve">
+    <value>ランダム</value>
+  </data>
+  <data name="SongDetailsButtonTip.Text" xml:space="preserve">
+    <value>詳細については</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbum.Text" xml:space="preserve">
+    <value>アルバム</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbumArtists.Text" xml:space="preserve">
+    <value>アルバム アーティスト</value>
+  </data>
+  <data name="SongDetailsFlyoutArtists.Text" xml:space="preserve">
+    <value>Performers</value>
+  </data>
+  <data name="SongDetailsFlyoutBitrate.Text" xml:space="preserve">
+    <value>ビット レート</value>
+  </data>
+  <data name="SongDetailsFlyoutDecoder.Text" xml:space="preserve">
+    <value>エンコード形式</value>
+  </data>
+  <data name="SongDetailsFlyoutDuration.Text" xml:space="preserve">
+    <value>長さの合計</value>
+  </data>
+  <data name="SongDetailsFlyoutGenres.Text" xml:space="preserve">
+    <value>ジャンル</value>
+  </data>
+  <data name="SongDetailsFlyoutPath.Text" xml:space="preserve">
+    <value>ファイルのパス</value>
+  </data>
+  <data name="SongDetailsFlyoutRating.Text" xml:space="preserve">
+    <value>評価</value>
+  </data>
+  <data name="SongDetailsFlyoutSize.Text" xml:space="preserve">
+    <value>ファイル サイズ</value>
+  </data>
+  <data name="SongDetailsFlyoutTitle.Text" xml:space="preserve">
+    <value>曲の情報</value>
+  </data>
+  <data name="SongDetailsFlyoutYear.Text" xml:space="preserve">
+    <value>リリース年</value>
+  </data>
+  <data name="SongsCountConverter" xml:space="preserve">
+    <value>トラック{0}首</value>
+  </data>
+  <data name="SongsCountConverterSingle" xml:space="preserve">
+    <value>トラック{0}首</value>
+  </data>
+  <data name="SongsDetailsConverter" xml:space="preserve">
+    <value>{0} 個の再生</value>
+  </data>
+  <data name="SongsDetailsConverterSingle" xml:space="preserve">
+    <value>{0} 個の再生</value>
+  </data>
+  <data name="SongsPageTitle.Text" xml:space="preserve">
+    <value>すべての曲</value>
+  </data>
+  <data name="SongsSettingsTitle.Text" xml:space="preserve">
+    <value>曲の情報</value>
+  </data>
+  <data name="SortbyAlbumText" xml:space="preserve">
+    <value>アルバム別</value>
+  </data>
+  <data name="SortbyArtistText" xml:space="preserve">
+    <value>実行者によって</value>
+  </data>
+  <data name="SortbyGenresText" xml:space="preserve">
+    <value>ジャンル別</value>
+  </data>
+  <data name="SortbyNameText" xml:space="preserve">
+    <value>タイトル別</value>
+  </data>
+  <data name="SplitDrawerSettingsButton.Text" xml:space="preserve">
+    <value>設定</value>
+    <comment>汉堡菜单中的设置按钮</comment>
+  </data>
+  <data name="StopButtonTip.Text" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="ThemeSettingsTitle.Text" xml:space="preserve">
+    <value>情報カテゴリ</value>
+  </data>
+  <data name="UnknownAlbumArtists" xml:space="preserve">
+    <value>不明な作曲者</value>
+  </data>
+  <data name="UnknownGenres" xml:space="preserve">
+    <value>ジャンル情報なし</value>
+  </data>
+  <data name="VolumeButtonTip.Text" xml:space="preserve">
+    <value>音量</value>
+  </data>
+  <data name="YearConverter" xml:space="preserve">
+    <value>{0} 年</value>
+  </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>トラックは再生できません。</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>自動</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>暗く</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>明るく</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value>この場所は、もはや検索します。</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>取り消す</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>こちら良いオーロラ音楽</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>あなたの音楽ライブラリを追加しましょう</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>アルバム ストリーム</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>Performers</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>私は大好き</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>すべてのトラック</value>
+  </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>オーロラ音楽</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>すべてのアプリケーション コードは github では、オープン ソースです。</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>著作権情報</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>まだ開発中.</value>
+  </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>ネットワーク接続がありません</value>
+  </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>私たちはあなたの音楽を追加します。</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>最小化またはアプリケーションを終了しないでください。</value>
+  </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>私達は、新しいを追加するトラック</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>オーロラ音楽</value>
+  </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>{0}</value>
+  </data>
 </root>

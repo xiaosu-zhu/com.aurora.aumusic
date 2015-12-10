@@ -12,4 +12,274 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>{0} является создатель</value>
+  </data>
+  <data name="AlbumArtistsSingle" xml:space="preserve">
+    <value>{0} является создатель</value>
+  </data>
+  <data name="AlbumDetailsArtistsShort" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AlbumDetailsTotalDuration" xml:space="preserve">
+    <value>{0}-{1} секунд</value>
+  </data>
+  <data name="AlbumFlowSortButton.Text" xml:space="preserve">
+    <value>Сортировать по: </value>
+    <comment>albumflow 页的排序按钮提示</comment>
+  </data>
+  <data name="AlbumFlowTitle.Text" xml:space="preserve">
+    <value>Поток альбома</value>
+  </data>
+  <data name="ArtistDetailsConverterAlbum" xml:space="preserve">
+    <value>{0} альбом  </value>
+  </data>
+  <data name="ArtistDetailsConverterAlbumSingle" xml:space="preserve">
+    <value>{0} альбом  </value>
+  </data>
+  <data name="ArtistDetailsConverterSongs" xml:space="preserve">
+    <value>{0} трек</value>
+  </data>
+  <data name="ArtistDetailsConverterSongsSingle" xml:space="preserve">
+    <value>{0} трек</value>
+  </data>
+  <data name="ArtistTitle.Text" xml:space="preserve">
+    <value>Все исполнители</value>
+  </data>
+  <data name="AutoSearchLrcButton.OffContent" xml:space="preserve">
+    <value>запретить</value>
+  </data>
+  <data name="AutoSearchLrcButton.OnContent" xml:space="preserve">
+    <value>разрешить</value>
+  </data>
+  <data name="AutoSearchLrcText.Text" xml:space="preserve">
+    <value>Автоматическое песен</value>
+  </data>
+  <data name="ChangePathButton.Content" xml:space="preserve">
+    <value>Изменить расположение</value>
+    <comment>更改位置按钮</comment>
+  </data>
+  <data name="DetailsButtonTip.Text" xml:space="preserve">
+    <value>перейти</value>
+  </data>
+  <data name="FeelingLuckText.Text" xml:space="preserve">
+    <value>Я чувствую себя счастливым</value>
+  </data>
+  <data name="GeneralSettingsTitle.Text" xml:space="preserve">
+    <value>Обобщенный</value>
+  </data>
+  <data name="LanguageSettingsTitle.Text" xml:space="preserve">
+    <value>язык</value>
+  </data>
+  <data name="LikeListTitle.Text" xml:space="preserve">
+    <value>Я люблю</value>
+  </data>
+  <data name="ListButtonTip.Text" xml:space="preserve">
+    <value>проигрывается</value>
+  </data>
+  <data name="LoadingLrcText.Text" xml:space="preserve">
+    <value>Найти слова песни...</value>
+  </data>
+  <data name="LocationSettingsTitle.Text" xml:space="preserve">
+    <value>Найти местоположение</value>
+  </data>
+  <data name="LrcErrText.Text" xml:space="preserve">
+    <value>Нет подходящих результатов</value>
+  </data>
+  <data name="NextButtonTip.Text" xml:space="preserve">
+    <value>Следующая песня</value>
+  </data>
+  <data name="NowListLoadingText.Text" xml:space="preserve">
+    <value>Загрузка</value>
+  </data>
+  <data name="PauseTip.Text" xml:space="preserve">
+    <value>пауза</value>
+  </data>
+  <data name="PlaybackSettingsTitle.Text" xml:space="preserve">
+    <value>Параметры воспроизведения</value>
+  </data>
+  <data name="PlayTip.Text" xml:space="preserve">
+    <value>Воспроизвести</value>
+  </data>
+  <data name="PreviousButtonTip.Text" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="RepeatAllTip.Text" xml:space="preserve">
+    <value>Все циклы</value>
+  </data>
+  <data name="RepeatButtonTip.Text" xml:space="preserve">
+    <value>повторять</value>
+  </data>
+  <data name="RepeatOnceTip.Text" xml:space="preserve">
+    <value>Один цикл</value>
+  </data>
+  <data name="SettingsTitle.Text" xml:space="preserve">
+    <value>параметры</value>
+  </data>
+  <data name="ShuffleButtonTip.Text" xml:space="preserve">
+    <value>Случайным образом</value>
+  </data>
+  <data name="SongDetailsButtonTip.Text" xml:space="preserve">
+    <value>Для получения дополнительной информации</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbum.Text" xml:space="preserve">
+    <value>Альбомы</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbumArtists.Text" xml:space="preserve">
+    <value>Исполнители альбома</value>
+  </data>
+  <data name="SongDetailsFlyoutArtists.Text" xml:space="preserve">
+    <value>Исполнители</value>
+  </data>
+  <data name="SongDetailsFlyoutBitrate.Text" xml:space="preserve">
+    <value>скорость</value>
+  </data>
+  <data name="SongDetailsFlyoutDecoder.Text" xml:space="preserve">
+    <value>Кодированные форматы</value>
+  </data>
+  <data name="SongDetailsFlyoutDuration.Text" xml:space="preserve">
+    <value>Общая длина</value>
+  </data>
+  <data name="SongDetailsFlyoutGenres.Text" xml:space="preserve">
+    <value>жанр</value>
+  </data>
+  <data name="SongDetailsFlyoutPath.Text" xml:space="preserve">
+    <value>путь к файлу</value>
+  </data>
+  <data name="SongDetailsFlyoutRating.Text" xml:space="preserve">
+    <value>оценка</value>
+  </data>
+  <data name="SongDetailsFlyoutSize.Text" xml:space="preserve">
+    <value>размер файла</value>
+  </data>
+  <data name="SongDetailsFlyoutTitle.Text" xml:space="preserve">
+    <value>Информация о песне</value>
+  </data>
+  <data name="SongDetailsFlyoutYear.Text" xml:space="preserve">
+    <value>Год выпуска</value>
+  </data>
+  <data name="SongsCountConverter" xml:space="preserve">
+    <value>{0} трек</value>
+  </data>
+  <data name="SongsCountConverterSingle" xml:space="preserve">
+    <value>{0} трек</value>
+  </data>
+  <data name="SongsDetailsConverter" xml:space="preserve">
+    <value>Игра куски, {0}</value>
+  </data>
+  <data name="SongsDetailsConverterSingle" xml:space="preserve">
+    <value>Игра куски, {0}</value>
+  </data>
+  <data name="SongsPageTitle.Text" xml:space="preserve">
+    <value>Все песни</value>
+  </data>
+  <data name="SongsSettingsTitle.Text" xml:space="preserve">
+    <value>Информация о песне</value>
+  </data>
+  <data name="SortbyAlbumText" xml:space="preserve">
+    <value>По альбому</value>
+  </data>
+  <data name="SortbyArtistText" xml:space="preserve">
+    <value>По исполнителю</value>
+  </data>
+  <data name="SortbyGenresText" xml:space="preserve">
+    <value>По жанрам</value>
+  </data>
+  <data name="SortbyNameText" xml:space="preserve">
+    <value>по названию</value>
+  </data>
+  <data name="SplitDrawerSettingsButton.Text" xml:space="preserve">
+    <value>параметры</value>
+    <comment>汉堡菜单中的设置按钮</comment>
+  </data>
+  <data name="StopButtonTip.Text" xml:space="preserve">
+    <value>остановить</value>
+  </data>
+  <data name="ThemeSettingsTitle.Text" xml:space="preserve">
+    <value>тема</value>
+  </data>
+  <data name="UnknownAlbumArtists" xml:space="preserve">
+    <value>Неизвестный композитор</value>
+  </data>
+  <data name="UnknownGenres" xml:space="preserve">
+    <value>Неизвестный жанр</value>
+  </data>
+  <data name="VolumeButtonTip.Text" xml:space="preserve">
+    <value>громкость</value>
+  </data>
+  <data name="YearConverter" xml:space="preserve">
+    <value>{0} год</value>
+  </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>Нельзя играть треки</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>автоматический</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>Приглушенное</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>Яркое</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value>Это место больше не будет искать</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>отменить</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>Определить</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>Аврора музыки, здесь хорошо</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>Давайте добавим вашей музыкальной библиотеки</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>Поток альбома</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>Исполнители</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>Я люблю</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>Все треки</value>
+  </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>Аврора-музыка</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>Весь код приложения находится на Github, открытым исходным кодом</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>Информация об авторских правах</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>версия</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>Все еще в разработке...</value>
+  </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>Нет сетевых подключений</value>
+  </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>Мы добавляем музыку</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>Не свернуть или закрыть приложение</value>
+  </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>Мы добавляем новые треки вы</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Аврора-музыка</value>
+  </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>{0}</value>
+  </data>
 </root>

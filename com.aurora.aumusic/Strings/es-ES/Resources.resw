@@ -12,4 +12,274 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlbumArtists" xml:space="preserve">
+    <value>{0} es un creador</value>
+  </data>
+  <data name="AlbumArtistsSingle" xml:space="preserve">
+    <value>{0} es un creador</value>
+  </data>
+  <data name="AlbumDetailsArtistsShort" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="AlbumDetailsTotalDuration" xml:space="preserve">
+    <value>{0}-{1} segundos</value>
+  </data>
+  <data name="AlbumFlowSortButton.Text" xml:space="preserve">
+    <value>Ordenar por: </value>
+    <comment>albumflow 页的排序按钮提示</comment>
+  </data>
+  <data name="AlbumFlowTitle.Text" xml:space="preserve">
+    <value>Corriente del álbum</value>
+  </data>
+  <data name="ArtistDetailsConverterAlbum" xml:space="preserve">
+    <value>álbum de {0}  </value>
+  </data>
+  <data name="ArtistDetailsConverterAlbumSingle" xml:space="preserve">
+    <value>álbum de {0}  </value>
+  </data>
+  <data name="ArtistDetailsConverterSongs" xml:space="preserve">
+    <value>pista de {0}</value>
+  </data>
+  <data name="ArtistDetailsConverterSongsSingle" xml:space="preserve">
+    <value>pista de {0}</value>
+  </data>
+  <data name="ArtistTitle.Text" xml:space="preserve">
+    <value>Todos los intérpretes</value>
+  </data>
+  <data name="AutoSearchLrcButton.OffContent" xml:space="preserve">
+    <value>deshabilitar</value>
+  </data>
+  <data name="AutoSearchLrcButton.OnContent" xml:space="preserve">
+    <value>habilitar</value>
+  </data>
+  <data name="AutoSearchLrcText.Text" xml:space="preserve">
+    <value>Letras de automáticos</value>
+  </data>
+  <data name="ChangePathButton.Content" xml:space="preserve">
+    <value>Cambiar ubicación</value>
+    <comment>更改位置按钮</comment>
+  </data>
+  <data name="DetailsButtonTip.Text" xml:space="preserve">
+    <value>saltar</value>
+  </data>
+  <data name="FeelingLuckText.Text" xml:space="preserve">
+    <value>Me siento afortunado</value>
+  </data>
+  <data name="GeneralSettingsTitle.Text" xml:space="preserve">
+    <value>Generalizado</value>
+  </data>
+  <data name="LanguageSettingsTitle.Text" xml:space="preserve">
+    <value>Lenguaje</value>
+  </data>
+  <data name="LikeListTitle.Text" xml:space="preserve">
+    <value>Me encanta</value>
+  </data>
+  <data name="ListButtonTip.Text" xml:space="preserve">
+    <value>En curso</value>
+  </data>
+  <data name="LoadingLrcText.Text" xml:space="preserve">
+    <value>Buscar Letras de...</value>
+  </data>
+  <data name="LocationSettingsTitle.Text" xml:space="preserve">
+    <value>Encuentre una ubicación</value>
+  </data>
+  <data name="LrcErrText.Text" xml:space="preserve">
+    <value>No hay resultados coincidentes</value>
+  </data>
+  <data name="NextButtonTip.Text" xml:space="preserve">
+    <value>La siguiente canción</value>
+  </data>
+  <data name="NowListLoadingText.Text" xml:space="preserve">
+    <value>Carga</value>
+  </data>
+  <data name="PauseTip.Text" xml:space="preserve">
+    <value>pausar</value>
+  </data>
+  <data name="PlaybackSettingsTitle.Text" xml:space="preserve">
+    <value>Ajustes de reproducción</value>
+  </data>
+  <data name="PlayTip.Text" xml:space="preserve">
+    <value>Reproducir</value>
+  </data>
+  <data name="PreviousButtonTip.Text" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="RepeatAllTip.Text" xml:space="preserve">
+    <value>Todos los ciclos</value>
+  </data>
+  <data name="RepeatButtonTip.Text" xml:space="preserve">
+    <value>repetir</value>
+  </data>
+  <data name="RepeatOnceTip.Text" xml:space="preserve">
+    <value>Solo ciclo de</value>
+  </data>
+  <data name="SettingsTitle.Text" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="ShuffleButtonTip.Text" xml:space="preserve">
+    <value>Al azar</value>
+  </data>
+  <data name="SongDetailsButtonTip.Text" xml:space="preserve">
+    <value>Para obtener más información</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbum.Text" xml:space="preserve">
+    <value>Álbumes</value>
+  </data>
+  <data name="SongDetailsFlyoutAlbumArtists.Text" xml:space="preserve">
+    <value>Artistas del álbum</value>
+  </data>
+  <data name="SongDetailsFlyoutArtists.Text" xml:space="preserve">
+    <value>Intérpretes</value>
+  </data>
+  <data name="SongDetailsFlyoutBitrate.Text" xml:space="preserve">
+    <value>velocidad de bits</value>
+  </data>
+  <data name="SongDetailsFlyoutDecoder.Text" xml:space="preserve">
+    <value>Formatos codificados</value>
+  </data>
+  <data name="SongDetailsFlyoutDuration.Text" xml:space="preserve">
+    <value>La longitud total de</value>
+  </data>
+  <data name="SongDetailsFlyoutGenres.Text" xml:space="preserve">
+    <value>género</value>
+  </data>
+  <data name="SongDetailsFlyoutPath.Text" xml:space="preserve">
+    <value>ruta de acceso al archivo</value>
+  </data>
+  <data name="SongDetailsFlyoutRating.Text" xml:space="preserve">
+    <value>clasificación</value>
+  </data>
+  <data name="SongDetailsFlyoutSize.Text" xml:space="preserve">
+    <value>tamaño de archivo</value>
+  </data>
+  <data name="SongDetailsFlyoutTitle.Text" xml:space="preserve">
+    <value>Información de la canción</value>
+  </data>
+  <data name="SongDetailsFlyoutYear.Text" xml:space="preserve">
+    <value>Año de lanzamiento</value>
+  </data>
+  <data name="SongsCountConverter" xml:space="preserve">
+    <value>pista de {0}</value>
+  </data>
+  <data name="SongsCountConverterSingle" xml:space="preserve">
+    <value>pista de {0}</value>
+  </data>
+  <data name="SongsDetailsConverter" xml:space="preserve">
+    <value>Piezas, {0}</value>
+  </data>
+  <data name="SongsDetailsConverterSingle" xml:space="preserve">
+    <value>Piezas, {0}</value>
+  </data>
+  <data name="SongsPageTitle.Text" xml:space="preserve">
+    <value>Todas las canciones</value>
+  </data>
+  <data name="SongsSettingsTitle.Text" xml:space="preserve">
+    <value>Información de la canción</value>
+  </data>
+  <data name="SortbyAlbumText" xml:space="preserve">
+    <value>Por álbum</value>
+  </data>
+  <data name="SortbyArtistText" xml:space="preserve">
+    <value>Artista intérprete o ejecutante</value>
+  </data>
+  <data name="SortbyGenresText" xml:space="preserve">
+    <value>Por género</value>
+  </data>
+  <data name="SortbyNameText" xml:space="preserve">
+    <value>Por título</value>
+  </data>
+  <data name="SplitDrawerSettingsButton.Text" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>汉堡菜单中的设置按钮</comment>
+  </data>
+  <data name="StopButtonTip.Text" xml:space="preserve">
+    <value>detener</value>
+  </data>
+  <data name="ThemeSettingsTitle.Text" xml:space="preserve">
+    <value>tema</value>
+  </data>
+  <data name="UnknownAlbumArtists" xml:space="preserve">
+    <value>Compositor desconocido</value>
+  </data>
+  <data name="UnknownGenres" xml:space="preserve">
+    <value>Género desconocido</value>
+  </data>
+  <data name="VolumeButtonTip.Text" xml:space="preserve">
+    <value>volumen</value>
+  </data>
+  <data name="YearConverter" xml:space="preserve">
+    <value>año {0}</value>
+  </data>
+  <data name="FileErrText.Text" xml:space="preserve">
+    <value>No se pueden reproducir las pistas</value>
+  </data>
+  <data name="ThemeSetAutoText.Text" xml:space="preserve">
+    <value>automático</value>
+  </data>
+  <data name="ThemeSetDarkText.Text" xml:space="preserve">
+    <value>Atenuar</value>
+  </data>
+  <data name="ThemeSetLightText.Text" xml:space="preserve">
+    <value>Brillo</value>
+  </data>
+  <data name="DeleteConfirmText.Text" xml:space="preserve">
+    <value>Este lugar ya no buscará</value>
+  </data>
+  <data name="DeleteCancelText.Content" xml:space="preserve">
+    <value>cancelar</value>
+  </data>
+  <data name="DeleteOkText.Content" xml:space="preserve">
+    <value>Determinar</value>
+  </data>
+  <data name="WelcomeTitle.Text" xml:space="preserve">
+    <value>Música de Aurora aquí encontrado buena</value>
+  </data>
+  <data name="WelcomeSettingTitle.Text" xml:space="preserve">
+    <value>Añadamos su biblioteca de música</value>
+  </data>
+  <data name="AlbumFlowText" xml:space="preserve">
+    <value>Corriente del álbum</value>
+  </data>
+  <data name="ArtistText" xml:space="preserve">
+    <value>Intérpretes</value>
+  </data>
+  <data name="LikeListText" xml:space="preserve">
+    <value>Me encanta</value>
+  </data>
+  <data name="SongsPageText" xml:space="preserve">
+    <value>Todas las pistas</value>
+  </data>
+  <data name="AuroraTitle.Text" xml:space="preserve">
+    <value>Música de Aurora</value>
+  </data>
+  <data name="LicenseContent.Text" xml:space="preserve">
+    <value>Todo el código de la aplicación está en Github, código abierto</value>
+  </data>
+  <data name="LicenseText.Text" xml:space="preserve">
+    <value>Información de Copyright</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>versión</value>
+  </data>
+  <data name="PlaybackSettingsContent.Text" xml:space="preserve">
+    <value>Todavía en desarrollo...</value>
+  </data>
+  <data name="WebExceptionText" xml:space="preserve">
+    <value>No hay ninguna conexión de red</value>
+  </data>
+  <data name="FirstCreateText.Text" xml:space="preserve">
+    <value>Estamos agregando tu música</value>
+  </data>
+  <data name="CreateWarningText.Text" xml:space="preserve">
+    <value>No minimizar o cerrar la aplicación</value>
+  </data>
+  <data name="RefreshPanelText.Text" xml:space="preserve">
+    <value>Estamos añadiendo nuevo las pistas</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Música de Aurora</value>
+  </data>
+  <data name="AlbumDetailsArtistsLong" xml:space="preserve">
+    <value>{0}</value>
+  </data>
 </root>
