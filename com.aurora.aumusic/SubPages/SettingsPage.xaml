@@ -158,7 +158,7 @@
         <StackPanel MaxWidth="320" Orientation="Vertical" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" RelativePanel.RightOf="SettingScroll" >
             <TextBlock Margin="0,64,16,0" Style="{ThemeResource SubheaderTextBlockStyle}" x:Uid="AuroraTitle"/>
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="VersionText" />
-            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" Text="1.0.1209" />
+            <TextBlock Margin="0,8,8,0" Loaded="TextBlock_Loaded" Style="{ThemeResource BodyTextBlockStyle}" />
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="LicenseText" />
             <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="LicenseContent" />
             <Button Foreground="{ThemeResource SystemThemeMainBrush}" Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Content="License">
@@ -180,6 +180,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
                 </Button.Flyout>
             </Button>
             <HyperlinkButton Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Content="Github.com" NavigateUri="https://github.com/aurora-lzzp/com.aurora.aumusic"/>
+            <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="ThanksText" />
+            <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="ThanksContent" />
         </StackPanel>
     </RelativePanel>
 </Page>

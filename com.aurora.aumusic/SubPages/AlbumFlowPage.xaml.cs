@@ -102,7 +102,14 @@ namespace com.aurora.aumusic
             }
             AlbumFlowZoom.IsZoomedInViewActive = false;
             _resizeTimer.Tick += _resizeTimer_Tick;
-            Window.Current.SizeChanged += Current_SizeChanged;
+            SizeChanged += AlbumFlowPage_SizeChanged;
+        }
+
+        private void AlbumFlowPage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _resizeTimer.Stop();
+            _resizeTimer.Interval = TimeSpan.FromMilliseconds(320);
+            _resizeTimer.Start();
         }
 
         private void _resizeTimer_Tick(object sender, object e)
@@ -110,17 +117,11 @@ namespace com.aurora.aumusic
 #if DEBUG
             System.Diagnostics.Debug.WriteLine(Window.Current.Content.RenderSize.Height + " " + Window.Current.Content.RenderSize.Width);
 #endif
+            AlbumFlowZoom.Width = this.ActualWidth - 260;
             _resizeTimer.Stop();
         }
 
-        DispatcherTimer _resizeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 640) };
-
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            _resizeTimer.Stop();
-            _resizeTimer.Interval = TimeSpan.FromMilliseconds(640);
-            _resizeTimer.Start();
-        }
+        DispatcherTimer _resizeTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 320) };
 
         private void OnNotifyMainPageRefresh()
         {
@@ -173,7 +174,14 @@ namespace com.aurora.aumusic
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
             this.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                Albums.RefreshtoList(e.item);
+                if (e != null)
+                {
+                    Albums.RefreshtoList(e.item);
+                }
+                else
+                {
+                    ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
+                }
             });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
         }
@@ -224,7 +232,6 @@ namespace com.aurora.aumusic
                     await Albums.Refresh();
                     SetOtherPages();
                     ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
-                    ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
                     if (Albums.albumList.Count > 0)
                     {
                         MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
@@ -698,6 +705,11 @@ async () =>
         private void ChangePathButton_Click(object sender, RoutedEventArgs e)
         {
             ((Window.Current.Content as Frame).Content as MainPage).NavigatetoSettings();
+        }
+
+        private void SemanticGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumFlowZoom.Width = this.ActualWidth - 260;
         }
     }
 

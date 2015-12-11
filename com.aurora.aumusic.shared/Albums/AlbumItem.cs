@@ -283,7 +283,7 @@ namespace com.aurora.aumusic.shared.Albums
             }
             catch (Exception)
             {
-                throw;
+                
             }
 
         }

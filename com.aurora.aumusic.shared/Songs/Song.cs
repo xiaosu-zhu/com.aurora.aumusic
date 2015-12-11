@@ -177,6 +177,33 @@ namespace com.aurora.aumusic.shared.Songs
         }
         public AlbumItem Parent;
 
+        public static void SaveSongtoStorage(ApplicationDataContainer SubContainer, int j, Song song)
+        {
+            ApplicationDataContainer triContainer = SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
+            triContainer.Values["FolderToken"] = song.FolderToken;
+            triContainer.Values["MainKey"] = song.MainKey;
+            triContainer.Values["Title"] = song.Title;
+            triContainer.Values["ArtWork"] = song.ArtWork;
+            triContainer.Values["Album"] = song.Album;
+            triContainer.Values["Year"] = song.Year;
+            triContainer.Values["Disc"] = song.Disc;
+            triContainer.Values["DiscCount"] = song.DiscCount;
+            triContainer.Values["Track"] = song.Track;
+            triContainer.Values["TrackCount"] = song.TrackCount;
+            triContainer.Values["Rating"] = song.Rating;
+            string sb = string.Join("|:|", song.Artists);
+            triContainer.Values["Artists"] = sb;
+            sb = string.Join("|:|", song.AlbumArtists);
+            triContainer.Values["AlbumArtists"] = sb;
+            sb = string.Join("|:|", song.Genres);
+            triContainer.Values["Genres"] = sb;
+            triContainer.Values["Duration"] = song.Duration;
+            triContainer.Values["PlayTimes"] = song.PlayTimes;
+            triContainer.Values["Width"] = song.ArtWorkSize.Width;
+            triContainer.Values["Height"] = song.ArtWorkSize.Height;
+            triContainer.Values["Loved"] = song.Loved;
+        }
+
         internal static Song RestoreSongfromStorage(ApplicationDataContainer SubContainer, int j)
         {
             ApplicationDataContainer triContainer =

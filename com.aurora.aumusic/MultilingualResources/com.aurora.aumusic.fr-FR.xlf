@@ -368,6 +368,14 @@
           <source>Aurora Music</source>
           <target state="new">Aurora Music</target>
         </trans-unit>
+        <trans-unit id="ThanksContent.Text" translate="yes" xml:space="preserve">
+          <source>geci.me provides the lyrics' api</source>
+          <target state="new">geci.me provides the lyrics' api</target>
+        </trans-unit>
+        <trans-unit id="ThanksText.Text" translate="yes" xml:space="preserve">
+          <source>Special Thanks</source>
+          <target state="new">Special Thanks</target>
+        </trans-unit>
       </group>
     </body>
   </file>

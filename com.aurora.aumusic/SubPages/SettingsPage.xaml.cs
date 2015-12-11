@@ -41,6 +41,7 @@ namespace com.aurora.aumusic
         {
             base.OnNavigatedTo(e);
             App.ResetTitleBar();
+
         }
 
         private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -56,7 +57,7 @@ namespace com.aurora.aumusic
             {
                 if (folderPaths.SaveFoldertoStorage(folder))
                 {
-                    ApplicationSettingsHelper.SaveSettingsValue("NewAdded","yes");
+                    ApplicationSettingsHelper.SaveSettingsValue("NewAdded", "yes");
                     await Task.Run(() =>
             {
                 folderPaths.SaveFoldertoSettings();
@@ -149,10 +150,10 @@ namespace com.aurora.aumusic
         {
             if (ThemeSettingsBox.SelectedIndex == 0)
             {
-                ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings","auto");
+                ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings", "auto");
                 ApplicationSettingsHelper.SetAutoTheme(Theme);
             }
-            else if(ThemeSettingsBox.SelectedIndex ==1)
+            else if (ThemeSettingsBox.SelectedIndex == 1)
             {
                 ApplicationSettingsHelper.SaveSettingsValue("ThemeSettings", "Light");
                 Theme.Theme = ElementTheme.Light;
@@ -171,7 +172,7 @@ namespace com.aurora.aumusic
             {
                 AutoLyricSwitch.IsOn = true;
             }
-            else if(str == "true")
+            else if (str == "true")
             {
                 AutoLyricSwitch.IsOn = true;
             }
@@ -186,11 +187,18 @@ namespace com.aurora.aumusic
         {
             switch (AutoLyricSwitch.IsOn)
             {
-                case true:ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "true"); break;
-                case false:ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "false"); break;
+                case true: ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "true"); break;
+                case false: ApplicationSettingsHelper.SaveSettingsValue("AutoLyric", "false"); break;
                 default:
                     break;
             }
+        }
+
+        private void TextBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBlock).Text = Windows.ApplicationModel.Package.Current.Id.Version.Major.ToString("0") + "." +
+                Windows.ApplicationModel.Package.Current.Id.Version.Minor.ToString("0") + "." +
+                Windows.ApplicationModel.Package.Current.Id.Version.Build.ToString("0");
         }
     }
 

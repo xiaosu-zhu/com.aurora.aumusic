@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
+using Windows.System.Threading;
 using Windows.UI;
 
 
@@ -116,6 +117,12 @@ namespace com.aurora.aumusic.shared.Albums
             }
         }
 
+        private void OnNotifyRefresh(string v)
+        {
+            NotifyRefreshEventArgs e = null;
+            this.notifyrefresh(this, e);
+        }
+
         private void OnNotifyRefresh(KeyValuePair<string, List<IStorageFile>> item)
         {
             NotifyRefreshEventArgs e = new NotifyRefreshEventArgs(item);
@@ -139,15 +146,15 @@ namespace com.aurora.aumusic.shared.Albums
             {
                 await album.Refresh();
             }
-            List<AlbumItem> afterList = albums.ToList();
+            List<AlbumItem> afterList = albumList.ToList();
             afterList.RemoveRange(0, index);
             albums.AddRange(afterList);
-#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
-            Task.Run(() =>
+            this.OnNotifyRefresh("finish");
+            ThreadPool.RunAsync((work) =>
             {
                 RefreshAlbumstoStorage(afterList, tempPath);
             });
-#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
+
         }
 
         public void CopytoAlbumList()
@@ -262,7 +269,15 @@ namespace com.aurora.aumusic.shared.Albums
             if (afterList.Count == 0)
                 return;
             ApplicationDataContainer MainContainer = localSettings.CreateContainer(tempPath, ApplicationDataCreateDisposition.Always);
-            int i = (int)MainContainer.Values["AlbumsCount"];
+            int i = 0;
+            if (MainContainer.Values.ContainsKey("AlbumsCount"))
+            {
+                i = (int)MainContainer.Values["AlbumsCount"];
+            }
+            else
+            {
+                MainContainer.Values["AlbumsCount"] = i;
+            }
             foreach (var item in afterList)
             {
                 ApplicationDataContainer SubContainer = MainContainer.CreateContainer("Album" + i, ApplicationDataCreateDisposition.Always);
@@ -272,28 +287,7 @@ namespace com.aurora.aumusic.shared.Albums
                 {
                     song.Position = i;
                     song.SubPosition = j;
-                    ApplicationDataContainer triContainer = SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
-                    triContainer.Values["FolderToken"] = song.FolderToken;
-                    triContainer.Values["MainKey"] = song.MainKey;
-                    triContainer.Values["Title"] = song.Title;
-                    triContainer.Values["ArtWork"] = song.ArtWork;
-                    triContainer.Values["Album"] = song.Album;
-                    triContainer.Values["Year"] = song.Year;
-                    triContainer.Values["Disc"] = song.Disc;
-                    triContainer.Values["DiscCount"] = song.DiscCount;
-                    triContainer.Values["Track"] = song.Track;
-                    triContainer.Values["TrackCount"] = song.TrackCount;
-                    triContainer.Values["Rating"] = song.Rating;
-                    string sb = string.Join("|:|", song.Artists);
-                    triContainer.Values["Artists"] = sb;
-                    sb = string.Join("|:|", song.AlbumArtists);
-                    triContainer.Values["AlbumArtists"] = sb;
-                    sb = string.Join("|:|", song.Genres);
-                    triContainer.Values["Genres"] = sb;
-                    triContainer.Values["Duration"] = song.Duration;
-                    triContainer.Values["PlayTimes"] = song.PlayTimes;
-                    triContainer.Values["Width"] = song.ArtWorkSize.Width;
-                    triContainer.Values["Height"] = song.ArtWorkSize.Height;
+                    Song.SaveSongtoStorage(SubContainer, j, song);
                     j++;
                 }
                 SubContainer.Values["SongsCount"] = item.Songs.Count;
@@ -320,29 +314,7 @@ namespace com.aurora.aumusic.shared.Albums
                 {
                     song.Position = i;
                     song.SubPosition = j;
-                    ApplicationDataContainer triContainer = SubContainer.CreateContainer("Song" + j, ApplicationDataCreateDisposition.Always);
-                    triContainer.Values["FolderToken"] = song.FolderToken;
-                    triContainer.Values["MainKey"] = song.MainKey;
-                    triContainer.Values["Title"] = song.Title;
-                    triContainer.Values["ArtWork"] = song.ArtWork;
-                    triContainer.Values["Album"] = song.Album;
-                    triContainer.Values["Year"] = song.Year;
-                    triContainer.Values["Disc"] = song.Disc;
-                    triContainer.Values["DiscCount"] = song.DiscCount;
-                    triContainer.Values["Track"] = song.Track;
-                    triContainer.Values["TrackCount"] = song.TrackCount;
-                    triContainer.Values["Rating"] = song.Rating;
-                    string sb = string.Join("|:|", song.Artists);
-                    triContainer.Values["Artists"] = sb;
-                    sb = string.Join("|:|", song.AlbumArtists);
-                    triContainer.Values["AlbumArtists"] = sb;
-                    sb = string.Join("|:|", song.Genres);
-                    triContainer.Values["Genres"] = sb;
-                    triContainer.Values["Duration"] = song.Duration;
-                    triContainer.Values["PlayTimes"] = song.PlayTimes;
-                    triContainer.Values["Width"] = song.ArtWorkSize.Width;
-                    triContainer.Values["Height"] = song.ArtWorkSize.Height;
-                    triContainer.Values["Loved"] = song.Loved;
+                    Song.SaveSongtoStorage(SubContainer, j, song);
                     j++;
                 }
                 SubContainer.Values["SongsCount"] = item.Songs.Count;
@@ -355,6 +327,8 @@ namespace com.aurora.aumusic.shared.Albums
             }
             MainContainer.Values["AlbumsCount"] = afterList.Count;
         }
+
+
 
         private async Task AddtoAlbum(Song song)
         {

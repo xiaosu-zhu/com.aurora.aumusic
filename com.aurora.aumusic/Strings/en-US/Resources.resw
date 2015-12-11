@@ -390,4 +390,10 @@
   <data name="AppName" xml:space="preserve">
     <value>Aurora Music</value>
   </data>
+  <data name="ThanksContent.Text" xml:space="preserve">
+    <value>geci.me provides the lyrics' api</value>
+  </data>
+  <data name="ThanksText.Text" xml:space="preserve">
+    <value>Special Thanks</value>
+  </data>
 </root>

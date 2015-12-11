@@ -96,7 +96,9 @@ namespace com.aurora.aumusic.backgroundtask
             ThreadPool.RunAsync(async (work) =>
             {
                 backgroundTaskStarted.Reset();
-                AllList.Clear();
+                if (AllList != null)
+                    AllList.Clear();
+                else AllList = new List<KeyValuePair<string, List<IStorageFile>>>();
                 if (!(bool)localSettings.Values["isCreated"])
                 {
                     MessageService.SendMessageToForeground(new RefreshStateMessage(RefreshState.NeedRefresh));

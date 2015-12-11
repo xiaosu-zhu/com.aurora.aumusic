@@ -387,4 +387,10 @@
   <data name="AppName" xml:space="preserve">
     <value>极光音乐</value>
   </data>
+  <data name="ThanksContent.Text" xml:space="preserve">
+    <value>歌词迷提供歌词查询的 api 接口</value>
+  </data>
+  <data name="ThanksText.Text" xml:space="preserve">
+    <value>特别感谢</value>
+  </data>
 </root>
