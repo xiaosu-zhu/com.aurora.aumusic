@@ -15,7 +15,9 @@
 /// </summary>
 using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.Songs;
+using NotificationsExtensions.Tiles;
 using Windows.Media.Playback;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml.Controls;
 
 namespace com.aurora.aumusic
@@ -45,6 +47,151 @@ namespace com.aurora.aumusic
         {
             DurationValueConverter converter = new DurationValueConverter();
             TimeRemainingBlock.Text = (string)converter.Convert(currentSong.Duration, null, null, null);
+            UpdateTileOnNewTrack(currentSong);
+        }
+
+        private void UpdateTileOnNewTrack(SongModel item)
+        {
+            var tile = CreateTile(item);
+            TileNotification not = new TileNotification(tile.GetXml());
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(not);
+        }
+
+        private static TileContent CreateTile(SongModel item)
+        {
+            var loader = new Windows.ApplicationModel.Resources.ResourceLoader();
+            var conver = new ArtistsConverter();
+            var artists = (string)conver.Convert(item.Artists, null, true, null);
+            TileContent c = new TileContent()
+            {
+                Visual = new TileVisual()
+                {
+                    Branding = TileBranding.NameAndLogo,
+                    DisplayName = loader.GetString("TileNowDisplayName"),
+                    TileWide = new TileBinding()
+                    {
+                        Branding = TileBranding.Name,
+
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            TextStacking = TileTextStacking.Center,
+                            PeekImage = new TilePeekImage()
+                            {
+                                Source = new TileImageSource(item.AlbumArtwork)
+                            },
+
+                            Children =
+                            {
+                                  new TileText()
+                                  {
+                                       Text = item.Title,
+                                       Style = TileTextStyle.Body
+                                  },
+
+                                  new TileText()
+                                  {
+                                        Text = artists,
+                                        Style = TileTextStyle.CaptionSubtle
+                                   },
+                                  new TileText()
+                                  {
+                                      Text = item.Album,
+                                      Style = TileTextStyle.Body
+                                  }
+                            }
+                        }
+                    },
+
+                    TileLarge = new TileBinding()
+                    {
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            TextStacking = TileTextStacking.Center,
+
+                            Children =
+                            {
+                                new TileGroup()
+                                {
+                                    Children =
+                                    {
+                                        new TileSubgroup()
+                                        {
+                                            Weight = 1
+                                        },
+                                        new TileSubgroup()
+                                        {
+                                            Weight = 2,
+                                            Children =
+                                            {
+                                                new TileImage()
+                                                {
+                                                    Source = new TileImageSource(item.AlbumArtwork)
+                                                }
+                                            }
+                                        },
+                                        new TileSubgroup()
+                                        {
+                                            Weight = 1
+                                        }
+                                    }
+                                },
+
+
+                                      new TileText()
+                                      {
+                                          Text = item.Title,
+                                          Style = TileTextStyle.Body,
+                                          Align = TileTextAlign.Center
+                                      },
+
+                                      new TileText()
+                                      {
+                                           Text = artists,
+                                           Style = TileTextStyle.CaptionSubtle,
+                                           Align = TileTextAlign.Center
+                                      },
+                                      new TileText()
+                                      {
+                                          Text = item.Album,
+                                          Style = TileTextStyle.BodySubtle,
+                                          Align = TileTextAlign.Center
+                                      }
+                                  }
+                        }
+                    },
+                    TileMedium = new TileBinding()
+                    {
+                        Branding = TileBranding.Name,
+
+                        Content = new TileBindingContentAdaptive()
+                        {
+                            TextStacking = TileTextStacking.Center,
+                            PeekImage = new TilePeekImage()
+                            {
+                                Source = new TileImageSource(item.AlbumArtwork)
+                            },
+                            Children =
+                            {
+                                new TileText()
+                                {
+                                    Text = item.Title,
+                                    Style = TileTextStyle.Body,
+                                    Align = TileTextAlign.Center
+                                },
+
+                                new TileText()
+                                {
+                                    Text = artists,
+                                    Style = TileTextStyle.CaptionSubtle,
+                                    Align = TileTextAlign.Center
+                                },
+                                
+                            }
+                        }
+                    }
+                }
+            };
+            return c;
         }
 
         public void setPlaybackControlDefault()

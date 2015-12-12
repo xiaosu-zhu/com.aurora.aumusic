@@ -216,6 +216,7 @@ namespace com.aurora.aumusic
         private async void PositionSlider_Loaded(object sender, RoutedEventArgs e)
         {
             await Task.Delay(700);
+            DeDetailsButton.Visibility = Visibility.Visible;
             wtftimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 if (NowState == MediaPlayerState.Playing)

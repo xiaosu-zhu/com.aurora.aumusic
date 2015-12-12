@@ -27,7 +27,7 @@
                 <ResourceDictionary Source="LightThemeDictionary.xaml" x:Key="Light"/>
                 <ResourceDictionary Source="DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
-            <Style x:Key="ButtonStyle1" TargetType="Button">
+            <Style x:Key="AlbumGroupPlayButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
@@ -89,7 +89,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="ButtonStyle2" TargetType="Button">
+            <Style x:Key="SongDetailsPlayButtonStyle" TargetType="Button">
                 <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                 <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}"/>
@@ -153,7 +153,7 @@
             </Style>
            
             <converter:SongsCountConverter x:Key="CountConverter"/>
-            <converter:ArtistsCountConverter x:Key="ArtistsConverter" />
+            <converter:ArtistsConverter x:Key="ArtistsConverter" />
             <converter:AlbumDetailsConverter x:Key="AlbumConverter" />
             <converter:FrameParallaxConverter x:Key="ScrollConverter" />
             <CollectionViewSource x:Name="AlbumSongsResources" />
@@ -190,7 +190,7 @@
                         <TextBlock x:Name="Artists" Grid.Column="0" Text="{x:Bind Artists[0] ,Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
                         <TextBlock x:Name="Duration" Grid.Column="1" Text="{Binding Path=Duration, Converter={StaticResource DurationConverter},Mode=OneWay}" VerticalAlignment="Center" Margin="12,0,0,0" />
                     </Grid>
-                    <Button x:Name="PlayButton" Visibility="Collapsed" RelativePanel.LeftOf="SubGrid" Height="44" Width="44" BorderThickness="0" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" Margin="0,0,12,0" Click="PlayButton_Click" FontSize="18.667" />
+                    <local:ButtonWithoutKeySelect x:Name="PlayButton" Visibility="Collapsed" RelativePanel.LeftOf="SubGrid" Height="44" Width="44" BorderThickness="0" Foreground="{ThemeResource SystemThemeMainBrush}" Style="{ThemeResource TextBlockButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" Content="&#xE768;" VerticalAlignment="Center" Margin="0,0,12,0" Click="PlayButton_Click" FontSize="18.667" />
                 </RelativePanel>
             </DataTemplate>
 
@@ -232,7 +232,7 @@
                                     <SolidColorBrush Color="{x:Bind TextSubColor ,Mode=OneWay}" />
                                 </TextBlock.Foreground>
                             </TextBlock>
-                            <Button Canvas.ZIndex="2" Grid.Row="1" Height="36" Width="36" BorderThickness="0" Style="{ThemeResource ButtonStyle1}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="18.667" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Click="Button_Click" />
+                            <local:ButtonWithoutKeySelect Canvas.ZIndex="2" Grid.Row="1" Height="36" Width="36" BorderThickness="0" Style="{ThemeResource AlbumGroupPlayButtonStyle}" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="18.667" Content="&#xE768;" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="4,0,0,0" Click="Button_Click" />
                         </Grid>
                     </ScrollViewer>
                 </RelativePanel>
@@ -254,7 +254,7 @@
                     </Rectangle>
                     <Rectangle RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" Fill="Transparent" />
                     <TextBlock Text="{x:Bind Title, Mode=OneWay}" Margin="4" Style="{StaticResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" MaxLines="1" TextTrimming="Clip" RelativePanel.LeftOf="PlayButton" RelativePanel.AlignVerticalCenterWithPanel="True" />
-                    <Button x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource ButtonStyle2}" Content="&#xE768;" Click="ShufflePlayButton_Click" />
+                    <local:ButtonWithoutKeySelect x:Name="PlayButton" Margin="4" Visibility="Collapsed" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Width="28" Height="28" FontFamily="{ThemeResource SymbolThemeFontFamily}" Style="{StaticResource SongDetailsPlayButtonStyle}" Content="&#xE768;" Click="ShufflePlayButton_Click" />
                 </RelativePanel>
             </DataTemplate>
             <Style x:Key="DetailsListViewStyle" TargetType="ListView">
@@ -311,7 +311,7 @@
 
                                                     </TextBlock>
                                                 </StackPanel>
-                                                <Button Style="{StaticResource DetailsButtonStyle}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
+                                                    <local:ButtonWithoutKeySelect Style="{StaticResource DetailsButtonStyle}" Click="Button_Click_1" Content="&#xE768;" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8" />
                                                 <StackPanel Margin="68,8,8,8" Height="48" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Left">
                                                     <TextBlock FontSize="16" Margin="4,4,0,0" Loaded="SongsDetailsBlock_Loaded" x:Name="SongsDetailsBlock" />
                                                     <TextBlock FontSize="12" Margin="4,4,0,0" Loaded="GenresDetailsBlock_Loaded"  x:Name="GenresDetailsBlock" />
@@ -383,7 +383,7 @@
             <!--TextBlock x:Uid="AlbumFlowSortButton" x:Name="MusicTextBlock" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="252,10,0,0" RelativePanel.RightOf="TitleBlock" RelativePanel.AlignVerticalCenterWithPanel="True" FontSize="12" />
             <ComboBox x:Name="MusicArrangeList" RelativePanel.RightOf="MusicTextBlock" Background="{ThemeResource SystemTransparentBrush}" RelativePanel.AlignBottomWithPanel="True" Width="120" FontSize="13.333" Foreground="{ThemeResource SystemControlAltLowBrush}" BorderThickness="0" Padding="12,0,0,0">
             </ComboBox-->
-            <Button x:Name="ChangePathButton" x:Uid="ChangePathButton" Style="{ThemeResource TextBlockButtonStyle}" Click="ChangePathButton_Click" FontSize="13.333" Margin="0,0,8,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
+            <local:ButtonWithoutKeySelect x:Name="ChangePathButton" x:Uid="ChangePathButton" Foreground="{ThemeResource SystemThemeMainBrush}" Style="{ThemeResource TextBlockButtonStyle}" Click="ChangePathButton_Click" FontSize="13.333" Margin="0,0,8,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
         </RelativePanel>
 
         <Grid x:Name="MymusicSubGrid" Width="240" Height="auto" RelativePanel.AlignBottomWithPanel="True" Margin="8,52,0,0" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" >

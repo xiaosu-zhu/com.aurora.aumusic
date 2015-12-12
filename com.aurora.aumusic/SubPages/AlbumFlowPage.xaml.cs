@@ -36,7 +36,6 @@ using com.aurora.aumusic.shared;
 using com.aurora.aumusic.backgroundtask;
 using com.aurora.aumusic.shared.MessageService;
 using Windows.ApplicationModel.Background;
-using Windows.Storage;
 
 namespace com.aurora.aumusic
 {
@@ -152,7 +151,6 @@ namespace com.aurora.aumusic
                     await Albums.Refresh();
                     ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
                 }
-                Albums.notifyrefresh -= Albums_notifyrefresh;
             }
 
             BackgroundTaskStateChangedMessage backgroundTaskMessage;
@@ -181,6 +179,7 @@ namespace com.aurora.aumusic
                 else
                 {
                     ((Window.Current.Content as Frame).Content as MainPage).FinishCreate();
+                    Albums.notifyrefresh -= Albums_notifyrefresh;
                 }
             });
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
@@ -223,22 +222,29 @@ namespace com.aurora.aumusic
         {
             if (IsInitialed)
             {
-                HideBar(WaitingBar);
-                var str = ApplicationSettingsHelper.ReadSettingsValue("NewAdded");
-                if (str != null)
+                var str = ApplicationSettingsHelper.ReadResetSettingsValue("NewCreated");
+                if (str == null)
                 {
-                    MessageService.SendMessageToBackground(new RefreshFilesMessage());
-                    Albums.notifyrefresh += Albums_notifyrefresh;
-                    await Albums.Refresh();
-                    SetOtherPages();
-                    ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
-                    if (Albums.albumList.Count > 0)
+                    HideBar(WaitingBar);
+                    str = ApplicationSettingsHelper.ReadResetSettingsValue("NewAdded");
+                    if (str != null)
                     {
-                        MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
+                        MessageService.SendMessageToBackground(new RefreshFilesMessage());
+                        Albums.notifyrefresh += Albums_notifyrefresh;
+                        await Albums.Refresh();
+                        SetOtherPages();
+                        if (Albums.albumList.Count > 0)
+                        {
+                            MessageService.SendMessageToBackground(new UpdateFilesMessage(Albums.albumList.ToSongModelList()));
+                        }
                     }
+                    str = ApplicationSettingsHelper.ReadResetSettingsValue("NewDeleted");
+                    if (str != null)
+                    {
+                        Albums.RestoreAlbums();
+                    }
+                    return;
                 }
-                Albums.notifyrefresh -= Albums_notifyrefresh;
-                return;
             }
             RefreshState v = RefreshState.Normal;
             v = Albums.RestoreAlbums();

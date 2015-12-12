@@ -393,4 +393,16 @@
   <data name="ThanksText.Text" xml:space="preserve">
     <value>特别感谢</value>
   </data>
+  <data name="PlabackSpacetoPauseContent.Text" xml:space="preserve">
+    <value>使用空格键播放/暂停</value>
+  </data>
+  <data name="TileNowDisplayName" xml:space="preserve">
+    <value>正在播放</value>
+  </data>
+  <data name="DeleteHintText.Text" xml:space="preserve">
+    <value>删除操作可能不会立即生效</value>
+  </data>
+  <data name="FeedbackButton.Content" xml:space="preserve">
+    <value>评个分</value>
+  </data>
 </root>

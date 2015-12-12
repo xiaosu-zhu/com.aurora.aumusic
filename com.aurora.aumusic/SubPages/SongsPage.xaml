@@ -46,11 +46,11 @@
                     <TextBlock x:Name="SongTitle" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Text="{x:Bind Title, Mode=OneWay}" />
                     <TextBlock x:Name="SongDuration" MaxWidth="120" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" Margin="0,0,240,0"  RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Duration, Mode=OneWay,Converter={StaticResource DurationConverter}}" />
                     <TextBlock x:Name="SongAlbum" MaxWidth="240" Margin="0,0,16,0" MaxLines="1" TextTrimming="Clip" Style="{ThemeResource BodyTextBlockStyle}" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Text="{x:Bind Album,Mode=OneWay}" />
-                    <Button x:Name="PlayButton" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,0,12,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Click="PlayButton_Click">
-                        <Button.Content>
+                    <local:ButtonWithoutKeySelect x:Name="PlayButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Margin="0,0,12,0" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.LeftOf="SongDuration" Click="PlayButton_Click">
+                        <local:ButtonWithoutKeySelect.Content>
                             <SymbolIcon Symbol="Play"/>
-                        </Button.Content>
-                    </Button>
+                        </local:ButtonWithoutKeySelect.Content>
+                    </local:ButtonWithoutKeySelect>
                 </RelativePanel>
             </DataTemplate>
 

@@ -103,8 +103,17 @@ namespace com.aurora.aumusic
         {
             base.OnNavigatedTo(e);
 
+            var str = (string)ApplicationSettingsHelper.ReadSettingsValue("SpacePause");
+            if (str == null || str == "true")
+            {
+                this.KeyUp += Root_KeyUp;
+            }
             App.ResetTitleBar();
+        }
 
+        public void UnBindSpace()
+        {
+            this.KeyUp -= Root_KeyUp;
         }
 
         private void Menubtn_Click(object sender, RoutedEventArgs e)
@@ -181,7 +190,7 @@ namespace com.aurora.aumusic
                                 break;
                             }
                         }
-                       (Window.Current.Content as Frame).Navigate(typeof(SettingsPage)); break;
+                       MainFrame.Navigate(typeof(StartPage)); break;
                     case 1: MainFrame.Navigate(typeof(ArtistPage)); break;
                     case 2:
                         MainFrame.Navigate(typeof(SongsPage));
@@ -235,6 +244,11 @@ namespace com.aurora.aumusic
                 }
             });
 
+        }
+
+        internal void BindSpace()
+        {
+            this.KeyUp += Root_KeyUp;
         }
 
         internal void FinishCreate()
@@ -291,7 +305,8 @@ namespace com.aurora.aumusic
                     BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
                     var converter = ProgressSlider.ThumbToolTipValueConverter as ThumbToolTipConveter;
                     converter.sParameter = stateChangedMessage.CurrentSong.Duration.TotalSeconds;
-
+                    ArtworkLoadingRing.IsActive = true;
+                    ArtworkLoadingRing.Visibility = Visibility.Visible;
                 });
             }
             FileNotFindMessage notfind;
@@ -320,6 +335,8 @@ namespace com.aurora.aumusic
                 this.ArtworkStream = updateartwork.ByteStream;
                 this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
+                    ArtworkLoadingRing.IsActive = false;
+                    ArtworkLoadingRing.Visibility = Visibility.Collapsed;
                     BitmapImage image = new BitmapImage();
                     image.SetSource(stream);
                     PlayBackImage.Source = image;
@@ -468,7 +485,14 @@ namespace com.aurora.aumusic
                 VolumeMuteButton.Icon = vol_mid;
             }
             else VolumeMuteButton.Icon = vol_high;
-            BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+            try
+            {
+                BackgroundMediaPlayer.Current.Volume = VolumeSlider.Value / 100.0;
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         #region
@@ -732,6 +756,14 @@ namespace com.aurora.aumusic
                     device = null;
                     GC.Collect();
                 }
+            }
+        }
+
+        private void Root_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                this.PlayPauseButtonOnLeft_Click(null, null);
             }
         }
 

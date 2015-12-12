@@ -8,373 +8,389 @@
       <group id="COM.AURORA.AUMUSIC/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="AlbumArtists" translate="yes" xml:space="preserve">
           <source>{0} AlbumArtists</source>
-          <target state="new">{0} AlbumArtists</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} AlbumArtists</target>
         </trans-unit>
         <trans-unit id="AlbumArtistsSingle" translate="yes" xml:space="preserve">
           <source>{0} AlbumArtist</source>
-          <target state="new">{0} AlbumArtist</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} AlbumArtist</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsArtistsLong" translate="yes" xml:space="preserve">
           <source>{0}</source>
-          <target state="new">{0}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0}</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsArtistsShort" translate="yes" xml:space="preserve">
           <source>{0}...</source>
-          <target state="new">{0}...</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0}...</target>
         </trans-unit>
         <trans-unit id="AlbumDetailsTotalDuration" translate="yes" xml:space="preserve">
           <source>{0} minutes and {1} seconds</source>
-          <target state="new">{0} minutes and {1} seconds</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} minutos y {1} segundos</target>
         </trans-unit>
         <trans-unit id="AlbumFlowSortButton.Text" translate="yes" xml:space="preserve">
           <source>Sort By: </source>
-          <target state="new">Sort By: </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ordenar por: </target>
           <note from="MultilingualBuild" annotates="source" priority="2">Sort Button in AlbumFlow Page.</note>
         </trans-unit>
         <trans-unit id="AlbumFlowTitle.Text" translate="yes" xml:space="preserve">
           <source>Album Flow</source>
-          <target state="new">Album Flow</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Flujo de álbum</target>
           <note from="MultilingualBuild" annotates="source" priority="2">AlbumFlowPage Title</note>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterAlbum" translate="yes" xml:space="preserve">
           <source>{0} Albums and </source>
-          <target state="new">{0} Albums and </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} álbumes y </target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterAlbumSingle" translate="yes" xml:space="preserve">
           <source>{0} Album and </source>
-          <target state="new">{0} Album and </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} álbum y </target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterSongs" translate="yes" xml:space="preserve">
           <source>{0} Songs</source>
-          <target state="new">{0} Songs</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} canciones</target>
         </trans-unit>
         <trans-unit id="ArtistDetailsConverterSongsSingle" translate="yes" xml:space="preserve">
           <source>{0} Song</source>
-          <target state="new">{0} Song</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} canción</target>
         </trans-unit>
         <trans-unit id="ArtistTitle.Text" translate="yes" xml:space="preserve">
           <source>Artists</source>
-          <target state="new">Artists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Artistas</target>
           <note from="MultilingualBuild" annotates="source" priority="2">ArtistsPage Title</note>
         </trans-unit>
         <trans-unit id="AutoSearchLrcButton.OffContent" translate="yes" xml:space="preserve">
           <source>Off</source>
-          <target state="new">Off</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Desactivado</target>
         </trans-unit>
         <trans-unit id="AutoSearchLrcButton.OnContent" translate="yes" xml:space="preserve">
           <source>On</source>
-          <target state="new">On</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Activado</target>
         </trans-unit>
         <trans-unit id="AutoSearchLrcText.Text" translate="yes" xml:space="preserve">
           <source>Search Lyrics Automatically</source>
-          <target state="new">Search Lyrics Automatically</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Buscar Letras automáticamente</target>
         </trans-unit>
         <trans-unit id="ChangePathButton.Content" translate="yes" xml:space="preserve">
           <source>Change where we search</source>
-          <target state="new">Change where we search</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Donde buscamos el cambio</target>
           <note from="MultilingualBuild" annotates="source" priority="2">change path text</note>
         </trans-unit>
         <trans-unit id="DetailsButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Detalles</target>
         </trans-unit>
         <trans-unit id="FeelingLuckText.Text" translate="yes" xml:space="preserve">
           <source>Feeling Lucky!</source>
-          <target state="new">Feeling Lucky!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tener suerte!</target>
         </trans-unit>
         <trans-unit id="GeneralSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>General</source>
-          <target state="new">General</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">General</target>
         </trans-unit>
         <trans-unit id="LanguageSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Idioma</target>
         </trans-unit>
         <trans-unit id="LikeListTitle.Text" translate="yes" xml:space="preserve">
           <source>My Favorites</source>
-          <target state="new">My Favorites</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mis favoritos</target>
           <note from="MultilingualBuild" annotates="source" priority="2">ListPage Title</note>
         </trans-unit>
         <trans-unit id="ListButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Now-Playing List</source>
-          <target state="new">Now-Playing List</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lista reproducción de ahora</target>
         </trans-unit>
         <trans-unit id="LoadingLrcText.Text" translate="yes" xml:space="preserve">
           <source>Searching Lyrics...</source>
-          <target state="new">Searching Lyrics...</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Buscar Letras de...</target>
         </trans-unit>
         <trans-unit id="LocationSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Searching From...</source>
-          <target state="new">Searching From...</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">En busca de...</target>
         </trans-unit>
         <trans-unit id="LrcErrText.Text" translate="yes" xml:space="preserve">
           <source>No matching results.</source>
-          <target state="new">No matching results.</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">No hay resultados coincidentes.</target>
         </trans-unit>
         <trans-unit id="NextButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Next</source>
-          <target state="new">Next</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">PRÓXIMO</target>
         </trans-unit>
         <trans-unit id="NowListLoadingText.Text" translate="yes" xml:space="preserve">
           <source>Loading</source>
-          <target state="new">Loading</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Carga</target>
         </trans-unit>
         <trans-unit id="PauseTip.Text" translate="yes" xml:space="preserve">
           <source>Pause</source>
-          <target state="new">Pause</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pausa</target>
         </trans-unit>
         <trans-unit id="PlaybackSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Playback Settings</source>
-          <target state="new">Playback Settings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ajustes de reproducción</target>
         </trans-unit>
         <trans-unit id="PlayTip.Text" translate="yes" xml:space="preserve">
           <source>Play</source>
-          <target state="new">Play</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Reproducir</target>
         </trans-unit>
         <trans-unit id="PreviousButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Previous</source>
-          <target state="new">Previous</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Anterior</target>
         </trans-unit>
         <trans-unit id="RepeatAllTip.Text" translate="yes" xml:space="preserve">
           <source>Repeat All</source>
-          <target state="new">Repeat All</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Repetir todo</target>
         </trans-unit>
         <trans-unit id="RepeatButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Repeat</source>
-          <target state="new">Repeat</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Repetir</target>
         </trans-unit>
         <trans-unit id="RepeatOnceTip.Text" translate="yes" xml:space="preserve">
           <source>Repeat This</source>
-          <target state="new">Repeat This</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Repetir este proceso</target>
         </trans-unit>
         <trans-unit id="SettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Configuración</target>
         </trans-unit>
         <trans-unit id="ShuffleButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Shuffle</source>
-          <target state="new">Shuffle</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Orden aleatorio</target>
         </trans-unit>
         <trans-unit id="SongDetailsButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Song's Details</source>
-          <target state="new">Song's Details</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Detalles de la canción</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutAlbum.Text" translate="yes" xml:space="preserve">
           <source>Album</source>
-          <target state="new">Album</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Álbum</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutAlbumArtists.Text" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
-          <target state="new">Album Artist</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Intérprete del álbum</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutArtists.Text" translate="yes" xml:space="preserve">
           <source>Artist</source>
-          <target state="new">Artist</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Artista</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutBitrate.Text" translate="yes" xml:space="preserve">
           <source>Bit Rate</source>
-          <target state="new">Bit Rate</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Velocidad de bits</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutDecoder.Text" translate="yes" xml:space="preserve">
           <source>Encoder</source>
-          <target state="new">Encoder</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Codificador</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutDuration.Text" translate="yes" xml:space="preserve">
           <source>Duration</source>
-          <target state="new">Duration</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">DURACION</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutGenres.Text" translate="yes" xml:space="preserve">
           <source>Genres</source>
-          <target state="new">Genres</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Géneros</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutPath.Text" translate="yes" xml:space="preserve">
           <source>Location Path</source>
-          <target state="new">Location Path</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ruta de ubicación</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutRating.Text" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="new">Rating</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Valoración</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutSize.Text" translate="yes" xml:space="preserve">
           <source>File Size</source>
-          <target state="new">File Size</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tamaño de archivo</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutTitle.Text" translate="yes" xml:space="preserve">
           <source>Metadata</source>
-          <target state="new">Metadata</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Metadatos</target>
         </trans-unit>
         <trans-unit id="SongDetailsFlyoutYear.Text" translate="yes" xml:space="preserve">
           <source>Release Year</source>
-          <target state="new">Release Year</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Año de lanzamiento</target>
         </trans-unit>
         <trans-unit id="SongsCountConverter" translate="yes" xml:space="preserve">
           <source>{0} Songs</source>
-          <target state="new">{0} Songs</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} canciones</target>
         </trans-unit>
         <trans-unit id="SongsCountConverterSingle" translate="yes" xml:space="preserve">
           <source>{0} Song</source>
-          <target state="new">{0} Song</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">{0} canción</target>
         </trans-unit>
         <trans-unit id="SongsDetailsConverter" translate="yes" xml:space="preserve">
           <source>Play {0} Songs</source>
-          <target state="new">Play {0} Songs</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Canciones de {0}</target>
         </trans-unit>
         <trans-unit id="SongsDetailsConverterSingle" translate="yes" xml:space="preserve">
           <source>Play {0} Song</source>
-          <target state="new">Play {0} Song</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Reproducir canción {0}</target>
         </trans-unit>
         <trans-unit id="SongsPageTitle.Text" translate="yes" xml:space="preserve">
           <source>All Songs</source>
-          <target state="new">All Songs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Todas las canciones</target>
         </trans-unit>
         <trans-unit id="SongsSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Songs' Settings</source>
-          <target state="new">Songs' Settings</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Configuración canciones de la</target>
         </trans-unit>
         <trans-unit id="SortbyAlbumText" translate="yes" xml:space="preserve">
           <source>Album</source>
-          <target state="new">Album</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Álbum</target>
         </trans-unit>
         <trans-unit id="SortbyArtistText" translate="yes" xml:space="preserve">
           <source>Artists</source>
-          <target state="new">Artists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Artistas</target>
         </trans-unit>
         <trans-unit id="SortbyGenresText" translate="yes" xml:space="preserve">
           <source>Genres</source>
-          <target state="new">Genres</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Géneros</target>
         </trans-unit>
         <trans-unit id="SortbyNameText" translate="yes" xml:space="preserve">
           <source>Title</source>
-          <target state="new">Title</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Título</target>
         </trans-unit>
         <trans-unit id="SplitDrawerSettingsButton.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Configuración</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Settings button in the drawer</note>
         </trans-unit>
         <trans-unit id="StopButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Stop</source>
-          <target state="new">Stop</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Detener</target>
         </trans-unit>
         <trans-unit id="ThemeSettingsTitle.Text" translate="yes" xml:space="preserve">
           <source>Theme</source>
-          <target state="new">Theme</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tema</target>
         </trans-unit>
         <trans-unit id="UnknownAlbumArtists" translate="yes" xml:space="preserve">
           <source>Unknown AlbumArtists</source>
-          <target state="new">Unknown AlbumArtists</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">AlbumArtists desconocido</target>
         </trans-unit>
         <trans-unit id="UnknownGenres" translate="yes" xml:space="preserve">
           <source>Unknown Genres</source>
-          <target state="new">Unknown Genres</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Géneros desconocidos</target>
         </trans-unit>
         <trans-unit id="VolumeButtonTip.Text" translate="yes" xml:space="preserve">
           <source>Volume</source>
-          <target state="new">Volume</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Volume</target>
         </trans-unit>
         <trans-unit id="YearConverter" translate="yes" xml:space="preserve">
           <source>Year {0}</source>
-          <target state="new">Year {0}</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Año {0}</target>
         </trans-unit>
         <trans-unit id="FileErrText.Text" translate="yes" xml:space="preserve">
           <source>Some Songs can't play</source>
-          <target state="new">Some Songs can't play</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Algunas canciones no se pueden jugar</target>
         </trans-unit>
         <trans-unit id="DeleteCancelText.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Cancelar</target>
         </trans-unit>
         <trans-unit id="DeleteConfirmText.Text" translate="yes" xml:space="preserve">
           <source> This location won't search any more</source>
-          <target state="new"> This location won't search any more</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion"> Esta ubicación no buscar más</target>
         </trans-unit>
         <trans-unit id="DeleteOkText.Content" translate="yes" xml:space="preserve">
           <source>Ok</source>
-          <target state="new">Ok</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aceptar</target>
         </trans-unit>
         <trans-unit id="ThemeSetAutoText.Text" translate="yes" xml:space="preserve">
           <source>Auto</source>
-          <target state="new">Auto</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Automático</target>
         </trans-unit>
         <trans-unit id="ThemeSetDarkText.Text" translate="yes" xml:space="preserve">
           <source>Dark</source>
-          <target state="new">Dark</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Oscuro</target>
         </trans-unit>
         <trans-unit id="ThemeSetLightText.Text" translate="yes" xml:space="preserve">
           <source>Light</source>
-          <target state="new">Light</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Claro</target>
         </trans-unit>
         <trans-unit id="WelcomeTitle.Text" translate="yes" xml:space="preserve">
           <source>Welcome to Aurora Music</source>
-          <target state="new">Welcome to Aurora Music</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bienvenidos a música de Aurora</target>
         </trans-unit>
         <trans-unit id="AlbumFlowText" translate="yes" xml:space="preserve">
           <source>Album Flow</source>
-          <target state="new">Album Flow</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Flujo de álbum</target>
         </trans-unit>
         <trans-unit id="ArtistText" translate="yes" xml:space="preserve">
           <source>Artists</source>
-          <target state="new">Artists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Artistas</target>
         </trans-unit>
         <trans-unit id="LikeListText" translate="yes" xml:space="preserve">
           <source>My Favorites</source>
-          <target state="new">My Favorites</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mis favoritos</target>
         </trans-unit>
         <trans-unit id="SongsPageText" translate="yes" xml:space="preserve">
           <source>All Songs</source>
-          <target state="new">All Songs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Todas las canciones</target>
         </trans-unit>
         <trans-unit id="WelcomeSettingTitle.Text" translate="yes" xml:space="preserve">
           <source>Let's find where is your music world</source>
-          <target state="new">Let's find where is your music world</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vamos a buscar dónde está el mundo de la música</target>
         </trans-unit>
         <trans-unit id="AuroraTitle.Text" translate="yes" xml:space="preserve">
           <source>Aurora Music</source>
-          <target state="new">Aurora Music</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Música de Aurora</target>
         </trans-unit>
         <trans-unit id="LicenseContent.Text" translate="yes" xml:space="preserve">
           <source>This app is totally open source on the github</source>
-          <target state="new">This app is totally open source on the github</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Esta aplicación es totalmente open source en el github</target>
         </trans-unit>
         <trans-unit id="LicenseText.Text" translate="yes" xml:space="preserve">
           <source>License and open source</source>
-          <target state="new">License and open source</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Licencia y código abierto</target>
         </trans-unit>
         <trans-unit id="PlaybackSettingsContent.Text" translate="yes" xml:space="preserve">
           <source>Still Developing...</source>
-          <target state="new">Still Developing...</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aún en desarrollo...</target>
         </trans-unit>
         <trans-unit id="VersionText.Text" translate="yes" xml:space="preserve">
           <source>Version</source>
-          <target state="new">Version</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Versión</target>
         </trans-unit>
         <trans-unit id="WebExceptionText" translate="yes" xml:space="preserve">
           <source>Connection failed</source>
-          <target state="new">Connection failed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Error de conexión</target>
         </trans-unit>
         <trans-unit id="CreateWarningText.Text" translate="yes" xml:space="preserve">
           <source>Please do not close or minimize this app</source>
-          <target state="new">Please do not close or minimize this app</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">No cerrar o minimizar esta aplicación</target>
         </trans-unit>
         <trans-unit id="FirstCreateText.Text" translate="yes" xml:space="preserve">
           <source>We are searching your music...</source>
-          <target state="new">We are searching your music...</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Estamos buscando tu música...</target>
         </trans-unit>
         <trans-unit id="RefreshPanelText.Text" translate="yes" xml:space="preserve">
           <source>We are searching for your new songs</source>
-          <target state="new">We are searching for your new songs</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Estamos en la búsqueda de sus nuevas canciones</target>
         </trans-unit>
         <trans-unit id="AppName" translate="yes" xml:space="preserve">
           <source>Aurora Music</source>
-          <target state="new">Aurora Music</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Música de Aurora</target>
         </trans-unit>
         <trans-unit id="ThanksContent.Text" translate="yes" xml:space="preserve">
           <source>geci.me provides the lyrics' api</source>
-          <target state="new">geci.me provides the lyrics' api</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">GECI.me proporciona api de la letra</target>
         </trans-unit>
         <trans-unit id="ThanksText.Text" translate="yes" xml:space="preserve">
           <source>Special Thanks</source>
-          <target state="new">Special Thanks</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Agradecimientos</target>
+        </trans-unit>
+        <trans-unit id="PlabackSpacetoPauseContent.Text" translate="yes" xml:space="preserve">
+          <source>Use Space to Play/Pause</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Utilizar el espacio para reproducir o pausar</target>
+        </trans-unit>
+        <trans-unit id="TileNowDisplayName" translate="yes" xml:space="preserve">
+          <source>Now Playing</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Reproducción en curso</target>
+        </trans-unit>
+        <trans-unit id="DeleteHintText.Text" translate="yes" xml:space="preserve">
+          <source>Deletions may take effects at next launch</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Canceladuras pueden tener efectos en el próximo lanzamiento</target>
+        </trans-unit>
+        <trans-unit id="FeedbackButton.Content" translate="yes" xml:space="preserve">
+          <source>Rate this!</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tasa de esto!</target>
         </trans-unit>
       </group>
     </body>

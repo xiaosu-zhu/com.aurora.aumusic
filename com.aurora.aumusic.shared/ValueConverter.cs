@@ -282,7 +282,6 @@ namespace com.aurora.aumusic.shared
             if (value is string[])
             {
                 bool LongFormat = false;
-
                 if (parameter is bool)
                     if (((bool)parameter) == true)
                         LongFormat = true;

@@ -36,25 +36,25 @@
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Name="Musictext" Text="{x:Bind Folder, Converter={StaticResource PathConverter}}" Grid.Column="0" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center" />
-                    <Button x:Name="DeleteButton" Click="DeleteButton_Click" Grid.Column="1" Style="{ThemeResource TextBlockButtonStyle}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Center">
-                        <Button.Content>
+                    <local:ButtonWithoutKeySelect x:Name="DeleteButton" Click="DeleteButton_Click" Grid.Column="1" Foreground="Red" Style="{ThemeResource TextBlockButtonStyle}" Visibility="{x:Bind visibility, Mode=OneWay}" VerticalAlignment="Center">
+                        <local:ButtonWithoutKeySelect.Content>
                             <SymbolIcon Symbol="Delete" />
-                        </Button.Content>
-                        <Button.Flyout>
+                        </local:ButtonWithoutKeySelect.Content>
+                        <local:ButtonWithoutKeySelect.Flyout>
                             <Flyout>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock x:Uid="DeleteConfirmText" Style="{ThemeResource BodyTextBlockStyle}" Margin="4">
                                     </TextBlock>
                                     <Grid>
-                                        <Button x:Name="DeleteConfirmButton" x:Uid="DeleteOkText" Click="DeleteConfirmButton_Click"  HorizontalAlignment="Left" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,4,0,0">
-                                        </Button>
-                                        <Button x:Name="DeleteCancelButton" x:Uid="DeleteCancelText" Click="DeleteCancelButton_Click" HorizontalAlignment="Right" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,8,0">
-                                        </Button>
+                                        <local:ButtonWithoutKeySelect x:Name="DeleteConfirmButton" x:Uid="DeleteOkText" Click="DeleteConfirmButton_Click"  HorizontalAlignment="Left" Foreground="Red" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,4,0,0">
+                                        </local:ButtonWithoutKeySelect>
+                                        <local:ButtonWithoutKeySelect x:Name="DeleteCancelButton" x:Uid="DeleteCancelText" Click="DeleteCancelButton_Click" HorizontalAlignment="Right" Foreground="Red" Style="{ThemeResource TextBlockButtonStyle}" Margin="0,4,8,0">
+                                        </local:ButtonWithoutKeySelect>
                                     </Grid>
                                 </StackPanel>
                             </Flyout>
-                        </Button.Flyout>
-                    </Button>
+                        </local:ButtonWithoutKeySelect.Flyout>
+                    </local:ButtonWithoutKeySelect>
                 </Grid>
             </DataTemplate>
             <Style x:Key="SeetingsListItemStyle" TargetType="ListViewItem">
@@ -126,11 +126,11 @@
                     <StackPanel Orientation="Vertical" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
                         <Grid HorizontalAlignment="Stretch">
                             <TextBlock x:Name="LocationTextBlock" x:Uid="LocationSettingsTitle" Margin="12,0,0,0" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                            <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Style="{StaticResource TextBlockButtonStyle}">
-                                <Button.Content>
+                            <local:ButtonWithoutKeySelect HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Foreground="{ThemeResource SystemThemeMainBrush}" Style="{StaticResource TextBlockButtonStyle}">
+                                <local:ButtonWithoutKeySelect.Content>
                                     <SymbolIcon Symbol="Add"/>
-                                </Button.Content>
-                            </Button>
+                                </local:ButtonWithoutKeySelect.Content>
+                            </local:ButtonWithoutKeySelect>
                         </Grid>
                         <ListView x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" SelectionChanged="MusicSettingsSearchingList_SelectionChanged" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
                   ItemTemplate="{StaticResource MusicFolderListTemplate}"
@@ -147,10 +147,17 @@
                                 </GroupStyle>
                             </ListView.GroupStyle>
                         </ListView>
+                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Foreground="Red" x:Uid="DeleteHintText" Margin="12,4,0,0" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="PlaybackSettingsPanel" RelativePanel.Below="MusicSettingsPanel" RelativePanel.AlignLeftWith="SettingsTitle" RelativePanel.AlignRightWithPanel="True" Margin="12,12,12,12">
                     <TextBlock x:Uid="PlaybackSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" FontSize="26.667" Margin="12"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,12,12" >
+                        <TextBlock x:Uid="PlabackSpacetoPauseContent" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,0,0"  VerticalAlignment="Center"/>
+                        <ToggleSwitch x:Name="SpacetoPauseSwitch" Loaded="SpacetoPauseSwitch_Loaded" Margin="88,0,0,0" x:Uid="AutoSearchLrcButton"/>
+                        <!--TODO: Search and pull lyrics-->
+
+                    </StackPanel>
                     <TextBlock x:Uid="PlaybackSettingsContent" Style="{ThemeResource BodyTextBlockStyle}" Margin="12,0,12,12" />
                 </StackPanel>
             </StackPanel>
@@ -161,8 +168,8 @@
             <TextBlock Margin="0,8,8,0" Loaded="TextBlock_Loaded" Style="{ThemeResource BodyTextBlockStyle}" />
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="LicenseText" />
             <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="LicenseContent" />
-            <Button Foreground="{ThemeResource SystemThemeMainBrush}" Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Content="License">
-                <Button.Flyout>
+            <local:ButtonWithoutKeySelect Foreground="{ThemeResource SystemThemeMainBrush}" Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Content="License">
+                <local:ButtonWithoutKeySelect.Flyout>
                     <Flyout Placement="Full">
                         <Flyout.Content>
                             <TextBlock MaxWidth="420" Style="{ThemeResource BodyTextBlockStyle}" Text="Copyright(C) 2015 Aurora Studio&#x000A;&#x000A;
@@ -177,11 +184,12 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
                             </TextBlock>
                         </Flyout.Content>
                     </Flyout>
-                </Button.Flyout>
-            </Button>
+                </local:ButtonWithoutKeySelect.Flyout>
+            </local:ButtonWithoutKeySelect>
             <HyperlinkButton Margin="0,8,8,0" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Content="Github.com" NavigateUri="https://github.com/aurora-lzzp/com.aurora.aumusic"/>
             <TextBlock Margin="0,16,16,0" Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="ThanksText" />
             <TextBlock Margin="0,8,8,0" Style="{ThemeResource BodyTextBlockStyle}" x:Uid="ThanksContent" />
+            <Button x:Uid="FeedbackButton" Style="{ThemeResource TextBlockButtonStyle}" Foreground="{ThemeResource SystemThemeMainBrush}" Click="Button_Click_1" />
         </StackPanel>
     </RelativePanel>
 </Page>

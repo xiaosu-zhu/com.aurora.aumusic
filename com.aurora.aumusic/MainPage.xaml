@@ -516,7 +516,8 @@
             <!-- 菜单面板按钮定义 -->
             <SplitView.Pane>
                 <Grid>
-                    <Button x:Name="Menubtn" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" />
+                    <local:ButtonWithoutKeySelect x:Name="Menubtn" Style="{StaticResource SplitViewTogglePaneButtonStyle}" Background="Transparent" Click="Menubtn_Click" >
+                    </local:ButtonWithoutKeySelect>
                     <ListView  x:Name="MenuList" Margin="0,36,0,0" ItemsSource="{x:Bind SplitViewSources.View}"
                   ItemTemplate="{StaticResource SplitListDataTemplate}" Style="{StaticResource SplitListViewStyle}" SelectionChanged="MenuList_SelectionChanged" >
                         <ListView.ItemContainerStyle>
@@ -542,7 +543,7 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button x:Name="SettingsButton" Height="48" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Style="{StaticResource DrawerButtonStyle}">
+                    <local:ButtonWithoutKeySelect x:Name="SettingsButton" Height="48" Width="auto" Click="SettingsButton_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Style="{StaticResource DrawerButtonStyle}">
                         <StackPanel Orientation="Horizontal">
                             <Grid Width="48" Height="48">
                                 <SymbolIcon Symbol="Setting" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -551,7 +552,7 @@
                                            Margin="24,0,0,0"
                                            VerticalAlignment="Center" FontSize="18.667"/>
                         </StackPanel>
-                    </Button>
+                    </local:ButtonWithoutKeySelect>
                 </Grid>
             </SplitView.Pane>
 
@@ -766,6 +767,7 @@
                                 <Image x:Name="PlayBackImage" Source="{Binding FallbackValue=Assets/placeholder.png}" />
                             </Viewbox>
                             <Rectangle x:Name="PlayBackFore" Loaded="PlayBackFore_Loaded" Fill="{ThemeResource SystemControlForegroundAltHighBrush}" Opacity="0.3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                            <ProgressRing x:Name="ArtworkLoadingRing" Foreground="{ThemeResource SystemThemeMainBrush}" IsActive="False" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Width="48" Height="48" />
                         </Grid>
                         <Grid x:Name="NowPlayingDetailsGrid" Grid.Column="1" Loaded="NowPlayingDetailsGrid_Loaded" Canvas.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="192" Margin="0" Height="64">
                             <Grid.Resources>
@@ -834,16 +836,16 @@
                                 <AppBarButton.Flyout>
                                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                                         <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource CircleButtonStyle}">
-                                                <Button.Content>
+                                            <local:ButtonWithoutKeySelect x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource CircleButtonStyle}">
+                                                <local:ButtonWithoutKeySelect.Content>
                                                     <SymbolIcon>
                                                         <SymbolIcon.Symbol>Mute</SymbolIcon.Symbol>
                                                     </SymbolIcon>
-                                                </Button.Content>
+                                                </local:ButtonWithoutKeySelect.Content>
                                                 <ToolTipService.ToolTip>
                                                     <TextBlock x:Uid="VolumeButtonTip" />
                                                 </ToolTipService.ToolTip>
-                                            </Button>
+                                            </local:ButtonWithoutKeySelect>
                                             <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
                                             <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                                         </StackPanel>

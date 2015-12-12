@@ -22,6 +22,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using com.aurora.aumusic.shared;
 
 namespace com.aurora.aumusic
 {
@@ -95,6 +96,7 @@ namespace com.aurora.aumusic
             }
             else
             {
+                ApplicationSettingsHelper.SaveSettingsValue("NewCreated", "true");
                 (Window.Current.Content as Frame).Navigate(typeof(MainPage));
             }
         }

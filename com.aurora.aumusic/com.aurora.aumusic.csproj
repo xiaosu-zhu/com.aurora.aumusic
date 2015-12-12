@@ -118,6 +118,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ButtonWithoutKeySelect.cs" />
     <Compile Include="ListViewExtension.cs" />
     <Compile Include="NowPlayingHub.cs" />
     <Compile Include="PageViewModels.cs" />

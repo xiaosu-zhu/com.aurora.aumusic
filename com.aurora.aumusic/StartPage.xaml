@@ -39,11 +39,11 @@
         <RelativePanel RelativePanel.Below="WelcomeSettingsTitle" RelativePanel.Above="FinishStartButton" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
             <Grid x:Name="gridone" RelativePanel.AlignVerticalCenterWithPanel="True" Width="420" RelativePanel.AlignTopWithPanel="True">
                 <TextBlock x:Name="LocationTextBlock" Foreground="White" x:Uid="LocationSettingsTitle" Margin="12,0,0,0" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                <Button HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Foreground="White" Style="{StaticResource TextBlockButtonStyle}">
-                    <Button.Content>
+                <local:ButtonWithoutKeySelect HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Foreground="White" Style="{StaticResource TextBlockButtonStyle}">
+                    <local:ButtonWithoutKeySelect.Content>
                         <SymbolIcon Symbol="Add"/>
-                    </Button.Content>
-                </Button>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
             </Grid>
             <ListView RelativePanel.Below="gridone" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Width="420" x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
                   ItemTemplate="{StaticResource MusicFolderListTemplate}"
@@ -60,10 +60,10 @@
                 </ListView.GroupStyle>
             </ListView>
         </RelativePanel>
-        <Button x:Name="FinishStartButton" Click="FinishStartButton_Click" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" FontSize="40" Margin="24" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White">
-            <Button.Content>
+        <local:ButtonWithoutKeySelect x:Name="FinishStartButton" Click="FinishStartButton_Click" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" FontSize="40" Margin="0,0,24,80" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White">
+            <local:ButtonWithoutKeySelect.Content>
                 <SymbolIcon Symbol="Forward" />
-            </Button.Content>
-        </Button>
+            </local:ButtonWithoutKeySelect.Content>
+        </local:ButtonWithoutKeySelect>
     </RelativePanel>
 </Page>

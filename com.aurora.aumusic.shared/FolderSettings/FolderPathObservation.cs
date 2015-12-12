@@ -101,6 +101,7 @@ namespace com.aurora.aumusic.shared.FolderSettings
                     }
                 }
             }
+            ApplicationSettingsHelper.SaveSettingsValue("NewDeleted", "true");
         }
 
         public ObservableCollection<PathGroupList> GetFolders()

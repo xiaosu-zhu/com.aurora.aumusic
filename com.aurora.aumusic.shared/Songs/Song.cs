@@ -119,6 +119,7 @@ namespace com.aurora.aumusic.shared.Songs
             }
             set
             {
+                //不要試圖使用 .scale-XXX 在下載包的時候會被 trim 掉
                 _artWork = (value == null) ? "ms-appx:///Assets/ArtworkPlaceholder.png" : value;
             }
         }

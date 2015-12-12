@@ -64,6 +64,7 @@ namespace com.aurora.aumusic
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            trigger.Set();
             base.OnNavigatedFrom(e);
             if (LyricTimer != null)
             {
@@ -160,31 +161,36 @@ namespace com.aurora.aumusic
 
         private async void WaitingRing_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            await Task.Delay(700);
+            IAsyncAction asyncAction;
+            if (!DoSearch)
             {
-                if (!DoSearch)
-                {
-                    WaitingRing.IsActive = false;
-                    WaitingPanel.Visibility = Visibility.Collapsed;
-                    return;
-                }
-                await Task.Delay(700);
-                IAsyncAction asyncAction = ThreadPool.RunAsync(
-                             async (workItem) =>
+                WaitingRing.IsActive = false;
+                WaitingPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
+            asyncAction = ThreadPool.RunAsync(
+                         async (workItem) =>
+                         {
+                             await FetchLrc();
+                             if (trigger != null)
                              {
-                                 await FetchLrc();
                                  trigger.Set();
                                  await this.Dispatcher.RunAsync(
-                                                                  CoreDispatcherPriority.High,
-                                                                  new DispatchedHandler(() =>
+                                                              CoreDispatcherPriority.High,
+                                                              new DispatchedHandler(() =>
+                                                              {
+                                                                  if (lyrics == null)
+                                                                      return;
+                                                                  if (WaitingRing != null)
                                                                   {
-                                                                      if (lyrics == null)
-                                                                          return;
                                                                       LyricSource.Source = lyrics;
                                                                       LyricView.ItemsSource = LyricSource.View;
                                                                       WaitingRing.IsActive = false;
                                                                       WaitingPanel.Visibility = Visibility.Collapsed;
-                                                                  }));
+                                                                  }
+
+                                                              }));
                                  if (lyric != null)
                                  {
                                      LyricTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
@@ -192,27 +198,36 @@ namespace com.aurora.aumusic
                                          var now = BackgroundMediaPlayer.Current.Position;
                                          await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
                                          {
-                                             foreach (var item in lyrics)
+                                             if (WaitingRing != null)
                                              {
-                                                 item.MainColor = this.MainColor;
+                                                 foreach (var item in lyrics)
+                                                 {
+                                                     item.MainColor = Resources["SystemControlTranslucentHighBrush"] as SolidColorBrush;
+                                                 }
+                                                 try
+                                                 {
+                                                     lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["FixedWhiteBrush"] as SolidColorBrush;
+                                                     await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
+                                                 }
+                                                 catch (Exception)
+                                                 {
+                                                     TimerOver();
+                                                 }
                                              }
-                                             try
-                                             {
-                                                 lyrics[lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now))].MainColor = Resources["SystemThemeMainBrush"] as SolidColorBrush;
-                                                 await LyricView.ScrollToIndex(lyric.Lyrics.IndexOf(lyric.BeforeOrAt(now)));
-                                             }
-                                             catch (Exception)
-                                             {
-                                                 TimerOver();
-                                             }
-
                                          }));
                                      }, TimeSpan.FromSeconds(0.16));
 
                                  }
-                             });
 
-                await Task.Run(async () =>
+                                 else
+                                     return;
+
+                             }
+                         });
+
+            await Task.Run(async () =>
+            {
+                try
                 {
                     bool result = trigger.WaitOne(15000);
                     {
@@ -223,25 +238,28 @@ namespace com.aurora.aumusic
                             asyncAction.Close();
                             await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
                             {
-                                ErrPanel.Visibility = Visibility.Visible;
-                                WaitingRing.IsActive = false;
-                                WaitingPanel.Visibility = Visibility.Collapsed;
-                                LyricView.IsEnabled = false;
-                                LyricView.Visibility = Visibility.Collapsed;
-
+                                if (WaitingRing != null)
+                                {
+                                    ErrPanel.Visibility = Visibility.Visible;
+                                    WaitingRing.IsActive = false;
+                                    WaitingPanel.Visibility = Visibility.Collapsed;
+                                    LyricView.IsEnabled = false;
+                                    LyricView.Visibility = Visibility.Collapsed;
+                                }
                             }));
                         }
 
                     }
-                });
+                }
+                catch (Exception)
+                {
+                    return;
+                }
 
-            }
-            catch (Exception)
-            {
-                return;
-            }
+            });
 
         }
+
 
         private void TimerOver()
         {
@@ -262,8 +280,19 @@ namespace com.aurora.aumusic
             }
             catch (Exception)
             {
-                await genLrc();
-                trigger.Set();
+                try
+                {
+                    await genLrc();
+                    trigger.Set();
+                }
+                catch (Exception)
+                {
+                    if (trigger != null)
+                    {
+                        trigger.Set();
+                    }
+                }
+
             }
         }
 
@@ -287,7 +316,7 @@ namespace com.aurora.aumusic
                           if (lyrics != null)
                               foreach (var item in lyrics)
                               {
-                                  item.MainColor = mainColor;
+                                  item.MainColor = Resources["SystemControlTranslucentHighBrush"] as SolidColorBrush;
                               }
                       }));
              });

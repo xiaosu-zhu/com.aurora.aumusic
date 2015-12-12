@@ -36,6 +36,9 @@ namespace com.aurora.aumusic.shared.Albums
         public List<AlbumItem> albums = new List<AlbumItem>();
         private List<KeyValuePair<string, List<IStorageFile>>> refreshList;
         public List<IStorageFile> AllList = new List<IStorageFile>();
+        private bool Refreshing;
+        private List<string> NowRefreshKeys = new List<string>();
+
         public event AlbumCreateProgressChangeHandler progresschanged = delegate { };
         public delegate void AlbumCreateProgressChangeHandler(object sender, AlbumProgressChangedEventArgs e);
         public event NotifyRefreshHandler notifyrefresh = delegate { };
@@ -131,6 +134,10 @@ namespace com.aurora.aumusic.shared.Albums
 
         public async Task RefreshtoList(KeyValuePair<string, List<IStorageFile>> item)
         {
+            if (Refreshing == true && NowRefreshKeys.Contains(item.Key))
+                return;
+            Refreshing = true;
+            NowRefreshKeys.Add(item.Key);
             int index = albums.Count;
             string tempPath = item.Key;
             foreach (IStorageFile tempFile in item.Value)
@@ -154,7 +161,7 @@ namespace com.aurora.aumusic.shared.Albums
             {
                 RefreshAlbumstoStorage(afterList, tempPath);
             });
-
+            NowRefreshKeys.Remove(item.Key);
         }
 
         public void CopytoAlbumList()

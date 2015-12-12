@@ -200,6 +200,46 @@ namespace com.aurora.aumusic
                 Windows.ApplicationModel.Package.Current.Id.Version.Minor.ToString("0") + "." +
                 Windows.ApplicationModel.Package.Current.Id.Version.Build.ToString("0");
         }
+
+        private void SpacetoPauseSwitch_Loaded(object sender, RoutedEventArgs e)
+        {
+            var str = (string)ApplicationSettingsHelper.ReadSettingsValue("SpacePause");
+            if (str == null || str == "true")
+            {
+                SpacetoPauseSwitch.IsOn = true;
+            }
+            else if (str == "false")
+            {
+                SpacetoPauseSwitch.IsOn = false;
+            }
+            SpacetoPauseSwitch.Toggled += SpacetoPauseSwitch_Toggled;
+        }
+
+        private void SpacetoPauseSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            switch (SpacetoPauseSwitch.IsOn)
+            {
+                case true: ApplicationSettingsHelper.SaveSettingsValue("SpacePause", "true");
+                    if ((Window.Current.Content as Frame).Content is MainPage)
+                    {
+                        ((Window.Current.Content as Frame).Content as MainPage).BindSpace();
+                    }
+                    break;
+                case false: ApplicationSettingsHelper.SaveSettingsValue("SpacePause", "false");
+                    if((Window.Current.Content as Frame).Content is MainPage)
+                    {
+                        ((Window.Current.Content as Frame).Content as MainPage).UnBindSpace();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store:REVIEW?PFN=" + Windows.ApplicationModel.Package.Current.Id.FamilyName));
+        }
     }
 
 }

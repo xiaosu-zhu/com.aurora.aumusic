@@ -80,7 +80,13 @@ namespace com.aurora.aumusic
                 }
                 else
                 {
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)localSettings.Values["FolderSettings"];
+                    if (composite != null && (int)composite["FolderCount"] > 0)
+                    {
+
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    }
+                    else rootFrame.Navigate(typeof(StartPage));
                 }
             }
             // 确保当前窗口处于活动状态

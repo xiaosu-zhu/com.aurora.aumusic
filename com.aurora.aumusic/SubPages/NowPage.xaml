@@ -531,7 +531,7 @@
                 </Setter>
             </Style>
             <converter:ThumbToolTipConveter x:Key="SliderConverter" />
-            <converter:MainColorConverter x:Key="ColorConverter" />
+            <converter:SubColorConverter x:Key="ColorConverter" />
             <converter:StringPathConverter x:Key="pathconverter" />
             <converter:FileSizeConverter x:Key="sizeconverter" />
             <converter:BitRateConverter x:Key="bitrateconverter" />
@@ -946,79 +946,79 @@
                     </Storyboard>
                 </RelativePanel.Resources>
                 <Rectangle Fill="Transparent" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" />
-                <Button x:Name="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
-                    <Button.Content>
+                <local:ButtonWithoutKeySelect x:Name="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                    <local:ButtonWithoutKeySelect.Content>
                         &#xE224;
-                    </Button.Content>
-                </Button>
-                <Button x:Name="TwoStarButton" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
-                    <Button.Content>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
+                <local:ButtonWithoutKeySelect x:Name="TwoStarButton" RelativePanel.RightOf="OneStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                    <local:ButtonWithoutKeySelect.Content>
                         &#xE224;
-                    </Button.Content>
-                </Button>
-                <Button x:Name="ThreeStarButton" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
-                    <Button.Content>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
+                <local:ButtonWithoutKeySelect x:Name="ThreeStarButton" RelativePanel.RightOf="TwoStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                    <local:ButtonWithoutKeySelect.Content>
                         &#xE224;
-                    </Button.Content>
-                </Button>
-                <Button x:Name="FourStarButton" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
-                    <Button.Content>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
+                <local:ButtonWithoutKeySelect x:Name="FourStarButton" RelativePanel.RightOf="ThreeStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                    <local:ButtonWithoutKeySelect.Content>
                         &#xE224;
-                    </Button.Content>
-                </Button>
-                <Button x:Name="FiveStarButton" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
-                    <Button.Content>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
+                <local:ButtonWithoutKeySelect x:Name="FiveStarButton" RelativePanel.RightOf="FourStarButton" PointerEntered="OneStarButton_PointerEntered" Click="OneStarButton_Click" Style="{ThemeResource QuickButtonStyle}" >
+                    <local:ButtonWithoutKeySelect.Content>
                         &#xE224;
-                    </Button.Content>
-                </Button>
+                    </local:ButtonWithoutKeySelect.Content>
+                </local:ButtonWithoutKeySelect>
             </RelativePanel>
 
-            <Button Margin="24,2,0,0" x:Name="LoveButton" Foreground="White" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Style="{ThemeResource QuickButtonStyle}" >
-                <Button.Content>
+            <local:ButtonWithoutKeySelect Margin="24,2,0,0" x:Name="LoveButton" Foreground="White" PointerEntered="LoveButton_PointerEntered" Click="LoveButton_Click" PointerExited="LoveButton_PointerExited" Style="{ThemeResource QuickButtonStyle}" >
+                <local:ButtonWithoutKeySelect.Content>
                     &#xE006;
-                </Button.Content>
-            </Button>
+                </local:ButtonWithoutKeySelect.Content>
+            </local:ButtonWithoutKeySelect>
         </StackPanel>
 
         <RelativePanel x:Name="PlaybackControlPanel" Background="{ThemeResource SystemBackgroundAltHighBrush}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="QuickPanel">
-            <Button x:Name="PlayPauseButton" Loaded="PlayPauseButton_Loaded" Click="PlayPauseButton_Click" Style="{ThemeResource MainButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background, Converter={StaticResource ColorConverter}, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
-                <Button.Content >
+            <local:ButtonWithoutKeySelect x:Name="PlayPauseButton" Loaded="PlayPauseButton_Loaded" Click="PlayPauseButton_Click" Style="{ThemeResource MainButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background, Converter={StaticResource ColorConverter}, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,64,0,0" Width="100" Height="100">
+                <local:ButtonWithoutKeySelect.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/pausesolid.png" />
-                </Button.Content>
+                </local:ButtonWithoutKeySelect.Content>
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="PlayTip.Text" />
                 </ToolTipService.ToolTip>
-            </Button>
-            <Button x:Name="NextButton" Click="NextButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
-                <Button.Content >
+            </local:ButtonWithoutKeySelect>
+            <local:ButtonWithoutKeySelect x:Name="NextButton" Click="NextButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.RightOf="PlayPauseButton" Margin="48,78,0,0" Width="72" Height="72">
+                <local:ButtonWithoutKeySelect.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/nextsolid.png" />
-                </Button.Content>
+                </local:ButtonWithoutKeySelect.Content>
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="NextButtonTip" />
                 </ToolTipService.ToolTip>
-            </Button>
-            <Button x:Name="PreviousButton" Click="PreviousButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
-                <Button.Content >
+            </local:ButtonWithoutKeySelect>
+            <local:ButtonWithoutKeySelect x:Name="PreviousButton" Click="PreviousButton_Click" Style="{ThemeResource MainButtonStyle}" Background="{Binding ElementName=PlayPauseButton, Path=Background}" Foreground="{Binding ElementName=PlayPauseButton, Path=Foreground, FallbackValue={ThemeResource SystemBackgroundAltHighBrush}}" RelativePanel.LeftOf="PlayPauseButton" Margin="0,78,48,0" Width="72" Height="72">
+                <local:ButtonWithoutKeySelect.Content >
                     <BitmapIcon UriSource="/Assets/ButtonIcon/previoussolid.png" />
-                </Button.Content>
+                </local:ButtonWithoutKeySelect.Content>
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="PreviousButtonTip" />
                 </ToolTipService.ToolTip>
-            </Button>
-            <Button x:Name="StopButton" Click="StopButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
-                <Button.Content>
+            </local:ButtonWithoutKeySelect>
+            <local:ButtonWithoutKeySelect x:Name="StopButton" Click="StopButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="NextButton" Margin="32,96,0,0" Width="36" Height="36">
+                <local:ButtonWithoutKeySelect.Content>
                     <SymbolIcon x:Name="StopSymbol" Symbol="Stop" />
-                </Button.Content>
+                </local:ButtonWithoutKeySelect.Content>
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="StopButtonTip" />
                 </ToolTipService.ToolTip>
-            </Button>
-            <Button x:Name="ListButton" Click="ListButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
+            </local:ButtonWithoutKeySelect>
+            <local:ButtonWithoutKeySelect x:Name="ListButton" Click="ListButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="StopButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="ListSymbol" Symbol="List" />
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="ListButtonTip" />
                 </ToolTipService.ToolTip>
-                <Button.Flyout>
+                <local:ButtonWithoutKeySelect.Flyout>
                     <Flyout Closed="Flyout_Closed">
                         <StackPanel Orientation="Vertical" x:Name="LoadingNowListPanel">
                             <ProgressRing x:Name="NowListLoadingRing" IsActive="False" VerticalAlignment="Center" HorizontalAlignment="Center" Height="48" Width="48"/>
@@ -1030,14 +1030,14 @@
                             </ListView>
                         </StackPanel>
                     </Flyout>
-                </Button.Flyout>
-            </Button>
-            <Button x:Name="MoreDetailsButton" Click="MoreDetailsButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
+                </local:ButtonWithoutKeySelect.Flyout>
+            </local:ButtonWithoutKeySelect>
+            <local:ButtonWithoutKeySelect x:Name="MoreDetailsButton" Click="MoreDetailsButton_Click" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.RightOf="ListButton" Margin="32,96,0,0" Width="36" Height="36">
                 <SymbolIcon x:Name="MoreSymbol" Symbol="More" />
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="SongDetailsButtonTip" />
                 </ToolTipService.ToolTip>
-                <Button.Flyout>
+                <local:ButtonWithoutKeySelect.Flyout>
                     <Flyout Placement="Full">
                         <Grid MaxWidth="420" x:Name="CurrentSongDetailsPanel">
                             <Grid.RowDefinitions>
@@ -1113,8 +1113,8 @@
                             <TextBlock x:Name="CurrentSongRating" Text="{x:Bind SongDetails.Rating, Mode=OneWay, Converter={StaticResource ratingconverter}, TargetNullValue=}" Style="{ThemeResource BodyTextBlockStyle}" FontFamily="{StaticResource SymbolThemeFontFamily}" Grid.Row="13" Grid.Column="1" MaxLines="1" TextTrimming="Clip" Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Grid>
                     </Flyout>
-                </Button.Flyout>
-            </Button>
+                </local:ButtonWithoutKeySelect.Flyout>
+            </local:ButtonWithoutKeySelect>
             <ToggleButton x:Name="ShuffleButton" Click="ShuffleButton_Click" Style="{ThemeResource QuickToggleStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="PreviousButton" Margin="0,96,32,0" Width="36" Height="36">
                 <ToggleButton.Content>
                     <SymbolIcon x:Name="ShuffleSymbol" Symbol="Shuffle" />
@@ -1131,35 +1131,35 @@
                     <TextBlock x:Uid="RepeatButtonTip" />
                 </ToolTipService.ToolTip>
             </ToggleButton>
-            <Button x:Name="VolumeButton" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
-                <Button.Content>
+            <local:ButtonWithoutKeySelect x:Name="VolumeButton" Style="{ThemeResource QuickControlButtonStyle}" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" RelativePanel.LeftOf="RepeatButton" Margin="0,96,32,0" Width="36" Height="36">
+                <local:ButtonWithoutKeySelect.Content>
                     <SymbolIcon x:Name="Volume" Symbol="Volume" />
-                </Button.Content>
+                </local:ButtonWithoutKeySelect.Content>
                 <ToolTipService.ToolTip>
                     <TextBlock x:Uid="VolumeButtonTip" />
                 </ToolTipService.ToolTip>
-                <Button.Flyout>
+                <local:ButtonWithoutKeySelect.Flyout>
                     <Flyout x:Name="VolumeFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyle}" Closed="VolumeFlyout_Closed">
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource QuickControlButtonStyle}">
-                                <Button.Content>
+                            <local:ButtonWithoutKeySelect x:Name="FastMuteButton" Click="FastMuteButton_Click" Width="36" Height="36" VerticalAlignment="Center" Margin="8,0,0,0" Style="{StaticResource QuickControlButtonStyle}">
+                                <local:ButtonWithoutKeySelect.Content>
                                     <SymbolIcon>
                                         <SymbolIcon.Symbol>Mute</SymbolIcon.Symbol>
                                     </SymbolIcon>
-                                </Button.Content>
-                            </Button>
+                                </local:ButtonWithoutKeySelect.Content>
+                            </local:ButtonWithoutKeySelect>
                             <Slider x:Name="VolumeSlider" HorizontalAlignment="Center" Minimum="0" Maximum="100" Loaded="VolumeSlider_Loaded" IsThumbToolTipEnabled="False" Margin="8,4,0,0" VerticalAlignment="Center" Width="256"/>
                             <TextBlock x:Name="VolumeValue" HorizontalAlignment="Center" Margin="12" Style="{StaticResource MediaTextBlockStyle}" Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Text="{Binding Value, ElementName=VolumeSlider}" VerticalAlignment="Center" Width="24"/>
                         </StackPanel>
                     </Flyout>
-                </Button.Flyout>
-            </Button>
+                </local:ButtonWithoutKeySelect.Flyout>
+            </local:ButtonWithoutKeySelect>
             <Slider x:Name="PositionSlider" Loaded="PositionSlider_Loaded" Foreground="{Binding ElementName=PlayPauseButton, Path=Background}" Style="{ThemeResource MediaSliderStyle}" ThumbToolTipValueConverter="{StaticResource SliderConverter}" Margin="-64,64,-64,0" RelativePanel.AlignLeftWith="VolumeButton" RelativePanel.AlignRightWith="MoreDetailsButton" RelativePanel.Below="PlayPauseButton" RelativePanel.AlignHorizontalCenterWithPanel="True" />
             <TextBlock x:Name="PastTimeBlock" RelativePanel.LeftOf="VolumeButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="0,38,78,0" Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ElementName=PositionSlider, Path=Value, Converter={StaticResource SliderConverter}}" />
             <TextBlock x:Name="TotalTimeBlock" RelativePanel.RightOf="MoreDetailsButton" RelativePanel.AlignVerticalCenterWith="PositionSlider" Margin="78,38,0,0" Style="{ThemeResource BodyTextBlockStyle}" Text="0:00" />
         </RelativePanel>
 
-        <AppBarButton x:Name="DeDetailsButton"  Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Click="DeDetailsButton_Click" >
+        <AppBarButton x:Name="DeDetailsButton" Visibility="Collapsed" Style="{ThemeResource AppBarButtonStyleFullDark}" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" Click="DeDetailsButton_Click" >
             <AppBarButton.Icon>
                 <SymbolIcon x:Name="DeDetailsSymbol" Symbol="BackToWindow" />
             </AppBarButton.Icon>

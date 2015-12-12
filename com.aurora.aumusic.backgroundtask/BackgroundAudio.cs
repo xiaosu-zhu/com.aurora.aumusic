@@ -17,6 +17,7 @@ using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.Albums;
 using com.aurora.aumusic.shared.MessageService;
 using com.aurora.aumusic.shared.Songs;
+using NotificationsExtensions.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ using Windows.Storage.AccessCache;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.System.Threading;
+using Windows.UI.Notifications;
 
 namespace com.aurora.aumusic.backgroundtask
 {
@@ -350,6 +352,16 @@ namespace com.aurora.aumusic.backgroundtask
             BackgroundMediaPlayer.Current.Pause();
             BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
             CurrentPosition = TimeSpan.Zero;
+            if (playbackList != null)
+            {
+                if (playbackList.Items != null)
+                {
+                    var index = playbackList.Items.ToList().FindIndex(item =>
+                            GetTrackId(item).ToString() == ((StorageFile)FileList[0]).Path);
+                    if (index >= 0)
+                        playbackList.MoveTo((uint)index);
+                }
+            }
             NowState = MediaPlayerState.Stopped;
         }
 
@@ -445,8 +457,17 @@ namespace com.aurora.aumusic.backgroundtask
                 }
 
             }
+
+            if (CurrentPosition != null)
+            {
+                BackgroundMediaPlayer.Current.Position = CurrentPosition;
+
+            }
+            else
+            {
+                BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
+            }
             BackgroundMediaPlayer.Current.Play();
-            BackgroundMediaPlayer.Current.Position = TimeSpan.Zero;
             NowState = MediaPlayerState.Playing;
         }
 
@@ -504,10 +525,10 @@ namespace com.aurora.aumusic.backgroundtask
             // Update the system view
             if (item == null)
                 return;
-            UpdateUVCOnNewTrack(item);
-
-            // Get the current track
             var currentTrackId = item.Source.CustomProperties[TrackIdKey] as string;
+            UpdateUVCOnNewTrack(item);
+            // Get the current track
+            
             // Notify foreground of change or persist for later
             MessageService.SendMessageToForeground(new BackPlaybackChangedMessage(NowState, Songs.Find(x => x.MainKey == currentTrackId)));
             ThreadPool.RunAsync(async (work) =>

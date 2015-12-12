@@ -169,6 +169,7 @@ namespace com.aurora.aumusic.shared.Albums
         {
             foreach (var item in Songs)
             {
+                //不要試圖使用 .scale-XXX 在下載包的時候會被 trim 掉
                 if (item.ArtWork != "ms-appx:///Assets/ArtworkPlaceholder.png")
                 {
                     AlbumArtWork = item.ArtWork;
@@ -178,6 +179,7 @@ namespace com.aurora.aumusic.shared.Albums
             }
             if (AlbumArtWork == null)
             {
+                //不要試圖使用 .scale-XXX 在下載包的時候會被 trim 掉
                 AlbumArtWork = "ms-appx:///Assets/ArtworkPlaceholder.png";
                 ArtWorkSize = new Size(400, 400);
             }
