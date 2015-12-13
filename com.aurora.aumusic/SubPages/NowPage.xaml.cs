@@ -210,6 +210,10 @@ namespace com.aurora.aumusic
 
         private void PositionSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
+            if (PositionSlider.Value == 100)
+            {
+                return;
+            }
             BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * PositionSlider.Value) / 100.0));
         }
 
@@ -327,7 +331,6 @@ namespace com.aurora.aumusic
             {
                 MainColor = await BitmapHelper.New(stream);
                 PlayPauseButton.Background = new SolidColorBrush(MainColor);
-                ((Window.Current.Content as Frame).Content as MainPage).NotifyLrcPageArtworkChanged(PlayPauseButton.Foreground);
             }));
         }
 

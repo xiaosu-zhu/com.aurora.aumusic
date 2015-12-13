@@ -22,6 +22,7 @@
     <SolidColorBrush x:Key="SystemThemeMainBrush" Color="#FF0074CE" />
     <SolidColorBrush x:Key="SystemTransparentBrush" Color="Transparent" />
     <SolidColorBrush x:Key="FixedWhiteBrush" Color="White"/>
+    <SolidColorBrush x:Key="FixedTranslucentBrush" Color="#44FFFFFF"/>
     <Color x:Key="SystemBackgroundAltHighColor" >#FFF0F0F0</Color>
     <Color x:Key="SystemBackgroundTranslucentHighColor" >#77F0F0F0</Color>
     <Color x:Key="SystemAltHighColor">#FFFFFFFF</Color>

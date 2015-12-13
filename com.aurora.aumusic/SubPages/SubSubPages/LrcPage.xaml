@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="../DarkThemeDictionary.xaml" x:Key="Dark"/>
             </ResourceDictionary.ThemeDictionaries>
             <DataTemplate x:DataType="lyric:LrcModel" x:Key="LyricShow">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="4" Text="{x:Bind Lyric.Content}" Foreground="{x:Bind MainColor, Mode=OneWay, TargetNullValue=White}" />
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Margin="4" Text="{x:Bind Lyric.Content}" Foreground="{x:Bind MainColor, Mode=OneWay, TargetNullValue={ThemeResource FixedTranslucentBrush}}" />
             </DataTemplate>
             <CollectionViewSource x:Name="LyricSource" />
             <Style x:Key="LyricViewStyle" TargetType="ListView">

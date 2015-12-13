@@ -157,6 +157,10 @@ namespace com.aurora.aumusic
 
         private void ProgressSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
+            if (ProgressSlider.Value == 100)
+            {
+                return;
+            }
             BackgroundMediaPlayer.Current.Position = TimeSpan.FromMilliseconds((((BackgroundMediaPlayer.Current.NaturalDuration.TotalMilliseconds) * ProgressSlider.Value) / 100.0));
         }
 
@@ -358,14 +362,6 @@ namespace com.aurora.aumusic
                 ProgressRoll.StrokeDashArray = cole;
 
             });
-        }
-
-        internal void NotifyLrcPageArtworkChanged(Brush mainColor)
-        {
-            if (NowLrcFrame.Content is LrcPage)
-            {
-                (NowLrcFrame.Content as LrcPage).UpdateArtwork(mainColor);
-            }
         }
 
         internal async void GoBack()

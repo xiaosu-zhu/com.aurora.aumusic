@@ -40,7 +40,6 @@ namespace com.aurora.aumusic
         ILrcFile lyric = null;
         List<LrcModel> lyrics;
         CurrentTheme Theme = ((Window.Current.Content as Frame).Content as MainPage).Theme;
-        public Brush MainColor { get; private set; }
         public ThreadPoolTimer LyricTimer { get; private set; }
         public bool DoSearch = true;
 
@@ -198,11 +197,11 @@ namespace com.aurora.aumusic
                                          var now = BackgroundMediaPlayer.Current.Position;
                                          await this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(async () =>
                                          {
-                                             if (WaitingRing != null)
+                                             if (WaitingRing != null && lyrics != null)
                                              {
                                                  foreach (var item in lyrics)
                                                  {
-                                                     item.MainColor = Resources["SystemControlTranslucentHighBrush"] as SolidColorBrush;
+                                                     item.MainColor = Resources["FixedTranslucentBrush"] as SolidColorBrush;
                                                  }
                                                  try
                                                  {
@@ -301,25 +300,5 @@ namespace com.aurora.aumusic
             DynamicFooter.Height = LyricView.ActualHeight;
         }
 
-        internal void UpdateArtwork(Brush mainColor)
-        {
-            WaitingRing.Foreground = mainColor;
-            WaitingText.Foreground = mainColor;
-            ErrText.Foreground = mainColor;
-            ThreadPool.RunAsync((work) =>
-             {
-                 bool result = trigger.WaitOne(15000);
-                 if (result == true)
-                     this.Dispatcher.RunAsync(CoreDispatcherPriority.High, new DispatchedHandler(() =>
-                      {
-                          this.MainColor = mainColor;
-                          if (lyrics != null)
-                              foreach (var item in lyrics)
-                              {
-                                  item.MainColor = Resources["SystemControlTranslucentHighBrush"] as SolidColorBrush;
-                              }
-                      }));
-             });
-        }
     }
 }
