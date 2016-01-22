@@ -16,10 +16,13 @@
 using com.aurora.aumusic.shared;
 using com.aurora.aumusic.shared.FolderSettings;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace com.aurora.aumusic
@@ -34,7 +37,6 @@ namespace com.aurora.aumusic
         {
             this.InitializeComponent();
             MusicFolderPathReosurces.Source = folderPaths.GetFolders();
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

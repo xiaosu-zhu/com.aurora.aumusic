@@ -349,6 +349,7 @@ namespace com.aurora.aumusic.shared.Albums
                 item.Position = this.Position;
                 item.Parent = this;
             }
+            this.Sort();
         }
 
         private bool refreshArtwork()

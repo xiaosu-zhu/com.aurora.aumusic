@@ -101,7 +101,7 @@
             <TextBlock x:Name="TitleBlock" x:Uid="SettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" RelativePanel.AlignBottomWithPanel="True" Margin="12,0,0,0" />
         </RelativePanel>
         <ScrollViewer x:Name="SettingScroll" MaxWidth="420" VerticalScrollBarVisibility="Hidden" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Padding="0,48,0,0">
-            <StackPanel Grid.Row="1" >
+            <StackPanel Padding="0,0,0,80"  Grid.Row="1" >
                 <StackPanel x:Name="GeneralSettingsPanel" Margin="12">
                     <TextBlock x:Uid="GeneralSettingsTitle" Style="{ThemeResource TitleTextBlockStyle}" Margin="12"/>
                     <StackPanel Orientation="Horizontal" Margin="16">

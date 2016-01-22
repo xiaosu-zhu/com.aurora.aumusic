@@ -32,11 +32,11 @@
     </Page.Resources>
 
     <RelativePanel Background="{ThemeResource SystemThemeMainBrush}">
-        <MediaElement x:Name="StartMedia" AutoPlay="True" Margin="0,200,0,0" Height="240" Width="240" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Source="/Assets/Welcome.mp4" />
+        <MediaElement x:Name="StartMedia" AutoPlay="True" Margin="0,80,0,0" Height="240" Width="240" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignTopWithPanel="True" Source="/Assets/Welcome.mp4" />
         <Rectangle Fill="Transparent" RelativePanel.AlignTopWith="StartMedia" RelativePanel.AlignBottomWith="StartMedia" RelativePanel.AlignLeftWith="StartMedia" RelativePanel.AlignRightWith="StartMedia" />
         <TextBlock x:Name="WelcomeTitle" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="StartMedia" Margin="0,24,0,0" x:Uid="WelcomeTitle" Style="{ThemeResource SubtitleTextBlockStyle}" />
         <TextBlock x:Name="WelcomeSettingsTitle" Foreground="White" RelativePanel.Below="WelcomeTitle" x:Uid="WelcomeSettingTitle" RelativePanel.AlignHorizontalCenterWithPanel="True" Style="{ThemeResource BodyTextBlockStyle}" />
-        <RelativePanel RelativePanel.Below="WelcomeSettingsTitle" RelativePanel.Above="FinishStartButton" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
+        <RelativePanel RelativePanel.Below="WelcomeSettingsTitle" RelativePanel.Above="FinishStartButton" RelativePanel.AlignBottomWithPanel="true" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,12,12,12" VerticalAlignment="Stretch" Loaded="StackPanel_Loaded">
             <Grid x:Name="gridone" RelativePanel.AlignVerticalCenterWithPanel="True" Width="420" RelativePanel.AlignTopWithPanel="True">
                 <TextBlock x:Name="LocationTextBlock" Foreground="White" x:Uid="LocationSettingsTitle" Margin="12,0,0,0" VerticalAlignment="Center" Width="160" Style="{ThemeResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
                 <local:ButtonWithoutKeySelect HorizontalAlignment="Right" Click="Button_Click" Margin="0,0,8,0" Foreground="White" Style="{StaticResource TextBlockButtonStyle}">
@@ -45,7 +45,7 @@
                     </local:ButtonWithoutKeySelect.Content>
                 </local:ButtonWithoutKeySelect>
             </Grid>
-            <ListView RelativePanel.Below="gridone" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Width="420" x:Name="MusicSettingsSearchingList" Margin="32,0,0,0" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
+            <ListView RelativePanel.Below="gridone" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignBottomWithPanel="True" Width="420" x:Name="MusicSettingsSearchingList" Margin="0,0,0,0" IsSynchronizedWithCurrentItem="False" ItemsSource="{x:Bind MusicFolderPathReosurces.View}"
                   ItemTemplate="{StaticResource MusicFolderListTemplate}"
                   SelectionMode="Single" VerticalAlignment="Stretch">
                 <ListView.GroupStyle>

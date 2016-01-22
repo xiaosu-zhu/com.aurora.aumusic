@@ -35,4 +35,5 @@
     <Color x:Key="SystemTranslucentBaseHighColor">#FF000000</Color>
     <Color x:Key="SystemThemeMainColor">#FF0074CE</Color>
     
+    
 </ResourceDictionary>
