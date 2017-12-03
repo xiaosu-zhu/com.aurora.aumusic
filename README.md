@@ -1,7 +1,7 @@
-# com.aurora.aumusic
+# ~~com.aurora.aumusic~~
 A small and light UWP music app 
 
-## Deprecated.
+## Deprecated
 please redirect to https://github.com/pkzxs/Aurora.Music
 
 
